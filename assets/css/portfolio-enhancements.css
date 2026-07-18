@@ -106,6 +106,30 @@
   outline-offset: -5px;
 }
 
+.philosophy-final {
+  white-space: nowrap;
+  font-size: clamp(40px, 5.7vw, 92px) !important;
+}
+
+#revealCap {
+  max-width: 10ch !important;
+  font-size: clamp(46px, 7vw, 112px) !important;
+}
+
+.studioFig img {
+  height: auto !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+#bookRight .leaf-front > div:first-child {
+  background-color: #f4efe6 !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+
 .footer-primary-links {
   display: flex;
   flex-wrap: wrap;
@@ -114,6 +138,9 @@
 }
 
 .footer-primary-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
   color: var(--portfolio-ink);
   text-decoration: none;
   border-bottom: 1px solid rgba(23, 20, 15, 0.4);
@@ -121,6 +148,26 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
+}
+
+.footer-magnetic-text,
+.footer-magnetic-character,
+.footer-magnetic-arrow {
+  display: inline-block;
+}
+
+.footer-magnetic-character {
+  will-change: transform;
+  transition: color 300ms ease;
+}
+
+.footer-magnetic-arrow {
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.footer-primary-links a:hover .footer-magnetic-arrow,
+.footer-primary-links a:focus-visible .footer-magnetic-arrow {
+  transform: translate(0.24em, -0.24em);
 }
 
 .footer-email {
@@ -346,6 +393,15 @@
 }
 
 @media (max-width: 767px) {
+  .philosophy-final {
+    white-space: normal;
+    font-size: clamp(40px, 11vw, 64px) !important;
+  }
+
+  #revealCap {
+    font-size: clamp(46px, 13vw, 64px) !important;
+  }
+
   #heroStick {
     height: 100dvh !important;
   }
@@ -577,6 +633,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-ask-arrow,
+  .footer-magnetic-character,
+  .footer-magnetic-arrow,
   .project-dialog-link,
   .project-dialog-close {
     transition: none;
