@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designer Portfolio Landing Page Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<style>
+        /* math */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: italic;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/d8721968-aaa2-4bd4-a013-34d009ca510a.woff2") format('woff2');
+          unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+        }
+
+        /* symbols */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: italic;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/e6e4d647-3922-416d-b2b0-0107780e7259.woff2") format('woff2');
+          unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: italic;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/b8b347bb-8d50-4f20-941b-96622515df77.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: italic;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/d91f7118-5127-4fcf-bb7f-b5f3c1f81410.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* math */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/03b4cf02-8a96-45a1-90eb-d96e7e01bc28.woff2") format('woff2');
+          unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+        }
+
+        /* symbols */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/08bfbe33-491a-4458-ac8c-4ca0a8cfaed0.woff2") format('woff2');
+          unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/998d306a-4400-452b-ae3b-8180d26c8478.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/f0e7e94a-4b7e-4416-9408-619d7d98e1ae.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* math */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/03b4cf02-8a96-45a1-90eb-d96e7e01bc28.woff2") format('woff2');
+          unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+        }
+
+        /* symbols */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/08bfbe33-491a-4458-ac8c-4ca0a8cfaed0.woff2") format('woff2');
+          unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/998d306a-4400-452b-ae3b-8180d26c8478.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/f0e7e94a-4b7e-4416-9408-619d7d98e1ae.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* math */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/03b4cf02-8a96-45a1-90eb-d96e7e01bc28.woff2") format('woff2');
+          unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0310, U+0312, U+0315, U+031A, U+0326-0327, U+032C, U+032F-0330, U+0332-0333, U+0338, U+033A, U+0346, U+034D, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2016-2017, U+2034-2038, U+203C, U+2040, U+2043, U+2047, U+2050, U+2057, U+205F, U+2070-2071, U+2074-208E, U+2090-209C, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2100-2112, U+2114-2115, U+2117-2121, U+2123-214F, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B7, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+3030, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
+        }
+
+        /* symbols */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/08bfbe33-491a-4458-ac8c-4ca0a8cfaed0.woff2") format('woff2');
+          unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8BB, U+1F8C0-1F8C1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA89, U+1FA8F-1FAC6, U+1FACE-1FADC, U+1FADF-1FAE9, U+1FAF0-1FAF8, U+1FB00-1FBFF;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/998d306a-4400-452b-ae3b-8180d26c8478.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Bodoni Moda';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/f0e7e94a-4b7e-4416-9408-619d7d98e1ae.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* cyrillic-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/08000652-8a11-41bf-b70f-92c0cd0581af.woff2") format('woff2');
+          unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/45788fb4-1e12-4d71-99d0-c1439f00df24.woff2") format('woff2');
+          unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/488e4481-998c-4219-b9c4-d5496f7e377e.woff2") format('woff2');
+          unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/80bc3e28-fc87-4b98-93e7-eeb97bdd59d7.woff2") format('woff2');
+          unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/3ea1d3bf-e4da-4bca-9e61-849818ecbe4d.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 300;
+          font-display: swap;
+          src: url("assets/fonts/fad6683c-99bf-44c3-8c3a-effbf84e139b.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* cyrillic-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/08000652-8a11-41bf-b70f-92c0cd0581af.woff2") format('woff2');
+          unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/45788fb4-1e12-4d71-99d0-c1439f00df24.woff2") format('woff2');
+          unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/488e4481-998c-4219-b9c4-d5496f7e377e.woff2") format('woff2');
+          unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/80bc3e28-fc87-4b98-93e7-eeb97bdd59d7.woff2") format('woff2');
+          unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/3ea1d3bf-e4da-4bca-9e61-849818ecbe4d.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url("assets/fonts/fad6683c-99bf-44c3-8c3a-effbf84e139b.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* cyrillic-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/08000652-8a11-41bf-b70f-92c0cd0581af.woff2") format('woff2');
+          unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/45788fb4-1e12-4d71-99d0-c1439f00df24.woff2") format('woff2');
+          unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/488e4481-998c-4219-b9c4-d5496f7e377e.woff2") format('woff2');
+          unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/80bc3e28-fc87-4b98-93e7-eeb97bdd59d7.woff2") format('woff2');
+          unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/3ea1d3bf-e4da-4bca-9e61-849818ecbe4d.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url("assets/fonts/fad6683c-99bf-44c3-8c3a-effbf84e139b.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* cyrillic-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/08000652-8a11-41bf-b70f-92c0cd0581af.woff2") format('woff2');
+          unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/45788fb4-1e12-4d71-99d0-c1439f00df24.woff2") format('woff2');
+          unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/488e4481-998c-4219-b9c4-d5496f7e377e.woff2") format('woff2');
+          unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/80bc3e28-fc87-4b98-93e7-eeb97bdd59d7.woff2") format('woff2');
+          unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/3ea1d3bf-e4da-4bca-9e61-849818ecbe4d.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 600;
+          font-display: swap;
+          src: url("assets/fonts/fad6683c-99bf-44c3-8c3a-effbf84e139b.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* cyrillic-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/08000652-8a11-41bf-b70f-92c0cd0581af.woff2") format('woff2');
+          unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+
+        /* cyrillic */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/45788fb4-1e12-4d71-99d0-c1439f00df24.woff2") format('woff2');
+          unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+
+        /* greek */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/488e4481-998c-4219-b9c4-d5496f7e377e.woff2") format('woff2');
+          unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+        }
+
+        /* vietnamese */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/80bc3e28-fc87-4b98-93e7-eeb97bdd59d7.woff2") format('woff2');
+          unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+        }
+
+        /* latin-ext */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/3ea1d3bf-e4da-4bca-9e61-849818ecbe4d.woff2") format('woff2');
+          unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+          font-family: 'Manrope';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url("assets/fonts/fad6683c-99bf-44c3-8c3a-effbf84e139b.woff2") format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+      </style>
+<style>
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background: #EAE5E0;
+        }
+
+        body {
+          overscroll-behavior: none;
+        }
+
+        ::selection {
+          background: #17140F;
+          color: #F2EDE3;
+        }
+
+        @keyframes dl-breathe {
+
+          0%,
+          100% {
+            opacity: 0.5;
+            transform: translate(-50%, -50%) scale(1);
+          }
+
+          50% {
+            opacity: 0.9;
+            transform: translate(-50%, -50%) scale(1.06);
+          }
+        }
+
+        @keyframes dl-bob {
+
+          0%,
+          100% {
+            transform: translateY(0);
+            opacity: 0.9;
+          }
+
+          50% {
+            transform: translateY(7px);
+            opacity: 0.5;
+          }
+        }
+
+        @keyframes dl-grain {
+          0% {
+            transform: translate(0, 0);
+          }
+
+          25% {
+            transform: translate(-2%, 1.5%);
+          }
+
+          50% {
+            transform: translate(1.5%, -2%);
+          }
+
+          75% {
+            transform: translate(-1%, -1%);
+          }
+
+          100% {
+            transform: translate(0, 0);
+          }
+        }
+      </style>
+<style>[data-sh="op"]:hover { opacity: 1 !important; }</style>
+</head>
+<body>
+<div id="dl-root" style="background: #EAE5E0; color: #17140F; font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased;">
+
+      <!-- ============ HERO (pinned via sticky, scrubbed) ============ -->
+      <div id="heroWrap" style="height: 440vh; position: relative;">
+        <div id="heroStick" style="position: sticky; top: 0; height: 100vh; overflow: hidden; background: #EAE5E0;">
+
+          <!-- paper light -->
+          <div style="position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 90% at 50% 30%, #F1EDE8 0%, #EAE5E0 46%, #E0DAD3 100%);">
+          </div>
+          <div id="lightFocus" style="position: absolute; inset: 0; z-index: 1; opacity: 0; background: radial-gradient(46% 40% at 50% 50%, rgba(255,253,248,0.9) 0%, rgba(255,253,248,0) 70%);">
+          </div>
+          <!-- breathing shadow -->
+          <div style="position: absolute; left: 50%; top: 52%; width: 70vmin; height: 56vmin; z-index: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(126,112,96,0.10), rgba(126,112,96,0) 72%); animation: dl-breathe 7s ease-in-out infinite;">
+          </div>
+
+          <!-- pressure bulge -->
+          <div id="bulge" style="position: absolute; left: 50%; top: 52%; width: 56vmin; height: 46vmin; margin: -23vmin 0 0 -28vmin; z-index: 2; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(255,254,250,0.85) 0%, rgba(240,235,228,0.4) 38%, rgba(103,90,76,0.16) 66%, rgba(103,90,76,0) 78%); box-shadow: 0 30px 60px -20px rgba(90,78,64,0.25);">
+          </div>
+          <div id="wrinkle" style="position: absolute; left: 50%; top: 52%; width: 80vmin; height: 62vmin; margin: -31vmin 0 0 -40vmin; z-index: 2; opacity: 0; background: conic-gradient(from 10deg at 50% 50%, rgba(120,106,90,0.07) 0deg, rgba(255,255,252,0.10) 24deg, rgba(120,106,90,0.05) 60deg, rgba(255,255,252,0.08) 110deg, rgba(120,106,90,0.07) 160deg, rgba(255,255,252,0.09) 210deg, rgba(120,106,90,0.06) 265deg, rgba(255,255,252,0.08) 315deg, rgba(120,106,90,0.07) 360deg); border-radius: 50%; filter: blur(14px);">
+          </div>
+
+          <!-- deep shadow behind tear -->
+          <div id="tearShadow" style="position: absolute; left: 50%; top: 52%; width: 60vmin; height: 50vmin; margin: -25vmin 0 0 -30vmin; z-index: 2; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(12,10,8,0.85) 0%, rgba(12,10,8,0.3) 55%, rgba(12,10,8,0) 74%);">
+          </div>
+
+          <!-- torn paper hole -->
+          <img id="hole" src="assets/img/b9f53035-4497-43ba-a211-cd56303c57c5.png" alt="" style="position: absolute; left: 50%; top: 52%; width: 130vmin; margin-left: -65vmin; margin-top: -43.5vmin; z-index: 3; opacity: 0; transform: scale(0.1); mask-image: radial-gradient(46% 52% at 50% 48%, black 52%, transparent 76%); -webkit-mask-image: radial-gradient(46% 52% at 50% 48%, black 52%, transparent 76%);">
+
+          <!-- typography BEHIND hand -->
+          <div id="typoBack" style="position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2vh; text-align: center; pointer-events: none; padding-top: 2vh;">
+            <div id="lnDesign" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; color: #16130E;">
+              DESIGN</div>
+            <div style="height: clamp(14px, 2.4vh, 26px); visibility: hidden;">THAT</div>
+            <div id="lnConnects" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; color: #16130E;">
+              CONNECTS</div>
+            <div style="height: clamp(14px, 2.4vh, 26px); visibility: hidden;">PEOPLE TO</div>
+            <div id="lnExp" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(58px, 11.4vw, 200px); line-height: 0.88; letter-spacing: 0.015em; color: #16130E;">
+              EXPERIENCES</div>
+          </div>
+
+          <!-- hand -->
+          <img id="hand" src="assets/img/f3fcf51e-b045-4099-9162-bb7b86bbded9.png" alt="" style="position: absolute; left: 50%; top: 52%; width: 128vmin; margin-left: -68vmin; margin-top: -40vmin; z-index: 5; opacity: 0; transform: translateY(9vmin) scale(0.22); filter: blur(10px) drop-shadow(0 40px 50px rgba(20,16,12,0.45));">
+
+          <!-- typography IN FRONT of hand (small connective lines) -->
+          <div id="typoFront" style="position: absolute; inset: 0; z-index: 6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2vh; text-align: center; pointer-events: none; padding-top: 2vh;">
+            <div style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; visibility: hidden;">
+              DESIGN</div>
+            <div id="lnThat" style="height: clamp(14px, 2.4vh, 26px); display: flex; align-items: center; font-family: 'Bodoni Moda', serif; font-size: clamp(13px, 1.35vw, 22px); letter-spacing: 0.55em; text-indent: 0.55em; color: #17140F;">
+              THAT</div>
+            <div style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; visibility: hidden;">
+              CONNECTS</div>
+            <div id="lnPeople" style="height: clamp(14px, 2.4vh, 26px); display: flex; align-items: center; font-family: 'Bodoni Moda', serif; font-size: clamp(13px, 1.35vw, 22px); letter-spacing: 0.55em; text-indent: 0.55em; color: #17140F;">
+              PEOPLE TO</div>
+            <div style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(58px, 11.4vw, 200px); line-height: 0.88; letter-spacing: 0.015em; visibility: hidden;">
+              EXPERIENCES</div>
+          </div>
+
+          <!-- header -->
+          <header id="heroHeader" style="position: absolute; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 30px 48px;">
+            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.32em;">DESIGNER
+              <span style="font-size: 9px; vertical-align: 2px;">●</span></div>
+            <nav style="display: flex; gap: 42px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;">
+              <a href="#" style="color: #17140F; text-decoration: none; border-bottom: 1px solid #17140F; padding-bottom: 4px;">HOME</a>
+              <a href="#work" style="color: #17140F; text-decoration: none; opacity: 0.65;" data-sh="op">SHOP</a>
+              <a href="#philosophy" style="color: #17140F; text-decoration: none; opacity: 0.65;" data-sh="op">ABOUT</a>
+              <a href="#process" style="color: #17140F; text-decoration: none; opacity: 0.65;" data-sh="op">CONTACT</a>
+            </nav>
+          </header>
+
+          <!-- left vertical labels -->
+          <div id="sideLabels" style="position: absolute; left: 44px; top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; align-items: center; gap: 28px; writing-mode: vertical-rl;">
+            <span style="transform: rotate(180deg); font-size: 10px; letter-spacing: 0.32em; opacity: 0.55;">CREATIVE DIRECTION</span>
+            <span style="transform: rotate(180deg); font-family: 'Bodoni Moda', serif; font-size: 26px; letter-spacing: 0.14em; opacity: 0.85;">24 — 20</span>
+            <span style="transform: rotate(180deg); font-size: 10px; letter-spacing: 0.32em; opacity: 0.55;">VISUAL IDENTITY</span>
+          </div>
+
+          <!-- bottom UI -->
+          <div id="bottomUI" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 48px 34px;">
+            <div style="display: flex; align-items: center; gap: 16px; cursor: pointer;">
+              <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">PLAY SHOWREEL</span>
+              <span style="width: 44px; height: 44px; border: 1px solid rgba(23,20,15,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; padding-left: 3px;">▶</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+              <span style="display: inline-block; animation: dl-bob 2.4s ease-in-out infinite; font-size: 15px;">↓</span>
+              <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.3em; opacity: 0.7;">SCROLL TO EXPLORE</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <span style="width: 40px; height: 1px; background: rgba(23,20,15,0.5);"></span>
+              <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">AWARD WINNING DESIGNER</span>
+            </div>
+          </div>
+
+          <!-- portal wipe -->
+          <div id="portal" style="position: absolute; inset: 0; z-index: 40; background: #0B0A08; clip-path: circle(0% at 50% 52%); pointer-events: none;">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============ SELECTED WORK — cursor-follow previews ============ -->
+      <section id="work" data-screen-label="Selected Work" style="background: #0B0A08; color: #EDE7DC; padding: 12vh 6vw 16vh; position: relative;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 5vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">SELECTED WORK</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">04 projects — 2024/26</span>
+        </div>
+
+        <div id="workList" style="display: flex; flex-direction: column;">
+          <div class="menuItem" data-text="Paper Interface" data-tag="INTERACTION — 2026" data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Paper Interface</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">INTERACTION — 2026</span>
+            </a>
+            <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
+              <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
+              </div>
+            </div>
+          </div>
+          <div class="menuItem" data-text="Human Systems" data-tag="IDENTITY — 2025" data-img="https://images.unsplash.com/photo-1531403009284-440f080d1e12?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Human Systems</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">IDENTITY — 2025</span>
+            </a>
+            <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
+              <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
+              </div>
+            </div>
+          </div>
+          <div class="menuItem" data-text="Digital Rituals" data-tag="EXPERIENCE — 2025" data-img="https://images.unsplash.com/photo-1517048676732-d65bc937f952?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Digital Rituals</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">EXPERIENCE — 2025</span>
+            </a>
+            <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
+              <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
+              </div>
+            </div>
+          </div>
+          <div class="menuItem" data-text="Motion Identity" data-tag="MOTION — 2024" data-img="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14); border-bottom: 1px solid rgba(237,231,220,0.14);">
+            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Motion Identity</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">MOTION — 2024</span>
+            </a>
+            <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
+              <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PHILOSOPHY ============ -->
+      <section id="philosophy" data-screen-label="Philosophy" style="background: #EAE5E0; color: #17140F; padding: 24vh 8vw;">
+        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5; margin-bottom: 14vh;">
+          PHILOSOPHY</div>
+        <div style="display: flex; flex-direction: column; gap: 26vh; max-width: 1200px;">
+          <div class="phrase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 5.6vw, 92px); line-height: 1.06;">
+            Design is not decoration.</div>
+          <div class="phrase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(38px, 5.6vw, 92px); line-height: 1.06; align-self: flex-end; text-align: right;">
+            It is tension.</div>
+          <div class="phrase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(38px, 5.6vw, 92px); line-height: 1.06;">
+            It is rhythm.</div>
+          <div class="phrase" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(42px, 6.4vw, 104px); line-height: 1.08; text-align: center; align-self: center;">
+            It is the moment people <span style="font-style: italic;">feel</span> something.</div>
+        </div>
+      </section>
+
+      <!-- ============ PROCESS ============ -->
+      <section id="process" data-screen-label="Process" style="background: #E3DED7; color: #17140F; padding: 20vh 0 24vh;">
+        <div style="padding: 0 8vw; display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">PROCESS</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">five layers</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; padding: 0 8vw;">
+          <div class="procCard" style="position: sticky; top: 12vh; background: #F4F0EA; border-radius: 2px; padding: 6vh 5vw; margin-bottom: 16vh; box-shadow: 0 30px 60px -18px rgba(60,50,40,0.35), 0 2px 0 rgba(255,255,255,0.8) inset; display: grid; grid-template-columns: 120px 1fr auto; gap: 3vw; align-items: baseline; transform: rotate(-0.4deg);">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 15px; font-style: italic; opacity: 0.5;">No. 01</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 4.6vw, 76px); line-height: 1;">Research</span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.55; max-width: 260px; line-height: 1.9;">LISTEN FIRST. EVERY SURFACE HIDES A STRUCTURE.</span>
+          </div>
+          <div class="procCard" style="position: sticky; top: 15vh; background: #F2EDE6; border-radius: 2px; padding: 6vh 5vw; margin-bottom: 16vh; box-shadow: 0 30px 60px -18px rgba(60,50,40,0.35), 0 2px 0 rgba(255,255,255,0.8) inset; display: grid; grid-template-columns: 120px 1fr auto; gap: 3vw; align-items: baseline; transform: rotate(0.5deg);">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 15px; font-style: italic; opacity: 0.5;">No. 02</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 4.6vw, 76px); line-height: 1;">Direction</span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.55; max-width: 260px; line-height: 1.9;">ONE IDEA, HELD WITH BOTH HANDS.</span>
+          </div>
+          <div class="procCard" style="position: sticky; top: 18vh; background: #F0EBE3; border-radius: 2px; padding: 6vh 5vw; margin-bottom: 16vh; box-shadow: 0 30px 60px -18px rgba(60,50,40,0.35), 0 2px 0 rgba(255,255,255,0.8) inset; display: grid; grid-template-columns: 120px 1fr auto; gap: 3vw; align-items: baseline; transform: rotate(-0.3deg);">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 15px; font-style: italic; opacity: 0.5;">No. 03</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 4.6vw, 76px); line-height: 1;">Prototype</span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.55; max-width: 260px; line-height: 1.9;">PAPER FIRST. PIXELS AFTER.</span>
+          </div>
+          <div class="procCard" style="position: sticky; top: 21vh; background: #EEE8E0; border-radius: 2px; padding: 6vh 5vw; margin-bottom: 16vh; box-shadow: 0 30px 60px -18px rgba(60,50,40,0.35), 0 2px 0 rgba(255,255,255,0.8) inset; display: grid; grid-template-columns: 120px 1fr auto; gap: 3vw; align-items: baseline; transform: rotate(0.4deg);">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 15px; font-style: italic; opacity: 0.5;">No. 04</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 4.6vw, 76px); line-height: 1;">Motion</span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.55; max-width: 260px; line-height: 1.9;">NOTHING MOVES WITHOUT A REASON.</span>
+          </div>
+          <div class="procCard" style="position: sticky; top: 24vh; background: #ECE6DD; border-radius: 2px; padding: 6vh 5vw; margin-bottom: 4vh; box-shadow: 0 30px 60px -18px rgba(60,50,40,0.35), 0 2px 0 rgba(255,255,255,0.8) inset; display: grid; grid-template-columns: 120px 1fr auto; gap: 3vw; align-items: baseline; transform: rotate(-0.5deg);">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: 15px; font-style: italic; opacity: 0.5;">No. 05</span>
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 4.6vw, 76px); line-height: 1;">Launch</span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.55; max-width: 260px; line-height: 1.9;">THEN WE TEAR THE NEXT WALL.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 04 · CAPABILITIES — text split reveal ============ -->
+      <section id="capabilities" data-screen-label="Capabilities" style="background: #0B0A08; color: #EDE7DC; padding: 22vh 6vw 20vh;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 11vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">CAPABILITIES</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">what we make</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1vh;" id="capList">
+          <div class="capLine" style="position: relative; cursor: pointer; padding: 0.3vh 0;">
+            <span class="capBase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; color: #EDE7DC; white-space: nowrap; transition: color 450ms ease;">Brand Systems</span>
+            <span class="capImg" aria-hidden="true" style="position: absolute; left: 0; top: 0.3vh; font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; white-space: nowrap; pointer-events: none; background-image: url(&quot;assets/img/a7c8a878-9ca3-4709-9127-4702925fff4a.png&quot;); background-size: 140% auto; background-position: center 42%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%);">Brand Systems</span>
+          </div>
+          <div class="capLine" style="position: relative; cursor: pointer; padding: 0.3vh 0; margin-left: 8vw;">
+            <span class="capBase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; color: #EDE7DC; white-space: nowrap; transition: color 450ms ease;">Art Direction</span>
+            <span class="capImg" aria-hidden="true" style="position: absolute; left: 0; top: 0.3vh; font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; white-space: nowrap; pointer-events: none; background-image: url(&quot;assets/img/a7c8a878-9ca3-4709-9127-4702925fff4a.png&quot;); background-size: 140% auto; background-position: center 42%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%);">Art Direction</span>
+          </div>
+          <div class="capLine" style="position: relative; cursor: pointer; padding: 0.3vh 0;">
+            <span class="capBase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; color: #EDE7DC; white-space: nowrap; transition: color 450ms ease;">Motion &amp; Film</span>
+            <span class="capImg" aria-hidden="true" style="position: absolute; left: 0; top: 0.3vh; font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; white-space: nowrap; pointer-events: none; background-image: url(&quot;assets/img/a7c8a878-9ca3-4709-9127-4702925fff4a.png&quot;); background-size: 140% auto; background-position: center 42%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%);">Motion &amp; Film</span>
+          </div>
+          <div class="capLine" style="position: relative; cursor: pointer; padding: 0.3vh 0; margin-left: 14vw;">
+            <span class="capBase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; color: #EDE7DC; white-space: nowrap; transition: color 450ms ease;">Digital Product</span>
+            <span class="capImg" aria-hidden="true" style="position: absolute; left: 0; top: 0.3vh; font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; white-space: nowrap; pointer-events: none; background-image: url(&quot;assets/img/a7c8a878-9ca3-4709-9127-4702925fff4a.png&quot;); background-size: 140% auto; background-position: center 42%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%);">Digital Product</span>
+          </div>
+          <div class="capLine" style="position: relative; cursor: pointer; padding: 0.3vh 0;">
+            <span class="capBase" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; color: #EDE7DC; white-space: nowrap; transition: color 450ms ease;">Editorial</span>
+            <span class="capImg" aria-hidden="true" style="position: absolute; left: 0; top: 0.3vh; font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(40px, 8vw, 150px); line-height: 1.02; letter-spacing: 0.005em; white-space: nowrap; pointer-events: none; background-image: url(&quot;assets/img/a7c8a878-9ca3-4709-9127-4702925fff4a.png&quot;); background-size: 140% auto; background-position: center 42%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%); mask-image: radial-gradient(circle 0px at 50% 50%, #000 55%, transparent 100%);">Editorial</span>
+          </div>
+        </div>
+        <div style="margin-top: 8vh; font-size: 11px; letter-spacing: 0.26em; opacity: 0.4;">HOVER TO TEAR THROUGH ↗
+        </div>
+
+        <!-- fluid-glass lens that follows the cursor over the capability text -->
+        <div id="capGlass" style="position: fixed; top: 0; left: 0; width: 220px; height: 220px; border-radius: 50%; z-index: 40; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(0.6); -webkit-backdrop-filter: blur(1px) url(#capGlassFilter) brightness(1.06) saturate(1.08); backdrop-filter: blur(1px) url(#capGlassFilter) brightness(1.06) saturate(1.08); border: 1px solid rgba(255,255,255,0.22); box-shadow: inset 0 2px 12px rgba(255,255,255,0.28), inset 0 -8px 22px rgba(0,0,0,0.45), 0 20px 50px -12px rgba(0,0,0,0.6); will-change: transform;">
+          <div style="position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(120% 120% at 32% 24%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0) 55%);">
+          </div>
+        </div>
+        <svg width="0" height="0" style="position: absolute;" aria-hidden="true">
+          <filter id="capGlassFilter" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.006 0.009" numOctaves="2" seed="7" result="noise">
+            </feTurbulence>
+            <feGaussianBlur in="noise" stdDeviation="1.4" result="sn"></feGaussianBlur>
+            <feDisplacementMap in="SourceGraphic" in2="sn" scale="26" xChannelSelector="R" yChannelSelector="G">
+            </feDisplacementMap>
+          </filter>
+        </svg>
+      </section>
+
+      <!-- ============ 05 · IMAGE REVEAL — torn-hole scales open ============ -->
+      <section id="reveal" data-screen-label="Image Reveal" style="position: relative;">
+        <div id="revealStick" style="height: 100vh; overflow: hidden; background: #ECE7E2; position: relative;">
+          <!-- cream wall (the surface) -->
+          <div style="position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 90% at 50% 40%, #F2EEE9 0%, #ECE7E2 48%, #E4DED8 100%);" id="revealGlow"></div>
+          <!-- black void, clipped to the torn-opening shape (mask size/pos animated in JS) -->
+          <div id="revealVoid" style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(50% 60% at 50% 48%, #16130E 0%, #0B0A08 74%); -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+          </div>
+          <!-- image at viewport zoom, clipped to the same torn-opening shape -->
+          <img id="revealImgBg" src="assets/img/24b6901c-608b-4b00-b6e5-7255c03df75f.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 3; opacity: 0; -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+          <!-- torn-paper flaps (transparent PNG), scaled about the tear's opening, on top -->
+          <img id="revealHole" src="assets/img/75cbffe6-a635-4647-839e-616030f6271b.png" alt="" style="position: absolute; left: 50%; top: 48%; width: 132vmin; z-index: 4; transform-origin: 53.1% 51.4%; transform: translate(-53.1%, -51.4%) scale(0.34); filter: drop-shadow(0 26px 46px rgba(60,50,40,0.26));">
+
+          <!-- caption chrome -->
+          <div id="revealCap" style="position: absolute; left: 6vw; top: 12vh; z-index: 6; max-width: 16ch; font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(30px, 4.2vw, 68px); line-height: 1.04; color: #1A1611; text-shadow: 0 1px 40px rgba(246,242,235,0.9), 0 0 1px rgba(246,242,235,0.9);">
+            A surface holds<br>light differently<br>once it breaks.</div>
+          <span style="position: absolute; right: 6vw; top: 13vh; z-index: 6; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; color: #1A1611;">FEATURED FILM — 2026</span>
+          <div style="position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 6; display: flex; justify-content: space-between; padding: 0 6vw; font-size: 11px; font-weight: 600; letter-spacing: 0.26em; color: #1A1611; mix-blend-mode: normal;">
+            <span>DIR. STUDIO DESIGNER</span>
+            <span id="revealScrollHint" style="display: flex; align-items: center; gap: 12px;"><span style="display:inline-block; animation: dl-bob 2.4s ease-in-out infinite;">↓</span>
+            KEEP SCROLLING</span>
+            <span>04:12 RUNTIME</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 06 · MANIFESTO — text mask reveal (wipe) ============ -->
+      <section id="manifesto" data-screen-label="Manifesto" style="background: #0B0A08; color: #EDE7DC; padding: 24vh 8vw;">
+        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5; margin-bottom: 12vh;">
+          MANIFESTO</div>
+        <div id="maniStage" style="display: flex; flex-direction: column; gap: 2.4vh; max-width: 1400px; position: relative; min-height: 84vh; overflow: hidden; padding-bottom: 6vh;">
+          <div class="maskLine" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
+            We treat every blank surface as tension waiting to release.</div>
+          <div class="maskLine" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-style: italic; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
+            Restraint first — then one decisive gesture.</div>
+          <div class="maskLine" style="font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
+            The work should feel inevitable, never decorated.</div>
+        </div>
+      </section>
+
+      <!-- ============ 07 · RECOGNITION — scroll-scrub counters ============ -->
+      <section id="recognition" data-screen-label="Recognition" style="background: #E3DED7; color: #17140F; padding: 22vh 6vw;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">RECOGNITION</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">measured in years, not awards</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4vw; border-top: 1px solid rgba(23,20,15,0.15); padding-top: 8vh;">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <span class="counter" data-count="128" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
+            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">PROJECTS SHIPPED</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <span class="counter" data-count="47" data-suffix="" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
+            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">AWARDS &amp; MENTIONS</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <span class="counter" data-count="19" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
+            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">COUNTRIES</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <span class="counter" data-count="12" style="font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
+            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">YEARS PRACTICING</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 08 · STUDIO — two-column editorial parallax ============ -->
+      <section id="studio" data-screen-label="Studio" style="background: #0B0A08; color: #EDE7DC; padding: 22vh 6vw 20vh; overflow: hidden;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 9vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">THE STUDIO</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">between paper and pixel</span>
+        </div>
+
+        <!-- kinetic agency marquee band -->
+        <div style="position: relative; margin: 0 -6vw 10vh; padding: 3.4vh 0; border-top: 1px solid rgba(237,231,220,0.12); border-bottom: 1px solid rgba(237,231,220,0.12); overflow: hidden;">
+          <div class="studioMarquee" style="display: flex; align-items: center; gap: 3vw; white-space: nowrap; width: max-content; will-change: transform;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 5vw; align-items: start;">
+          <!-- LEFT: copy + meta -->
+          <div style="position: sticky; top: 16vh; display: flex; flex-direction: column; gap: 5vh;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(26px, 3.2vw, 52px); line-height: 1.22; margin: 0; max-width: 20ch;">
+              A small studio. Long hours with paper, light, and a stubborn belief that a first impression can be a
+              <span style="font-style: italic;">physical event.</span></p>
+            <p style="font-size: 13px; line-height: 2; opacity: 0.6; margin: 0; max-width: 42ch;">Founded on the idea
+              that restraint is a form of energy. We build brand systems and interfaces that hold their tension until
+              the exact moment they release it — then let the audience feel the break.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4vh 3vw; border-top: 1px solid rgba(237,231,220,0.14); padding-top: 5vh;">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.45;">FOUNDED</span>
+                <span style="font-family: 'Bodoni Moda', serif; font-size: 26px;">2014</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.45;">BASED</span>
+                <span style="font-family: 'Bodoni Moda', serif; font-size: 26px;">NY / Remote</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.45;">TEAM</span>
+                <span style="font-family: 'Bodoni Moda', serif; font-size: 26px;">Six hands</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.45;">FOCUS</span>
+                <span style="font-family: 'Bodoni Moda', serif; font-size: 26px;">Identity · Motion</span>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1vh;">
+              <span style="font-size: 10px; letter-spacing: 0.22em; padding: 9px 16px; border: 1px solid rgba(237,231,220,0.2); border-radius: 9999px; opacity: 0.8;">STRATEGY</span>
+              <span style="font-size: 10px; letter-spacing: 0.22em; padding: 9px 16px; border: 1px solid rgba(237,231,220,0.2); border-radius: 9999px; opacity: 0.8;">TYPOGRAPHY</span>
+              <span style="font-size: 10px; letter-spacing: 0.22em; padding: 9px 16px; border: 1px solid rgba(237,231,220,0.2); border-radius: 9999px; opacity: 0.8;">3D &amp; CGI</span>
+              <span style="font-size: 10px; letter-spacing: 0.22em; padding: 9px 16px; border: 1px solid rgba(237,231,220,0.2); border-radius: 9999px; opacity: 0.8;">WEB</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: two parallax image columns -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.6vw; align-items: start;">
+            <div class="pCol" data-speed="0.06" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 0;">
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioA" src="assets/img/studioA.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 01 —
+                  THE DESK</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioC" src="assets/img/studioC.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 1/1; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 03 —
+                  IN PROGRESS</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioE" src="assets/img/studioE.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 05 —
+                  SET BUILD</figcaption>
+              </figure>
+            </div>
+            <div class="pCol" data-speed="-0.09" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 12vh;">
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioB" src="assets/img/15d34bb5-5ace-4046-9def-d319ecbc39d1_800w.png" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 02 —
+                  MATERIAL TESTS</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioD" src="assets/img/studioD.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 5/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 04 —
+                  LIGHT STUDY</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioF" src="assets/img/studioF.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 06 —
+                  FINAL FRAME</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 09 · FRAMES — pinned horizontal filmstrip ============ -->
+      <section id="frames" data-screen-label="Frames" style="background: #EAE5E0; color: #17140F;">
+        <div id="framesPin" style="height: 100vh; overflow: hidden; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 7vh 6vw 0;">
+            <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">RECENT FRAMES</span>
+            <span id="framesProgress" style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.5;">01 / 04</span>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2vh 6vw;">
+            <div id="book" style="position: relative; width: min(1120px, 88vw); height: 66vh; perspective: 2600px;">
+              <!-- left base page (cover), visible before any turn -->
+              <div style="position: absolute; left: 0; top: 0; width: 50%; height: 100%; background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; box-shadow: inset -18px 0 40px -24px rgba(60,50,40,0.5), 0 40px 80px -40px rgba(50,40,30,0.5); display: flex; flex-direction: column; justify-content: space-between; padding: 6vh 3vw; box-sizing: border-box;">
+                <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: clamp(26px, 3vw, 44px); line-height: 1.1;">A lookbook<br>of recent frames.</span>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <span style="font-size: 10px; letter-spacing: 0.3em; opacity: 0.5;">STUDIO DESIGNER</span>
+                  <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.5;">04 selected works</span>
+                </div>
+              </div>
+              <!-- right side: base end-page + flipping leaves -->
+              <div id="bookRight" style="position: absolute; right: 0; top: 0; width: 50%; height: 100%; transform-style: preserve-3d;">
+                <div style="position: absolute; inset: 0; background: linear-gradient(270deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 0 4px 4px 0; box-shadow: inset 18px 0 40px -24px rgba(60,50,40,0.5), 0 40px 80px -40px rgba(50,40,30,0.5); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 22px; padding: 0 3.4vw; box-sizing: border-box;">
+                  <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(30px, 3.6vw, 60px); line-height: 1.02;">See the<br>full index</span>
+                  <a href="#work" style="color: #17140F; text-decoration: none; font-size: 11px; letter-spacing: 0.24em; border-bottom: 1px solid #17140F; padding-bottom: 6px;">ALL
+                    PROJECTS →</a>
+                </div>
+                <div class="leaf" data-i="0" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
+                  <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/552100cf-8eb1-4fad-a7c6-97970cc055fa.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    </div>
+                    <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
+                      <span style="font-family:'Bodoni Moda',serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Paper Interface</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">01</span>
+                    </div>
+                  </div>
+                  <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">01 — INTERACTION</span><span style="font-family:'Bodoni Moda',serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Paper Interface</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">A scroll-driven surface that tears, breathes and rebuilds itself — an interface treated as a physical event.</span>
+                  </div>
+                </div>
+                <div class="leaf" data-i="1" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
+                  <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/28cf663f-3c8a-4154-9671-f6b03fff089c.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    </div>
+                    <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
+                      <span style="font-family:'Bodoni Moda',serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Human Systems</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">02</span>
+                    </div>
+                  </div>
+                  <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">02 — IDENTITY</span><span style="font-family:'Bodoni Moda',serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Human Systems</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">A living identity system built around people, not logos — flexible marks that adapt to every context.</span>
+                  </div>
+                </div>
+                <div class="leaf" data-i="2" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
+                  <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/b28739aa-7b24-42ca-849d-dea7b9bd4561.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    </div>
+                    <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
+                      <span style="font-family:'Bodoni Moda',serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Digital Rituals</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">03</span>
+                    </div>
+                  </div>
+                  <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">03 — EXPERIENCE</span><span style="font-family:'Bodoni Moda',serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Digital Rituals</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">Everyday product moments reframed as small ceremonies — motion and sound that make routine feel considered.</span>
+                  </div>
+                </div>
+                <div class="leaf" data-i="3" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
+                  <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/f1200256-ed97-492b-845e-bad6ac832e23.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    </div>
+                    <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
+                      <span style="font-family:'Bodoni Moda',serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Motion Identity</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">04</span>
+                    </div>
+                  </div>
+                  <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">04 — MOTION</span><span style="font-family:'Bodoni Moda',serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Motion Identity</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">A brand that only exists in movement — timing, easing and rhythm as the core of the visual language.</span>
+                  </div>
+                </div>
+                <!-- soft spine shadow -->
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 40px; background: linear-gradient(90deg, rgba(60,50,40,0.28), transparent); pointer-events: none; z-index: 999;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 0 6vw 6vh;">
+            <div style="height: 1px; background: rgba(23,20,15,0.15); position: relative;">
+              <div id="framesBar" style="position: absolute; left: 0; top: -0.5px; height: 2px; width: 20%; background: #17140F;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 11 · TESTIMONIALS — tilt-straighten cards ============ -->
+      <section id="testimonials" data-screen-label="Testimonials" style="background: #EAE5E0; color: #17140F; padding: 22vh 6vw 24vh; overflow: hidden;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">IN THEIR WORDS</span>
+          <span style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.45;">03 accounts</span>
+        </div>
+        <div style="font-family: 'Bodoni Moda', serif; font-size: clamp(30px, 4.6vw, 76px); line-height: 1.06; max-width: 15ch; margin-bottom: 14vh;">
+          The room goes <span style="font-style: italic;">quiet.</span></div>
+
+        <div style="display: flex; flex-direction: column; gap: 12vh;">
+          <div class="tCard" data-rot="-3" style="align-self: flex-start; width: min(560px, 88vw); background: #F4F0EA; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(60,50,40,0.4); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              They don't decorate a brand. They give it a pulse — then dare you to look away.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t1" src="assets/img/t1.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Marta Ven</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.55;">HEAD OF BRAND</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tCard" data-rot="2.4" style="align-self: flex-end; width: min(560px, 88vw); background: #0B0A08; color: #EDE7DC; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              The breakthrough moment tested at three times the engagement of anything we'd shipped. Restraint that
+              pays.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t2" src="assets/img/t2.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Elias Roth</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.55;">CHIEF MARKETING OFFICER</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tCard" data-rot="-1.8" style="align-self: center; width: min(560px, 88vw); background: #F4F0EA; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(60,50,40,0.4); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              Six hands, one nervous system. The most decisive studio we've ever worked with.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t3" src="assets/img/t3.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Naomi Clarke</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.55;">CREATIVE DIRECTOR</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tCard" data-rot="3" style="align-self: flex-start; width: min(560px, 88vw); background: #0B0A08; color: #EDE7DC; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              We briefed a website. They handed back a moment our audience still talks about.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t4" src="assets/img/t4.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Theo Marsh</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.55;">FOUNDER, ATELIER NORD</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tCard" data-rot="-2.6" style="align-self: flex-end; width: min(560px, 88vw); background: #F4F0EA; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(60,50,40,0.4); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              Every deliverable felt considered to the millimeter. Nothing loud, nothing wasted.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t5" src="assets/img/t5.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Lena Aoki</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.55;">VP, PRODUCT DESIGN</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tCard" data-rot="1.6" style="align-self: center; width: min(560px, 88vw); background: #F97316; color: #17140F; border-radius: 4px; padding: 5vh 3.5vw; box-shadow: 0 40px 80px -30px rgba(120,70,20,0.45); display: flex; flex-direction: column; gap: 28px;">
+            <p style="font-family: 'Bodoni Moda', serif; font-size: clamp(20px, 2.2vw, 32px); line-height: 1.4; margin: 0;">
+              The kind of studio you keep on speed dial and never put out to pitch again.</p>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <img id="t6" src="assets/img/t6.jpg" alt="" style="display: block; width: 56px; height: 56px; flex: 0 0 auto;object-fit:cover;border-radius:50%;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em;">Priya Nadar</span>
+                <span style="font-size: 10px; letter-spacing: 0.24em; opacity: 0.6;">GLOBAL BRAND LEAD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 12 · VOICES — skew marquee + 3D word flip ============ -->
+      <section id="voices" data-screen-label="Voices" style="background: #0B0A08; color: #EDE7DC; padding: 20vh 0 22vh; overflow: hidden;">
+        <div style="padding: 0 6vw; margin-bottom: 12vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">VOICES</span>
+        </div>
+
+        <!-- skew marquees -->
+        <div style="display: flex; flex-direction: column; gap: 2.5vh; margin-bottom: 16vh; border-top: 1px solid rgba(237,231,220,0.12); border-bottom: 1px solid rgba(237,231,220,0.12); padding: 5vh 0;">
+          <div class="marquee" data-dir="1" style="display: flex; gap: 5vw; white-space: nowrap; will-change: transform;">
+            <span class="marqTrack" style="display: inline-flex; gap: 5vw; font-family: 'Bodoni Moda', serif; font-size: clamp(30px, 4vw, 68px); font-style: italic; opacity: 0.85;"><span>Vogue</span><span>·</span><span>Nike</span><span>·</span><span>Aesop</span><span>·</span><span>MoMA</span><span>·</span><span>Kinfolk</span><span>·</span><span>Hermès</span><span>·</span></span>
+          </div>
+          <div class="marquee" data-dir="-1" style="display: flex; gap: 5vw; white-space: nowrap; will-change: transform; justify-content: flex-end;">
+            <span class="marqTrack" style="display: inline-flex; gap: 5vw; font-family: 'Bodoni Moda', serif; font-size: clamp(30px, 4vw, 68px); opacity: 0.55;"><span>Cereal</span><span>·</span><span>Off-White</span><span>·</span><span>SSENSE</span><span>·</span><span>Frame</span><span>·</span><span>Byredo</span><span>·</span><span>Dazed</span><span>·</span></span>
+          </div>
+        </div>
+
+        <!-- 3D word-flip testimonial -->
+        <div style="padding: 0 8vw;">
+          <blockquote id="flipQuote" style="margin: 0; font-family: 'Bodoni Moda', serif; font-weight: 400; font-size: clamp(28px, 4.4vw, 74px); line-height: 1.24; max-width: 22ch; perspective: 800px;">
+            They handed us a blank wall and made it tear itself open. Nobody in the room breathed for a second.
+          </blockquote>
+          <div style="display: flex; align-items: center; gap: 20px; margin-top: 6vh;">
+            <span style="width: 44px; height: 1px; background: rgba(237,231,220,0.4);"></span>
+            <span style="font-size: 11px; letter-spacing: 0.24em; opacity: 0.6;">CREATIVE LEAD · A GLOBAL HOUSE</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 13 · ASSEMBLE — scroll puzzle ============ -->
+      <section id="assemble" data-screen-label="Assemble" style="position: relative; background: #E6DED7;">
+        <div id="assembleStick" style="height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5vh; position: relative; background: #E6DED7;">
+          <div style="position: absolute; top: 8vh; left: 0; right: 0; display: flex; align-items: baseline; justify-content: space-between; padding: 0 6vw;">
+            <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">THE WHOLE PICTURE</span>
+            <span id="puzzlePct" style="font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 15px; opacity: 0.5;">0% assembled</span>
+          </div>
+
+          <!-- puzzle board: 12 pieces of one image -->
+          <div id="puzzleBoard" style="position: relative; width: min(880px, 66vw); aspect-ratio: 3 / 2; border-radius: 3px;"></div>
+
+          <div style="position: absolute; bottom: 9vh; left: 0; right: 0; text-align: center;">
+            <span style="font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 3vw, 46px);">Every fragment finds <span style="font-style: italic;">its place.</span></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FOOTER ============ -->
+      <footer id="footer" data-screen-label="Footer" style="background: #EAE5E0; color: #17140F; padding: 16vh 6vw 0;">
+        <div style="border-top: 1px solid rgba(23,20,15,0.15); padding-top: 4vh;">
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">START A PROJECT</span>
+        </div>
+
+        <a id="talkLink" href="#" style="display: block; text-decoration: none; color: #17140F; font-family: 'Bodoni Moda', serif; font-weight: 500; font-size: clamp(48px, 12vw, 220px); line-height: 0.92; letter-spacing: 0.005em; margin: 6vh 0 2vh; white-space: nowrap;"><span id="talkText">Let's talk</span><span id="talkArrow" style="display: inline-block; margin-left: 0.15em; transition: transform 500ms cubic-bezier(0.22,1,0.36,1);">→</span></a>
+
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3vw; padding: 12vh 0 8vh; border-top: 1px solid rgba(23,20,15,0.15);">
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <span style="font-size: 15px; font-weight: 600; letter-spacing: 0.32em;">DESIGNER <span style="font-size: 10px; vertical-align: 2px;">●</span></span>
+            <p style="font-size: 12px; line-height: 1.9; opacity: 0.6; max-width: 30ch; margin: 0;">An independent
+              creative direction studio working at the edge of paper, motion, and interface.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
+            <span style="opacity: 0.45; margin-bottom: 6px;">MENU</span>
+            <a href="#work" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">SELECTED WORK</a>
+            <a href="#capabilities" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">CAPABILITIES</a>
+            <a href="#philosophy" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">PHILOSOPHY</a>
+            <a href="#studio" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">STUDIO</a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
+            <span style="opacity: 0.45; margin-bottom: 6px;">SOCIAL</span>
+            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">INSTAGRAM ↗</a>
+            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">BEHANCE
+              ↗</a>
+            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">VIMEO
+              ↗</a>
+            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">LINKEDIN
+              ↗</a>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
+            <span style="opacity: 0.45; margin-bottom: 6px;">CONTACT</span>
+            <a href="mailto:studio@designer.com" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">STUDIO@DESIGNER.COM</a>
+            <span style="opacity: 0.75;">+1 (000) 000 0000</span>
+            <span style="opacity: 0.75;">NEW YORK — REMOTE</span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 32px 0; border-top: 1px solid rgba(23,20,15,0.15); font-size: 10px; letter-spacing: 0.3em;">
+          <span style="opacity: 0.55;">© 2026 — ALL RIGHTS RESERVED</span>
+          <span style="opacity: 0.55;">DESIGN THAT CONNECTS PEOPLE TO EXPERIENCES</span>
+          <a href="#" style="color: #17140F; text-decoration: none; display: flex; align-items: center; gap: 8px; opacity: 0.75;" data-sh="op">BACK TO TOP ↑</a>
+        </div>
+      </footer>
+
+      <!-- film grain -->
+      
+        <div style="position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: 0.055; mix-blend-mode: multiply; animation: dl-grain 0.9s steps(4) infinite; background-image: url(&quot;data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'&gt;&lt;filter id='n'&gt;&lt;feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/&gt;&lt;feColorMatrix type='saturate' values='0'/&gt;&lt;/filter&gt;&lt;rect width='300' height='300' filter='url(%23n)'/&gt;&lt;/svg&gt;&quot;);">
+        </div>
+      
+
+    </div>
+  
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  function boot() {
+    if (window.gsap && window.ScrollTrigger) { init(); }
+    else { setTimeout(boot, 80); }
+  }
+  function init() {
+    var gsap = window.gsap;
+    var ST = window.ScrollTrigger;
+    // only the most recently mounted instance may build triggers
+    gsap.registerPlugin(ST);
+    // clean re-init: remove ALL triggers from previous instances
+    ST.getAll().forEach(function (st) { st.kill(); });
+    var existing = ST.getAll().length;
+
+    var reach = 1.05;
+    var portalOn = true;
+
+    var $ = function (id) { return document.getElementById(id); };
+    if (!$('heroWrap')) return;
+
+    // ---------- HERO scrubbed timeline ----------
+    var tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: '#heroWrap',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.6
+      }
+    });
+
+    // Phase 2 — pressure from behind (0 → 25)
+    tl.fromTo('#bulge', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 20, ease: 'power1.in' }, 0);
+    tl.fromTo('#wrinkle', { opacity: 0 }, { opacity: 0.6, duration: 14 }, 8);
+    tl.to('#lightFocus', { opacity: 1, duration: 22 }, 4);
+    tl.to('#lnDesign', { y: '-1.6vh', duration: 26 }, 4);
+    tl.to('#lnExp', { y: '1.6vh', duration: 26 }, 4);
+    tl.to(['#lnDesign', '#lnConnects', '#lnExp'], { letterSpacing: '0.03em', duration: 26 }, 4);
+
+    // Phase 3 — first tear (22 → 48)
+    tl.to('#wrinkle', { opacity: 0, duration: 10 }, 30);
+    tl.to('#bulge', { opacity: 0, duration: 10 }, 30);
+    tl.fromTo('#tearShadow', { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 20 }, 24);
+    tl.fromTo('#hole',
+      { opacity: 0, scale: 0.1, rotation: -6 },
+      { opacity: 1, scale: 0.55, rotation: 0, duration: 22, ease: 'power2.out' }, 24);
+
+    // Phase 4 — hand emerges (40 → 74)
+    tl.fromTo('#hand',
+      { opacity: 0, y: '9vmin', scale: 0.22, rotation: -9, filter: 'blur(12px) drop-shadow(0 20px 24px rgba(20,16,12,0.35))' },
+      { opacity: 1, y: '-1.5vmin', scale: reach, rotation: 2, filter: 'blur(0px) drop-shadow(0 46px 56px rgba(20,16,12,0.5))', duration: 34, ease: 'power1.inOut' }, 40);
+    tl.to('#hole', { scale: 0.86, duration: 30, ease: 'power1.inOut' }, 44);
+    tl.to(['#lnThat', '#lnPeople'], { color: '#F4EFE6', duration: 14 }, 46);
+
+    // Phase 5 — full breakthrough (66 → 82)
+    tl.to('#hole', { scale: 0.95, duration: 14 }, 70);
+    tl.to('#hand', { y: '-3vmin', scale: reach * 1.06, duration: 14 }, 70);
+    tl.to('#lnDesign', { y: '-2.6vh', duration: 14 }, 70);
+    tl.to('#lnExp', { y: '2.6vh', duration: 14 }, 70);
+
+    // Phase 6 — portal wipe (84 → 100)
+    if (portalOn) {
+      tl.to('#hand', { scale: reach * 0.82, y: '2vmin', opacity: 0, filter: 'blur(8px) drop-shadow(0 20px 24px rgba(20,16,12,0.3))', duration: 12, ease: 'power1.in' }, 85);
+      tl.to(['#typoBack', '#typoFront'], { letterSpacing: '0.12em', opacity: 0, duration: 10 }, 86);
+      tl.fromTo('#portal', { clipPath: 'circle(0% at 50% 52%)' }, { clipPath: 'circle(148% at 50% 52%)', duration: 15, ease: 'power2.in' }, 85);
+      tl.to(['#heroHeader', '#sideLabels', '#bottomUI'], { opacity: 0, duration: 8 }, 90);
+    }
+
+    // ---------- Selected Work rows — scroll reveal ----------
+    gsap.utils.toArray('.menuItem').forEach(function (row) {
+      gsap.fromTo(row,
+        { opacity: 0, y: 70 },
+        {
+          opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: row, start: 'top 96%', end: 'top 70%', scrub: true }
+        });
+    });
+
+    // ---------- Selected Work — FlowingMenu marquee on hover ----------
+    var distSq = function (x, y, x2, y2) { var a = x - x2, b = y - y2; return a * a + b * b; };
+    gsap.utils.toArray('.menuItem').forEach(function (item) {
+      var link = item.querySelector('.menuLink');
+      var marquee = item.querySelector('.marquee');
+      var inner = item.querySelector('.marqueeInner');
+      if (!link || !marquee || !inner) return;
+      var text = item.getAttribute('data-text') || '';
+      var tag = item.getAttribute('data-tag') || '';
+      var img = item.getAttribute('data-img') || '';
+
+      // build repeated marquee parts (text + one image chip)
+      var partHTML =
+        '<span style="font-family:\'Bodoni Moda\',serif; text-transform:uppercase; font-weight:400; font-size:clamp(28px,4.4vh,64px); line-height:1; letter-spacing:0.02em; padding:0 1.4vw; color:#17140F; white-space:nowrap;">' + text + '</span>' +
+        '<span style="font-family:\'Bodoni Moda\',serif; font-style:italic; font-size:14px; opacity:0.6; padding:0 1vw; color:#17140F; white-space:nowrap;">' + tag + '</span>' +
+        '<div style="width:14vh; height:9vh; margin:0 1.4vw; border-radius:999px; background-image:url(' + img + '); background-size:cover; background-position:50% 50%;"></div>';
+      var parts = '';
+      for (var i = 0; i < 8; i++) parts += '<div style="display:flex; align-items:center; flex-shrink:0;">' + partHTML + '</div>';
+      inner.innerHTML = parts;
+
+      gsap.set(marquee, { yPercent: 101, zIndex: 2 });
+      gsap.set(inner, { yPercent: 0 });
+      // continuous horizontal scroll (8 identical parts → loop over half)
+      gsap.to(inner, { xPercent: -50, duration: 18, ease: 'none', repeat: -1 });
+
+      var defs = { duration: 0.6, ease: 'expo' };
+      var edgeOf = function (ev) {
+        var r = item.getBoundingClientRect();
+        var x = ev.clientX - r.left, y = ev.clientY - r.top;
+        return distSq(x, y, r.width / 2, 0) < distSq(x, y, r.width / 2, r.height) ? 'top' : 'bottom';
+      };
+      link.addEventListener('mouseenter', function (ev) {
+        var edge = edgeOf(ev);
+        gsap.to(link, { opacity: 0, duration: 0.3, ease: 'power2.out' });
+        gsap.timeline({ defaults: defs })
+          .set(marquee, { yPercent: edge === 'top' ? -101 : 101 }, 0)
+          .set(inner, { yPercent: edge === 'top' ? 101 : -101 }, 0)
+          .to([marquee, inner], { yPercent: 0 }, 0);
+      });
+      link.addEventListener('mouseleave', function (ev) {
+        var edge = edgeOf(ev);
+        gsap.to(link, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.15 });
+        gsap.timeline({ defaults: defs })
+          .to(marquee, { yPercent: edge === 'top' ? -101 : 101 }, 0)
+          .to(inner, { yPercent: edge === 'top' ? 101 : -101 }, 0);
+      });
+    });
+
+    // ---------- Footer "Let's talk" — magnetic per-letter interaction ----------
+    var talkLink = $('talkLink');
+    var talkText = $('talkText');
+    var talkArrow = $('talkArrow');
+    if (talkLink && talkText && !talkText._split) {
+      var raw = talkText.textContent;
+      talkText.textContent = '';
+      talkText._chars = [];
+      raw.split('').forEach(function (ch) {
+        var s = document.createElement('span');
+        s.style.cssText = 'display:inline-block;will-change:transform;transition:color 300ms ease;';
+        s.textContent = ch === ' ' ? '\u00A0' : ch;
+        talkText.appendChild(s);
+        talkText._chars.push(s);
+      });
+      talkText._split = true;
+      var setters = talkText._chars.map(function (s) {
+        return { x: gsap.quickTo(s, 'x', { duration: 0.6, ease: 'power3' }), y: gsap.quickTo(s, 'y', { duration: 0.6, ease: 'power3' }), el: s };
+      });
+      var onTalkMove = function (e) {
+        var pull = 46;
+        setters.forEach(function (st) {
+          var r = st.el.getBoundingClientRect();
+          var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          var dx = e.clientX - cx, dy = e.clientY - cy;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          var radius = 260;
+          if (dist < radius) {
+            var f = (1 - dist / radius);
+            st.x(-dx * f * 0.5);
+            st.y(-dy * f * 0.5);
+            st.el.style.color = '#F97316';
+          } else {
+            st.x(0); st.y(0);
+            st.el.style.color = '#17140F';
+          }
+        });
+      };
+      talkLink.addEventListener('mousemove', onTalkMove);
+      talkLink.addEventListener('mouseenter', function () { if (talkArrow) talkArrow.style.transform = 'translateX(0.35em)'; });
+      talkLink.addEventListener('mouseleave', function () {
+        setters.forEach(function (st) { st.x(0); st.y(0); st.el.style.color = '#17140F'; });
+        if (talkArrow) talkArrow.style.transform = 'translateX(0)';
+      });
+    }
+
+    // ---------- Philosophy phrases ----------
+    gsap.utils.toArray('.phrase').forEach(function (el) {
+      gsap.fromTo(el,
+        { opacity: 0.06, y: 70, scale: 0.97, letterSpacing: '0.06em' },
+        {
+          opacity: 1, y: 0, scale: 1, letterSpacing: '0em', ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top 90%', end: 'top 45%', scrub: true }
+        });
+    });
+
+    // ---------- Process cards ----------
+    gsap.utils.toArray('.procCard').forEach(function (card) {
+      gsap.fromTo(card,
+        { opacity: 0, y: 90 },
+        {
+          opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: card, start: 'top 98%', end: 'top 75%', scrub: true }
+        });
+    });
+
+    // ---------- 04 Capabilities — hover reveals paper-image through the text ----------
+    gsap.utils.toArray('.capLine').forEach(function (line) {
+      var img = line.querySelector('.capImg');
+      var base = line.querySelector('.capBase');
+      if (!img || !base) return;
+      var st = { r: 0, mx: 0, my: 0 };
+      var render = function () {
+        var m = 'radial-gradient(circle ' + st.r + 'px at ' + st.mx + 'px ' + st.my + 'px, #000 60%, rgba(0,0,0,0.35) 82%, transparent 100%)';
+        img.style.webkitMaskImage = m;
+        img.style.maskImage = m;
+      };
+      line.addEventListener('mousemove', function (e) {
+        var rect = line.getBoundingClientRect();
+        st.mx = e.clientX - rect.left;
+        st.my = e.clientY - rect.top;
+        render();
+      });
+      line.addEventListener('mouseenter', function () {
+        base.style.color = 'rgba(237,231,220,0.18)';
+        gsap.to(st, { r: Math.max(line.offsetHeight * 1.05, 240), duration: 0.45, ease: 'power2.out', onUpdate: render });
+      });
+      line.addEventListener('mouseleave', function () {
+        base.style.color = '#EDE7DC';
+        gsap.to(st, { r: 0, duration: 0.4, ease: 'power2.in', onUpdate: render });
+      });
+      // scroll reveal
+      gsap.fromTo(line,
+        { opacity: 0, y: 70 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: line, start: 'top 90%', end: 'top 60%', scrub: 1 } });
+    });
+
+    // ---------- 04 Capabilities — fluid-glass lens follows the cursor ----------
+    var capList = $('capList');
+    var capGlass = $('capGlass');
+    if (capList && capGlass) {
+      var gx = gsap.quickTo(capGlass, 'x', { duration: 0.35, ease: 'power3' });
+      var gy = gsap.quickTo(capGlass, 'y', { duration: 0.35, ease: 'power3' });
+      gsap.set(capGlass, { xPercent: -50, yPercent: -50, scale: 0.6 });
+      capList.addEventListener('mouseenter', function () {
+        gsap.to(capGlass, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
+      });
+      capList.addEventListener('mousemove', function (e) {
+        gx(e.clientX); gy(e.clientY);
+      });
+      capList.addEventListener('mouseleave', function () {
+        gsap.to(capGlass, { opacity: 0, scale: 0.6, duration: 0.35, ease: 'power2.in' });
+      });
+    }
+
+    // ---------- 05 Image reveal — torn hole scales open ----------
+    var revealStick = $('revealStick');
+    var revealHole = $('revealHole');
+    var revealVoid = $('revealVoid');
+    var revealBg = $('revealImgBg');
+    var revealGlow = $('revealGlow');
+    var revealCap = $('revealCap');
+    var revealHint = $('revealScrollHint');
+    if (revealStick && revealHole) {
+      ST.create({
+        trigger: '#reveal',
+        start: 'top top',
+        end: function () { return '+=' + (window.innerHeight * 2.6); },
+        scrub: 0.5,
+        pin: revealStick,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: function (self) {
+          var p = self.progress;
+          // stay blank at first, then start tearing
+          var pp = gsap.utils.clamp(0, 1, (p - 0.08) / 0.92);
+          // torn paper flaps grow about the opening
+          var s = 0.34 + Math.pow(pp, 0.9) * 6.4;
+          revealHole.style.transform = 'translate(-53.1%, -51.4%) scale(' + s + ')';
+          // sync the mask (void + image) to the tear's on-screen opening box
+          var vmin = Math.min(window.innerWidth, window.innerHeight);
+          var elemW = (132 / 100) * vmin * s;
+          var elemH = elemW * (1024 / 1536);
+          var left = window.innerWidth * 0.5 - 0.531 * elemW;
+          var top = window.innerHeight * 0.48 - 0.514 * elemH;
+          var mSize = elemW + 'px ' + elemH + 'px';
+          var mPos = left + 'px ' + top + 'px';
+          [revealVoid, revealBg].forEach(function (el) {
+            if (!el) return;
+            el.style.webkitMaskSize = mSize; el.style.maskSize = mSize;
+            el.style.webkitMaskPosition = mPos; el.style.maskPosition = mPos;
+          });
+          // torn flaps fade out once the image has taken over
+          revealHole.style.opacity = pp < 0.86 ? 1 : gsap.utils.clamp(0, 1, 1 - (pp - 0.86) / 0.14);
+          // image fades in at true viewport zoom (no transform — keeps mask aligned)
+          if (revealBg) {
+            var zp = gsap.utils.clamp(0, 1, (p - 0.34) / 0.5);
+            revealBg.style.opacity = gsap.utils.clamp(0, 1, zp * 1.7).toFixed(3);
+          }
+          // caption drifts up + fades near the end
+          if (revealCap) { revealCap.style.transform = 'translateY(' + (-p * 40) + 'px)'; revealCap.style.opacity = gsap.utils.clamp(0, 1, 1 - (p - 0.6) / 0.28); }
+          if (revealHint) revealHint.style.opacity = gsap.utils.clamp(0, 1, 1 - p * 3);
+        }
+      });
+    }
+
+    // ---------- 06 Manifesto — words fall & pile at the bottom on scroll ----------
+    var maniStage = $('maniStage');
+    var allWords = [];
+    gsap.utils.toArray('.maskLine').forEach(function (line) {
+      if (!line._words) {
+        var raw = line.textContent;
+        line.textContent = '';
+        line._words = [];
+        raw.split(' ').forEach(function (wd, i, arr) {
+          var s = document.createElement('span');
+          s.textContent = wd;
+          s.style.cssText = 'display:inline-block; will-change:transform;';
+          line.appendChild(s);
+          if (i < arr.length - 1) line.appendChild(document.createTextNode(' '));
+          line._words.push(s);
+          allWords.push(s);
+        });
+      } else {
+        line._words.forEach(function (s) { allWords.push(s); });
+      }
+    });
+
+    if (maniStage && allWords.length) {
+      var runPile = function () {
+        var stageRect = maniStage.getBoundingClientRect();
+        var W = maniStage.clientWidth, H = maniStage.clientHeight;
+        var pad = 6, gapX = 14, gapY = 12;
+        // measure current positions/sizes
+        var ws = allWords.map(function (el) {
+          var r = el.getBoundingClientRect();
+          return { el: el, w: r.width, h: r.height, curLeft: r.left - stageRect.left, curTop: r.top - stageRect.top };
+        });
+        // shelf-pack into rows (reading order)
+        var rows = [], cur = [], x = pad, maxH = 0;
+        ws.forEach(function (w) {
+          if (x + w.w > W - pad && cur.length) { rows.push({ items: cur, h: maxH }); cur = []; x = pad; maxH = 0; }
+          cur.push(w); x += w.w + gapX; maxH = Math.max(maxH, w.h);
+        });
+        if (cur.length) rows.push({ items: cur, h: maxH });
+        // stack rows from the bottom up
+        var y = H - pad;
+        for (var ri = rows.length - 1; ri >= 0; ri--) {
+          var row = rows[ri];
+          y -= row.h;
+          var rx = pad;
+          row.items.forEach(function (w) { w.tx = rx; w.ty = y; rx += w.w + gapX; });
+          y -= gapY;
+        }
+        ws.forEach(function (w) {
+          gsap.to(w.el, {
+            x: (w.tx - w.curLeft) + (Math.random() - 0.5) * 10,
+            y: (w.ty - w.curTop),
+            rotation: (Math.random() - 0.5) * 10,
+            duration: 1.1 + Math.random() * 0.6,
+            ease: 'bounce.out',
+            delay: Math.random() * 0.22
+          });
+        });
+      };
+      var piled = false;
+      ST.create({
+        trigger: '#manifesto', start: 'top 55%',
+        onEnter: function () { if (!piled) { piled = true; runPile(); } },
+        onLeaveBack: function () { piled = false; gsap.to(allWords, { x: 0, y: 0, rotation: 0, duration: 0.7, ease: 'power3.out', stagger: 0.008 }); }
+      });
+    }
+
+    // ---------- 07 Recognition — scroll-scrub counters ----------
+    gsap.utils.toArray('.counter').forEach(function (el) {
+      var target = parseFloat(el.getAttribute('data-count')) || 0;
+      var obj = { v: 0 };
+      gsap.to(obj, {
+        v: target, ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 90%', end: 'top 45%', scrub: 0.5 },
+        onUpdate: function () { el.textContent = Math.round(obj.v); }
+      });
+    });
+
+    // ---------- 08 Studio — column parallax ----------
+    gsap.utils.toArray('.pCol').forEach(function (el) {
+      var speed = parseFloat(el.getAttribute('data-speed')) || 0;
+      gsap.fromTo(el, { yPercent: -speed * 100 }, {
+        yPercent: speed * 100, ease: 'none',
+        scrollTrigger: { trigger: '#studio', start: 'top bottom', end: 'bottom top', scrub: 1 }
+      });
+    });
+
+    // Studio — kinetic marquee band
+    var sMarq = document.querySelector('.studioMarquee');
+    if (sMarq) {
+      var words = ['Strategy', 'Identity', 'Motion', 'Paper', 'Pixel', 'Craft', '3D · CGI', 'Editorial'];
+      var chip = function (w, filled) {
+        return '<span style="font-family:\'Bodoni Moda\',serif; font-size:clamp(30px,4.6vw,74px); line-height:1; letter-spacing:0.01em; ' +
+          (filled ? 'color:#EDE7DC;' : 'color:transparent; -webkit-text-stroke:1px rgba(237,231,220,0.5); text-stroke:1px rgba(237,231,220,0.5);') + '">' + w + '</span>' +
+          '<span style="color:#F97316; font-size:12px;">✦</span>';
+      };
+      var seq = '';
+      for (var k = 0; k < 2; k++) words.forEach(function (w, i) { seq += chip(w, i % 2 === 0); });
+      sMarq.innerHTML = seq;
+      gsap.to(sMarq, { xPercent: -50, duration: 26, ease: 'none', repeat: -1 });
+    }
+
+    // Studio — figures reveal on scroll + hover zoom
+    gsap.utils.toArray('.studioFig').forEach(function (fig) {
+      var slot = fig.querySelector('image-slot');
+      gsap.fromTo(fig,
+        { opacity: 0, y: 70, clipPath: 'inset(14% 6% 14% 6% round 3px)' },
+        { opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0% round 3px)', ease: 'power2.out',
+          scrollTrigger: { trigger: fig, start: 'top 92%', end: 'top 62%', scrub: 1 } });
+      if (slot) {
+        slot.style.transition = 'transform 700ms cubic-bezier(0.22,1,0.36,1)';
+        slot.style.transformOrigin = '50% 50%';
+        fig.addEventListener('mouseenter', function () { slot.style.transform = 'scale(1.06)'; });
+        fig.addEventListener('mouseleave', function () { slot.style.transform = 'scale(1)'; });
+      }
+    });
+
+    // ---------- 09 Frames — book that opens & turns pages on scroll ----------
+    var framesPin = $('framesPin');
+    var book = $('book');
+    if (framesPin && book) {
+      var bar = $('framesBar');
+      var prog = $('framesProgress');
+      var pageCount = function () { var s = {}; document.querySelectorAll('#bookRight .leaf').forEach(function (l) { var k = l.getAttribute('data-i'); if (k !== null) s[k] = 1; }); return Object.keys(s).length || 4; };
+      var _fb = ST.getById('framesBook'); if (_fb) _fb.kill(true);
+      var ez = gsap.parseEase('power2.inOut');
+      var liveLeaves = function () {
+        var map = {};
+        document.querySelectorAll('#bookRight .leaf').forEach(function (l) {
+          var k = l.getAttribute('data-i');
+          if (k !== null && !(k in map)) map[k] = l; // first (live) wins, ignore dupes
+        });
+        return map;
+      };
+      var lm0 = liveLeaves();
+      for (var z = 0, _n0 = pageCount(); z < _n0; z++) if (lm0[z]) gsap.set(lm0[z], { rotationY: 0 });
+      ST.create({
+        id: 'framesBook',
+        trigger: '#frames',
+        start: 'top top',
+        end: function () { return '+=' + Math.round(window.innerHeight * (pageCount() + 1) * 0.85); },
+        scrub: 1,
+        pin: framesPin,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: function (self) {
+          var p = self.progress;
+          var N = pageCount();
+          var map = liveLeaves();
+          var flipped = 0;
+          for (var i = 0; i < N; i++) {
+            var lf = map[i];
+            if (!lf) continue;
+            var lp = gsap.utils.clamp(0, 1, p * N - i);
+            var ang = -180 * ez(lp);
+            lf.style.transform = 'rotateY(' + ang + 'deg)';
+            lf.style.filter = 'brightness(' + (1 - Math.sin(lp * Math.PI) * 0.18) + ')';
+            lf.style.zIndex = lp >= 0.5 ? (N + i) : (N - i);
+            if (lp >= 0.5) flipped++;
+          }
+          if (bar) bar.style.width = (16 + p * 84) + '%';
+          if (prog) { var n = Math.min(N, flipped + 1); prog.textContent = ('0' + n).slice(-2) + ' / 0' + N; }
+        }
+      });
+    }
+
+    // ---------- 11 Testimonials — tilt then straighten ----------
+    gsap.utils.toArray('.tCard').forEach(function (card) {
+      var rot = parseFloat(card.getAttribute('data-rot')) || 0;
+      gsap.fromTo(card,
+        { rotation: rot, y: 90, opacity: 0 },
+        { rotation: 0, y: 0, opacity: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: card, start: 'top 90%', end: 'top 55%', scrub: 1 } });
+    });
+
+    // ---------- 12 Voices — velocity-skew marquees ----------
+    var marquees = gsap.utils.toArray('.marquee');
+    if (marquees.length) {
+      var marqData = marquees.map(function (m) {
+        var dir = parseFloat(m.getAttribute('data-dir')) || 1;
+        var track = m.querySelector('.marqTrack');
+        // duplicate the track once for a seamless wrap
+        if (track && !track._dup) {
+          var clone = track.cloneNode(true);
+          clone.classList.remove('marqTrack');
+          clone.setAttribute('aria-hidden', 'true');
+          track.parentNode.insertBefore(clone, track.nextSibling);
+          track._dup = true;
+        }
+        var w = track ? track.getBoundingClientRect().width + parseFloat(getComputedStyle(m).gap || 0) : 600;
+        // continuous drift, wrapped by one track width
+        var wrap = gsap.utils.wrap(-w, 0);
+        var startX = dir < 0 ? -w : 0;
+        var tween = gsap.fromTo(m, { x: startX }, {
+          x: startX + dir * w, duration: Math.max(14, w / 55), ease: 'none', repeat: -1,
+          modifiers: { x: function (x) { return wrap(parseFloat(x)) + 'px'; } }
+        });
+        return { m: m, dir: dir, tween: tween };
+      });
+      var skewSetters = marquees.map(function (m) { return gsap.quickSetter(m, 'skewX', 'deg'); });
+      var clampSkew = gsap.utils.clamp(-12, 12);
+      ST.create({
+        trigger: '#voices', start: 'top bottom', end: 'bottom top',
+        onUpdate: function (self) {
+          var v = clampSkew(self.getVelocity() / -220);
+          skewSetters.forEach(function (set, i) {
+            set(v * marqData[i].dir);
+            var ts = 1 + Math.abs(v) * 0.06;
+            marqData[i].tween.timeScale(gsap.utils.clamp(0.6, 5, ts + Math.abs(self.getVelocity()) / 900));
+          });
+          clearTimeout(self._to);
+          self._to = setTimeout(function () {
+            marqData.forEach(function (d) { d.tween.timeScale(1); });
+            skewSetters.forEach(function (set) { set(0); });
+          }, 120);
+        }
+      });
+    }
+
+    // ---------- 10 Voices — 3D word flip reveal ----------
+    var flipQuote = $('flipQuote');
+    if (flipQuote && !flipQuote._split) {
+      var qWords = flipQuote.textContent.trim().split(/\s+/);
+      flipQuote.textContent = '';
+      flipQuote._els = [];
+      qWords.forEach(function (w, i) {
+        var span = document.createElement('span');
+        span.textContent = w;
+        span.style.cssText = 'display:inline-block;transform-origin:0% 100%;transform-style:preserve-3d;';
+        flipQuote.appendChild(span);
+        if (i < qWords.length - 1) flipQuote.appendChild(document.createTextNode(' '));
+        flipQuote._els.push(span);
+      });
+      flipQuote._split = true;
+      gsap.fromTo(flipQuote._els,
+        { opacity: 0, rotationX: -92, y: 24 },
+        { opacity: 1, rotationX: 0, y: 0, ease: 'power3.out', stagger: 0.05,
+          scrollTrigger: { trigger: flipQuote, start: 'top 82%', end: 'top 40%', scrub: 1 } });
+    }
+
+    // ---------- 13 Assemble — scroll-driven puzzle ----------
+    var board = $('puzzleBoard');
+    if (board && !board._built) {
+      var COLS = 4, ROWS = 3, N = COLS * ROWS;
+      var puzzleSrc = (window.__resMap && window.__resMap['assets/img/puzzleImg.jpg']) || 'assets/img/puzzleImg.jpg';
+      // deterministic pseudo-random so layout is stable across reloads
+      var seed = 7;
+      var rnd = function () { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+      board._pieces = [];
+      for (var i = 0; i < N; i++) {
+        var col = i % COLS, row = Math.floor(i / COLS);
+        var piece = document.createElement('div');
+        piece.style.cssText = 'position:absolute;top:' + (row * (100 / ROWS)) + '%;left:' + (col * (100 / COLS)) + '%;width:' + (100 / COLS) + '%;height:' + (100 / ROWS) + '%;background-image:url(' + puzzleSrc + ');background-size:' + (COLS * 100) + '% ' + (ROWS * 100) + '%;background-position:' + (col / (COLS - 1) * 100) + '% ' + (row / (ROWS - 1) * 100) + '%;will-change:transform,opacity;backface-visibility:hidden;box-shadow:0 0 0 1px rgba(231,224,218,0.55);';
+        board.appendChild(piece);
+        // scattered start state
+        var ang = rnd() * Math.PI * 2;
+        var dist = 60 + rnd() * 90; // vw/vh-ish
+        board._pieces.push({
+          el: piece,
+          x: Math.cos(ang) * dist - 20 + rnd() * 40,
+          y: Math.sin(ang) * dist - 20 + rnd() * 40,
+          r: (rnd() - 0.5) * 120,
+          s: 0.4 + rnd() * 0.5
+        });
+      }
+      board._built = true;
+      var pctEl = $('puzzlePct');
+      // preload the image
+      var pim = new Image(); pim.src = puzzleSrc;
+
+      var applyPuzzle = function (p) {
+        // ease per-piece with slight stagger by index for a smoother assemble
+        board._pieces.forEach(function (pc, idx) {
+          var local = gsap.utils.clamp(0, 1, (p - idx * 0.02) / (1 - (N - 1) * 0.02));
+          var e = gsap.parseEase('power3.out')(local);
+          var inv = 1 - e;
+          pc.el.style.transform = 'translate(' + (pc.x * inv) + 'vmin,' + (pc.y * inv) + 'vmin) rotate(' + (pc.r * inv) + 'deg) scale(' + (pc.s + (1 - pc.s) * e) + ')';
+          pc.el.style.opacity = (0.2 + 0.8 * gsap.utils.clamp(0, 1, local * 1.4)).toFixed(3);
+        });
+        if (pctEl) pctEl.textContent = Math.round(p * 100) + '% assembled';
+      };
+      applyPuzzle(0);
+
+      ST.create({
+        trigger: '#assemble',
+        start: 'top top',
+        end: function () { return '+=' + (window.innerHeight * 2.2); },
+        scrub: 0.6,
+        pin: $('assembleStick'),
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: function (self) { applyPuzzle(self.progress); }
+      });
+    }
+
+    // record ownership of everything created above
+    /* static page: triggers created above */ void ST.getAll().slice(existing);
+
+    // Layout settles after mount (fonts, images, iframe height) — refresh robustly.
+    var self = { _killed: false };
+    function refresh() {
+      // unguarded: a plain global refresh is harmless and corrects stale pin ranges
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    }
+    refresh();
+    setTimeout(refresh, 500);
+    setTimeout(refresh, 1500);
+    setTimeout(refresh, 3000);
+    window.addEventListener('load', refresh);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    ['hole', 'hand'].forEach(function (id) {
+      var img = document.getElementById(id);
+      if (img && img.decode) img.decode().then(refresh).catch(function () {});
+    });
+    // refresh once the book's leaf background-images have loaded (they affect nothing
+    // layout-wise, but ensures a late correction pass)
+    var leafImgs = document.querySelectorAll('#bookRight .leaf-front div[style*="background-image"]');
+    // poll until scrollHeight stabilizes, then refresh once more
+    var lastH = 0, tries = 0;
+    var iv = setInterval(function () {
+      if (self._killed) { clearInterval(iv); return; }
+      var h = document.body.scrollHeight;
+      if (h === lastH && h > 0) { clearInterval(iv); refresh(); }
+      lastH = h;
+      if (++tries > 24) { clearInterval(iv); refresh(); }
+    }, 250);
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 140); });
+  } else { setTimeout(boot, 140); }
+})();
+</script>
+</body>
+</html>
