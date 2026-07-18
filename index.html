@@ -1052,7 +1052,7 @@
                     </div>
                   </div>
                   <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
-                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">04 · CREATIVE TOOLS</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Vibe Coding</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">Thirty-Minute Brain、Read Later Regret 与 Downloads Butler，用完整交互验证个人工作流中的具体问题。</span>
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">04 · CREATIVE TOOLS</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Vibe Coding</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">8 个围绕求职、审计、代码质量与个人工作流构建的可运行产品原型。</span>
                   </div>
                 </div>
                 <!-- soft spine shadow -->
@@ -1702,6 +1702,7 @@
       };
       var lm0 = liveLeaves();
       for (var z = 0, _n0 = pageCount(); z < _n0; z++) if (lm0[z]) gsap.set(lm0[z], { rotationY: 0 });
+      var framesEntrySynced = false;
       ST.create({
         id: 'framesBook',
         trigger: '#frames',
@@ -1709,8 +1710,13 @@
         end: function () { return '+=' + Math.round(window.innerHeight * (pageCount() + 1) * 0.85); },
         scrub: 1,
         pin: framesPin,
-        anticipatePin: 1,
+        anticipatePin: 0,
         invalidateOnRefresh: true,
+        onEnter: function () {
+          if (framesEntrySynced) return;
+          framesEntrySynced = true;
+          requestAnimationFrame(function () { ST.refresh(); });
+        },
         onUpdate: function (self) {
           var p = self.progress;
           var N = pageCount();

@@ -64,7 +64,7 @@
       id: 'webCoding',
       title: 'Vibe Coding',
       category: 'CREATIVE TOOLS · 2026',
-      description: '一组围绕个人工作流与信息整理问题构建的可运行产品原型，用完整交互验证具体想法。',
+      description: '一组围绕求职、审计、代码质量与个人工作流构建的可运行产品原型，用完整交互验证具体想法。',
       heroImage: '',
       heroAlt: '',
       gallery: [],
@@ -90,6 +90,41 @@
           image: 'assets/img/projects/web-coding/downloads-butler.png',
           alt: 'Downloads Butler 文件整理建议页面',
           url: 'https://github.com/ZackZhang-AI/downloads-butler'
+        },
+        {
+          title: 'AI Resume Agent',
+          description: '围绕 JD 分析、简历优化、真实性校验与模拟面试构建的多 Agent 求职工具。',
+          image: 'assets/img/projects/web-coding/ai-resume-agent.png',
+          alt: 'AI Resume Agent 简历优化工作台',
+          url: 'https://github.com/ZackZhang-AI/ai-resume-agent'
+        },
+        {
+          title: 'Audit Intern Assistant',
+          description: '为审计资料生成标准化命名、归档路径与人工复核提示的本地工作台。',
+          image: 'assets/img/projects/web-coding/audit-intern-assistant.png',
+          alt: '审计资料智能归档与底稿辅助生成系统',
+          url: 'https://github.com/ZackZhang-AI/audit-intern-assistant'
+        },
+        {
+          title: 'HarnessLab',
+          description: '把代码变更转化为可观察审计轨迹、结构化发现与可导出报告的工作台。',
+          image: 'assets/img/projects/web-coding/harnesslab.png',
+          alt: 'HarnessLab Code Agent 审计结果页面',
+          url: 'https://github.com/ZackZhang-AI/HarnessLab'
+        },
+        {
+          title: 'IT Audit Log Assistant',
+          description: '完成日志期间校验、字段检查、异常识别与审计关注点生成的抽查工具。',
+          image: 'assets/img/projects/web-coding/it-audit-log-assistant.png',
+          alt: 'IT 审计日志抽查助手异常分析页面',
+          url: 'https://github.com/ZackZhang-AI/it-audit-log-sampling-assistant'
+        },
+        {
+          title: 'Resume Autofill AI',
+          description: '支持字段扫描、匹配、填写、撤销与回退流程的 Chrome 简历速填产品。',
+          image: 'assets/img/projects/web-coding/resume-autofill-ai.png',
+          alt: 'Resume Autofill AI 浏览器扩展字段匹配页面',
+          url: 'https://github.com/ZackZhang-AI/resume-autofill-ai'
         }
       ]
     }

@@ -640,6 +640,13 @@
   gap: 2vw;
 }
 
+#framesPin {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  background: #eae5e0;
+}
+
 .project-dialog-subproject {
   display: flex;
   flex-direction: column;
