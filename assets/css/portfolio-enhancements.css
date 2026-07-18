@@ -44,16 +44,17 @@
 }
 
 .hero-ask-arrow {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
   border: 1px solid var(--portfolio-ink);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
-  background: var(--portfolio-ink);
-  color: var(--portfolio-paper);
+  font-size: 13px;
+  background: transparent;
+  color: var(--portfolio-ink);
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), background-color 420ms ease, color 420ms ease;
 }
 
@@ -61,8 +62,25 @@
 .hero-ask-link:focus-visible .hero-ask-arrow {
   transform: translate(3px, -3px);
   border-color: #f97316;
-  background: #f97316;
-  color: var(--portfolio-paper);
+  background: transparent;
+  color: #f97316;
+}
+
+.capabilities-kicker {
+  font-size: clamp(12px, 1.1vw, 16px);
+}
+
+.capabilities-note {
+  font-size: clamp(20px, 2vw, 30px);
+}
+
+#revealHole {
+  display: block;
+  visibility: visible;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  contain: layout style;
 }
 
 .hero-meta {
@@ -205,11 +223,15 @@
 }
 
 .footer-agent-copy p {
-  max-width: 29ch;
+  max-width: none;
   margin: 0;
   font-family: 'Bodoni Moda', 'Noto Serif SC', serif;
   font-size: clamp(22px, 2.5vw, 38px);
   line-height: 1.35;
+}
+
+.footer-agent-line {
+  display: block;
 }
 
 .footer-primary-links {
@@ -234,11 +256,15 @@
 }
 
 .footer-primary-links .footer-agent-link {
-  border: 0;
-  background: var(--portfolio-ink);
-  color: var(--portfolio-light);
-  padding: 20px 24px;
-  font-size: 14px;
+  border-bottom: 1px solid rgba(23, 20, 15, 0.52);
+  background: transparent;
+  color: var(--portfolio-ink);
+  padding: 0 0 8px;
+  font-family: 'Bodoni Moda', 'Noto Serif SC', serif;
+  font-size: clamp(20px, 2vw, 32px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .footer-resume-link {
@@ -272,10 +298,13 @@
   overflow-wrap: anywhere;
 }
 
+.footer-explore,
+.footer-explore a,
+.footer-explore span,
 .footer-contact,
 .footer-contact a,
 .footer-contact span {
-  font-size: 11px !important;
+  font-size: 13px !important;
   line-height: 1.55;
 }
 
@@ -581,9 +610,9 @@
   }
 
   .hero-ask-arrow {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
   }
 
   .hero-scroll {
@@ -751,8 +780,8 @@
   }
 
   .footer-primary-links .footer-agent-link {
-    padding: 18px;
-    font-size: 11px;
+    padding: 0 0 7px;
+    font-size: clamp(22px, 7vw, 30px);
   }
 
   .footer-resume-link {

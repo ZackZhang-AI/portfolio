@@ -62,7 +62,7 @@
     },
     webCoding: {
       id: 'webCoding',
-      title: 'Web Coding',
+      title: 'Vibe Coding',
       category: 'CREATIVE TOOLS · 2026',
       description: '一组围绕个人工作流与信息整理问题构建的可运行产品原型，用完整交互验证具体想法。',
       heroImage: '',
