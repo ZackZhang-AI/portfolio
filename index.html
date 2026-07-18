@@ -804,35 +804,59 @@
           <!-- black void, clipped to the torn-opening shape (mask size/pos animated in JS) -->
           <div id="revealVoid" style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(50% 60% at 50% 48%, #16130E 0%, #0B0A08 74%); -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
           </div>
-          <!-- image at viewport zoom, clipped to the same torn-opening shape -->
-          <img id="revealImgBg" src="assets/img/24b6901c-608b-4b00-b6e5-7255c03df75f.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 3; opacity: 0; -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+          <!-- real-product evidence board, clipped to the same torn-opening shape -->
+          <div id="revealImgBg" class="reveal-evidence-board" style="position: absolute; inset: 0; z-index: 3; opacity: 0; -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+            <figure class="reveal-evidence reveal-evidence-primary">
+              <img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测界面">
+              <figcaption><span>01</span><strong>RAG EVALUATION</strong><small>RETRIEVAL · RAGAS · BADCASE</small></figcaption>
+            </figure>
+            <figure class="reveal-evidence">
+              <img src="assets/img/projects/ask-me/home.png" alt="Ask Me AI Career Agent 首页">
+              <figcaption><span>02</span><strong>ASK ME AGENT</strong><small>CAREER AI · EVIDENCE</small></figcaption>
+            </figure>
+            <figure class="reveal-evidence">
+              <img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台首页">
+              <figcaption><span>03</span><strong>DEEPFLOW</strong><small>MULTI-AGENT · WORKFLOW</small></figcaption>
+            </figure>
+          </div>
           <!-- torn-paper flaps (transparent PNG), scaled about the tear's opening, on top -->
           <img id="revealHole" src="assets/img/75cbffe6-a635-4647-839e-616030f6271b.png" alt="" decoding="sync" fetchpriority="high" style="position: absolute; left: 50%; top: 48%; width: 132vmin; z-index: 4; transform-origin: 53.1% 51.4%; transform: translate3d(-53.1%, -51.4%, 0) scale(0.34);">
 
           <!-- caption chrome -->
           <div id="revealCap" style="position: absolute; left: 6vw; top: 12vh; z-index: 6; max-width: 16ch; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(30px, 4.2vw, 68px); line-height: 1.04; color: #1A1611; text-shadow: 0 1px 40px rgba(246,242,235,0.9), 0 0 1px rgba(246,242,235,0.9);">
-            The answer<br>hides in<br>the tear.</div>
-          <span style="position: absolute; right: 6vw; top: 13vh; z-index: 6; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; color: #1A1611;">FEATURED PROJECT — 2026</span>
+            能力不是清单，<br><em>而是落地的证据。</em></div>
+          <span style="position: absolute; right: 6vw; top: 13vh; z-index: 6; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; color: #1A1611;">CAPABILITIES → PRODUCT — 2026</span>
           <div style="position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 6; display: flex; justify-content: space-between; padding: 0 6vw; font-size: 11px; font-weight: 600; letter-spacing: 0.26em; color: #1A1611; mix-blend-mode: normal;">
-            <span>DIR. ZACK ZHANG</span>
+            <span>RAG · AGENT · EVAL</span>
             <span id="revealScrollHint" style="display: flex; align-items: center; gap: 12px;"><span style="display:inline-block; animation: dl-bob 2.4s ease-in-out infinite;">↓</span>
-            KEEP SCROLLING</span>
-            <span>2023 — 2027</span>
+            SEE THE PROOF</span>
+            <span>REAL PROJECT / REAL SCREEN</span>
           </div>
         </div>
       </section>
 
-      <!-- ============ 06 · MANIFESTO — text mask reveal (wipe) ============ -->
-      <section id="manifesto" data-screen-label="Manifesto" style="background: #0B0A08; color: #EDE7DC; padding: 24vh 8vw;">
-        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5; margin-bottom: 12vh;">
-          MANIFESTO</div>
-        <div id="maniStage" style="display: flex; flex-direction: column; gap: 2.4vh; max-width: 1400px; position: relative; min-height: 84vh; overflow: hidden; padding-bottom: 6vh;">
-          <div class="maskLine" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
-            I treat every business problem as tension waiting to release.</div>
-          <div class="maskLine" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-style: italic; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
-            Restraint first — then one decisive move.</div>
-          <div class="maskLine" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(30px, 4.8vw, 78px); line-height: 1.14;">
-            Good products feel inevitable, never decorated.</div>
+      <!-- ============ 06 · MANIFESTO — editorial scroll reveal ============ -->
+      <section id="manifesto" data-screen-label="Manifesto" class="manifesto-section">
+        <div class="manifesto-heading"><span>MANIFESTO</span><span>THREE PRINCIPLES / ONE METHOD</span></div>
+        <div id="maniStage" class="manifesto-stage">
+          <article class="manifesto-statement">
+            <span class="manifesto-index">01</span>
+            <div class="manifesto-line-mask"><p class="manifesto-line">Find the <em>tension.</em></p></div>
+            <p class="manifesto-note">I treat every business problem as tension waiting to release.</p>
+            <span class="manifesto-rule" aria-hidden="true"></span>
+          </article>
+          <article class="manifesto-statement">
+            <span class="manifesto-index">02</span>
+            <div class="manifesto-line-mask"><p class="manifesto-line"><em>One</em> decisive move.</p></div>
+            <p class="manifesto-note">Restraint first. Then make the move that changes the system.</p>
+            <span class="manifesto-rule" aria-hidden="true"></span>
+          </article>
+          <article class="manifesto-statement">
+            <span class="manifesto-index">03</span>
+            <div class="manifesto-line-mask"><p class="manifesto-line">Leave only <em>proof.</em></p></div>
+            <p class="manifesto-note">Good products feel inevitable because every choice can be verified.</p>
+            <span class="manifesto-rule" aria-hidden="true"></span>
+          </article>
         </div>
       </section>
 
@@ -925,6 +949,14 @@
                 <img id="studioE" src="assets/img/projects/web-coding/read-later-regret.png" alt="Read Later Regret 信息债仪表盘" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 05 — READ LATER</figcaption>
               </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioG" src="assets/img/projects/rag/knowledge-base-detail.png" alt="RAG Knowledge Base 知识库详情页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 07 — KNOWLEDGE BASE</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioI" src="assets/img/projects/web-coding/read-later-regret-popup.png" alt="Read Later Regret 浏览器弹窗" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 09 — REGRET POPUP</figcaption>
+              </figure>
             </div>
             <div class="pCol" data-speed="-0.09" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 12vh;">
               <figure class="studioFig" style="margin: 0; overflow: visible;">
@@ -938,6 +970,14 @@
               <figure class="studioFig" style="margin: 0; overflow: visible;">
                 <img id="studioF" src="assets/img/projects/web-coding/downloads-butler.png" alt="Downloads Butler 文件整理建议页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 06 — BUTLER</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioH" src="assets/img/projects/rag/chat.png" alt="RAG Knowledge Base 对话页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 08 — RAG CHAT</figcaption>
+              </figure>
+              <figure class="studioFig" style="margin: 0; overflow: visible;">
+                <img id="studioJ" src="assets/img/projects/web-coding/thirty-minute-brain-context.png" alt="Thirty-Minute Brain 上下文详情页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 10 — CONTEXT</figcaption>
               </figure>
             </div>
           </div>
@@ -1171,7 +1211,7 @@
           <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">START A CONVERSATION</span>
         </div>
 
-        <a id="talkLink" href="mailto:zackzhang124@163.com" style="display: block; text-decoration: none; color: #17140F; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(48px, 12vw, 220px); line-height: 0.92; letter-spacing: 0.005em; margin: 6vh 0 2vh; white-space: nowrap;"><span id="talkText">Let's talk</span><span id="talkArrow" style="display: inline-block; margin-left: 0.15em; transition: transform 500ms cubic-bezier(0.22,1,0.36,1);">→</span></a>
+        <a id="talkLink" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="打开 Ask Me Agent 深入了解我" style="display: block; text-decoration: none; color: #17140F; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(48px, 12vw, 220px); line-height: 0.92; letter-spacing: 0.005em; margin: 6vh 0 2vh; white-space: nowrap;"><span id="talkText">Let's talk</span><span id="talkArrow" style="display: inline-block; margin-left: 0.15em; transition: transform 500ms cubic-bezier(0.22,1,0.36,1);">→</span></a>
 
         <div class="footer-agent-cta">
           <div class="footer-agent-copy">
@@ -1862,5 +1902,6 @@
 <script src="assets/js/project-dialog.js"></script>
 <script src="assets/js/footer-interactions.js"></script>
 <script src="assets/js/browser-compat.js"></script>
+<script src="assets/js/manifesto-interactions.js"></script>
 </body>
 </html>
