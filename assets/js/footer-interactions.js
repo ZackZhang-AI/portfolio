@@ -9,6 +9,7 @@
   links.forEach(function (link) {
     var text = link.querySelector('.footer-magnetic-text');
     if (!text || text.dataset.split === 'true') return;
+    var baseColor = window.getComputedStyle(link).color;
 
     var raw = text.textContent;
     text.textContent = '';
@@ -46,7 +47,7 @@
         } else {
           setter.x(0);
           setter.y(0);
-          setter.element.style.color = '#17140F';
+          setter.element.style.color = baseColor;
         }
       });
     });
@@ -55,7 +56,7 @@
       setters.forEach(function (setter) {
         setter.x(0);
         setter.y(0);
-        setter.element.style.color = '#17140F';
+        setter.element.style.color = baseColor;
       });
     });
   });
