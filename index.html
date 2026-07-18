@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>张倬玮 — AI 产品经理</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portfolio-enhancements.css">
 <style>
         /* math */
         @font-face {
@@ -597,9 +599,9 @@
 
           <!-- header -->
           <header id="heroHeader" style="position: absolute; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 30px 48px;">
-            <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.32em;">ZACK ZHANG
+            <div class="hero-brand" style="font-size: 13px; font-weight: 600; letter-spacing: 0.32em;">ZACK ZHANG
               <span style="font-size: 9px; vertical-align: 2px;">●</span></div>
-            <nav style="display: flex; gap: 42px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;">
+            <nav class="hero-nav" style="display: flex; gap: 42px; font-size: 11px; font-weight: 500; letter-spacing: 0.22em;">
               <a href="#" style="color: #17140F; text-decoration: none; border-bottom: 1px solid #17140F; padding-bottom: 4px;">HOME</a>
               <a href="#work" style="color: #17140F; text-decoration: none; opacity: 0.65;" data-sh="op">WORK</a>
               <a href="#studio" style="color: #17140F; text-decoration: none; opacity: 0.65;" data-sh="op">ABOUT</a>
@@ -616,17 +618,24 @@
 
           <!-- bottom UI -->
           <div id="bottomUI" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 48px 34px;">
-            <div style="display: flex; align-items: center; gap: 16px; cursor: pointer;">
-              <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">MY STORY</span>
-              <span style="width: 44px; height: 44px; border: 1px solid rgba(23,20,15,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; padding-left: 3px;">▶</span>
-            </div>
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <a class="hero-ask-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">
+              <span class="hero-ask-label" style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">ASK ME ABOUT ME</span>
+              <span class="hero-ask-arrow" aria-hidden="true">↗</span>
+            </a>
+            <div class="hero-scroll" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
               <span style="display: inline-block; animation: dl-bob 2.4s ease-in-out infinite; font-size: 15px;">↓</span>
               <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.3em; opacity: 0.7;">SCROLL TO EXPLORE</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 14px;">
-              <span style="width: 40px; height: 1px; background: rgba(23,20,15,0.5);"></span>
-              <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">AI PRODUCT MANAGER — 2027</span>
+            <div class="hero-meta">
+              <div class="hero-role">
+                <span class="hero-role-line" style="width: 40px; height: 1px; background: rgba(23,20,15,0.5);"></span>
+                <span class="hero-role-text" style="font-size: 10px; font-weight: 600; letter-spacing: 0.3em;">AI PRODUCT MANAGER — 2027</span>
+              </div>
+              <div class="hero-quick-links" aria-label="Quick links">
+                <a href="#work">VIEW PROJECTS</a>
+                <a href="https://ask-me-career-agent.vercel.app/resume" target="_blank" rel="noopener noreferrer">DOWNLOAD CV</a>
+                <a href="#footer">CONTACT</a>
+              </div>
             </div>
           </div>
 
@@ -645,41 +654,41 @@
         </div>
 
         <div id="workList" style="display: flex; flex-direction: column;">
-          <div class="menuItem" data-text="RAG 知识库" data-tag="RAG · EVAL — 2025" data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
-            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
-              <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">RAG 知识库</span>
-              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">RAG · EVAL — 2025</span>
-            </a>
+          <div class="menuItem" data-text="RAG Knowledge Base" data-tag="RAG · EVAL · 2025" data-img="assets/img/projects/rag/evaluation.png" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <button class="menuLink project-trigger projectTrigger" type="button" data-project-id="rag" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">RAG Knowledge Base</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">RAG · EVAL · 2025</span>
+            </button>
             <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
               <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
               </div>
             </div>
           </div>
-          <div class="menuItem" data-text="DeepFlow" data-tag="MULTI-AGENT — 2026" data-img="https://images.unsplash.com/photo-1531403009284-440f080d1e12?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
-            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+          <div class="menuItem" data-text="DeepFlow" data-tag="MULTI-AGENT · 2026" data-img="assets/img/projects/deepflow/home.png" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <button class="menuLink project-trigger projectTrigger" type="button" data-project-id="deepflow" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; color: #EDE7DC; position: relative; z-index: 1;">
               <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">DeepFlow</span>
-              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">MULTI-AGENT — 2026</span>
-            </a>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">MULTI-AGENT · 2026</span>
+            </button>
             <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
               <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
               </div>
             </div>
           </div>
-          <div class="menuItem" data-text="Ask Me" data-tag="CAREER AI — 2026" data-img="https://images.unsplash.com/photo-1517048676732-d65bc937f952?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
-            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
+          <div class="menuItem" data-text="Ask Me" data-tag="CAREER AI · 2026" data-img="assets/img/projects/ask-me/home.png" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
+            <button class="menuLink project-trigger projectTrigger" type="button" data-project-id="askMe" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; color: #EDE7DC; position: relative; z-index: 1;">
               <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Ask Me</span>
-              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">CAREER AI — 2026</span>
-            </a>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">CAREER AI · 2026</span>
+            </button>
             <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
               <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
               </div>
             </div>
           </div>
-          <div class="menuItem" data-text="简历速填助手" data-tag="CHROME EXT — 2026" data-img="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?fm=jpg&amp;q=80&amp;w=700&amp;auto=format&amp;fit=crop" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14); border-bottom: 1px solid rgba(237,231,220,0.14);">
-            <a class="menuLink" href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; text-decoration: none; color: #EDE7DC; position: relative; z-index: 1;">
-              <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">简历速填助手</span>
-              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">CHROME EXT — 2026</span>
-            </a>
+          <div class="menuItem" data-text="Web Coding" data-tag="CREATIVE TOOLS · 2026" data-img="assets/img/projects/web-coding/read-later-regret.png" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14); border-bottom: 1px solid rgba(237,231,220,0.14);">
+            <button class="menuLink project-trigger projectTrigger" type="button" data-project-id="webCoding" style="display: flex; align-items: center; justify-content: space-between; gap: 3vw; padding: 4.6vh 1vw; color: #EDE7DC; position: relative; z-index: 1;">
+              <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(38px, 6.2vw, 116px); line-height: 0.98; letter-spacing: -0.01em;">Web Coding</span>
+              <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.5; white-space: nowrap;">CREATIVE TOOLS · 2026</span>
+            </button>
             <div class="marquee" style="position: absolute; inset: 0; background: #F4EFE6; overflow: hidden; pointer-events: none;">
               <div class="marqueeInner" style="display: flex; align-items: center; height: 100%; width: max-content; will-change: transform;">
               </div>
@@ -833,7 +842,7 @@
           <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">RECOGNITION</span>
           <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-style: italic; font-size: 15px; opacity: 0.45;">measured in proof, not claims</span>
         </div>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4vw; border-top: 1px solid rgba(23,20,15,0.15); padding-top: 8vh;">
+        <div class="recognition-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4vw; border-top: 1px solid rgba(23,20,15,0.15); padding-top: 8vh;">
           <div style="display: flex; flex-direction: column; gap: 14px;">
             <span class="counter" data-count="10" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
             <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">AI PROJECTS</span>
@@ -866,9 +875,9 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 5vw; align-items: start;">
+        <div class="studio-grid" style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 5vw; align-items: start;">
           <!-- LEFT: copy + meta -->
-          <div style="position: sticky; top: 16vh; display: flex; flex-direction: column; gap: 5vh;">
+          <div class="studio-copy" style="position: sticky; top: 16vh; display: flex; flex-direction: column; gap: 5vh;">
             <p style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(26px, 3.2vw, 52px); line-height: 1.22; margin: 0; max-width: 20ch;">
               东北大学应用统计学在读，百度 AI 产品经理实习。我坚信好产品不是想出来的，
               <span style="font-style: italic;">是验证出来的。</span></p>
@@ -902,32 +911,32 @@
           </div>
 
           <!-- RIGHT: two parallax image columns -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.6vw; align-items: start;">
+          <div class="studio-gallery" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.6vw; align-items: start;">
             <div class="pCol" data-speed="0.06" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 0;">
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioA" src="assets/img/studioA.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <img id="studioA" src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 01 — RAG</figcaption>
               </figure>
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioC" src="assets/img/studioC.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 1/1; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <img id="studioC" src="assets/img/projects/ask-me/home.png" alt="Ask Me AI Career Agent 首页" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 1/1; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 03 — ASK ME</figcaption>
               </figure>
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioE" src="assets/img/studioE.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
-                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 05 — T-M BRAIN</figcaption>
+                <img id="studioE" src="assets/img/projects/web-coding/read-later-regret.png" alt="Read Later Regret 信息债仪表盘" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 05 — READ LATER</figcaption>
               </figure>
             </div>
             <div class="pCol" data-speed="-0.09" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 12vh;">
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioB" src="assets/img/15d34bb5-5ace-4046-9def-d319ecbc39d1_800w.png" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <img id="studioB" src="assets/img/projects/deepflow/home.png" alt="DeepFlow AI 深度研究平台首页" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4/5; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 02 — DEEPFLOW</figcaption>
               </figure>
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioD" src="assets/img/studioD.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 5/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
-                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 04 — AUTOFILL</figcaption>
+                <img id="studioD" src="assets/img/projects/web-coding/thirty-minute-brain.png" alt="Thirty-Minute Brain 本地工作记忆页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 5/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 04 — T-M BRAIN</figcaption>
               </figure>
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioF" src="assets/img/studioF.jpg" alt="Studio image" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
+                <img id="studioF" src="assets/img/projects/web-coding/downloads-butler.png" alt="Downloads Butler 文件整理建议页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; aspect-ratio: 3/4; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85);object-fit:cover;border-radius:12px;">
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 06 — BUTLER</figcaption>
               </figure>
             </div>
@@ -960,7 +969,7 @@
                 </div>
                 <div class="leaf" data-i="0" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
                   <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
-                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/552100cf-8eb1-4fad-a7c6-97970cc055fa.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/projects/rag/evaluation.png&quot;); background-size:cover; background-position:50% 50%;">
                     </div>
                     <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
                       <span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-style:italic; font-size:clamp(18px,2vw,26px);">RAG 知识库</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">01</span>
@@ -972,7 +981,7 @@
                 </div>
                 <div class="leaf" data-i="1" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
                   <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
-                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/28cf663f-3c8a-4154-9671-f6b03fff089c.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/projects/deepflow/home.png&quot;); background-size:cover; background-position:50% 50%;">
                     </div>
                     <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
                       <span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-style:italic; font-size:clamp(18px,2vw,26px);">DeepFlow</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">02</span>
@@ -984,7 +993,7 @@
                 </div>
                 <div class="leaf" data-i="2" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
                   <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
-                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/b28739aa-7b24-42ca-849d-dea7b9bd4561.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/projects/ask-me/home.png&quot;); background-size:cover; background-position:50% 50%;">
                     </div>
                     <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
                       <span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Ask Me</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">03</span>
@@ -996,14 +1005,14 @@
                 </div>
                 <div class="leaf" data-i="3" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
                   <div class="leaf-face leaf-front" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 4px 4px 0; overflow: hidden; box-shadow: inset 14px 0 34px -22px rgba(60,50,40,0.55);">
-                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/f1200256-ed97-492b-845e-bad6ac832e23.jpg&quot;); background-size:cover; background-position:50% 50%;">
+                    <div style="position:absolute; inset:0; background-image:url(&quot;assets/img/projects/web-coding/read-later-regret.png&quot;); background-size:cover; background-position:50% 50%;">
                     </div>
                     <div style="position:absolute; left:0; right:0; bottom:0; display:flex; justify-content:space-between; align-items:flex-end; padding:5%; background:linear-gradient(0deg, rgba(11,10,8,0.75), transparent); color:#EDE7DC;">
-                      <span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-style:italic; font-size:clamp(18px,2vw,26px);">简历速填助手</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">04</span>
+                      <span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-style:italic; font-size:clamp(18px,2vw,26px);">Web Coding</span><span style="font-size:10px; letter-spacing:0.24em; opacity:0.8;">04</span>
                     </div>
                   </div>
                   <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
-                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">04 — CHROME EXT</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">简历速填助手</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">pnpm Monorepo 全栈 Chrome 扩展，表单语义识别与置信度分级填写，67 项测试全绿。</span>
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">04 · CREATIVE TOOLS</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">Web Coding</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">Thirty-Minute Brain、Read Later Regret 与 Downloads Butler，用完整交互验证个人工作流中的具体问题。</span>
                   </div>
                 </div>
                 <!-- soft spine shadow -->
@@ -1155,10 +1164,15 @@
           <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">START A CONVERSATION</span>
         </div>
 
-        <a id="talkLink" href="#" style="display: block; text-decoration: none; color: #17140F; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(48px, 12vw, 220px); line-height: 0.92; letter-spacing: 0.005em; margin: 6vh 0 2vh; white-space: nowrap;"><span id="talkText">Let's talk</span><span id="talkArrow" style="display: inline-block; margin-left: 0.15em; transition: transform 500ms cubic-bezier(0.22,1,0.36,1);">→</span></a>
+        <a id="talkLink" href="mailto:zackzhang124@163.com" style="display: block; text-decoration: none; color: #17140F; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(48px, 12vw, 220px); line-height: 0.92; letter-spacing: 0.005em; margin: 6vh 0 2vh; white-space: nowrap;"><span id="talkText">Let's talk</span><span id="talkArrow" style="display: inline-block; margin-left: 0.15em; transition: transform 500ms cubic-bezier(0.22,1,0.36,1);">→</span></a>
 
-        <div style="display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3vw; padding: 12vh 0 8vh; border-top: 1px solid rgba(23,20,15,0.15);">
-          <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="footer-primary-links" aria-label="Primary footer links">
+          <a href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">ASK ME ABOUT ME ↗</a>
+          <a href="https://ask-me-career-agent.vercel.app/resume" target="_blank" rel="noopener noreferrer">查看 / 下载中文简历 ↗</a>
+        </div>
+
+        <div class="footer-grid" style="display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3vw; padding: 12vh 0 8vh; border-top: 1px solid rgba(23,20,15,0.15);">
+          <div class="footer-identity" style="display: flex; flex-direction: column; gap: 20px;">
             <span style="font-size: 15px; font-weight: 600; letter-spacing: 0.32em;">ZACK ZHANG <span style="font-size: 10px; vertical-align: 2px;">●</span></span>
             <p style="font-size: 12px; line-height: 1.9; opacity: 0.6; max-width: 30ch; margin: 0;">Applied Statistics, Class of 2027. Seeking AI Product Manager roles — turning model capability into real product value.</p>
           </div>
@@ -1170,21 +1184,21 @@
             <a href="#studio" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">STUDIO</a>
           </div>
           <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
-            <span style="opacity: 0.45; margin-bottom: 6px;">SOCIAL</span>
-            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">GITHUB ↗</a>
-            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">BLOG ↗</a>
-            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">EMAIL ↗</a>
-            <a href="#" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">WECHAT ↗</a>
+            <span style="opacity: 0.45; margin-bottom: 6px;">EXPLORE</span>
+            <a href="https://github.com/ZackZhang-AI" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">GITHUB ↗</a>
+            <a href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">ASK ME ↗</a>
+            <a href="https://github.com/ZackZhang-AI/RAG-Knowledge-Base-System" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">RAG SYSTEM ↗</a>
+            <a href="https://github.com/ZackZhang-AI/DeepFlow" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">DEEPFLOW ↗</a>
           </div>
           <div style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
             <span style="opacity: 0.45; margin-bottom: 6px;">CONTACT</span>
-            <a href="mailto:zackzhang124@163.com" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">ZACKZHANG124@163.COM</a>
-            <span style="opacity: 0.75;">+86 158 1210 6204</span>
+            <a class="footer-email" href="mailto:zackzhang124@163.com" style="color: #17140F; text-decoration: none;" data-sh="op">ZACKZHANG124@163.COM</a>
+            <a href="tel:+8615812106204" style="color: #17140F; text-decoration: none; opacity: 0.68;" data-sh="op">+86 158 1210 6204</a>
             <span style="opacity: 0.75;">SHENYANG — REMOTE</span>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 32px 0; border-top: 1px solid rgba(23,20,15,0.15); font-size: 10px; letter-spacing: 0.3em;">
+        <div class="footer-bottom" style="display: flex; align-items: center; justify-content: space-between; padding: 32px 0; border-top: 1px solid rgba(23,20,15,0.15); font-size: 10px; letter-spacing: 0.3em;">
           <span style="opacity: 0.55;">© 2026 ZACK ZHANG — ALL RIGHTS RESERVED</span>
           <span style="opacity: 0.55;">QUESTIONS · PRODUCTS · PROOF</span>
           <a href="#" style="color: #17140F; text-decoration: none; display: flex; align-items: center; gap: 8px; opacity: 0.75;" data-sh="op">BACK TO TOP ↑</a>
@@ -1198,6 +1212,16 @@
       
 
     </div>
+
+    <dialog id="projectDialog" class="project-dialog" aria-labelledby="projectDialogTitle">
+      <div class="project-dialog-shell">
+        <header class="project-dialog-header">
+          <span class="project-dialog-brand">ZACK ZHANG · SELECTED WORK</span>
+          <button id="projectDialogClose" class="project-dialog-close" type="button" aria-label="关闭项目详情">×</button>
+        </header>
+        <main id="projectDialogContent" class="project-dialog-content"></main>
+      </div>
+    </dialog>
   
 <script src="assets/js/gsap.min.js"></script>
 <script src="assets/js/ScrollTrigger.min.js"></script>
@@ -1828,5 +1852,6 @@
   } else { setTimeout(boot, 140); }
 })();
 </script>
+<script src="assets/js/project-dialog.js"></script>
 </body>
 </html>
