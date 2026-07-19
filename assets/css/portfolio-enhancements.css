@@ -74,15 +74,6 @@
   font-size: clamp(20px, 2vw, 30px);
 }
 
-#revealHole {
-  display: block;
-  visibility: visible;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform, opacity;
-  contain: layout style;
-}
-
 .hero-meta {
   display: flex;
   flex-direction: column;
@@ -140,79 +131,198 @@
   font-size: clamp(40px, 5.7vw, 92px) !important;
 }
 
+#reveal {
+  position: relative;
+  background: #ece7e2;
+}
+
+.capability-arc {
+  position: relative;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+  background: #ece7e2;
+  color: #17140f;
+}
+
+.capability-arc-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent calc(25% - 0.5px), rgba(23, 20, 15, 0.075) 25%, transparent calc(25% + 0.5px)),
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(23, 20, 15, 0.075) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(90deg, transparent calc(75% - 0.5px), rgba(23, 20, 15, 0.075) 75%, transparent calc(75% + 0.5px)),
+    linear-gradient(180deg, transparent calc(50% - 0.5px), rgba(23, 20, 15, 0.065) 50%, transparent calc(50% + 0.5px));
+  pointer-events: none;
+}
+
+.capability-arc-header,
+.capability-arc-footer {
+  position: absolute;
+  right: 6vw;
+  left: 6vw;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+
+.capability-arc-header {
+  top: 6vh;
+}
+
+.capability-arc-header span:last-child {
+  opacity: 0.46;
+}
+
+.capability-arc-copy {
+  position: absolute;
+  top: 13vh;
+  right: 6vw;
+  left: 6vw;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 28ch);
+  align-items: end;
+  gap: 5vw;
+}
+
 #revealCap {
-  max-width: none !important;
-  font-size: clamp(46px, 7vw, 112px) !important;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: 'Bodoni Moda', 'Noto Serif SC', serif;
+  font-size: clamp(62px, 9.2vw, 148px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.82;
+}
+
+#revealCap span {
+  display: block;
   white-space: nowrap;
+  will-change: transform, opacity;
 }
 
 #revealCap em {
+  display: inline-block;
+  padding-bottom: 0.08em;
   font-weight: 400;
-  line-height: 1.12;
+  line-height: 1.08;
 }
 
-.reveal-evidence-board {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  box-sizing: border-box;
-  padding: 7vh 5vw;
-  background: #d9dedf;
+#revealSubcopy {
+  max-width: 28ch;
+  margin: 0 0 0.7em;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  opacity: 0.58;
 }
 
-.reveal-evidence {
-  position: relative;
-  min-width: 0;
-  min-height: 0;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(23, 20, 15, 0.16);
-  background: #f4f4f1;
-  box-shadow: 0 22px 60px rgba(28, 37, 42, 0.14);
-}
-
-.reveal-evidence-primary {
-  grid-row: 1 / 3;
-}
-
-.reveal-evidence img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.reveal-evidence figcaption {
+.capability-path {
   position: absolute;
+  top: 57%;
+  right: 6vw;
+  left: 6vw;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2vw;
+  padding-top: 34px;
+}
+
+.capability-track,
+.capability-progress {
+  position: absolute;
+  top: 8px;
   right: 0;
-  bottom: 0;
   left: 0;
+  height: 1px;
+  transform-origin: 0 50%;
+}
+
+.capability-track {
+  background: rgba(23, 20, 15, 0.18);
+}
+
+.capability-progress {
+  background: #17140f;
+  will-change: transform;
+}
+
+.capability-pulse {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border: 1px solid #17140f;
+  border-radius: 50%;
+  background: #ece7e2;
+  box-shadow: 0 0 0 5px rgba(236, 231, 226, 0.88);
+  will-change: transform;
+}
+
+.capability-node {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 3px 12px;
-  padding: 15px 18px;
-  background: linear-gradient(0deg, rgba(11, 10, 8, 0.9), rgba(11, 10, 8, 0.08));
-  color: var(--portfolio-light);
+  gap: 6px 14px;
+  padding-top: 3.5vh;
+  will-change: transform, opacity;
 }
 
-.reveal-evidence figcaption span {
+.capability-node::before {
+  position: absolute;
+  top: -31px;
+  left: 0;
+  width: 1px;
+  height: 22px;
+  background: rgba(23, 20, 15, 0.38);
+  content: '';
+}
+
+.capability-node > span {
   grid-row: 1 / 3;
-  align-self: center;
   font-family: 'Bodoni Moda', 'Noto Serif SC', serif;
-  font-size: 22px;
+  font-size: clamp(32px, 4.1vw, 68px);
   font-style: italic;
-  opacity: 0.65;
+  line-height: 0.9;
+  opacity: 0.22;
 }
 
-.reveal-evidence figcaption strong,
-.reveal-evidence figcaption small {
-  font-size: 9px;
+.capability-node strong {
+  align-self: end;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+}
+
+.capability-node small {
+  max-width: 22ch;
+  font-size: 8px;
   letter-spacing: 0.2em;
+  line-height: 1.65;
+  opacity: 0.45;
 }
 
-.reveal-evidence figcaption small {
-  opacity: 0.58;
+.capability-arc-footer {
+  bottom: 5vh;
+}
+
+#revealScrollHint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#revealScrollHint i {
+  display: inline-block;
+  font-style: normal;
+  animation: dl-bob 2.4s ease-in-out infinite;
 }
 
 .manifesto-section {
@@ -717,16 +827,84 @@
     font-size: clamp(40px, 11vw, 64px) !important;
   }
 
+  .capability-arc {
+    height: 100dvh;
+    min-height: 680px;
+  }
+
+  .capability-arc-header,
+  .capability-arc-footer {
+    right: 6vw;
+    left: 6vw;
+    font-size: 8px;
+    line-height: 1.6;
+  }
+
+  .capability-arc-header {
+    align-items: flex-start;
+  }
+
+  .capability-arc-header span:last-child {
+    max-width: 18ch;
+    text-align: right;
+  }
+
+  .capability-arc-copy {
+    top: 15vh;
+    right: 6vw;
+    left: 6vw;
+    display: block;
+  }
+
   #revealCap {
-    font-size: clamp(34px, 9.5vw, 46px) !important;
+    font-size: clamp(46px, 12vw, 60px);
+    line-height: 0.88;
   }
 
-  .reveal-evidence-board {
-    gap: 7px;
-    padding: 10vh 4vw 8vh;
+  #revealSubcopy {
+    max-width: 34ch;
+    margin-top: 3.5vh;
+    font-size: 9px;
   }
 
-  .reveal-evidence figcaption {
+  .capability-path {
+    top: 52%;
+    right: 6vw;
+    left: 6vw;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5vh 7vw;
+    padding-top: 0;
+  }
+
+  .capability-track,
+  .capability-progress,
+  .capability-pulse {
+    display: none;
+  }
+
+  .capability-node {
+    min-height: 84px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(23, 20, 15, 0.22);
+  }
+
+  .capability-node::before {
+    display: none;
+  }
+
+  .capability-node > span {
+    font-size: 34px;
+  }
+
+  .capability-node strong {
+    font-size: 9px;
+  }
+
+  .capability-node small {
+    font-size: 7px;
+  }
+
+  .capability-arc-footer span:first-child {
     display: none;
   }
 

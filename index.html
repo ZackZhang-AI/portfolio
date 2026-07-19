@@ -796,41 +796,45 @@
         </svg>
       </section>
 
-      <!-- ============ 05 · IMAGE REVEAL — torn-hole scales open ============ -->
-      <section id="reveal" data-screen-label="Image Reveal" style="position: relative;">
-        <div id="revealStick" style="height: 100vh; overflow: hidden; background: #ECE7E2; position: relative;">
-          <!-- cream wall (the surface) -->
-          <div style="position: absolute; inset: 0; z-index: 1; background: radial-gradient(120% 90% at 50% 40%, #F2EEE9 0%, #ECE7E2 48%, #E4DED8 100%);" id="revealGlow"></div>
-          <!-- black void, clipped to the torn-opening shape (mask size/pos animated in JS) -->
-          <div id="revealVoid" style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(50% 60% at 50% 48%, #16130E 0%, #0B0A08 74%); -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
+      <!-- ============ 05 · CAPABILITY ARC — from ambiguity to evidence ============ -->
+      <section id="reveal" data-screen-label="Capability Arc">
+        <div id="revealStick" class="capability-arc">
+          <div class="capability-arc-grid" aria-hidden="true"></div>
+          <div class="capability-arc-header">
+            <span>CAPABILITY ARC</span>
+            <span>FROM AMBIGUITY TO EVIDENCE — 2026</span>
           </div>
-          <!-- real-product evidence board, clipped to the same torn-opening shape -->
-          <div id="revealImgBg" class="reveal-evidence-board" style="position: absolute; inset: 0; z-index: 3; opacity: 0; -webkit-mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); mask-image: url(&quot;assets/img/4f0d9966-7f0a-4a15-a966-57488b2e6b0d.png&quot;); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;">
-            <figure class="reveal-evidence reveal-evidence-primary">
-              <img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测界面">
-              <figcaption><span>01</span><strong>RAG EVALUATION</strong><small>RETRIEVAL · RAGAS · BADCASE</small></figcaption>
-            </figure>
-            <figure class="reveal-evidence">
-              <img src="assets/img/projects/ask-me/home.png" alt="Ask Me AI Career Agent 首页">
-              <figcaption><span>02</span><strong>ASK ME AGENT</strong><small>CAREER AI · EVIDENCE</small></figcaption>
-            </figure>
-            <figure class="reveal-evidence">
-              <img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台首页">
-              <figcaption><span>03</span><strong>DEEPFLOW</strong><small>MULTI-AGENT · WORKFLOW</small></figcaption>
-            </figure>
-          </div>
-          <!-- torn-paper flaps (transparent PNG), scaled about the tear's opening, on top -->
-          <img id="revealHole" src="assets/img/75cbffe6-a635-4647-839e-616030f6271b.png" alt="" decoding="sync" fetchpriority="high" style="position: absolute; left: 50%; top: 48%; width: 132vmin; z-index: 4; transform-origin: 53.1% 51.4%; transform: translate3d(-53.1%, -51.4%, 0) scale(0.34);">
 
-          <!-- caption chrome -->
-          <div id="revealCap" style="position: absolute; left: 6vw; top: 12vh; z-index: 6; max-width: 16ch; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(30px, 4.2vw, 68px); line-height: 1.04; color: #1A1611; text-shadow: 0 1px 40px rgba(246,242,235,0.9), 0 0 1px rgba(246,242,235,0.9);">
-            能力不是清单，<br><em>而是落地的证据。</em></div>
-          <span style="position: absolute; right: 6vw; top: 13vh; z-index: 6; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; color: #1A1611;">CAPABILITIES → PRODUCT — 2026</span>
-          <div style="position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 6; display: flex; justify-content: space-between; padding: 0 6vw; font-size: 11px; font-weight: 600; letter-spacing: 0.26em; color: #1A1611; mix-blend-mode: normal;">
-            <span>RAG · AGENT · EVAL</span>
-            <span id="revealScrollHint" style="display: flex; align-items: center; gap: 12px;"><span style="display:inline-block; animation: dl-bob 2.4s ease-in-out infinite;">↓</span>
-            SEE THE PROOF</span>
-            <span>REAL PROJECT / REAL SCREEN</span>
+          <div class="capability-arc-copy">
+            <h2 id="revealCap">
+              <span>FROM SIGNAL</span>
+              <span><em>TO SYSTEM.</em></span>
+            </h2>
+            <p id="revealSubcopy">I turn ambiguity into a sequence of decisions — observed, framed, built and verified.</p>
+          </div>
+
+          <div id="capabilityPath" class="capability-path" role="list" aria-label="Product capability process">
+            <span class="capability-track" aria-hidden="true"></span>
+            <span id="capabilityProgress" class="capability-progress" aria-hidden="true"></span>
+            <span id="capabilityPulse" class="capability-pulse" aria-hidden="true"></span>
+            <article class="capability-node" role="listitem">
+              <span>01</span><strong>OBSERVE</strong><small>FIND THE REAL SIGNAL</small>
+            </article>
+            <article class="capability-node" role="listitem">
+              <span>02</span><strong>FRAME</strong><small>TURN TENSION INTO A DECISION</small>
+            </article>
+            <article class="capability-node" role="listitem">
+              <span>03</span><strong>BUILD</strong><small>MAKE THE IDEA TESTABLE</small>
+            </article>
+            <article class="capability-node" role="listitem">
+              <span>04</span><strong>PROVE</strong><small>LET EVIDENCE CLOSE THE LOOP</small>
+            </article>
+          </div>
+
+          <div class="capability-arc-footer">
+            <span>OBSERVE · FRAME · BUILD · PROVE</span>
+            <span id="revealScrollHint"><i aria-hidden="true">↓</i> SCROLL TO CONNECT</span>
+            <span>METHOD / 2026</span>
           </div>
         </div>
       </section>
@@ -876,8 +880,8 @@
             <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">TESTS PASSING</span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 14px;">
-            <span class="counter" data-count="4" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
-            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">ROLES &amp; INTERNSHIPS</span>
+            <span class="counter" data-count="2" data-suffix="B" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
+            <span style="font-size: 10px; letter-spacing: 0.28em; opacity: 0.55;">TOKENS USED IN PRACTICE</span>
           </div>
           <div style="display: flex; flex-direction: column; gap: 14px;">
             <span class="counter" data-count="10" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(52px, 8vw, 128px); line-height: 0.9;">0</span>
@@ -954,8 +958,8 @@
                 <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 07 — KNOWLEDGE BASE</figcaption>
               </figure>
               <figure class="studioFig" style="margin: 0; overflow: visible;">
-                <img id="studioI" src="assets/img/projects/web-coding/read-later-regret-popup.png" alt="Read Later Regret 浏览器弹窗" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
-                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 09 — REGRET POPUP</figcaption>
+                <img id="studioI" src="assets/img/projects/web-coding/harnesslab.png" alt="HarnessLab Code Agent 审计结果页面" width="1440" height="900" loading="lazy" style="display: block; width: 100%; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.85); border-radius:12px;">
+                <figcaption style="margin-top: 12px; font-size: 10px; letter-spacing: 0.26em; opacity: 0.5;">FIG. 09 — HARNESSLAB</figcaption>
               </figure>
             </div>
             <div class="pCol" data-speed="-0.09" style="display: flex; flex-direction: column; gap: 1.6vw; padding-top: 12vh;">
@@ -1172,7 +1176,7 @@
         <!-- 3D word-flip testimonial -->
         <div style="padding: 0 8vw;">
           <blockquote id="flipQuote" style="margin: 0; font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 400; font-size: clamp(28px, 4.4vw, 74px); line-height: 1.24; max-width: 22ch; perspective: 800px;">
-            我 不做 功能的 搬运工， 只做 问题的 终结者。
+            把复杂 留给系统， 把清晰 交给用户。
           </blockquote>
           <div style="display: flex; align-items: center; gap: 20px; margin-top: 6vh;">
             <span style="width: 44px; height: 1px; background: rgba(237,231,220,0.4);"></span>
@@ -1515,55 +1519,46 @@
       });
     }
 
-    // ---------- 05 Image reveal — torn hole scales open ----------
+    // ---------- 05 Capability arc — connect signal to system ----------
     var revealStick = $('revealStick');
-    var revealHole = $('revealHole');
-    var revealVoid = $('revealVoid');
-    var revealBg = $('revealImgBg');
-    var revealGlow = $('revealGlow');
     var revealCap = $('revealCap');
+    var revealSubcopy = $('revealSubcopy');
     var revealHint = $('revealScrollHint');
-    if (revealStick && revealHole) {
-      ST.create({
-        trigger: '#reveal',
-        start: 'top top',
-        end: function () { return '+=' + (window.innerHeight * 2.6); },
-        scrub: 0.5,
-        pin: revealStick,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: function (self) {
-          var p = self.progress;
-          // stay blank at first, then start tearing
-          var pp = gsap.utils.clamp(0, 1, (p - 0.08) / 0.92);
-          // torn paper flaps grow about the opening
-          var s = 0.34 + Math.pow(pp, 0.9) * 6.4;
-          revealHole.style.transform = 'translate(-53.1%, -51.4%) scale(' + s + ')';
-          // sync the mask (void + image) to the tear's on-screen opening box
-          var vmin = Math.min(window.innerWidth, window.innerHeight);
-          var elemW = (132 / 100) * vmin * s;
-          var elemH = elemW * (1024 / 1536);
-          var left = window.innerWidth * 0.5 - 0.531 * elemW;
-          var top = window.innerHeight * 0.48 - 0.514 * elemH;
-          var mSize = elemW + 'px ' + elemH + 'px';
-          var mPos = left + 'px ' + top + 'px';
-          [revealVoid, revealBg].forEach(function (el) {
-            if (!el) return;
-            el.style.webkitMaskSize = mSize; el.style.maskSize = mSize;
-            el.style.webkitMaskPosition = mPos; el.style.maskPosition = mPos;
-          });
-          // torn flaps fade out once the image has taken over
-          revealHole.style.opacity = pp < 0.86 ? 1 : gsap.utils.clamp(0, 1, 1 - (pp - 0.86) / 0.14);
-          // image fades in at true viewport zoom (no transform — keeps mask aligned)
-          if (revealBg) {
-            var zp = gsap.utils.clamp(0, 1, (p - 0.34) / 0.5);
-            revealBg.style.opacity = gsap.utils.clamp(0, 1, zp * 1.7).toFixed(3);
-          }
-          // caption drifts up + fades near the end
-          if (revealCap) { revealCap.style.transform = 'translateY(' + (-p * 40) + 'px)'; revealCap.style.opacity = gsap.utils.clamp(0, 1, 1 - (p - 0.6) / 0.28); }
-          if (revealHint) revealHint.style.opacity = gsap.utils.clamp(0, 1, 1 - p * 3);
+    var capabilityPath = $('capabilityPath');
+    var capabilityProgress = $('capabilityProgress');
+    var capabilityPulse = $('capabilityPulse');
+    var capabilityNodes = gsap.utils.toArray('#reveal .capability-node');
+    if (revealStick && revealCap && capabilityPath) {
+      var revealRows = gsap.utils.toArray('#revealCap > span');
+      var capabilityArc = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          id: 'capabilityArc',
+          trigger: '#reveal',
+          start: 'top top',
+          end: function () { return '+=' + (window.innerHeight * 2.2); },
+          scrub: 0.7,
+          pin: revealStick,
+          anticipatePin: 0,
+          invalidateOnRefresh: true
         }
       });
+      capabilityArc
+        .fromTo(revealRows,
+          { x: function (i) { return i ? 90 : -90; }, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.24, stagger: 0.06 }, 0)
+        .fromTo(revealSubcopy, { y: 18, opacity: 0 }, { y: 0, opacity: 0.58, duration: 0.18 }, 0.08)
+        .fromTo(capabilityProgress, { scaleX: 0 }, { scaleX: 1, duration: 0.86, ease: 'none' }, 0.14)
+        .fromTo(capabilityPulse, { x: 0 }, {
+          x: function () { return Math.max(0, capabilityPath.clientWidth - capabilityPulse.offsetWidth); },
+          duration: 0.86,
+          ease: 'none'
+        }, 0.14)
+        .fromTo(capabilityNodes,
+          { y: function (i) { return i % 2 ? 28 : -28; }, opacity: 0.12 },
+          { y: 0, opacity: 1, duration: 0.24, stagger: 0.17 }, 0.18)
+        .to(revealHint, { opacity: 0, duration: 0.16 }, 0.08)
+        .to(revealCap, { y: -18, opacity: 0.34, duration: 0.22 }, 0.82);
     }
 
     // ---------- 06 Manifesto — words fall & pile at the bottom on scroll ----------
@@ -1636,11 +1631,14 @@
     // ---------- 07 Recognition — scroll-scrub counters ----------
     gsap.utils.toArray('.counter').forEach(function (el) {
       var target = parseFloat(el.getAttribute('data-count')) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
       var obj = { v: 0 };
       gsap.to(obj, {
         v: target, ease: 'none',
         scrollTrigger: { trigger: el, start: 'top 90%', end: 'top 45%', scrub: 0.5 },
-        onUpdate: function () { el.textContent = Math.round(obj.v); }
+        onUpdate: function () { el.textContent = Math.round(obj.v) + suffix; },
+        onComplete: function () { el.textContent = target + suffix; },
+        onReverseComplete: function () { el.textContent = '0' + suffix; }
       });
     });
 
