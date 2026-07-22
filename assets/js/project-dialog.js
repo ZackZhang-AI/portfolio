@@ -31,7 +31,7 @@
       title: 'DeepFlow',
       category: 'MULTI-AGENT · 2026',
       description: 'AI 深度研究平台，由 Planner、Researcher 和 Reporter 多 Agent 协作完成资料收集、分析与报告撰写。',
-      heroImage: 'assets/img/projects/deepflow/home.png',
+      heroImage: 'assets/img/projects/deepflow/research-home-2026.png',
       heroAlt: 'DeepFlow AI 深度研究平台首页',
       gallery: [],
       links: [
