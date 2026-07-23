@@ -17,6 +17,14 @@
         {
           src: 'assets/img/projects/rag/chat.png',
           alt: 'RAG Knowledge Base 智能问答页面'
+        },
+        {
+          src: 'assets/img/projects/rag/dashboard.png',
+          alt: 'RAG Knowledge Base 数据看板页面'
+        },
+        {
+          src: 'assets/img/projects/rag/monitor.png',
+          alt: 'RAG Knowledge Base 运行监控页面'
         }
       ],
       links: [
@@ -33,7 +41,12 @@
       description: 'AI 深度研究平台，由 Planner、Researcher 和 Reporter 多 Agent 协作完成资料收集、分析与报告撰写。',
       heroImage: 'assets/img/projects/deepflow/research-home-2026.png',
       heroAlt: 'DeepFlow AI 深度研究平台首页',
-      gallery: [],
+      gallery: [
+        {
+          src: 'assets/img/projects/deepflow/home.png',
+          alt: 'DeepFlow 深度研究工作台首页'
+        }
+      ],
       links: [
         {
           label: 'VIEW GITHUB ↗',
@@ -48,7 +61,12 @@
       description: '面向 AI 产品招聘场景的候选人数字分身，通过可追问对话与事实来源展示教育、项目、实习经历和能力优势。',
       heroImage: 'assets/img/projects/ask-me/home.png',
       heroAlt: 'Ask Me AI Career Agent 首页',
-      gallery: [],
+      gallery: [
+        {
+          src: 'assets/img/projects/ask-me/chat.png',
+          alt: 'Ask Me 问答界面：流式回答、引用来源与追问推荐'
+        }
+      ],
       links: [
         {
           label: 'ASK ME ABOUT ME ↗',
