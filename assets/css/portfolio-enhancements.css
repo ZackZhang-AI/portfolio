@@ -1133,7 +1133,9 @@
 
   .hero-quick-links {
     max-width: 150px;
-    gap: 7px 10px;
+    flex-wrap: wrap;
+    row-gap: 7px;
+    column-gap: 10px;
     font-size: 7px;
     letter-spacing: 0.12em;
   }

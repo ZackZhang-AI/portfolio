@@ -1,2 +1,4 @@
 _wb/
 backups/
+.playwright-cli/
+output/
