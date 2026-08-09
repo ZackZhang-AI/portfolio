@@ -218,15 +218,48 @@
       links + hero + gallery + items;
   }
 
-  function openProject(projectId, trigger) {
-    var project = projects[projectId];
-    if (!project || !dialog) return;
-    lastTrigger = trigger;
+  function spawnRipple(trigger, event) {
+    // 键盘触发（Enter/Space）的 click 没有坐标，跳过涟漪直接打开
+    if (!event || (!event.clientX && !event.clientY)) return null;
+    var item = trigger.closest('.menuItem');
+    if (!item) return null;
+    var rect = item.getBoundingClientRect();
+    var size = Math.max(rect.width, rect.height) * 2.2;
+    var ripple = document.createElement('span');
+    ripple.setAttribute('aria-hidden', 'true');
+    ripple.style.cssText = 'position:absolute; border-radius:50%; pointer-events:none; z-index:3;' +
+      'width:' + size + 'px; height:' + size + 'px;' +
+      'left:' + (event.clientX - rect.left - size / 2) + 'px;' +
+      'top:' + (event.clientY - rect.top - size / 2) + 'px;' +
+      'background:#F4EFE6; transform:scale(0);';
+    item.appendChild(ripple);
+    return ripple;
+  }
+
+  function showProject(project, trigger) {
     renderProject(project);
     dialog.scrollTop = 0;
     previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
     dialog.showModal();
+  }
+
+  function openProject(projectId, trigger, event) {
+    var project = projects[projectId];
+    if (!project || !dialog) return;
+    lastTrigger = trigger;
+    var ripple = spawnRipple(trigger, event);
+    if (ripple && window.gsap) {
+      // 呼应 hero 的 portal wipe：涟漪从点击处漾开，稍后再弹窗
+      gsap.to(ripple, { scale: 1, duration: 0.55, ease: 'power3.out' });
+      gsap.to(ripple, {
+        opacity: 0, duration: 0.4, delay: 0.5,
+        onComplete: function () { ripple.remove(); }
+      });
+      window.setTimeout(function () { showProject(project, trigger); }, 240);
+    } else {
+      showProject(project, trigger);
+    }
   }
 
   function restorePage() {
@@ -241,8 +274,8 @@
     if (!dialog || !content || !closeButton) return;
 
     document.querySelectorAll('.projectTrigger').forEach(function (trigger) {
-      trigger.addEventListener('click', function () {
-        openProject(trigger.getAttribute('data-project-id'), trigger);
+      trigger.addEventListener('click', function (event) {
+        openProject(trigger.getAttribute('data-project-id'), trigger, event);
       });
     });
 
