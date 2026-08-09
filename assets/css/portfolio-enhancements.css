@@ -1315,6 +1315,17 @@
   }
 }
 
+/* ---------- Selected Work / Knowledge — press feedback on menu click ---------- */
+.menuLink > span:first-child {
+  display: inline-block;
+  transform-origin: left center;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menuLink:active > span:first-child {
+  transform: scale(0.965);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-ask-arrow,
   .footer-magnetic-character,
