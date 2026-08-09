@@ -128,7 +128,7 @@
           description: '把代码变更转化为可观察审计轨迹、结构化发现与可导出报告的工作台。',
           image: 'assets/img/projects/web-coding/harnesslab.png',
           alt: 'HarnessLab Code Agent 审计结果页面',
-          url: 'https://github.com/ZackZhang-AI/HarnessLab'
+          url: 'https://github.com/ZackZhang-AI/AgentScope'
         },
         {
           title: 'IT Audit Log Assistant',
@@ -143,6 +143,30 @@
           image: 'assets/img/projects/web-coding/resume-autofill-ai.png',
           alt: 'Resume Autofill AI 浏览器扩展字段匹配页面',
           url: 'https://github.com/ZackZhang-AI/resume-autofill-ai'
+        }
+      ]
+    },
+    agentScope: {
+      id: 'agentScope',
+      title: 'AgentScope',
+      category: 'AGENT OBSERVABILITY · 2026',
+      description: 'AI Agent 黑匣子回放器：追踪计划、模型决策、工具调用、延迟、Token 与错误，定位无进展循环，从不可变 Checkpoint 创建 Child Run，并用 Span 证据验证修复。',
+      heroImage: 'assets/img/projects/agentscope/home.png',
+      heroAlt: 'AgentScope 首页：Failure → Root cause → Fork → Verified fix',
+      gallery: [
+        {
+          src: 'assets/img/projects/agentscope/case-study.png',
+          alt: 'AgentScope Case Study：Trace、Diagnostics、Compare 与 Eval'
+        }
+      ],
+      links: [
+        {
+          label: 'LIVE DEMO ↗',
+          url: 'https://agentscope-harnesslab.vercel.app'
+        },
+        {
+          label: 'VIEW GITHUB ↗',
+          url: 'https://github.com/ZackZhang-AI/AgentScope'
         }
       ]
     }
