@@ -128,7 +128,7 @@
           description: '把代码变更转化为可观察审计轨迹、结构化发现与可导出报告的工作台。',
           image: 'assets/img/projects/web-coding/harnesslab.png',
           alt: 'HarnessLab Code Agent 审计结果页面',
-          url: 'https://github.com/ZackZhang-AI/HarnessLab'
+          url: 'https://github.com/ZackZhang-AI/AgentScope'
         },
         {
           title: 'IT Audit Log Assistant',
