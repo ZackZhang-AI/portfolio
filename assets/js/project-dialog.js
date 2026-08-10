@@ -6,7 +6,7 @@
       id: 'rag',
       title: 'RAG Knowledge Base',
       category: 'RAG · EVAL · 2025',
-      description: '面向文档导入、知识检索与问答的 RAG 知识库系统，覆盖解析、混合检索、智能问答与自动化评测。',
+      description: '百川智能实习期间医疗 RAG 知识助手的脱敏复刻 Demo：覆盖文档解析、知识库管理、混合检索、智能问答、引用溯源与 LLM-as-Judge 自动化评测。',
       heroImage: 'assets/img/projects/rag/evaluation.png',
       heroAlt: 'RAG Knowledge Base 自动化评测页面',
       gallery: [
