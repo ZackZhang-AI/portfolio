@@ -448,7 +448,7 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: min(19vw, 232px);
+  width: min(16.6vw, 208px);
   background: #EFE9E1;
   border: 1px solid rgba(23, 20, 15, 0.16);
   box-shadow: 0 22px 44px -20px rgba(23, 20, 15, 0.3);
