@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/portfolio-enhancements.css?v=10">
+<link rel="stylesheet" href="assets/css/portfolio-enhancements.css?v=11">
 <style>
         /* math */
         @font-face {
@@ -834,7 +834,7 @@
                     </div>
                   </div>
                   <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
-                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">01 — RAG · EVAL</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">RAG Knowledge Base</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">Dense Retrieval + Cross-Encoder 两阶段检索，RAGAS 四维评测体系，让非结构化文档开口回答问题。</span>
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">01 — RAG · EVAL</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">RAG Knowledge Base</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">BM25 + 向量混合检索配 Rerank，RAGAS 思路多维自动评测，让非结构化文档开口回答问题。</span>
                     <a href="eval-handbook.html" target="_blank" rel="noopener noreferrer" style="color:#17140F; text-decoration:none; font-size:10px; letter-spacing:0.24em; border-bottom:1px solid #17140F; padding-bottom:5px; width:fit-content;">知识沉淀 · EVAL PLAYBOOK →</a>
                   </div>
                 </div>
@@ -847,7 +847,7 @@
                     </div>
                   </div>
                   <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
-                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">02 — MULTI-AGENT</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">DeepFlow</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">Planner / Researcher / Reporter 多 Agent 分工，从主题输入到报告导出的端到端深度研究闭环。</span>
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">02 — MULTI-AGENT</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">DeepFlow</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">5 分钟、50+ 真实引用：Coordinator 到 Reporter 多 Agent 分工，单次成本约 ¥0.8 的端到端深度研究闭环。</span>
                   </div>
                 </div>
                 <div class="leaf" data-i="2" style="position: absolute; inset: 0; transform-origin: left center; transform-style: preserve-3d; will-change: transform;">
@@ -883,7 +883,7 @@
                     </div>
                   </div>
                   <div class="leaf-face leaf-back" style="position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(90deg, #ECE6DD 0%, #F4EFE6 12%); border-radius: 4px 0 0 4px; display:flex; flex-direction:column; justify-content:center; gap:18px; padding:0 3.4vw; box-sizing:border-box;">
-                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">05 — AGENT OBSERVABILITY</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">AgentScope</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">AI Agent 黑匣子回放器：追踪决策、工具调用与 Token，从不可变 Checkpoint 分叉，用证据 Span 验证修复。</span>
+                    <span style="font-size:10px; letter-spacing:0.3em; opacity:0.5;">05 — AGENT OBSERVABILITY</span><span style="font-family:'Bodoni Moda', 'Noto Serif SC', serif; font-size:clamp(26px,3.4vw,54px); line-height:1;">AgentScope</span><span style="font-size:12px; line-height:1.9; opacity:0.6; max-width:32ch;">AI Agent 黑匣子回放器：追踪决策、工具调用与 Token，从不可变 Checkpoint 分叉验证修复。90 秒演示免 Key 可复现。</span>
                     <a href="https://agentscope-harnesslab.vercel.app" target="_blank" rel="noopener noreferrer" style="color:#17140F; text-decoration:none; font-size:10px; letter-spacing:0.24em; border-bottom:1px solid #17140F; padding-bottom:5px; width:fit-content;">LIVE DEMO →</a>
                   </div>
                 </div>
@@ -1400,6 +1400,7 @@
             <a href="benchmark-panorama.html" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">BENCHMARK ATLAS ↗</a>
             <a href="eval-handbook.html" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">EVAL PLAYBOOK ↗</a>
             <a href="https://github.com/ZackZhang-AI/DeepFlow" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">DEEPFLOW ↗</a>
+            <a href="https://github.com/ZackZhang-AI/AgentScope" target="_blank" rel="noopener noreferrer" style="color: #17140F; text-decoration: none; opacity: 0.75;" data-sh="op">AGENTSCOPE ↗</a>
           </div>
           <div class="footer-contact" style="display: flex; flex-direction: column; gap: 14px; font-size: 11px; letter-spacing: 0.2em;">
             <span style="opacity: 0.45; margin-bottom: 6px;">CONTACT</span>
@@ -2107,7 +2108,7 @@
   } else { setTimeout(boot, 140); }
 })();
 </script>
-<script src="assets/js/project-dialog.js?v=10"></script>
+<script src="assets/js/project-dialog.js?v=11"></script>
 <script src="assets/js/footer-interactions.js"></script>
 <script src="assets/js/browser-compat.js"></script>
 <script src="assets/js/manifesto-interactions.js"></script>
