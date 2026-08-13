@@ -6,7 +6,8 @@
       id: 'rag',
       title: 'RAG Knowledge Base',
       category: 'RAG · EVAL · 2025',
-      description: '百川智能实习期间医疗 RAG 知识助手的脱敏复刻 Demo：覆盖文档解析、知识库管理、混合检索、智能问答、引用溯源与 LLM-as-Judge 自动化评测。',
+      description: '百川智能实习期间医疗 RAG 知识助手的脱敏复刻 Demo：覆盖多格式文档解析（OCR + 结构分析）、BM25 与向量混合检索配 Rerank、段落级引用溯源，以及 RAGAS 思路的忠实度 / 相关性 / 召回率多维自动化评测。',
+      stack: 'FASTAPI · VUE 3 · MILVUS · MINIO · CELERY · RABBITMQ · RAGAS',
       heroImage: 'assets/img/projects/rag/evaluation.png',
       heroAlt: 'RAG Knowledge Base 自动化评测页面',
       gallery: [
@@ -38,7 +39,8 @@
       id: 'deepflow',
       title: 'DeepFlow',
       category: 'MULTI-AGENT · 2026',
-      description: 'AI 深度研究平台，由 Planner、Researcher 和 Reporter 多 Agent 协作完成资料收集、分析与报告撰写。',
+      description: 'AI 深度研究平台：输入一个主题，Coordinator / Planner / Researcher / Coder / Reporter 多 Agent 协作，5 分钟产出带 50+ 真实引用的结构化报告，单次研究成本约 ¥0.8；支持 6 种报告风格与播客、PPT 衍生产物。',
+      stack: 'DEEPSEEK · FASTAPI · NEXT.JS 16 · TAVILY · 自研 asyncio 状态机',
       heroImage: 'assets/img/projects/deepflow/research-home-2026.png',
       heroAlt: 'DeepFlow AI 深度研究平台首页',
       gallery: [
@@ -58,7 +60,8 @@
       id: 'askMe',
       title: 'Ask Me',
       category: 'CAREER AI · 2026',
-      description: '面向 AI 产品招聘场景的候选人数字分身，通过可追问对话与事实来源展示教育、项目、实习经历和能力优势。',
+      description: '面向 AI 产品招聘场景的候选人数字分身：回答只使用已审核公开知识并保留 Claim-Source 事实对应，可以追问、会拒答；请求预算、跨实例限流与紧急开关控制线上风险。',
+      stack: 'NEXT.JS · DEEPSEEK · UPSTASH · NEON · VERCEL BLOB',
       heroImage: 'assets/img/projects/ask-me/home.png',
       heroAlt: 'Ask Me AI Career Agent 首页',
       gallery: [
@@ -83,6 +86,7 @@
       title: 'Vibe Coding',
       category: 'CREATIVE TOOLS · 2026',
       description: '一组围绕求职、审计、代码质量与个人工作流构建的可运行产品原型，用完整交互验证具体想法。',
+      stack: 'TAURI · PLASMO · REACT · PYTHON · CHROME EXTENSION',
       heroImage: '',
       heroAlt: '',
       gallery: [],
@@ -91,6 +95,7 @@
         {
           title: 'Thirty-Minute Brain',
           description: '本地保存最近工作线索，帮助快速恢复刚刚中断的工作现场。',
+          stack: 'TAURI · REACT · TYPESCRIPT',
           image: 'assets/img/projects/web-coding/thirty-minute-brain.png',
           alt: 'Thirty-Minute Brain 本地工作记忆页面',
           url: 'https://github.com/ZackZhang-AI/thirty-minute-brain'
@@ -98,6 +103,7 @@
         {
           title: 'Read Later Regret',
           description: '减少稍后阅读积压与信息债的浏览器插件体验。',
+          stack: 'PLASMO · REACT · TYPESCRIPT',
           image: 'assets/img/projects/web-coding/read-later-regret.png',
           alt: 'Read Later Regret 信息债仪表盘',
           url: 'https://github.com/ZackZhang-AI/read-later-regret'
@@ -105,6 +111,7 @@
         {
           title: 'Downloads Butler',
           description: '先扫描、再建议、确认后移动的本地下载目录整理工具。',
+          stack: 'TAURI · REACT · TYPESCRIPT',
           image: 'assets/img/projects/web-coding/downloads-butler.png',
           alt: 'Downloads Butler 文件整理建议页面',
           url: 'https://github.com/ZackZhang-AI/downloads-butler'
@@ -112,6 +119,7 @@
         {
           title: 'AI Resume Agent',
           description: '围绕 JD 分析、简历优化、真实性校验与模拟面试构建的多 Agent 求职工具。',
+          stack: 'PYTHON · MULTI-AGENT',
           image: 'assets/img/projects/web-coding/ai-resume-agent.png',
           alt: 'AI Resume Agent 简历优化工作台',
           url: 'https://github.com/ZackZhang-AI/ai-resume-agent'
@@ -119,6 +127,7 @@
         {
           title: 'Audit Intern Assistant',
           description: '为审计资料生成标准化命名、归档路径与人工复核提示的本地工作台。',
+          stack: 'PYTHON · DOCUMENT PROCESSING',
           image: 'assets/img/projects/web-coding/audit-intern-assistant.png',
           alt: '审计资料智能归档与底稿辅助生成系统',
           url: 'https://github.com/ZackZhang-AI/audit-intern-assistant'
@@ -126,6 +135,7 @@
         {
           title: 'HarnessLab',
           description: '把代码变更转化为可观察审计轨迹、结构化发现与可导出报告的工作台。',
+          stack: 'NEXT.JS · CODE AUDIT',
           image: 'assets/img/projects/web-coding/harnesslab.png',
           alt: 'HarnessLab Code Agent 审计结果页面',
           url: 'https://github.com/ZackZhang-AI/AgentScope'
@@ -133,6 +143,7 @@
         {
           title: 'IT Audit Log Assistant',
           description: '完成日志期间校验、字段检查、异常识别与审计关注点生成的抽查工具。',
+          stack: 'PYTHON · DATA ANALYSIS',
           image: 'assets/img/projects/web-coding/it-audit-log-assistant.png',
           alt: 'IT 审计日志抽查助手异常分析页面',
           url: 'https://github.com/ZackZhang-AI/it-audit-log-sampling-assistant'
@@ -140,9 +151,11 @@
         {
           title: 'Resume Autofill AI',
           description: '支持字段扫描、匹配、填写、撤销与回退流程的 Chrome 简历速填产品。',
+          stack: 'CHROME EXTENSION · HONO · TYPESCRIPT',
           image: 'assets/img/projects/web-coding/resume-autofill-ai.png',
           alt: 'Resume Autofill AI 浏览器扩展字段匹配页面',
-          url: 'https://github.com/ZackZhang-AI/resume-autofill-ai'
+          url: '',
+          note: 'PRIVATE REPO · 面试现场可演示'
         }
       ]
     },
@@ -150,7 +163,8 @@
       id: 'agentScope',
       title: 'AgentScope',
       category: 'AGENT OBSERVABILITY · 2026',
-      description: 'AI Agent 黑匣子回放器：追踪计划、模型决策、工具调用、延迟、Token 与错误，定位无进展循环，从不可变 Checkpoint 创建 Child Run，并用 Span 证据验证修复。',
+      description: 'AI Agent 黑匣子回放器：追踪计划、模型决策、工具调用、延迟、Token 与错误，定位无进展循环，从不可变 Checkpoint 创建 Child Run，并用 Span 证据验证修复。公开演示无需 API Key 或 Docker，90 秒走完失败 → 定位 → 分叉 → 验证闭环。',
+      stack: 'NEXT.JS 16 · POSTGRESQL · PLAYWRIGHT · DOCKER · V0.3.4',
       heroImage: 'assets/img/projects/agentscope/home.png',
       heroAlt: 'AgentScope 首页：Failure → Root cause → Fork → Verified fix',
       gallery: [
@@ -187,11 +201,18 @@
   }
 
   function subprojectCard(item) {
+    var stack = item.stack
+      ? '<p class="project-dialog-subproject-stack">' + item.stack + '</p>'
+      : '';
+    var action = item.url
+      ? '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">VIEW GITHUB ↗</a>'
+      : '<span class="project-dialog-subproject-note">' + (item.note || 'PRIVATE REPO') + '</span>';
     return '<article class="project-dialog-subproject">' +
       '<img src="' + item.image + '" alt="' + item.alt + '" width="1440" height="900" loading="lazy" decoding="async">' +
       '<h3>' + item.title + '</h3>' +
+      stack +
       '<p>' + item.description + '</p>' +
-      '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer">VIEW GITHUB ↗</a>' +
+      action +
     '</article>';
   }
 
@@ -210,10 +231,14 @@
     var items = project.items && project.items.length
       ? '<div class="project-dialog-subprojects">' + project.items.map(subprojectCard).join('') + '</div>'
       : '';
+    var stack = project.stack
+      ? '<p class="project-dialog-stack">' + project.stack + '</p>'
+      : '';
 
     content.innerHTML =
       '<p class="project-dialog-kicker">' + project.category + '</p>' +
       '<h2 class="project-dialog-title" id="projectDialogTitle">' + project.title + '</h2>' +
+      stack +
       '<p class="project-dialog-intro">' + project.description + '</p>' +
       links + hero + gallery + items;
   }
