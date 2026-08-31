@@ -565,20 +565,7 @@
           <div style="position: absolute; left: 50%; top: 52%; width: 70vmin; height: 56vmin; z-index: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(126,112,96,0.10), rgba(126,112,96,0) 72%); animation: dl-breathe 7s ease-in-out infinite;">
           </div>
 
-          <!-- pressure bulge -->
-          <div id="bulge" style="position: absolute; left: 50%; top: 52%; width: 56vmin; height: 46vmin; margin: -23vmin 0 0 -28vmin; z-index: 2; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(255,254,250,0.85) 0%, rgba(240,235,228,0.4) 38%, rgba(103,90,76,0.16) 66%, rgba(103,90,76,0) 78%); box-shadow: 0 30px 60px -20px rgba(90,78,64,0.25);">
-          </div>
-          <div id="wrinkle" style="position: absolute; left: 50%; top: 52%; width: 80vmin; height: 62vmin; margin: -31vmin 0 0 -40vmin; z-index: 2; opacity: 0; background: conic-gradient(from 10deg at 50% 50%, rgba(120,106,90,0.07) 0deg, rgba(255,255,252,0.10) 24deg, rgba(120,106,90,0.05) 60deg, rgba(255,255,252,0.08) 110deg, rgba(120,106,90,0.07) 160deg, rgba(255,255,252,0.09) 210deg, rgba(120,106,90,0.06) 265deg, rgba(255,255,252,0.08) 315deg, rgba(120,106,90,0.07) 360deg); border-radius: 50%; filter: blur(14px);">
-          </div>
-
-          <!-- deep shadow behind tear -->
-          <div id="tearShadow" style="position: absolute; left: 50%; top: 52%; width: 60vmin; height: 50vmin; margin: -25vmin 0 0 -30vmin; z-index: 2; border-radius: 50%; opacity: 0; background: radial-gradient(closest-side, rgba(12,10,8,0.85) 0%, rgba(12,10,8,0.3) 55%, rgba(12,10,8,0) 74%);">
-          </div>
-
-          <!-- torn paper hole -->
-          <img id="hole" src="assets/img/b9f53035-4497-43ba-a211-cd56303c57c5.png" alt="" style="position: absolute; left: 50%; top: 52%; width: 130vmin; margin-left: -65vmin; margin-top: -43.5vmin; z-index: 3; opacity: 0; transform: scale(0.1); mask-image: radial-gradient(46% 52% at 50% 48%, black 52%, transparent 76%); -webkit-mask-image: radial-gradient(46% 52% at 50% 48%, black 52%, transparent 76%);">
-
-          <!-- typography BEHIND hand -->
+          <!-- typography -->
           <div id="typoBack" style="position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2vh; text-align: center; pointer-events: none; padding-top: 2vh;">
             <div id="lnDesign" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; color: #16130E;">
               QUESTIONS</div>
@@ -590,10 +577,7 @@
               PROOF.</div>
           </div>
 
-          <!-- hand -->
-          <img id="hand" src="assets/img/f3fcf51e-b045-4099-9162-bb7b86bbded9.png" alt="" style="position: absolute; left: 50%; top: 52%; width: 128vmin; margin-left: -68vmin; margin-top: -40vmin; z-index: 5; opacity: 0; transform: translateY(9vmin) scale(0.22); filter: blur(10px) drop-shadow(0 40px 50px rgba(20,16,12,0.45));">
-
-          <!-- typography IN FRONT of hand (small connective lines) -->
+          <!-- typography IN FRONT (small connective lines) -->
           <div id="typoFront" style="position: absolute; inset: 0; z-index: 6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2vh; text-align: center; pointer-events: none; padding-top: 2vh;">
             <div style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-weight: 500; font-size: clamp(64px, 12.5vw, 220px); line-height: 0.88; letter-spacing: 0.015em; visibility: hidden;">
               QUESTIONS</div>
@@ -1497,7 +1481,6 @@
     ST.getAll().forEach(function (st) { st.kill(); });
     var existing = ST.getAll().length;
 
-    var reach = 1.05;
     var portalOn = true;
 
     var $ = function (id) { return document.getElementById(id); };
@@ -1514,39 +1497,68 @@
       }
     });
 
-    // Phase 2 — pressure from behind (0 → 25)
-    tl.fromTo('#bulge', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 20, ease: 'power1.in' }, 0);
-    tl.fromTo('#wrinkle', { opacity: 0 }, { opacity: 0.6, duration: 14 }, 8);
-    tl.to('#lightFocus', { opacity: 1, duration: 22 }, 4);
-    tl.to('#lnDesign', { y: '-1.6vh', duration: 26 }, 4);
-    tl.to('#lnExp', { y: '1.6vh', duration: 26 }, 4);
-    tl.to(['#lnDesign', '#lnConnects', '#lnExp'], { letterSpacing: '0.03em', duration: 26 }, 4);
+    // ---------- HERO: movable-type intro + scrubbed press/portal ----------
+    // split the three big lines into individual letter "sorts" and give each
+    // line a composing rule (the thin baseline the type is set against)
+    var heroLetters = [];
+    ['lnDesign', 'lnConnects', 'lnExp'].forEach(function (id, lineIdx) {
+      var el = $(id);
+      if (!el) return;
+      var text = el.textContent;
+      el.textContent = '';
+      el.style.position = 'relative';
+      text.split('').forEach(function (ch, idx) {
+        var s = document.createElement('span');
+        s.textContent = ch;
+        s.style.display = 'inline-block';
+        s.style.transformOrigin = '50% 100%';
+        s.style.willChange = 'transform, opacity';
+        s._rot = (((idx * 37 + lineIdx * 13) % 11) - 5) * 0.9;
+        el.appendChild(s);
+        heroLetters.push(s);
+      });
+      var rule = document.createElement('span');
+      rule.className = 'typeRule';
+      rule.style.cssText = 'position:absolute; left:1%; right:1%; bottom:-0.13em; height:2px; background:rgba(23,20,15,0.6); transform:scaleX(0); transform-origin:left center;';
+      el.appendChild(rule);
+    });
+    gsap.set(heroLetters, { opacity: 0 });
+    gsap.set(['#lnThat', '#lnPeople'], { opacity: 0 });
 
-    // Phase 3 — first tear (22 → 48)
-    tl.to('#wrinkle', { opacity: 0, duration: 10 }, 30);
-    tl.to('#bulge', { opacity: 0, duration: 10 }, 30);
-    tl.fromTo('#tearShadow', { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 20 }, 24);
-    tl.fromTo('#hole',
-      { opacity: 0, scale: 0.1, rotation: -6 },
-      { opacity: 1, scale: 0.55, rotation: 0, duration: 22, ease: 'power2.out' }, 24);
+    // load-time intro: sorts drop onto the rule, then ink darkens
+    var introPlayed = false;
+    var playIntro = function () {
+      if (introPlayed) return;
+      introPlayed = true;
+      var intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      intro.fromTo(heroLetters,
+        { opacity: 0, y: '-0.42em', rotation: function (i) { return heroLetters[i]._rot; } },
+        { opacity: 1, y: '0em', rotation: 0, duration: 0.85, stagger: { each: 0.034 } }, 0.12);
+      intro.fromTo(heroLetters, { color: '#9A9184' }, { color: '#16130E', duration: 1.1, ease: 'power1.inOut', stagger: { each: 0.034 } }, 0.4);
+      intro.to('.typeRule', { scaleX: 1, duration: 0.7, ease: 'power2.inOut', stagger: 0.16 }, 0.6);
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { setTimeout(playIntro, 60); });
+      setTimeout(playIntro, 900); // fallback if fonts.ready hangs
+    } else {
+      setTimeout(playIntro, 250);
+    }
 
-    // Phase 4 — hand emerges (40 → 74)
-    tl.fromTo('#hand',
-      { opacity: 0, y: '9vmin', scale: 0.22, rotation: -9, filter: 'blur(12px) drop-shadow(0 20px 24px rgba(20,16,12,0.35))' },
-      { opacity: 1, y: '-1.5vmin', scale: reach, rotation: 2, filter: 'blur(0px) drop-shadow(0 46px 56px rgba(20,16,12,0.5))', duration: 34, ease: 'power1.inOut' }, 40);
-    tl.to('#hole', { scale: 0.86, duration: 30, ease: 'power1.inOut' }, 44);
-    tl.to(['#lnThat', '#lnPeople'], { color: '#F4EFE6', duration: 14 }, 46);
+    // scroll: rules retract (type is set) → connectives appear → lines breathe → portal
+    tl.to('.typeRule', { scaleX: 0, transformOrigin: 'right center', duration: 16, ease: 'power1.inOut', stagger: 3 }, 4);
+    tl.fromTo(['#lnThat', '#lnPeople'],
+      { opacity: 0, letterSpacing: '1.1em' },
+      { opacity: 1, letterSpacing: '0.55em', duration: 18, ease: 'power1.inOut', stagger: 5 }, 12);
+    tl.to('#lightFocus', { opacity: 1, duration: 26 }, 4);
+    tl.to('#lnDesign', { y: '-1.6vh', duration: 26 }, 14);
+    tl.to('#lnExp', { y: '1.6vh', duration: 26 }, 14);
+    tl.to(['#lnDesign', '#lnConnects', '#lnExp'], { letterSpacing: '0.035em', duration: 26 }, 14);
+    tl.to('#lnDesign', { y: '-2.6vh', duration: 14 }, 62);
+    tl.to('#lnExp', { y: '2.6vh', duration: 14 }, 62);
 
-    // Phase 5 — full breakthrough (66 → 82)
-    tl.to('#hole', { scale: 0.95, duration: 14 }, 70);
-    tl.to('#hand', { y: '-3vmin', scale: reach * 1.06, duration: 14 }, 70);
-    tl.to('#lnDesign', { y: '-2.6vh', duration: 14 }, 70);
-    tl.to('#lnExp', { y: '2.6vh', duration: 14 }, 70);
-
-    // Phase 6 — portal wipe (84 → 100)
+    // portal wipe (84 → 100)
     if (portalOn) {
-      tl.to('#hand', { scale: reach * 0.82, y: '2vmin', opacity: 0, filter: 'blur(8px) drop-shadow(0 20px 24px rgba(20,16,12,0.3))', duration: 12, ease: 'power1.in' }, 85);
-      tl.to(['#typoBack', '#typoFront'], { letterSpacing: '0.12em', opacity: 0, duration: 10 }, 86);
+      tl.to(['#typoBack', '#typoFront'], { letterSpacing: '0.12em', opacity: 0, duration: 10 }, 84);
       tl.fromTo('#portal', { clipPath: 'circle(0% at 50% 52%)' }, { clipPath: 'circle(148% at 50% 52%)', duration: 15, ease: 'power2.in' }, 85);
       tl.to(['#heroHeader', '#sideLabels', '#bottomUI'], { opacity: 0, duration: 8 }, 70);
     }
@@ -2136,10 +2148,6 @@
     setTimeout(refresh, 3000);
     window.addEventListener('load', refresh);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
-    ['hole', 'hand'].forEach(function (id) {
-      var img = document.getElementById(id);
-      if (img && img.decode) img.decode().then(refresh).catch(function () {});
-    });
     // refresh once the book's leaf background-images have loaded (they affect nothing
     // layout-wise, but ensures a late correction pass)
     var leafImgs = document.querySelectorAll('#bookRight .leaf-front div[style*="background-image"]');
