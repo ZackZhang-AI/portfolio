@@ -1767,6 +1767,8 @@
           scrub: 0.7,
           pin: revealStick,
           anticipatePin: 0,
+          // 三个 pin 必须按文档序刷新：assemble(2) > frames(1) > reveal(0)
+          refreshPriority: 0,
           invalidateOnRefresh: true
         }
       });
@@ -1945,8 +1947,8 @@
         scrub: 0.6,
         pin: framesPin,
         anticipatePin: 0,
-        // frames 的 pin-spacer 在文档上方新增约 3052px，必须最先 refresh，
-        // 否则其后所有 ScrollTrigger（capabilityArc 等）测得的位置都会偏早。
+        // 三个 pin 必须按文档序刷新：assemble(2) > frames(1) > reveal(0)
+        // 否则后创建的 pin 测不到前方 pin-spacer 的高度，start 会偏早一个 pin 长度。
         refreshPriority: 1,
         invalidateOnRefresh: true,
         onEnter: function () {
@@ -2112,6 +2114,8 @@
         scrub: 0.6,
         pin: $('assembleStick'),
         anticipatePin: 1,
+        // 文档中最前的 pin，最高刷新优先级（见 framesBook 处注释）
+        refreshPriority: 2,
         invalidateOnRefresh: true,
         onUpdate: function (self) { applyPath(self.progress); }
       });
