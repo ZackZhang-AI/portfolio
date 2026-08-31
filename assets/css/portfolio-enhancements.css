@@ -448,7 +448,8 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: min(16.6vw, 208px);
+  width: min(16vw, 300px);
+  box-sizing: border-box;
   background: #EFE9E1;
   border: 1px solid rgba(23, 20, 15, 0.16);
   box-shadow: 0 22px 44px -20px rgba(23, 20, 15, 0.3);
@@ -467,7 +468,7 @@
 }
 
 .pathCard-visual {
-  height: 78px;
+  height: clamp(64px, 8.6vh, 100px);
   display: flex;
   align-items: center;
   justify-content: center;

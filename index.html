@@ -821,7 +821,7 @@
           <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">SELECTED WORK</span>
           <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-style: italic; font-size: 15px; opacity: 0.45;">05 projects — 2025/26</span>
         </div>
-        <div style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(34px, 5vw, 84px); line-height: 1.05; margin-bottom: 9vh;">项目 <span style="font-weight: 500;">合集。</span></div>
+        <div style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(34px, 5vw, 84px); line-height: 1.05; margin-bottom: 9vh;">项目 <span style="font-weight: 500;">合集</span></div>
 
         <div id="workList" style="display: flex; flex-direction: column;">
           <div class="menuItem" data-text="RAG Knowledge Base" data-tag="RAG · EVAL · 2025" data-img="assets/img/projects/rag/evaluation.png" style="position: relative; overflow: hidden; border-top: 1px solid rgba(237,231,220,0.14);">
@@ -883,7 +883,7 @@
           <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.55;">KNOWLEDGE</span>
           <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-style: italic; font-size: 15px; opacity: 0.45;">7 sites & growing</span>
         </div>
-        <div style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(34px, 5vw, 84px); line-height: 1.05; margin-bottom: 9vh;">知识 <span style="font-weight: 500;">沉淀。</span></div>
+        <div style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(34px, 5vw, 84px); line-height: 1.05; margin-bottom: 9vh;">知识 <span style="font-weight: 500;">沉淀</span></div>
 
         <div id="knowledgeList" style="display: flex; flex-direction: column;">
           <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 3vw; margin: 0 0 1.2vh">
@@ -2064,13 +2064,13 @@
       var seed = 7;
       var rnd = function () { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
       stage._frags = pathCards.map(function (card) {
-        var ang = rnd() * Math.PI * 2;
+        var side = rnd() < 0.5 ? -1 : 1;
         return {
           el: card,
-          x: Math.cos(ang) * (300 + rnd() * 260),
-          y: Math.sin(ang) * (170 + rnd() * 150) - 40,
-          r: (rnd() - 0.5) * 70,
-          tilt: (rnd() - 0.5) * 9
+          fx: side * (0.30 + rnd() * 0.22),
+          fy: (rnd() - 0.5) * (190 + rnd() * 170) - 30,
+          r: (rnd() - 0.5) * 64,
+          tilt: (rnd() - 0.5) * 7
         };
       });
       stage._built = true;
@@ -2081,13 +2081,16 @@
         var cols = mobile ? 2 : pathCards.length;
         var rows = Math.ceil(pathCards.length / cols);
         var H = mobile ? stage.clientHeight : 0;
+        var cardW = Math.min(W * 0.16, 300);
         stage._frags.forEach(function (c, i) {
           var local = gsap.utils.clamp(0, 1, (p * 1.18 - i * 0.08) / 0.9);
           var e = gsap.parseEase('power3.out')(local);
           var inv = 1 - e;
           var fx = ((i % cols) + 0.5) / cols * W - W / 2;
           var fy = mobile ? ((Math.floor(i / cols) + 0.5) / rows - 0.5) * H : 0;
-          c.el.style.transform = 'translate(' + (fx + c.x * inv) + 'px,' + (fy + c.y * inv) + 'px) translate(-50%,-50%) rotate(' + (c.r * inv + c.tilt * e) + 'deg)';
+          c.el.style.width = mobile ? '' : cardW + 'px';
+          var s = 0.82 + 0.18 * e;
+          c.el.style.transform = 'translate(' + (fx + c.fx * W * inv) + 'px,' + (fy + c.fy * inv) + 'px) translate(-50%,-50%) rotate(' + (c.r * inv + c.tilt * e) + 'deg) scale(' + s.toFixed(3) + ')';
           c.el.style.opacity = (0.04 + 0.96 * gsap.utils.clamp(0, 1, local * 1.6)).toFixed(3);
         });
         // connecting line draws itself once the cards have (mostly) landed
