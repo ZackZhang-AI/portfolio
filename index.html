@@ -635,10 +635,6 @@
             </div>
           </div>
 
-          <!-- portal wipe -->
-          <div id="portal" style="position: absolute; inset: 0; z-index: 40; background: #0B0A08; clip-path: circle(0% at 50% 52%); pointer-events: none;">
-          </div>
-
         </div>
       </div>
 
@@ -656,8 +652,8 @@
 
       <!-- ============ SELECTED WORK — cursor-follow previews ============ -->
       <!-- ============ 13 · ASSEMBLE — scroll puzzle ============ -->
-      <section id="assemble" data-screen-label="Assemble" style="position: relative; background: #E6DED7;">
-        <div id="assembleStick" style="height: 100vh; overflow: hidden; position: relative; background: #E6DED7;">
+      <section id="assemble" data-screen-label="Assemble" style="position: relative; background: #EAE5E0;">
+        <div id="assembleStick" style="height: 100vh; overflow: hidden; position: relative; background: #EAE5E0;">
           <div style="position: absolute; top: 8vh; left: 0; right: 0; display: flex; align-items: baseline; justify-content: space-between; padding: 0 6vw;">
             <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.34em; opacity: 0.5;">MY PATH, ASSEMBLED</span>
             <span id="puzzlePct" style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-style: italic; font-size: 15px; opacity: 0.5;">0% assembled</span>
@@ -701,9 +697,6 @@
           <div class="assemble-caption" id="assembleCaption" style="position: absolute; bottom: 6vh; left: 0; right: 0; text-align: center; opacity: 0;">
             <span style="font-family: 'Bodoni Moda', 'Noto Serif SC', serif; font-size: clamp(22px, 2.6vw, 40px);">每一段经历， <span style="font-weight: 600;">都算数。</span></span>
           </div>
-
-          <!-- dark veil: continues the hero portal, lifts like a print developing -->
-          <div id="assembleVeil" style="position: absolute; inset: 0; z-index: 30; background: #0B0A08; pointer-events: none;"></div>
         </div>
       </section>
 
@@ -1484,8 +1477,6 @@
     ST.getAll().forEach(function (st) { st.kill(); });
     var existing = ST.getAll().length;
 
-    var portalOn = true;
-
     var $ = function (id) { return document.getElementById(id); };
     if (!$('heroWrap')) return;
 
@@ -1500,7 +1491,7 @@
       }
     });
 
-    // ---------- HERO: movable-type intro + scrubbed press/portal ----------
+    // ---------- HERO: movable-type intro + scrubbed press/dismantle ----------
     // split the three big lines into individual letter "sorts" and give each
     // line a composing rule (the thin baseline the type is set against)
     var heroLetters = [];
@@ -1547,7 +1538,7 @@
       setTimeout(playIntro, 250);
     }
 
-    // scroll: rules retract (type is set) → connectives appear → lines breathe → portal
+    // scroll: rules retract (type is set) → connectives appear → lines breathe → sorts dismantle
     tl.to('.typeRule', { scaleX: 0, transformOrigin: 'right center', duration: 16, ease: 'power1.inOut', stagger: 3 }, 4);
     tl.fromTo(['#lnThat', '#lnPeople'],
       { opacity: 0, letterSpacing: '1.1em' },
@@ -1559,12 +1550,19 @@
     tl.to('#lnDesign', { y: '-2.6vh', duration: 14 }, 62);
     tl.to('#lnExp', { y: '2.6vh', duration: 14 }, 62);
 
-    // portal wipe — settle into full black slightly before the seam (83 → 97, hold to 100)
-    if (portalOn) {
-      tl.to(['#typoBack', '#typoFront'], { letterSpacing: '0.12em', opacity: 0, duration: 10 }, 83);
-      tl.fromTo('#portal', { clipPath: 'circle(0% at 50% 52%)' }, { clipPath: 'circle(148% at 50% 52%)', duration: 14, ease: 'sine.inOut' }, 83);
-      tl.to(['#heroHeader', '#sideLabels', '#bottomUI'], { opacity: 0, duration: 8 }, 70);
-    }
+    // dismantle the forme — connectives dissolve, then the sorts drop back
+    // into the case one by one; the paper itself scrolls on, no curtain
+    tl.to(['#heroHeader', '#sideLabels', '#bottomUI'], { opacity: 0, duration: 8 }, 70);
+    tl.to(['#lnThat', '#lnPeople'], { opacity: 0, letterSpacing: '1.05em', duration: 9, ease: 'power1.in' }, 74);
+    tl.to('#lightFocus', { opacity: 0, duration: 12 }, 82);
+    tl.to(heroLetters, {
+      y: '18vh',
+      rotation: function (i) { return heroLetters[i]._rot * 2.6; },
+      opacity: 0,
+      duration: 15,
+      ease: 'power1.in',
+      stagger: { each: 0.24, from: 'random' }
+    }, 78);
 
     // ---------- Fixed top nav — past hero: hide on scroll down, reveal on scroll up ----------
     var topNav = $('topNav');
@@ -2076,7 +2074,6 @@
       var pathCards = gsap.utils.toArray(stage.querySelectorAll('.pathCard'));
       var pathLine = $('pathLine');
       var assembleCaption = $('assembleCaption');
-      var assembleVeil = $('assembleVeil');
       var pctEl = $('puzzlePct');
       // deterministic pseudo-random so the scatter is stable across reloads
       var seed = 7;
@@ -2111,11 +2108,6 @@
           c.el.style.transform = 'translate(' + (fx + c.fx * W * inv) + 'px,' + (fy + c.fy * inv) + 'px) translate(-50%,-50%) rotate(' + (c.r * inv + c.tilt * e) + 'deg) scale(' + s.toFixed(3) + ')';
           c.el.style.opacity = (0.04 + 0.96 * gsap.utils.clamp(0, 1, local * 1.6)).toFixed(3);
         });
-        // dark veil lifts like a print developing, while cards converge beneath it
-        if (assembleVeil) {
-          var vp = gsap.parseEase('power1.inOut')(gsap.utils.clamp(0, 1, (p - 0.04) / 0.30));
-          assembleVeil.style.opacity = (1 - vp).toFixed(3);
-        }
         // connecting line draws itself once the cards have (mostly) landed
         var lp = gsap.parseEase('power2.inOut')(gsap.utils.clamp(0, 1, (p - 0.48) / 0.34));
         if (pathLine) pathLine.style.transform = 'scaleX(' + lp.toFixed(3) + ')';
