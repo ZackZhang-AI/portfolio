@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WebDev E2E Bench · 端到端网页评测体系 · 六模型实测检验</title>
-<meta name="description" content="一套覆盖 6 类任务 × 7 个维度的端到端网页评测体系：确定性检查、双视觉 Judge 与人工盲评交叉验证，经六个旗舰模型、三十六次实测完整检验。">
+<title>WebDev E2E Bench · 端到端 Web 评测体系 · 规范 V2.0 × 集合 V0.2</title>
+<meta name="description" content="一套覆盖 6 类任务 × 7 个维度的端到端 Web 评测体系：从 19 个主流 Benchmark 的差异定位出发，以评测规范 V2.0、30 题任务集合与全链路质量门禁，把「产品好不好用」变成可测量、可归因、可决策的问题。">
 <style>
 /* ET Book (tufte-css, ai-2040 reference stack) — base64-inlined, CSP-safe */
 @font-face {
@@ -620,24 +620,26 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <canvas id="cover-canvas-x" style="display:none"></canvas>
   <canvas id="cover-canvas-w" style="display:none"></canvas>
   <div class="cover-inner">
-    <p class="cover-kicker">WEBDEV E2E BENCH · PILOT 冻结于 2026-08-14</p>
+    <p class="cover-kicker">WEBDEV E2E BENCH · 评测规范 V2.0 · 任务集合 V0.2 冻结于 2026-08-28</p>
     <h1 class="cover-title">让评测回答「好不好用」，<br><span class="cover-num">而不只是「对不对」</span></h1>
-    <p class="cover-sub">六个旗舰模型，同一套 Agent、同一批任务、同一份预算——用 36 次端到端实测，先验证尺子，再量模型。</p>
-    <p class="cover-lede">本轮 Pilot 让 DeepSeek、ChatGPT/Codex、Kimi、ERNIE、Doubao、Qwen 在统一的
-      React/Vite/TypeScript 起点上各自完成 6 类 Web 任务，共 36 个有效样本，再由确定性自动检查、双视觉 Judge 与
-      18 份匿名人工盲评交叉打分。结论克制而清晰：DeepSeek 与 ChatGPT/Codex 同处第一梯队，差距不足半分且置信区间高度重叠；
-      真正的分水岭不在「能不能生成页面」，而在交互闭环、边界状态与可访问性。本页所有关键数字均可点击，逐层钻取到冻结数据。</p>
+    <p class="cover-sub">一套覆盖 6 类任务 × 7 个维度的端到端 Web 评测体系：先调研 19 个主流 Benchmark 找到缺口，
+      再用规范、门禁与校准把「产品体验」变成可测量的问题——最后才轮到模型上场。</p>
+    <p class="cover-lede">这不是又一张排行榜，而是一套完整的评测工程：<b>评测规范 V2.0</b> 定义了评测单位、五类运行状态、
+      公开契约与隐藏测试的边界；<b>30 题任务集合 V0.2</b> 覆盖六个产品领域与三档难度，每一题都通过 Gold 三连跑、
+      60/60 受控缺陷检出与零严重可访问性问题的门禁；<b>六模型 Pilot</b> 则作为尺子的试金石——
+      先证明这套体系量得准、归因得清，再谈模型之间的差异。本页所有关键数字均可点击，逐层钻取到冻结数据。</p>
     <div class="cover-chips">
       <button class="chip" data-goto="#sec-why">为什么做</button>
-      <button class="chip" data-goto="#sec-exec">核心结论</button>
-      <button class="chip" data-goto="#sec-method">评测机制</button>
-      <button class="chip" data-goto="#sec-board">总榜</button>
-      <button class="chip" data-goto="#sec-category">分类能力</button>
-      <button class="chip" data-goto="#sec-failures">失败解剖</button>
-      <button class="chip" data-goto="#sec-verdict">裁决</button>
+      <button class="chip" data-goto="#sec-design">体系设计</button>
+      <button class="chip" data-goto="#sec-landscape">竞品与创新</button>
+      <button class="chip" data-goto="#sec-spec">评测规范</button>
+      <button class="chip" data-goto="#sec-collection">任务集合</button>
+      <button class="chip" data-goto="#sec-process">落地过程</button>
+      <button class="chip" data-goto="#sec-exec">模型实测</button>
+      <button class="chip" data-goto="#sec-next">闭环迭代</button>
     </div>
     <p class="cover-anchor">证据分级：评测机器汇总（一手） &gt; 人工盲评 &gt; 校准与诊断 &gt; 报告汇编 ·
-      本轮为 Pilot，不外推为通用模型权威排名 · 全部数字标注来源与日期</p>
+      模型实测为 Pilot 口径，不外推为通用模型权威排名 · 全部数字标注来源与日期</p>
     <div class="cover-mode" id="cover-mode" aria-label="封面形态切换">
       <button data-mode="rec" class="on">A · 窗口递归</button>
       <button data-mode="x">B · 拆解一个网页</button>
@@ -663,8 +665,8 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
     <p>传统代码评测以 pass@k 通过率为主：给定函数签名，跑测试用例，过与不过。这类信号对算法题有效，
       却覆盖不了真实 Web 开发的决定性问题——页面能不能跑起来、视觉是否像产品、交互能不能闭环、
       移动端是否可用、可访问性是否达标。模型在函数级评测里的高分，无法外推为「能交付一个好用的网页」。</p>
-    <p>2026 年 7 月调研了 8 份以上主流 Benchmark 后确认了这个盲区：代码类基准止步于功能通过，
-      网页类基准多停留在截图相似度或 E2E 测试通过，<b>没有一把尺子同时量「能跑、好看、可用、健壮」</b>——
+    <p>2026 年 7 月起，先后调研了 19 个公开可核验的 Web 评测集合（15 个直接相关、4 个邻接对照，完整对比见 §3）后确认了这个盲区：
+      代码类基准止步于功能通过，网页类基准多停留在截图相似度或 E2E 测试通过，<b>没有一把尺子同时量「能跑、好看、可用、健壮」</b>——
       更没有人把「人工审美与产品体验」这种自动化最难啃的部分正式纳入评测。</p>
     <table class="dt">
       <thead><tr><th>调研对象</th><th>量什么</th><th>量不到什么</th></tr></thead>
@@ -684,7 +686,8 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
     <div class="note-box">
       <p><b>三个设计决策（创新点）。</b>① 评交付物而非代码片段：每个任务从统一 starter 出发，以可运行产品为终点；
         ② 6 类真实任务 × 7 个能力维度，把「做个网页」拆成可测量的格子；
-        ③ 确定性 Auto + 双视觉 Judge + 人工盲评三把尺子交叉验证，先校准尺子、再量模型。</p>
+        ③ 确定性 Auto + 双视觉 Judge + 人工盲评三把尺子交叉验证，先校准尺子、再量模型。
+        这三条在 §3 被扩展为五个可证明的创新点，并与 19 个竞品逐项对照。</p>
     </div>
   </div>
 </section>
@@ -698,7 +701,7 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
     <p>任务面：页面生成、功能实现、组件开发、页面改版、轻量全栈、Bugfix+UX——从「从零画一页」到「在存量代码里修体验」，
       对应 AI Coding 产品的真实使用分布。维度面：功能正确性、端到端可用性、视觉质量、交互质量、响应式质量、可访问性、代码质量。</p>
     <p>分工原则只有一条：<b>能确定裁决的绝不用主观判断</b>。功能契约、运行事实、可访问性规则交给确定性 Auto；
-      视觉与交互这类主观维度交给双视觉 Judge 独立打分；人工盲评只做校准与有效性检验（见 §9），不直接决定排名。
+      视觉与交互这类主观维度交给双视觉 Judge 独立打分；人工盲评只做校准与有效性检验（见 §12），不直接决定排名。
       权重上对半开：自动化检查 50%，Judge/人工侧 50%——机器负责「事实」，人负责「感觉」，谁也不越界。</p>
     <p>公平性靠工程约束保证：所有模型面对同一个干净 Starter、同一套工具与预算——
       <em>30 回合 / 30 分钟 / 300K 输入 / 32K 输出 Token</em> 四道闸门，超预算即冻结提交；
@@ -706,8 +709,9 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
       生成与评估在固定 digest 的 Docker 镜像中执行，浏览器阻断一切非 localhost 请求。
       效果分与成本、耗时等效率分严格分离，不允许「又快又便宜」稀释质量结论。</p>
     <div class="note-box">
-      <p><b>规模规划。</b>体系按 Pilot 30 → V1 120 → V2 500 → V3 1000+ 任务分阶段扩展；
-        当前冻结的是 36 任务 Pilot——先证明尺子在真实模型身上量得准（§4、§9），再谈放量。</p>
+      <p><b>规模规划。</b>体系按 6 题 Pilot → 30 题 V0.2 → 120 题 V1 → 500+ 分阶段扩展。
+        6 题 Pilot 已于 2026-08-14 冻结（六模型实测见 §6 起）；30 题 V0.2 集合于 2026-08-28 通过全部静态与运行门禁（见 §5）——
+        先证明尺子在真实模型身上量得准（§7、§12），再谈放量。</p>
     </div>
   </div>
   <div class="wide xl"><div id="design-chart" class="chart-frame"></div></div>
@@ -745,14 +749,161 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide"><div id="process-chart" class="chart-frame"></div></div>
   <div class="prose">
     <p>提效的意义不只是省时间：评测量产之后，「每接一个模型就跑一轮」从周级工程变成日常操作，
-      评测从一次性项目变成可持续的产品基建。尺子本身的可信度在 §4 单独检验。</p>
+      评测从一次性项目变成可持续的产品基建。尺子本身的可信度在 §7 单独检验。</p>
   </div>
 </section>
 
-<!-- ═══ §3 核心结论 ═══ -->
+<!-- ═══ §3 竞品全景与创新点 ═══ -->
+<section id="sec-landscape" class="band" data-win="landscape">
+  <div class="prose">
+    <p class="sec-no">§3 · 竞品全景与创新点</p>
+    <h2>19 个集合、五条赛道：差异不在某个指标，在闭环</h2>
+    <p class="dek">「Web 评测」至少是五种不同的问题——操作既有网站、复刻截图、从需求生成、在项目中连续开发、判断结果好不好。
+      它们的输入、输出和成功标准不同，不能只用 Pass@1 或截图相似度横向比较。</p>
+    <p>2026-08-28 快照的 Benchmark Registry 收录了 19 个公开、可核验且与 Web 生成、编辑、前端工程或 Web 评判直接相关的集合
+      （15 个直接相关、4 个邻接对照），每项记录来源、成熟度与 12 类能力字段。按评测对象可以划成五条赛道——
+      本项目聚焦的是其中没有被任何一条完整覆盖的问题：<b>模型或 Coding Agent 能否把产品需求转化为可运行、可交互、
+      体验完整且可维护的 Web 产品，以及结果能否支持模型选型和产品优化。</b></p>
+    <table class="dt">
+      <thead><tr><th>赛道</th><th>代表集合</th><th>评什么</th><th>对本项目的启发与缺口</th></tr></thead>
+      <tbody>
+        <tr><td>浏览器操作</td><td>WebArena、VisualWebArena</td><td>Agent 在既有网站上的操作轨迹</td><td>真实环境与长链路值得借鉴；但不生成或修改 Web 产品，不评代码与设计</td></tr>
+        <tr><td>页面复刻</td><td>Design2Code、Web2Code、Sketch2Code、FullFront</td><td>从截图、设计稿或草图生成代码</td><td>视觉还原指标成熟；但不覆盖业务状态、完整流程与长期维护</td></tr>
+        <tr><td>从零生成</td><td>WebGen-Bench、WebApp1K、WebDev Arena、InteractWeb-Bench</td><td>从需求生成网站或多轮改进</td><td>覆盖开放式需求与人类偏好；但响应式、可访问性、代码质量和根因诊断不完整</td></tr>
+        <tr><td>项目开发</td><td>Web-Bench、FrontendBench、ProjDevBench、Vision2Web</td><td>在真实或受控项目中完成开发</td><td>可运行项目与自动测试成熟；但多以测试通过为主，产品体验与决策输出覆盖不一</td></tr>
+        <tr><td>Judge / 偏好</td><td>WebDevJudge、WebDev Arena</td><td>Judge 可靠性或人类偏好</td><td>揭示了静态 Judge 与真实交互的差距；但不负责完整生成评测闭环</td></tr>
+        <tr><td>通用工程邻接</td><td>SWE-bench、Multi-SWE-bench</td><td>Issue 修复与补丁</td><td>真实仓库、可复现测试、版本冻结值得继承；但回答不了「生成的网页好不好用」</td></tr>
+      </tbody>
+    </table>
+    <p>把最接近的五项工作拉到同一张能力表上逐项对照，差异才说得清楚——<b>「未作为核心维度」不等于相关项目完全没有对应检查，
+      而是其公开主要指标与报告目标并不以该维度为独立、稳定输出。</b>这张表用于定位差异，不用于贬低其他集合。</p>
+  </div>
+  <div class="wide xl"><div id="landscape-chart" class="chart-frame"></div></div>
+  <div class="prose">
+    <h3 class="sub-h">五个可证明的创新点</h3>
+    <p><b>① 从代码结果转向最终产品结果。</b>评测对象是冻结后的可运行 Web 项目：构建成功只是入口，
+      之后还要完成浏览器用户流程、状态切换、多视口检查和体验评判——因此可以区分「代码能编译」和「产品真正可用」。</p>
+    <p><b>② 七维产品质量而非单一通过率。</b>固定输出功能正确性、端到端可用性、视觉质量、交互质量、响应式、
+      可访问性和代码质量；七维权重沿用 V1.1，不通过改权重制造新成绩。</p>
+    <p><b>③ 评估器自身需要通过门禁。</b>Gold、受控缺陷和重复运行用于验证确定性检出率、主观方向灵敏度和稳定性；
+      新集合的任务必须重新完成任务级 Gold 与负例验证，不能继承旧集合的结论（§5、§7）。</p>
+    <p><b>④ 把低分拆成可行动的根因。</b>通过生成日志、工具协议、构建证据、浏览器证据和 Judge 分歧，
+      将问题归为模型能力、Agent 适配、基础设施或评估器——避免把工具协议失败误判为模型能力下降（§11、§15）。</p>
+    <p><b>⑤ 从排行榜转向产品决策。</b>报告同时输出任务类型、难度、七维能力、失败模式、成本和可信度，
+      用于回答「哪个模型适合哪类场景」「版本是否达到上线门槛」「下一步应该优化模型还是 Agent」。</p>
+    <div class="note-box">
+      <p><b>更准确的创新表述。</b>这五条并非五个孤立的首创指标——单独看，每一条都有邻接工作沾边。
+        真正的差异是：<b>把真实 Web 产品评测、自动与人工校准、评估器有效性验证、根因诊断和模型决策整合为一个端到端闭环。</b>
+        闭环里的每一环都在本页有对应的章节与冻结证据。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §4 评测规范 V2.0 ═══ -->
+<section id="sec-spec" class="band" data-win="spec">
+  <div class="prose">
+    <p class="sec-no">§4 · 评测规范 V2.0</p>
+    <h2>先把「怎么评」写成规范，再谈「评出了什么」</h2>
+    <p class="dek">规范 V2.0 发布于 2026-08-28，适用于 V0.2 及后续集合——它回答的不是分数，而是：评的是什么、什么算一次有效运行、
+      隐藏测试能碰什么、分数怎么合成、什么时候允许改题。</p>
+    <p><b>评测单位</b>是「一个模型/Agent 在固定预算内，针对一个公开任务契约，从干净 Starter 产生的冻结 Web 项目」——
+      不是代码片段像不像参考答案，而是最终产品是否可运行、可交互、体验完整且可维护。
+      同一次结果必须绑定模型精确版本、Agent 协议、任务版本、Starter 哈希、Gold 哈希、测试哈希、评分版本、
+      运行环境、预算、提交哈希和证据路径，<b>缺任何一项，结果不可入库</b>。</p>
+    <p>规范把每一次运行明确归入五类状态，并规定只有两类计入模型结果——失败分类必须有日志或可复现实验证据，
+      <b>不能根据分数主观归因</b>：</p>
+    <table class="dt">
+      <thead><tr><th>运行状态</th><th>定义</th><th>是否计入模型结果</th></tr></thead>
+      <tbody>
+        <tr><td><code>valid</code></td><td>环境正常，模型在预算内产生可冻结提交</td><td>计入</td></tr>
+        <tr><td><code>model_failure</code></td><td>模型未完成、输出无效、主动破坏项目或耗尽预算</td><td>计入，按门槛和实际证据评分</td></tr>
+        <tr><td><code>agent_failure</code></td><td>工具协议或 Agent 解析器无法执行本可执行的动作</td><td class="hl-cell">不计入 —— 修复后诊断复测</td></tr>
+        <tr><td><code>infrastructure_failure</code></td><td>API、网络、磁盘、浏览器或依赖服务故障</td><td>不计入 —— 只允许受控重试</td></tr>
+        <tr><td><code>evaluator_failure</code></td><td>测试或 Judge 本身错误、泄漏或不稳定</td><td>不计入 —— 冻结结果并修正规则</td></tr>
+      </tbody>
+    </table>
+    <p><b>公开契约与隐藏测试的边界</b>是防泄题的核心：Prompt 公开目标用户、必须功能、状态、响应式和可访问性要求；
+      隐藏测试可依赖的稳定选择器写进 <code>test_contract.stable_selectors</code> 一并公开；每项必填功能必须能在
+      <code>feature_checks</code> 中追溯到至少一个检查。隐藏测试可以组合公开行为形成边界场景，
+      但<b>不得检查未公开的功能、文案或 DOM 层级</b>——任何隐藏检查使用了未披露的 selector、文本或业务规则，任务直接不得入库。
+      Gold 代表功能与状态的正确参考，不是要求模型复刻的视觉答案。</p>
+  </div>
+  <div class="wide xl"><div id="spec-chart" class="chart-frame"></div></div>
+  <div class="prose">
+    <h3 class="sub-h">质量门槛：低分有地板，证据有纪律</h3>
+    <p>安装或构建失败：端到端可用性上限 20、功能正确性上限 10；页面白屏或核心流程完全不可达：总分上限 40；
+      致命运行时错误阻断主流程：对应功能不得得分；缺少移动端核心流程：响应式不超过 50；
+      严重或致命 axe 问题按节点与影响扣分，键盘不可达的核心操作同时影响交互分。
+      <b>LLM Judge 不得单独判定构建、功能或可访问性通过，也不得覆盖确定性失败</b>；
+      双 Judge 任一维度分差超过 15 分即标记 disagreement，进入人工抽检池；无证据维度必须标记 unavailable，不能猜分。</p>
+    <h3 class="sub-h">难度不是感觉，是六项复杂度的加总</h3>
+    <p>每题记录六项复杂度：页面/路由数量、核心交互步骤、可触发状态数量、数据依赖、错误分支、对既有功能的保持约束，
+      各按 0–2 分离散计分，总分 0–12：<em>0–4 为 easy，5–8 为 medium，9–12 为 hard</em>。
+      任务作者给出的难度必须经过 Gold 实跑与一名复核者确认；若模型批次出现明显天花板或地板效应，
+      只在下一集合版本调整，<b>不原地改题</b>。</p>
+    <p><b>公平性靠预算与冻结保证：</b>相同模型矩阵使用同一双语需求、Starter、工具、环境和公开检查；
+      每次从干净项目启动，不得访问 Gold、隐藏测试、Judge rubric 或其他模型结果；模型精确版本冻结，
+      不使用无法解析的 <code>latest</code>；回合、时间、输入/输出 Token 和费用均设硬上限；
+      模型生成失败不得选择性重跑；<b>主榜只比较质量，成本、耗时和 Token 单独报告</b>。</p>
+    <div class="note-box">
+      <p><b>版本关系（三层各自演进）。</b>评分版本 V1.1：七维权重保持不变；规范版本 V2.0：新增任务元数据、失败分类、
+        契约边界和集合治理；集合版本 V0.2：30 题（§5），V0.1 六题与 2026-08-14 Pilot 永久保留。
+        冻结后的 Test 题不得原地修改，任何 Prompt、Gold、测试或 rubric 变化都必须提升版本，并保留桥接题用于新旧对比。
+        未来 V1：120 题，六类各 20 题，Dev/Validation/Test 为 30/30/60。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §5 任务集合 V0.2 与质量门禁 ═══ -->
+<section id="sec-collection" class="band" data-win="collection">
+  <div class="prose">
+    <p class="sec-no">§5 · 任务集合 V0.2</p>
+    <h2>从 6 题到 30 题：先证明题目可靠，再让模型上场</h2>
+    <p class="dek">V0.1 的六类任务各只有一个样本，只能证明链路跑通；V0.2 把每一类扩展为 5 个产品变体，
+      并给整个集合加上「不通过就不许烧 Token」的质量门禁。</p>
+    <p>集合构成：<b>六类任务各 5 题</b>（页面生成、功能实现、组件开发、页面改版、轻量全栈、Bugfix+UX），
+      难度 <em>easy / medium / hard 各 10 题</em>，按 <em>Dev 12 / Validation 8 / Test 10</em> 划分，
+      覆盖 <em>SaaS 后台、电商、协作效率、内容社区、数据分析、服务运营</em> 六个产品领域各 5 题——
+      避免任务全部挤在 SaaS Dashboard 一个形态里。</p>
+    <p><b>任务生产方法</b>：先由人工定义六个任务家族，再为每个家族构造五个产品变体——变体必须改变交互长度、
+      状态数量、数据依赖、页面数量或回归约束，<b>不能只替换文案和颜色</b>。每题交付双语需求、Starter、Gold、
+      公开契约、浏览器流程、人工 rubric、一个明显错误负例和一个 near-miss 负例；
+      <code>feature_checks</code> 要求每项必填功能都能追溯到检查证据。静态覆盖度：30/30 题含多步骤交互与三视口/可访问性要求，
+      20 题声明至少四类状态，13 题含 Mock API 或外部数据依赖，10 题属于改版或回归修复，9 题含多页面/路由复杂度。</p>
+    <p><b>防泄漏按划分分层</b>：Dev 公开任务、Starter、Gold 和测试，供 Agent 调试；Validation 公开任务与 Starter，
+      保留部分测试；Test 对外只提供任务与 Starter，Gold、隐藏测试和人工样例保存在私有评测环境。
+      每题记录来源、授权方式、变体组和污染风险；当前集合为内部专家设计，污染风险标记为 low——
+      该标签表示未直接复制公开题面，不代表能证明训练数据中绝对不存在相似需求。</p>
+  </div>
+  <div class="wide xl"><div id="collection-chart" class="chart-frame"></div></div>
+  <div class="prose">
+    <h3 class="sub-h">门禁真的拦住了问题：第一轮 16/30，修复后 30/30</h3>
+    <p>第一轮运行门禁的结果是 Gold 16/30、负例 60/60、重复一致 30/30。<b>失败没有被忽略、也没有靠降门槛消除，
+      而是按共享根因修复后整批重跑：</b></p>
+    <table class="dt">
+      <thead><tr><th>根因</th><th>影响</th><th>修复</th></tr></thead>
+      <tbody>
+        <tr><td>筛选交互继承了上一步的搜索条件</td><td>5 个功能实现任务的筛选断言失败</td><td>筛选前恢复干净页面状态，确保每个行为独立可复现</td></tr>
+        <tr><td>CRUD 新建后删除数量断言少算 1 条</td><td>4 个长流程 CRUD 任务失败</td><td>断言从 2 条修正为实际 3 条，保持流程顺序不变</td></tr>
+        <tr><td>Tab 使用 <code>aria-selected</code> 但缺少 <code>tab</code> 角色</td><td>5 个组件任务出现 critical axe 问题</td><td>补齐 <code>tablist</code> / <code>tab</code> / <code>tabpanel</code> 语义</td></tr>
+        <tr><td>Windows npm 输出按 GBK 解码</td><td>首次运行器线程中断</td><td>子进程固定 UTF-8 并容错替换，不改变任务评分规则</td></tr>
+      </tbody>
+    </table>
+    <p>第二轮结果：Gold 30/30、负例 60/60、重复一致 30/30。<b>这个过程本身就是门禁价值的证明——
+      它在消耗任何模型 Token 之前，先发现了任务和测试自身的 14 处问题。</b></p>
+    <div class="note-box">
+      <p><b>门禁顺序与诚实边界。</b>按规范，正式发布前还需抽取 20%（6 题）做独立人工需求歧义复核——
+        由未参与出题的人检查目标用户、可执行性、多义性、selector 约束与难度合理性，且不能用作者自评代替。
+        复核通过并重跑门禁后，才执行 2 模型 × 6 代表题的低成本 Smoke Test；链路与区分度正常，才讨论正式实验。
+        V0.2 不新增付费模型成绩：它是任务集合与评估器的质量保证版本，不是又一轮排行榜。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ §6 核心结论 ═══ -->
 <section id="sec-exec" class="band" data-win="frame">
   <div class="prose">
-    <p class="sec-no">§3 · 核心结论</p>
+    <p class="sec-no">§6 · 核心结论（Pilot）</p>
     <h2>第一梯队有两个名字，但统计上还不是一场胜负</h2>
     <p class="dek">36 个有效样本、三套相互独立的评分体系，给出的最强结论是一条谨慎的并列线。</p>
     <p>在统一任务与 Agent 预算下，<em>DeepSeek V4 Pro</em> 以平均 Final Score <em>83.71</em> 居首，
@@ -774,13 +925,13 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
     <p>18 份匿名盲评隐藏了生成模型身份，同时提供任务需求、三端截图、交互证据与源码摘要。
       人工均值最高的是 ChatGPT/Codex（89.67）与 Kimi（89.17），DeepSeek 88.00 排第四——
       但由于不同模型抽到的任务并不完全一致、且只有一名评审、人工分数集中在 82 至 91，
-      <b>该表不能解释为人工模型排行榜</b>。它真正的价值在 §9：检验自动分与 Judge 分各自离人的判断有多远。</p>
+      <b>该表不能解释为人工模型排行榜</b>。它真正的价值在 §12：检验自动分与 Judge 分各自离人的判断有多远。</p>
   </div>
   <div class="wide"><div id="human-strip" class="chart-frame"></div></div>
 
-  <!-- §0.5 三个概念 -->
+  <!-- §6.5 三个概念 -->
   <div class="prose" style="margin-top:64px">
-    <p class="sec-no">§3.5 · 三个先决概念</p>
+    <p class="sec-no">§6.5 · 三个先决概念</p>
     <h2>先统一语言，再谈分数</h2>
   </div>
   <div class="wide xl">
@@ -800,7 +951,7 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
         <p class="t-gist">确定性事实占大头，主观判断做加权补充。</p>
         <div class="t-more"><p>Auto 分来自隐藏测试与确定性检查（功能契约、交互断言、可访问性规则、构建与运行），
           双 Judge 分由 Kimi 与 Qwen 两个视觉 Judge 独立打分合成，覆盖视觉质量与产品完成度等主观维度。
-          三套分数在 §9 做相关性检验：Auto–Judge ρ=0.6191，相关但不可互相替代。</p></div>
+          三套分数在 §12 做相关性检验：Auto–Judge ρ=0.6191，相关但不可互相替代。</p></div>
         <p class="t-hint">悬停展开完整定义</p>
       </article>
       <article class="term" tabindex="0">
@@ -816,10 +967,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   </div>
 </section>
 
-<!-- ═══ §1 评测机制与校准 ═══ -->
+<!-- ═══ §7 评测机制与校准 ═══ -->
 <section id="sec-method" class="band" data-win="method">
   <div class="prose">
-    <p class="sec-no">§4 · 评测机制</p>
+    <p class="sec-no">§7 · 评测机制</p>
     <h2>先证明尺子可信，再用它量模型</h2>
     <p class="dek">正式实验之前，评估器先通过了一组比模型考试更苛刻的入学考试。</p>
     <p>整条流水线是「模型生成 → 自动化评估 → 双 Judge → 人工校准 → 统计报告」的闭环。
@@ -839,10 +990,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide xl"><div id="timeline-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §2 总榜与配对 ═══ -->
+<!-- ═══ §8 总榜与配对 ═══ -->
 <section id="sec-board" class="band" data-win="board">
   <div class="prose">
-    <p class="sec-no">§5 · 总榜</p>
+    <p class="sec-no">§8 · 总榜</p>
     <h2>0.41 分的差距，11 分的区间</h2>
     <p class="dek">排名表回答「谁在前面」，置信区间回答「这个前面有多稳」。</p>
     <p>把 95% Bootstrap 区间画出来，榜首的叙事立刻改变：DeepSeek 的区间完全落在 ChatGPT/Codex 区间之内，
@@ -857,10 +1008,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide"><div id="pairwise-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §3 分类能力 ═══ -->
+<!-- ═══ §9 分类能力 ═══ -->
 <section id="sec-category" class="band" data-win="category">
   <div class="prose">
-    <p class="sec-no">§6 · 分类能力</p>
+    <p class="sec-no">§9 · 分类能力</p>
     <h2>没有全能冠军：六个任务类别，四个不同的最佳</h2>
     <p class="dek">把总分拆成任务类别，「谁更强」立刻变成「谁在哪件事上更强」。</p>
     <p>页面生成的最佳是 Kimi（91.54），页面改版的最佳是 ERNIE（93.81），而组件开发、轻量全栈与 Bugfix+UX
@@ -878,10 +1029,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide xl"><div id="radar-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §4 难度曲线 ═══ -->
+<!-- ═══ §10 难度曲线 ═══ -->
 <section id="sec-difficulty" class="band" data-win="difficulty">
   <div class="prose">
-    <p class="sec-no">§7 · 难度压力测试</p>
+    <p class="sec-no">§10 · 难度压力测试</p>
     <h2>难度上升时，谁的分数先松手</h2>
     <p class="dek">easy 档人人九十分上下，hard 档才见真章——降幅本身就是能力画像。</p>
     <p>从 easy 到 hard，DeepSeek 只降 <em>3.48</em> 分，是六家中最稳的；ChatGPT/Codex 降 10.35 分；
@@ -891,10 +1042,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide xl"><div id="slope-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §5 失败解剖 ═══ -->
+<!-- ═══ §11 失败解剖 ═══ -->
 <section id="sec-failures" class="band" data-win="failures">
   <div class="prose">
-    <p class="sec-no">§8 · 失败解剖</p>
+    <p class="sec-no">§11 · 失败解剖</p>
     <h2>483 条失败标签，将近四成写着同一个词：交互</h2>
     <p class="dek">模型能交出「看起来像产品」的页面，却常常在「用起来像产品」上失分。</p>
     <p>六模型累计失败标签归一化后，<em>交互问题 184 条</em>高居第一，其次依次是可访问性（68）、需求契约（61）、
@@ -917,10 +1068,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide"><div id="modes-table"></div></div>
 </section>
 
-<!-- ═══ §6 评估器有效性 ═══ -->
+<!-- ═══ §12 评估器有效性 ═══ -->
 <section id="sec-validity" class="band" data-win="validity">
   <div class="prose">
-    <p class="sec-no">§9 · 评估器有效性</p>
+    <p class="sec-no">§12 · 评估器有效性</p>
     <h2>三把尺子互相对表：相关，但谁也替代不了谁</h2>
     <p class="dek">自动分、双 Judge 分、人工分——两两 Spearman 相关系数画在同一根轴上，结论比任何单一数字都诚实。</p>
     <p>自动化分与双 Judge 分相关 <em>ρ=0.6191</em>，中等正相关：关注点相关，但不可互相替代。
@@ -938,10 +1089,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   </div>
 </section>
 
-<!-- ═══ §7 成本与效率 ═══ -->
+<!-- ═══ §13 成本与效率 ═══ -->
 <section id="sec-cost" class="band" data-win="cost">
   <div class="prose">
-    <p class="sec-no">§10 · 成本与效率</p>
+    <p class="sec-no">§13 · 成本与效率</p>
     <h2>最便宜的不是最差的，最贵的也不是最好的</h2>
     <p class="dek">质量–成本 Spearman ρ=−0.3498：花钱买分的方向是对的，但效率差异接近五倍。</p>
     <p>五个 API 模型中，DeepSeek 与 ERNIE 的平均总成本同为 <em>$0.31</em>/任务，Qwen 达 <em>$1.40</em>/任务——
@@ -956,10 +1107,10 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide xl"><div id="cost-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §8 裁决 ═══ -->
+<!-- ═══ §14 裁决 ═══ -->
 <section id="sec-verdict" class="band" data-win="verdict">
   <div class="prose">
-    <p class="sec-no">§11 · 裁决</p>
+    <p class="sec-no">§14 · 裁决</p>
     <h2>把证据放上秤：指针停在「并列第一梯队」</h2>
     <p class="dek">左盘是「DeepSeek 已显著领先」的证据，右盘是「尚不能声称胜负」的证据——虚线砝码是还没落地的升级信号。</p>
     <p>秤的读数规则很简单：证据砝码落盘越多，梁往哪边倾。目前右盘更沉——差距太小、区间重叠、样本太少、
@@ -969,13 +1120,13 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
   <div class="wide xl"><div id="verdict-chart" class="chart-frame"></div></div>
 </section>
 
-<!-- ═══ §12 闭环与下一步 ═══ -->
+<!-- ═══ §15 闭环与下一步 ═══ -->
 <section id="sec-next" class="band" data-win="next">
   <div class="prose">
-    <p class="sec-no">§12 · 闭环与下一步</p>
+    <p class="sec-no">§15 · 闭环与下一步</p>
     <h2>闭环已经跑通过一次：归因 → 修复 → 复测</h2>
     <p class="dek">评测体系的终点不是一张榜单，而是让一次失败变成一次可验证的产品改进。</p>
-    <p>§8 的失败解剖把问题分成三类：模型能力、工具适配、运行环境。Qwen 工单 CRUD 的 16.04 分被归因为
+    <p>§11 的失败解剖把问题分成三类：模型能力、工具适配、运行环境。Qwen 工单 CRUD 的 16.04 分被归因为
       <b>工具适配</b>——Agent 写入协议缺陷而非模型不会写页面。修复分块写入与写后验证协议后复测同一任务：
       得分提升 <em>53.03</em> 分，输入 Token 降低 <em>70.8%</em>。按测量纪律，这次复测属于不计榜诊断，
       正式分数保持冻结——但它的价值不在榜上：它证明了这套体系能定位问题、验证修复、量化收益。</p>
@@ -1003,19 +1154,22 @@ hr.sep { border: 0; height: 1px; background: var(--line); margin: 0 auto; max-wi
       <p><b>来源四类，均带日期。</b> <span class="src-cat company">评测机器汇总</span>
         <span class="src-cat industry">人工盲评</span> <span class="src-cat broker">校准与诊断</span>
         <span class="src-cat kimi">报告汇编</span></p>
-      <p><b>测量纪律。</b> 正式分数冻结于 2026-08-14；不计榜诊断（Qwen 分块写入、ERNIE 离线重放）只作反事实参考，
+      <p><b>测量纪律。</b> 评测规范 V2.0 与任务集合 V0.2 冻结于 2026-08-28；Pilot 正式分数冻结于 2026-08-14；
+        不计榜诊断（Qwen 分块写入、ERNIE 离线重放）只作反事实参考，
         不进入渲染层的排名图表；缺口画成缺口，不做插值。</p>
+      <p><b>V0.2 文档族。</b> 评测规范 V2.0 · Collection Card V0.2 · 集合质量报告 · Benchmark 全景对比与差异分析（均 2026-08-28），
+        对应锚点 K23–K26。</p>
     </div>
   </div>
   <div class="wide xl">
     <div style="margin-top:26px">
-      <p class="chart-title">来源锚点登记 · K1–K22</p>
+      <p class="chart-title">来源锚点登记 · K1–K26</p>
       <p class="chart-sub">本报告倚重的每一组数字及其带日期的出处 · 点击任意行查看对应事实</p>
     </div>
     <div id="source-list"></div>
   </div>
   <div class="prose">
-    <p class="colophon">WebDev E2E Bench · 交互研究版 · 数据冻结 2026-08-14 · 本轮为 Pilot，不构成通用模型排名 · 生成于 2026-08-22</p>
+    <p class="colophon">WebDev E2E Bench · 交互研究版 · 规范 V2.0 与集合 V0.2 冻结 2026-08-28 · Pilot 数据冻结 2026-08-14 · 本轮实测为 Pilot，不构成通用模型排名 · 生成于 2026-09-01</p>
   </div>
 </footer>
 
@@ -1740,6 +1894,18 @@ window.SRC = [
   { id: "K22", cat: "broker", date: "2026-08-14",
     fact: "归因修复收益（不计榜诊断）：修复文件写入协议后，Qwen 复杂任务得分提升 53.03 分、输入 Token 降低 70.8%",
     cite: "千问Agent协议诊断AB报告.md · 分块写入 A/B 复测" },
+  { id: "K23", cat: "kimi", date: "2026-08-28",
+    fact: "Benchmark 全景：Registry 收录 19 个集合（15 直接相关 + 4 邻接），与最接近五项工作的 10 项能力逐项对照",
+    cite: "docs/benchmarks/Web开发Benchmark全景对比与差异分析2026.md · §2–§4" },
+  { id: "K24", cat: "kimi", date: "2026-08-28",
+    fact: "评测规范 V2.0：评测单位、五类运行状态、公开契约与隐藏测试边界、七维权重（沿用 V1.1）、质量门槛与难度计分",
+    cite: "docs/benchmarks/WebDev_E2E_Bench评测规范V2.0.md" },
+  { id: "K25", cat: "company", date: "2026-08-28",
+    fact: "V0.2 集合门禁：30/30 Gold 三连通过 · 30/30 重复一致 · 60/60 负例检出 · 严重/致命 axe 为 0 · 付费 API 调用 0",
+    cite: "docs/benchmarks/WebDev_E2E_Bench_V0.2集合质量报告.md · §1–§3" },
+  { id: "K26", cat: "kimi", date: "2026-08-28",
+    fact: "V0.2 集合构成：30 题 = 六类各 5 · E/M/H 各 10 · Dev/Val/Test 12/8/10 · 六产品领域各 5 · 每题双负例",
+    cite: "docs/benchmarks/WebDev_E2E_Bench_Collection_Card_V0.2.md · experiments/collection-v0.2/README.md" },
 ];
 
 </script>
@@ -3001,36 +3167,45 @@ window.U = (() => {
   // mode "context" → 看板绘制与该章内容相关的情境面板（而非模型分数矩阵）
   const WINS = {
     why:        { no: "§0", title: "缘起", mode: "context", ph: -1, read: "7 维", readSub: "传统评测盲区 · 端到端补齐", hl: null,
-                  stats: [["8+","调研 Benchmark"],["0","能量「好不好用」的尺子"],["3 类","目标决策角色"],["07-12","方向确立"]] },
+                  stats: [["19","调研 Benchmark 集合"],["0","能量「好不好用」的尺子"],["3 类","目标决策角色"],["07-12","方向确立"]] },
     design:     { no: "§1", title: "体系设计", mode: "context", ph: -1, read: "6×7", readSub: "任务 × 维度 · 三把尺子", hl: null,
-                  stats: [["50/50","Auto × 主观权重"],["4 道","统一预算闸门"],["30+","分阶段任务规划"],["不可见","隐藏测试与 Rubric"]] },
+                  stats: [["50/50","Auto × 主观权重"],["4 道","统一预算闸门"],["6→30→120","分阶段任务扩展"],["不可见","隐藏测试与 Rubric"]] },
     process:    { no: "§2", title: "落地过程", mode: "context", ph: -1, read: "−71.4%", readSub: "人工操作时间 · 按流程测算", hl: null,
                   stats: [["11 步","落地阶段"],["34 天","07-12 → 08-14"],["90.9%","系统覆盖标准步骤"],["¥347.94","正式 Pilot 支出"]] },
-    frame:      { no: "§3", title: "核心结论", mode: "context", ph: 4, read: "83.71", readSub: "DEEPSEEK FINAL · CI 高度重叠", hl: null,
+    landscape:  { no: "§3", title: "竞品全景与创新点", mode: "context", ph: -1, read: "闭环", readSub: "创新在组合 · 不在单项指标", hl: null,
+                  stats: [["19","Registry 收录集合"],["5 条","赛道划分"],["15+4","直接相关 + 邻接"],["5 个","可证明创新点"]] },
+    spec:       { no: "§4", title: "评测规范 V2.0", mode: "context", ph: -1, read: "V2.0", readSub: "评测规范 · 2026-08-28 发布", hl: null,
+                  stats: [["5 类","运行状态定义"],["11 项","结果强制绑定"],["0–12","难度复杂度计分"],["15 分","Judge 分歧阈值"]] },
+    collection: { no: "§5", title: "任务集合 V0.2", mode: "context", ph: 0, read: "30/30", readSub: "GOLD 三连跑 · 负例 60/60", hl: null,
+                  stats: [["30","任务 · 六类各 5"],["10/10/10","EASY / MED / HARD"],["12/8/10","DEV / VAL / TEST"],["0","严重/致命 AXE"]] },
+    frame:      { no: "§6", title: "核心结论（Pilot）", mode: "context", ph: 4, read: "83.71", readSub: "DEEPSEEK FINAL · CI 高度重叠", hl: null,
                   stats: [["0.41","榜首分差 · 不显著"],["4:2","6 组配对胜负"],["2 个","第一梯队席位"],["36","有效样本"]] },
-    method:     { no: "§4", title: "评测机制与校准", mode: "context", ph: 1, read: "10/10", readSub: "确定性缺陷检出 · 门禁全过", hl: null,
+    method:     { no: "§7", title: "评测机制与校准", mode: "context", ph: 1, read: "10/10", readSub: "确定性缺陷检出 · 门禁全过", hl: null,
                   stats: [["6/6","Gold 全部通过"],["100%","重复评估一致率"],["83.33%","主观缺陷灵敏度"],["≤4.9","Judge 重复最大分差"]] },
-    board:      { no: "§5", title: "总榜与配对", ph: 4, read: "0.41", readSub: "榜首分差 · 不显著", hl: null,
+    board:      { no: "§8", title: "总榜与配对", ph: 4, read: "0.41", readSub: "榜首分差 · 不显著", hl: null,
                   stats: [["36","有效样本"],["6×6","模型×任务"],["15 对","两两配对"],["18/18","人工盲评"]] },
-    category:   { no: "§6", title: "分类能力", ph: 4, read: "4/6", readSub: "最佳分属四家的任务类别", hl: "cell",
+    category:   { no: "§9", title: "分类能力", ph: 4, read: "4/6", readSub: "最佳分属四家的任务类别", hl: "cell",
                   stats: [["4 家","瓜分类别最佳"],["6 类","任务类别"],["1 次","每格运行次数"],["36","矩阵单元格"]] },
-    difficulty: { no: "§7", title: "难度压力测试", mode: "context", ph: 1, read: "3.48", readSub: "DEEPSEEK EASY→HARD 最小降幅", hl: null,
+    difficulty: { no: "§10", title: "难度压力测试", mode: "context", ph: 1, read: "3.48", readSub: "DEEPSEEK EASY→HARD 最小降幅", hl: null,
                   stats: [["3.48","最小降幅 · DeepSeek"],["36.36","最大降幅 · Qwen"],["3 档","Easy / Medium / Hard"],["18","模型×难度组合"]] },
-    failures:   { no: "§8", title: "失败解剖", mode: "context", ph: 1, read: "184", readSub: "交互类失败标签 · 占 38%", hl: null,
+    failures:   { no: "§11", title: "失败解剖", mode: "context", ph: 1, read: "184", readSub: "交互类失败标签 · 占 38%", hl: null,
                   stats: [["483","失败标签总数"],["8 类","失败类别"],["38%","交互类占比"],["23","最高频单模式"]] },
-    validity:   { no: "§9", title: "评估器有效性", mode: "context", ph: 3, read: "0.6191", readSub: "AUTO–JUDGE ρ · 中等相关", hl: null,
+    validity:   { no: "§12", title: "评估器有效性", mode: "context", ph: 3, read: "0.6191", readSub: "AUTO–JUDGE ρ · 中等相关", hl: null,
                   stats: [["0.6191","Auto–Judge ρ"],["0.4599","Judge–Human ρ"],["−0.118","Auto–Human ρ"],["18 份","盲评校准样本"]] },
-    cost:       { no: "§10", title: "成本与效率", mode: "context", ph: 4, read: "$0.31", readSub: "最低单任务成本 · 并列两家", hl: null,
+    cost:       { no: "§13", title: "成本与效率", mode: "context", ph: 4, read: "$0.31", readSub: "最低单任务成本 · 并列两家", hl: null,
                   stats: [["¥347.94","累计支出"],["¥560","预算上限"],["−0.3498","质量–成本 ρ"],["0","返工重跑"]] },
-    verdict:    { no: "§11", title: "裁决", ph: 4, read: "并列", readSub: "第一梯队 · 指针未出观察区", hl: "top2",
+    verdict:    { no: "§14", title: "裁决", ph: 4, read: "并列", readSub: "第一梯队 · 指针未出观察区", hl: "top2",
                   stats: [["并列","第一梯队裁决"],["≥2 次","独立重复要求"],["120","V1 任务规模"],["Pilot","结论边界"]] },
-    next:       { no: "§12", title: "闭环与下一步", mode: "context", ph: 4, read: "+53.03", readSub: "归因修复后复测提升 · 不计榜", hl: null,
+    next:       { no: "§15", title: "闭环与下一步", mode: "context", ph: 4, read: "+53.03", readSub: "归因修复后复测提升 · 不计榜", hl: null,
                   stats: [["+53.03","Qwen 复杂任务复测"],["−70.8%","Qwen 输入 Token"],["−82.7%","ERNIE 协议输入 Token"],["不计榜","诊断口径"]] },
   };
   const SRC = {
     why: "docs/benchmarks/ Benchmark 调研报告 (2026-07)",
     design: "全阶段过程记录 · 阶段一方案 (2026-07-12)",
     process: "产品价值测算与使用口径 (2026-08-22)",
+    landscape: "Web开发Benchmark全景对比与差异分析2026.md (2026-08-28)",
+    spec: "WebDev_E2E_Bench评测规范V2.0.md (2026-08-28)",
+    collection: "WebDev_E2E_Bench_V0.2集合质量报告.md (2026-08-28)",
     method: "评估器有效性校准阶段报告 (2026-08-13)",
     next: "千问Agent协议诊断AB报告 (2026-08-14)",
   };
@@ -3159,6 +3334,164 @@ window.U = (() => {
       });
       g.globalAlpha = E;
       return y + 54;
+    }
+    if (key === "landscape") {
+      // §3 竞品全景：五条赛道 + 组合创新闭环链
+      const tracks = [
+        ["浏览器操作", "WebArena 系", "不生成产品 · 不评代码"],
+        ["页面复刻", "Design2Code 系", "缺业务状态与流程"],
+        ["从零生成", "WebGen / Arena 系", "响应式·可访问性·归因不全"],
+        ["项目开发", "Web-Bench 系", "以测试通过为主"],
+        ["JUDGE / 偏好", "WebDevJudge 系", "不负责生成评测闭环"],
+      ];
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("19 个集合 · 五条赛道 · 各自量不到什么", pad, y);
+      y += 14;
+      tracks.forEach((t, i) => {
+        const yy = y + i * 30;
+        const a = U.clamp((E - i * 0.09) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        g.fillStyle = "rgba(34,81,255,.55)";
+        g.fillRect(pad, yy + 2, 5, 22);
+        g.font = `700 10.5px ${MONO}`; g.fillStyle = PAL.ink;
+        g.fillText(t[0], pad + 13, yy + 12);
+        g.font = `9px ${MONO}`; g.fillStyle = PAL.inkMd;
+        g.fillText(t[1] + " —— " + t[2], pad + 13, yy + 24);
+      });
+      y += tracks.length * 30 + 16;
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("本项目创新 = 五环闭环 · 单环均有邻接 · 闭环没有", pad, y);
+      y += 12;
+      const loop = ["真实产品评测", "自动+人工校准", "评估器门禁", "根因归因", "选型决策"];
+      const lW = Math.min(cw, 330), sW = (lW - 4 * 10) / 5;
+      loop.forEach((s, i) => {
+        const x = pad + i * (sW + 10);
+        const a = U.clamp((E - 0.5 - i * 0.08) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        g.fillStyle = "rgba(34,81,255,.06)";
+        g.fillRect(x, y, sW, 34);
+        g.strokeStyle = PAL.red; g.lineWidth = 1.2;
+        g.strokeRect(x + .5, y + .5, sW, 34);
+        g.font = `700 8.5px ${MONO}`; g.fillStyle = PAL.ink;
+        const parts = s.length > 5 ? [s.slice(0, 5), s.slice(5)] : [s];
+        parts.forEach((pt, pi) => {
+          g.fillText(pt, x + sW / 2 - g.measureText(pt).width / 2, y + (parts.length > 1 ? 13 : 20) + pi * 11);
+        });
+        if (i < loop.length - 1) {
+          g.fillStyle = PAL.red; g.font = `700 10px ${MONO}`;
+          g.fillText("→", x + sW + 2, y + 21);
+        }
+      });
+      g.globalAlpha = E;
+      return y + 58;
+    }
+    if (key === "spec") {
+      // §4 评测规范：五类运行状态 + 七维权重条
+      const states = [
+        ["VALID", "预算内产生可冻结提交", true, "计入"],
+        ["MODEL_FAILURE", "未完成 / 输出无效 / 耗尽预算", true, "计入·按证据评分"],
+        ["AGENT_FAILURE", "工具协议无法执行本可执行动作", false, "修复后诊断复测"],
+        ["INFRA_FAILURE", "API / 网络 / 浏览器故障", false, "只允许受控重试"],
+        ["EVALUATOR_FAILURE", "测试或 Judge 本身错误", false, "冻结并修正规则"],
+      ];
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("五类运行状态 · 仅两类计入模型结果 · 归因须有证据", pad, y);
+      y += 14;
+      states.forEach((s, i) => {
+        const yy = y + i * 28;
+        const a = U.clamp((E - i * 0.09) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        if (s[2]) { g.fillStyle = PAL.red; g.beginPath(); g.arc(pad + 6, yy + 9, 4.5, 0, 7); g.fill(); }
+        else { g.strokeStyle = "#c8d2dd"; g.lineWidth = 1.2; g.beginPath(); g.arc(pad + 6, yy + 9, 4.5, 0, 7); g.stroke(); }
+        g.font = `700 9.5px ${MONO}`; g.fillStyle = PAL.ink;
+        g.fillText(s[0], pad + 18, yy + 12);
+        g.font = `8.5px ${MONO}`; g.fillStyle = PAL.inkMd;
+        g.fillText(s[1], pad + 116, yy + 12);
+        g.font = `700 8.5px ${MONO}`; g.fillStyle = s[2] ? PAL.red : PAL.inkLo; g.textAlign = "right";
+        g.fillText(s[3], pad + cw, yy + 12); g.textAlign = "left";
+      });
+      y += states.length * 28 + 16;
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("七维权重 · 沿用 V1.1 · 不改权重造成绩", pad, y);
+      y += 10;
+      const dims = [["功能", 30], ["视觉", 20], ["E2E", 15], ["交互", 15], ["响应", 8], ["代码", 7], ["A11Y", 5]];
+      const bw = Math.min(cw, 330);
+      let bx = pad;
+      dims.forEach((d, i) => {
+        const w = bw * d[1] / 100;
+        const a = U.clamp((E - 0.55 - i * 0.06) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        g.fillStyle = `rgba(34,81,255,${0.9 - i * 0.1})`;
+        g.fillRect(bx, y, w - 1.5, 22);
+        g.font = `700 8.5px ${MONO}`; g.fillStyle = "#fff";
+        if (w > 30) g.fillText(d[0] + " " + d[1], bx + 5, y + 15);
+        bx += w;
+      });
+      g.globalAlpha = E;
+      return y + 46;
+    }
+    if (key === "collection") {
+      // §5 任务集合：6 类 × 5 题网格 + 门禁勾选
+      const cats = ["页面生成", "功能实现", "组件开发", "页面改版", "轻量全栈", "BUGFIX+UX"];
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("集合构成 · 六类各 5 题 · 六领域 × 三难度均衡", pad, y);
+      y += 14;
+      const gw = Math.min(cw - 74, 220), cellW = gw / 5, cellH = 24;
+      cats.forEach((c, r) => {
+        const yy = y + r * (cellH + 4);
+        const a = U.clamp((E - r * 0.08) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        for (let i = 0; i < 5; i++) {
+          g.fillStyle = `rgba(34,81,255,${0.16 + i * 0.13})`;
+          g.fillRect(pad + i * cellW + 1, yy, cellW - 2, cellH);
+        }
+        g.font = `700 9px ${MONO}`; g.fillStyle = PAL.ink;
+        g.fillText(c, pad + gw + 10, yy + cellH / 2 + 3);
+      });
+      y += cats.length * (cellH + 4) + 8;
+      g.globalAlpha = E;
+      g.font = `8.5px ${MONO}`; g.fillStyle = PAL.inkMd;
+      g.fillText("EASY 10 / MED 10 / HARD 10 · DEV 12 / VAL 8 / TEST 10", pad, y + 8);
+      y += 24;
+      const gates = [
+        ["GOLD 连续三次通过", "30/30", true],
+        ["重复检查结果一致", "30/30", true],
+        ["受控负例检出", "60/60", true],
+        ["严重/致命 AXE", "0", true],
+        ["付费模型 API 调用", "0", true],
+        ["独立人工歧义复核", "待办 6 题", false],
+      ];
+      g.globalAlpha = E;
+      g.font = `9px ${MONO}`; g.fillStyle = PAL.inkLo;
+      g.fillText("运行门禁 · 双 PASS 才允许 SMOKE TEST", pad, y);
+      y += 14;
+      gates.forEach((gt, i) => {
+        const yy = y + i * 26;
+        const a = U.clamp((E - 0.5 - i * 0.07) / 0.3, 0, 1);
+        g.globalAlpha = a;
+        if (gt[2]) {
+          g.strokeStyle = PAL.red; g.lineWidth = 1.3;
+          g.beginPath(); g.arc(pad + 7, yy + 8, 7, 0, 7); g.stroke();
+          g.fillStyle = PAL.red; g.font = `700 9px ${MONO}`;
+          g.fillText("✓", pad + 3.5, yy + 12);
+        } else {
+          g.strokeStyle = PAL.neg; g.lineWidth = 1.3; g.setLineDash([3, 3]);
+          g.beginPath(); g.arc(pad + 7, yy + 8, 7, 0, 7); g.stroke(); g.setLineDash([]);
+          g.fillStyle = PAL.neg; g.font = `700 9px ${MONO}`;
+          g.fillText("…", pad + 3.5, yy + 11);
+        }
+        g.font = `700 9.5px ${MONO}`; g.fillStyle = PAL.ink;
+        g.fillText(gt[0], pad + 22, yy + 12);
+        g.font = `700 12px ${MONO}`; g.fillStyle = gt[2] ? PAL.red : PAL.neg; g.textAlign = "right";
+        g.fillText(gt[1], pad + cw, yy + 12); g.textAlign = "left";
+      });
+      g.globalAlpha = E;
+      return y + gates.length * 26 + 12;
     }
     if (key === "frame") {
       // §3 核心结论：六模型 95% CI 区间条，直观呈现「并列」
@@ -3883,6 +4216,191 @@ window.U = (() => {
 
 </script>
 <script>
+// §3 · 竞品全景：与最接近工作的 10 项能力逐项对照（DOM 矩阵，点击行钻取）
+(() => {
+  const host = document.getElementById("landscape-chart");
+  if (!host || !window.RPT) return;
+  const body = U.frame(host, {
+    title: "与最接近的五项工作逐项对照：差异落在最后四行",
+    sub: "● 核心输出 · ◐ 部分 / 弱 / 非重点 · ○ 未作为核心维度 —— 点击任意行查看该能力的差异说明",
+    src: "Benchmark 全景对比与差异分析 (2026-08-28) · K23",
+  });
+
+  const COLS = ["Web-Bench", "FrontendBench", "WebGen-Bench", "WebDevJudge", "WebDev Arena", "WebDev E2E Bench"];
+  // v: 1 = ●, 0.5 = ◐, 0 = ○；note 为该行差异说明
+  const ROWS = [
+    ["可运行项目 / 页面", [1, 1, 1, .5, 1, 1], "五家都能产出可运行产物；WebDevJudge 把生成结果作为评判样本而非评测对象。"],
+    ["确定性功能测试", [1, 1, 1, .5, .5, 1], "WebGen-Bench 有 647 个功能测试；WebDev Arena 依赖人类偏好，确定性测试较弱。"],
+    ["真实浏览器交互", [1, 1, 1, 1, 1, 1], "真实浏览器交互已是主流共识，本项目继承这一点。"],
+    ["视觉与产品完成度", [.5, 1, 1, 1, .5, 1], "Design2Code 系视觉还原成熟；Web-Bench 以测试通过为主，视觉为弱项。"],
+    ["三视口响应式", [0, 0, 0, 0, 0, 1], "前五家的公开主指标均不以响应式为独立稳定输出；本项目三视口（1440/768/390）为固定维度。"],
+    ["可访问性", [0, 0, 0, 0, 0, 1], "axe + 语义 + 键盘焦点在五家中均未作为核心维度；本项目为固定维度并设扣分门槛。"],
+    ["代码可维护性", [.5, .5, .5, .5, .5, 1], "前多家以「能跑通」为终点；本项目把结构、重复与依赖纳入固定维度。"],
+    ["评估器先校准再排名", [0, .5, .5, 1, .5, 1], "WebDevJudge 以 Judge 可靠性为核心目标；本项目把评估器门禁作为排名前置条件（Gold + 负例 + 重复）。"],
+    ["模型 / Agent / 环境 / 评估器归因", [0, 0, 0, .5, 0, 1], "WebDevJudge 只评估 Judge；本项目把低分拆成模型能力、Agent 适配、基础设施、评估器四类根因。"],
+    ["场景选型与优化建议", [0, 0, 0, 0, .5, 1], "WebDev Arena 的 Elo 排名最接近决策输出；本项目输出「哪个模型适合哪类场景、下一步优化模型还是 Agent」。"],
+  ];
+
+  const tbl = document.createElement("table");
+  tbl.className = "dt";
+  const sym = v => v === 1 ? "●" : v === .5 ? "◐" : "○";
+  const col = (v, last) => v === 1 ? (last ? "var(--red)" : "var(--ink)") : v === .5 ? "var(--blue)" : "var(--line)";
+  tbl.innerHTML = "<thead><tr><th>能力维度</th>" +
+    COLS.map((c, i) => `<th style="${i === COLS.length - 1 ? "color:var(--red)" : ""}">${c}</th>`).join("") +
+    "</tr></thead>";
+  const tb = document.createElement("tbody");
+  ROWS.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.setAttribute("data-drill-keep", "");
+    tr.style.cursor = "pointer";
+    tr.innerHTML = `<td style="font-weight:700">${r[0]}</td>` + r[1].map((v, i) =>
+      `<td class="num" style="color:${col(v, i === COLS.length - 1)};font-size:15px">${sym(v)}</td>`).join("");
+    tr.addEventListener("click", e => U.showDrill({
+      title: "能力对照 · " + r[0],
+      value: r[1].map(v => sym(v)).join("  "),
+      sub: r[2],
+      source: "Web开发Benchmark全景对比与差异分析2026.md · §3 (2026-08-28)",
+      x: e.clientX, y: e.clientY,
+    }));
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  body.appendChild(tbl);
+
+  const note = document.createElement("p");
+  note.style.cssText = "font-size:12px;color:var(--ink-lo);margin:12px 0 0;line-height:1.7";
+  note.textContent = "「未作为核心维度」不等于相关项目完全没有对应检查，而是其公开主要指标与报告目标并不以该维度为独立、稳定输出。此表用于定位差异，不用于贬低其他集合。";
+  body.appendChild(note);
+})();
+
+</script>
+<script>
+// §4 · 评测规范 V2.0：七维权重合成条 + 证据归属（DOM，点击维度钻取）
+(() => {
+  const host = document.getElementById("spec-chart");
+  if (!host || !window.RPT) return;
+  const body = U.frame(host, {
+    title: "Final Score 的七维合成：权重沿用 V1.1，不因集合扩充修改",
+    sub: "每段宽度 = 权重 · 点击维度查看主要证据与「自动化 / Judge / 人工」边界",
+    src: "WebDev E2E Bench 评测规范 V2.0 · §4 (2026-08-28) · K24",
+  });
+
+  const DIMS = [
+    ["功能正确性", 30, "Playwright 交互、状态和数据断言", "确定性结果为主，人工只处理契约争议", 0.95],
+    ["视觉质量", 20, "三视口截图、布局异常、视觉 Judge", "规则拦截明显失败，Judge 评分，人工抽检", 0.75],
+    ["端到端可用性", 15, "安装、构建、启动、运行时和核心流程", "确定性工具", 0.6],
+    ["交互质量", 15, "操作反馈、焦点、状态转换、流程证据", "功能部分自动化，自然度由 Judge / 人工", 0.6],
+    ["响应式", 8, "1440×900、768×1024、390×844 三视口", "确定性溢出 / 遮挡检查加截图复核", 0.4],
+    ["代码质量", 7, "typecheck、结构摘要、重复与依赖", "静态规则加 Judge / 人工维护性判断", 0.35],
+    ["可访问性", 5, "axe、语义、label、键盘与焦点", "axe 与 Playwright 为主", 0.28],
+  ];
+
+  // 合成条
+  const bar = document.createElement("div");
+  bar.style.cssText = "display:flex;width:100%;height:64px;border:1px solid var(--line);margin:6px 0 4px";
+  DIMS.forEach(d => {
+    const seg = document.createElement("div");
+    seg.setAttribute("data-drill-keep", "");
+    seg.style.cssText = `width:${d[1]}%;background:rgba(34,81,255,${d[4]});border-right:1px solid #fff;` +
+      "display:flex;flex-direction:column;justify-content:center;padding:0 8px;cursor:pointer;overflow:hidden";
+    seg.innerHTML = (d[1] >= 12
+      ? `<span style="font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;white-space:nowrap">${d[0]}</span>` : "") +
+      `<span style="font-family:var(--mono);font-size:${d[1] >= 12 ? 15 : 12}px;font-weight:700;color:#fff;white-space:nowrap">${d[1]}%</span>`;
+    seg.addEventListener("click", e => U.showDrill({
+      title: "维度 · " + d[0], value: d[1] + "%",
+      sub: `主要证据：${d[2]}。边界：${d[3]}。`,
+      source: "WebDev_E2E_Bench评测规范V2.0.md · §4 七维指标与证据归属 (2026-08-28)",
+      x: e.clientX, y: e.clientY,
+    }));
+    bar.appendChild(seg);
+  });
+  body.appendChild(bar);
+
+  const legend = document.createElement("p");
+  legend.style.cssText = "font-family:var(--mono);font-size:10.5px;color:var(--ink-lo);margin:6px 0 0;letter-spacing:.02em";
+  legend.textContent = "左 → 右：功能正确性 30 · 视觉质量 20 · 端到端可用性 15 · 交互质量 15 · 响应式 8 · 代码质量 7 · 可访问性 5";
+  body.appendChild(legend);
+
+  const formula = document.createElement("p");
+  formula.style.cssText = "font-family:var(--mono);font-size:12px;color:var(--ink-md);margin:10px 0 18px;line-height:1.8";
+  formula.textContent = "Final Score = 0.30×功能 + 0.15×E2E可用性 + 0.20×视觉 + 0.15×交互 + 0.08×响应式 + 0.05×可访问性 + 0.07×代码";
+  body.appendChild(formula);
+
+  // 边界说明三行
+  const rules = [
+    ["确定性失败不可覆盖", "LLM Judge 不得单独判定构建、功能或可访问性通过，也不得覆盖确定性失败。"],
+    ["Judge 分歧入人工池", "双 Judge 任一维度分差超过 15 分即标记 disagreement，进入人工抽检池。"],
+    ["无证据不打分", "Judge 只能评价已成功加载的可见产品；无证据维度必须标记 unavailable，不能猜分。"],
+  ];
+  rules.forEach(r => {
+    const p = document.createElement("p");
+    p.style.cssText = "font-size:13px;color:var(--ink-md);margin:0 0 8px;line-height:1.7";
+    p.innerHTML = `<b style="color:var(--ink)">${r[0]} · </b>${r[1]}`;
+    body.appendChild(p);
+  });
+})();
+
+</script>
+<script>
+// §5 · 任务集合 V0.2：质量门禁记分牌（复用 gate-row，点击钻取）
+(() => {
+  const host = document.getElementById("collection-chart");
+  if (!host || !window.RPT) return;
+  const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const body = U.frame(host, {
+    title: "V0.2 集合质量门禁：全部通过才允许烧模型 Token",
+    sub: "10 格 = 目标 100% · 点灯数 = 实际达成 · 静态门禁 + 运行门禁双 PASS 是 Smoke Test 的前置条件 · 点击每行钻取",
+    src: "V0.2 集合质量报告 (2026-08-28) · K25",
+  });
+
+  const gates = [
+    { name: "任务数量与分布", basis: "六类任务各 5 题：页面生成 / 功能实现 / 组件开发 / 页面改版 / 轻量全栈 / Bugfix+UX", score: 10, val: "30/30" },
+    { name: "难度均衡", basis: "easy / medium / hard 各 10 题，难度经 Gold 实跑与复核者双重确认", score: 10, val: "10/10/10" },
+    { name: "数据划分", basis: "Dev 12 / Validation 8 / Test 10；Test 的 Gold 与隐藏规则存私有评测环境", score: 10, val: "12/8/10" },
+    { name: "Gold 连续三次通过", basis: "每题三次构建、类型检查、公开 smoke、三视口布局与交互检查全部通过", score: 10, val: "30/30" },
+    { name: "重复检查结果一致", basis: "按浏览器分数与失败检查集合比较，30 题三次结果完全一致", score: 10, val: "30/30" },
+    { name: "受控负例检出", basis: "每题注入 obvious + near-miss 两个缺陷，60 个负例均触发预期交互失败", score: 10, val: "60/60" },
+    { name: "严重 / 致命 axe 问题", basis: "Gold 不得出现严重或致命可访问性问题与明显布局失败", score: 10, val: "0" },
+    { name: "真实模型 API 调用", basis: "全部门禁在本地运行器完成，未消耗任何付费模型 Token", score: 10, val: "0" },
+    { name: "独立人工歧义复核", basis: "按规范抽取 20%（6 题）由未参与出题者复核需求歧义；完成前不启动 Smoke Test", score: 0, val: "待办 6 题" },
+  ];
+
+  const wrap = document.createElement("div");
+  gates.forEach((g, i) => {
+    const row = document.createElement("div");
+    row.className = "gate-row"; row.setAttribute("data-drill-keep", "");
+    row.innerHTML = `
+      <div class="gate-idx">${String(i + 1).padStart(2, "0")}</div>
+      <div><div class="gate-name">${g.name}</div><div class="gate-basis">${g.basis}</div></div>
+      <div class="gate-blocks">${Array.from({ length: 10 }, (_, j) =>
+        `<span class="b${j < Math.round(g.score) ? " on" : ""}"></span>`).join("")}</div>
+      <div class="gate-val" style="${g.score === 0 ? "color:var(--neg)" : ""}">${g.val}</div>`;
+    row.addEventListener("click", e => U.showDrill({
+      title: "集合门禁 · " + g.name, value: g.val,
+      sub: g.basis,
+      source: "WebDev_E2E_Bench_V0.2集合质量报告.md (2026-08-28)",
+      x: e.clientX, y: e.clientY,
+    }));
+    wrap.appendChild(row);
+  });
+  body.appendChild(wrap);
+
+  if (!REDUCE) {
+    const blocks = [...wrap.querySelectorAll(".b.on")];
+    blocks.forEach(b => { b.style.opacity = 0; });
+    const io = new IntersectionObserver(es => {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      blocks.forEach((b, j) => setTimeout(() => {
+        b.style.transition = "opacity .18s"; b.style.opacity = 1;
+      }, j * 30));
+    }, { threshold: 0.25 });
+    io.observe(host);
+  }
+})();
+
+</script>
+<script>
 // §0 · Executive summary charts: CI ladder (Final + 95% bootstrap CI) + human-review strip.
 (() => {
   if (!window.RPT) return;
@@ -4364,7 +4882,7 @@ window.U = (() => {
       U.showDrill({
         title: `${RPT.model_label[m]} · ${CL[c]}`,
         value: v.toFixed(2),
-        sub: `该类别第 ${rank}/6${best[c] === m ? " · 类别最佳" : ""}${v < 40 ? " · 单项严重失败：Agent 写入协议灾难性崩溃，详见 §8 案例" : ""}`,
+        sub: `该类别第 ${rank}/6${best[c] === m ? " · 类别最佳" : ""}${v < 40 ? " · 单项严重失败：Agent 写入协议灾难性崩溃，详见 §11 案例" : ""}`,
         source: "汇总数据.json · category_scores · K2 (2026-08-14)",
         x: e.clientX, y: e.clientY,
       });
