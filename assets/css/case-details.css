@@ -1,0 +1,53 @@
+/* 案例文字优先；指标注明场景，图片作为补充证据。 */
+.project-dialog-content { width: min(1120px, 88vw); padding: 64px 0 96px; }
+.project-dialog-header { padding-block: 14px; }
+.project-dialog-kicker { margin-bottom: 24px; opacity: 1; color: #b7afa5; font-size: 13px; letter-spacing: .08em; }
+.project-dialog-title { max-width: 20ch; font-size: clamp(36px, 5.5vw, 76px); line-height: 1.25; overflow-wrap: anywhere; }
+.project-dialog-intro { max-width: 48em; margin: 28px 0; font-size: 18px; opacity: 1; color: #d0c8be; }
+.project-dialog-links { margin-bottom: 12px; }
+.project-dialog-link { padding: 10px 22px; white-space: normal; font-size: 13px; letter-spacing: .04em; text-align: center; }
+.project-dialog-share { background: transparent; }
+.project-dialog-feedback { min-height: 26px; margin-bottom: 24px; color: #b7afa5; font-size: 13px; }
+.project-dialog-copy-fallback { display: block; margin-bottom: 30px; font-size: 14px; }
+.project-dialog-copy-fallback input { display: block; width: 100%; margin-top: 10px; padding: 12px; color: var(--portfolio-light); background: #231f19; border: 1px solid #6c6255; }
+.case-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 26px; margin: 36px 0 44px; padding: 24px 0; border-block: 1px solid #454039; }
+.case-metrics > div { display: flex; flex-direction: column-reverse; align-self: start; gap: 8px; }
+.case-metrics dt { color: #b7afa5; font-size: 13px; }
+.case-metrics dd { margin: 0; font-family: var(--serif); font-size: clamp(28px, 3vw, 40px); line-height: 1.5; }
+.case-sections { display: grid; gap: 30px; margin: 40px 0; }
+.case-section { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 40px; }
+.case-section h3 { margin: 0; font-size: 20px; font-weight: 500; }
+.case-section h3 span { margin-right: 18px; color: #d99963; font-family: var(--serif); font-size: 22px; }
+.case-section p { margin: 0; color: #d0c8be; font-size: 16px; line-height: 1.95; }
+.case-evidence { padding: 24px 28px; border-left: 2px solid #d99963; background: #201c16; }
+.case-evidence h3 { margin: 0 0 12px; font-size: 14px; font-weight: 600; }
+.case-evidence p { margin: 0; color: #b7afa5; font-size: 14px; line-height: 1.9; }
+.project-dialog-stack { opacity: 1; color: #aaa196; font-size: 11px; letter-spacing: .1em; }
+.project-dialog-section-heading { margin: 48px 0 24px; font-size: 20px; font-weight: 500; }
+.project-dialog-subproject h3 { font-size: 28px; line-height: 1.3; }
+.project-dialog-subproject p { font-size: 15px; opacity: 1; color: #c2b9ad; }
+.project-dialog-subproject a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; letter-spacing: .08em; }
+.project-dialog-subproject-stack { opacity: 1 !important; color: #aaa196; font-size: 11px !important; letter-spacing: .06em; }
+.project-dialog-subproject-note { opacity: 1; color: #b7afa5; font-size: 12px; }
+@media (max-width: 1000px) {
+  .project-dialog-subprojects { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; }
+  .case-section { grid-template-columns: 190px minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 767px) {
+  .project-dialog-content { padding: 36px 0 64px; }
+  .project-dialog-header { padding: 12px 6vw; }
+  .project-dialog-brand { font-size: 10px; letter-spacing: .13em; }
+  .project-dialog-kicker { font-size: 12px; line-height: 1.8; }
+  .project-dialog-title { font-size: 36px; }
+  .project-dialog-intro { margin-block: 24px; font-size: 16px; }
+  .project-dialog-links { gap: 12px; }
+  .project-dialog-link { font-size: 12px; padding-inline: 18px; }
+  .case-metrics { grid-template-columns: minmax(0, 1fr); gap: 20px; margin: 28px 0 36px; }
+  .case-section { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .case-section h3 { font-size: 19px; }
+  .case-evidence { padding: 20px; }
+  .project-dialog-gallery, .project-dialog-subprojects { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .project-dialog-gallery { margin-top: 24px; }
+  .project-dialog-close { flex-shrink: 0; }
+  .project-dialog-subproject { gap: 18px; }
+}

@@ -1,0 +1,34 @@
+/* 较早经历保留完整原文，以单列错落的纸张叙事呈现。 */
+.proof-section .section-heading { margin-bottom: clamp(56px, 8vh, 96px); }
+.proof-story { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(64px, 11vh, 120px); }
+.proof-note-slot { width: min(680px, 86%); min-width: 0; }
+.proof-note-slot--right { align-self: flex-end; }
+.proof-note-slot--center { align-self: center; }
+.proof-section .proof-note { --note-muted: #686057; --note-line: #dcd3c7; position: relative; width: 100%; padding: 40px 44px; border: 1px solid #e4dcd1; border-top-color: #fffaf4; border-radius: 4px; background: linear-gradient(155deg, #f8f4ee, #f1ece4); box-shadow: 0 38px 64px -28px rgb(64 51 37 / 36%), 0 2px 4px rgb(64 51 37 / 3%); transform-origin: 50% 30%; }
+.proof-note .company-heading { margin-bottom: 28px; }
+.proof-note .company-heading img { width: 48px; height: 48px; padding: 9px; border: 1px solid var(--note-line); border-radius: 50%; }
+.proof-note .company-heading h3 { font-size: 17px; }
+.proof-note .company-heading p, .proof-note .company-heading > span { color: var(--note-muted); font-size: 12px; }
+.proof-note-quote { margin-bottom: 0; font-family: var(--serif); font-size: clamp(24px, 2.2vw, 32px); line-height: 1.65; }
+.proof-note-mark { display: flex; align-items: center; justify-content: center; flex: 0 0 96px; height: 48px; }
+.proof-note .proof-note-mark img { width: 100%; height: 100%; padding: 0; border: 0; border-radius: 0; object-fit: contain; }
+.proof-note-mark--surface { padding: 8px; background: var(--paper); border-radius: 3px; }
+.proof-note-mark--seal { flex-basis: 48px; padding: 6px; border: 1px solid var(--note-line); border-radius: 50%; background: var(--paper); }
+.proof-section .proof-note--dark { --note-muted: #bdb5aa; --note-line: #454039; color: #ede7dc; border-color: #26231e; background: var(--portfolio-dark); box-shadow: 0 38px 64px -28px rgb(0 0 0 / 48%); }
+.proof-section .proof-note--orange { --note-muted: #4d2b13; color: var(--ink); border-color: #f97316; background: #f97316; box-shadow: 0 38px 64px -28px rgb(120 70 20 / 36%); }
+.proof-section .source-note { margin-top: 70px; }
+@media (max-width: 900px) {
+  .proof-note-slot { width: 100%; }
+  .proof-section .proof-note { padding: 34px; }
+}
+@media (max-width: 767px) {
+  .proof-section .section-heading { margin-bottom: 36px; }
+  .proof-story { gap: 36px; }
+  .proof-section .proof-note { padding: 28px 22px; box-shadow: 0 22px 38px -23px rgb(64 51 37 / 34%); }
+  .proof-note .company-heading { margin-bottom: 22px; }
+  .proof-note .company-heading > span { margin-left: 62px; }
+  .proof-note-quote { margin-bottom: 28px; font-size: 23px; line-height: 1.65; }
+  .proof-note-mark { flex-basis: 82px; }
+  .proof-note-mark--seal { flex-basis: 48px; height: 48px; }
+  .proof-section .source-note { margin-top: 36px; }
+}

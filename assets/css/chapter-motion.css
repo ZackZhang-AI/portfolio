@@ -1,0 +1,15 @@
+/* 大幅章节展开与文字翻起只用于桌面动态模式，静态布局不依赖这些装饰。 */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .motion-scene {
+    clip-path: inset(
+      calc(var(--chapter-enter, 0) * 72px)
+      max(calc(var(--chapter-enter, 0) * 12%), calc(var(--chapter-exit, 0) * 10%))
+      calc(var(--chapter-exit, 0) * 64px)
+      round calc(max(var(--chapter-enter, 0), var(--chapter-exit, 0)) * 72px)
+    );
+  }
+  .kinetic-window { display: inline-block; overflow: clip; vertical-align: bottom; padding-block: .08em; margin-block: -.08em; perspective: 700px; }
+  .kinetic-glyph { display: inline-block; transform-origin: 50% 100%; }
+  #heroStick { overflow: clip; }
+  #talkLink { transform-origin: left center; }
+}

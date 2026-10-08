@@ -1,0 +1,49 @@
+/* PC 鼠标反馈独立于滚动动效；装饰不改变正文、点击区域或布局尺寸。 */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .site-menu > a:not(.nav-resume) { position: relative; text-decoration: none; }
+  .site-menu > a:not(.nav-resume)::after { position: absolute; right: 0; bottom: 6px; left: 0; height: 1px; background: var(--accent); content: ''; transform: scaleX(0); transform-origin: right center; }
+  .site-menu > a:not(.nav-resume):is(:hover, :focus-visible, [aria-current])::after { transform: scaleX(1); transform-origin: left center; }
+  .site-menu > a:not(.nav-resume):is(:hover, :focus-visible) { color: var(--accent); }
+
+  .button, .nav-resume { position: relative; isolation: isolate; overflow: hidden; }
+  .button::before, .nav-resume::before { position: absolute; inset: 0; z-index: -1; background: #a9400b; content: ''; transform: translateY(102%); }
+  .button:is(:hover, :focus-visible), .site-menu .nav-resume:is(:hover, :focus-visible) { border-color: #a9400b; color: #fffaf3; text-decoration: none; }
+  .button:is(:hover, :focus-visible)::before, .nav-resume:is(:hover, :focus-visible)::before { transform: translateY(0); }
+
+  .text-link, .proof-agent-link { position: relative; }
+  .text-link::after, .proof-agent-link::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: currentColor; content: ''; transform: scaleX(0); transform-origin: right center; }
+  .text-link:is(:hover, :focus-visible)::after, .proof-agent-link:is(:hover, :focus-visible)::after { transform: scaleX(1); transform-origin: left center; }
+  .text-link > span, .proof-agent-link > span { position: relative; }
+  .text-link > span::before, .proof-agent-link > span::before { position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; border: 1px solid currentColor; border-radius: 50%; opacity: 0; content: ''; transform: translate(-50%, -50%) scale(.65); }
+  .text-link:is(:hover, :focus-visible) > span::before, .proof-agent-link:is(:hover, :focus-visible) > span::before { opacity: .4; transform: translate(-50%, -50%) scale(1); }
+
+  .proof-showcase :is(.proof-project, .proof-secondary):is(:hover, :focus-within) h4 { color: #a9400b; }
+  .proof-showcase .proof-secondary:is(:hover, :focus-within) { border-color: #c99069; background: #f8f2e9; }
+  .pathCard:hover { border-color: #bd8c66; box-shadow: 0 26px 32px -20px rgb(82 59 34 / 48%); }
+  .paper-steps > li:is(:hover, :focus-within) { border-color: #bd8c66; background: #f8f2e9; }
+  .paper-steps > li:is(:hover, :focus-within) .step-number { color: #a9400b; }
+  .signal:is(:hover, :focus-visible) .signal-value { color: #a9400b; }
+
+  .work-image:is(:hover, :focus-visible) { border-color: #e4a775; }
+  .work-image:focus-visible::after { border-color: #a9400b; color: #a9400b; }
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-menu > a::after, .button::before, .nav-resume::before, .text-link::after, .proof-agent-link::after { transition: transform 450ms cubic-bezier(.22, 1, .36, 1); }
+  .button, .nav-resume { transition: color 250ms ease, border-color 250ms ease, translate 200ms ease; }
+  .button:active, .nav-resume:active { translate: 0 2px; }
+  .text-link > span::before, .proof-agent-link > span::before { transition: transform 450ms cubic-bezier(.22, 1, .36, 1), opacity 350ms ease; }
+  .pointer-arrow { display: inline-block; transition: none !important; }
+  .pathCard { transition: border-color 350ms ease, box-shadow 500ms ease; }
+  .pathCard-visual img { transition: translate 550ms cubic-bezier(.22, 1, .36, 1); }
+  .pathCard:hover .pathCard-visual img { translate: 0 -3px; }
+  .proof-showcase h4, .step-number { transition: color 350ms ease; }
+  .proof-showcase .proof-secondary, .paper-steps > li { transition: background-color 400ms ease, border-color 400ms ease, box-shadow 450ms ease; }
+  .signal-value { transition: color 350ms ease, translate 500ms cubic-bezier(.22, 1, .36, 1); }
+  .signal:is(:hover, :focus-visible) .signal-value { translate: 0 -5px; }
+
+  .work-image { transition: border-color 350ms ease; }
+  .flowing-preview-track { translate: calc(var(--preview-drift, 0) * 1px) 0; }
+  .flowing-preview::before { position: absolute; inset: 0 auto 0 0; z-index: 1; width: 3px; content: ''; background: #f97316; }
+  .flowing-preview::after { position: absolute; top: 50%; right: 28px; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #a9400b; border-radius: 50%; content: '↗'; color: #a9400b; background: var(--paper); font-size: 19px; translate: 0 -50%; }
+}
