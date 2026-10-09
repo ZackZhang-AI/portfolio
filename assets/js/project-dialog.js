@@ -1,196 +1,17 @@
 (function () {
   'use strict';
 
-  var projects = {
-    rag: {
-      id: 'rag',
-      title: 'RAG Knowledge Base',
-      category: 'RAG · EVAL · 2025',
-      description: '百川智能实习期间医疗 RAG 知识助手的脱敏复刻 Demo：覆盖多格式文档解析（OCR + 结构分析）、BM25 与向量混合检索配 Rerank、段落级引用溯源，以及 RAGAS 思路的忠实度 / 相关性 / 召回率多维自动化评测。',
-      stack: 'FASTAPI · VUE 3 · MILVUS · MINIO · CELERY · RABBITMQ · RAGAS',
-      heroImage: 'assets/img/projects/rag/evaluation.png',
-      heroAlt: 'RAG Knowledge Base 自动化评测页面',
-      gallery: [
-        {
-          src: 'assets/img/projects/rag/knowledge-base-detail.png',
-          alt: 'RAG Knowledge Base 知识库详情页面'
-        },
-        {
-          src: 'assets/img/projects/rag/chat.png',
-          alt: 'RAG Knowledge Base 智能问答页面'
-        },
-        {
-          src: 'assets/img/projects/rag/dashboard.png',
-          alt: 'RAG Knowledge Base 数据看板页面'
-        },
-        {
-          src: 'assets/img/projects/rag/monitor.png',
-          alt: 'RAG Knowledge Base 运行监控页面'
-        }
-      ],
-      links: [
-        {
-          label: 'VIEW GITHUB ↗',
-          url: 'https://github.com/ZackZhang-AI/RAG-Knowledge-Base-System'
-        }
-      ]
-    },
-    deepflow: {
-      id: 'deepflow',
-      title: 'DeepFlow',
-      category: 'MULTI-AGENT · 2026',
-      description: 'AI 深度研究平台：输入一个主题，Coordinator / Planner / Researcher / Coder / Reporter 多 Agent 协作，5 分钟产出带 50+ 真实引用的结构化报告，单次研究成本约 ¥0.8；支持 6 种报告风格与播客、PPT 衍生产物。',
-      stack: 'DEEPSEEK · FASTAPI · NEXT.JS 16 · TAVILY · 自研 asyncio 状态机',
-      heroImage: 'assets/img/projects/deepflow/research-home-2026.png',
-      heroAlt: 'DeepFlow AI 深度研究平台首页',
-      gallery: [
-        {
-          src: 'assets/img/projects/deepflow/home.png',
-          alt: 'DeepFlow 深度研究工作台首页'
-        }
-      ],
-      links: [
-        {
-          label: 'VIEW GITHUB ↗',
-          url: 'https://github.com/ZackZhang-AI/DeepFlow'
-        }
-      ]
-    },
-    askMe: {
-      id: 'askMe',
-      title: 'Ask Me',
-      category: 'CAREER AI · 2026',
-      description: '面向 AI 产品招聘场景的候选人数字分身：回答只使用已审核公开知识并保留 Claim-Source 事实对应，可以追问、会拒答；请求预算、跨实例限流与紧急开关控制线上风险。',
-      stack: 'NEXT.JS · DEEPSEEK · UPSTASH · NEON · VERCEL BLOB',
-      heroImage: 'assets/img/projects/ask-me/home.png',
-      heroAlt: 'Ask Me AI Career Agent 首页',
-      gallery: [
-        {
-          src: 'assets/img/projects/ask-me/chat.png',
-          alt: 'Ask Me 问答界面：流式回答、引用来源与追问推荐'
-        }
-      ],
-      links: [
-        {
-          label: 'ASK ME ABOUT ME ↗',
-          url: 'https://ask-me-career-agent.vercel.app'
-        },
-        {
-          label: 'VIEW GITHUB ↗',
-          url: 'https://github.com/ZackZhang-AI/ask-me-career-agent'
-        }
-      ]
-    },
-    webCoding: {
-      id: 'webCoding',
-      title: 'Vibe Coding',
-      category: 'CREATIVE TOOLS · 2026',
-      description: '一组围绕求职、审计、代码质量与个人工作流构建的可运行产品原型，用完整交互验证具体想法。',
-      stack: 'TAURI · PLASMO · REACT · PYTHON · CHROME EXTENSION',
-      heroImage: '',
-      heroAlt: '',
-      gallery: [],
-      links: [],
-      items: [
-        {
-          title: 'Thirty-Minute Brain',
-          description: '本地保存最近工作线索，帮助快速恢复刚刚中断的工作现场。',
-          stack: 'TAURI · REACT · TYPESCRIPT',
-          image: 'assets/img/projects/web-coding/thirty-minute-brain.png',
-          alt: 'Thirty-Minute Brain 本地工作记忆页面',
-          url: 'https://github.com/ZackZhang-AI/thirty-minute-brain'
-        },
-        {
-          title: 'Read Later Regret',
-          description: '减少稍后阅读积压与信息债的浏览器插件体验。',
-          stack: 'PLASMO · REACT · TYPESCRIPT',
-          image: 'assets/img/projects/web-coding/read-later-regret.png',
-          alt: 'Read Later Regret 信息债仪表盘',
-          url: 'https://github.com/ZackZhang-AI/read-later-regret'
-        },
-        {
-          title: 'Downloads Butler',
-          description: '先扫描、再建议、确认后移动的本地下载目录整理工具。',
-          stack: 'TAURI · REACT · TYPESCRIPT',
-          image: 'assets/img/projects/web-coding/downloads-butler.png',
-          alt: 'Downloads Butler 文件整理建议页面',
-          url: 'https://github.com/ZackZhang-AI/downloads-butler'
-        },
-        {
-          title: 'AI Resume Agent',
-          description: '围绕 JD 分析、简历优化、真实性校验与模拟面试构建的多 Agent 求职工具。',
-          stack: 'PYTHON · MULTI-AGENT',
-          image: 'assets/img/projects/web-coding/ai-resume-agent.png',
-          alt: 'AI Resume Agent 简历优化工作台',
-          url: 'https://github.com/ZackZhang-AI/ai-resume-agent'
-        },
-        {
-          title: 'Audit Intern Assistant',
-          description: '为审计资料生成标准化命名、归档路径与人工复核提示的本地工作台。',
-          stack: 'PYTHON · DOCUMENT PROCESSING',
-          image: 'assets/img/projects/web-coding/audit-intern-assistant.png',
-          alt: '审计资料智能归档与底稿辅助生成系统',
-          url: 'https://github.com/ZackZhang-AI/audit-intern-assistant'
-        },
-        {
-          title: 'HarnessLab',
-          description: '把代码变更转化为可观察审计轨迹、结构化发现与可导出报告的工作台。',
-          stack: 'NEXT.JS · CODE AUDIT',
-          image: 'assets/img/projects/web-coding/harnesslab.png',
-          alt: 'HarnessLab Code Agent 审计结果页面',
-          url: 'https://github.com/ZackZhang-AI/AgentScope'
-        },
-        {
-          title: 'IT Audit Log Assistant',
-          description: '完成日志期间校验、字段检查、异常识别与审计关注点生成的抽查工具。',
-          stack: 'PYTHON · DATA ANALYSIS',
-          image: 'assets/img/projects/web-coding/it-audit-log-assistant.png',
-          alt: 'IT 审计日志抽查助手异常分析页面',
-          url: 'https://github.com/ZackZhang-AI/it-audit-log-sampling-assistant'
-        },
-        {
-          title: 'Resume Autofill AI',
-          description: '支持字段扫描、匹配、填写、撤销与回退流程的 Chrome 简历速填产品。',
-          stack: 'CHROME EXTENSION · HONO · TYPESCRIPT',
-          image: 'assets/img/projects/web-coding/resume-autofill-ai.png',
-          alt: 'Resume Autofill AI 浏览器扩展字段匹配页面',
-          url: '',
-          note: 'PRIVATE REPO · 面试现场可演示'
-        }
-      ]
-    },
-    agentScope: {
-      id: 'agentScope',
-      title: 'AgentScope',
-      category: 'AGENT OBSERVABILITY · 2026',
-      description: 'AI Agent 黑匣子回放器：追踪计划、模型决策、工具调用、延迟、Token 与错误，定位无进展循环，从不可变 Checkpoint 创建 Child Run，并用 Span 证据验证修复。公开演示无需 API Key 或 Docker，90 秒走完失败 → 定位 → 分叉 → 验证闭环。',
-      stack: 'NEXT.JS 16 · POSTGRESQL · PLAYWRIGHT · DOCKER · V0.3.4',
-      heroImage: 'assets/img/projects/agentscope/home.png',
-      heroAlt: 'AgentScope 首页：Failure → Root cause → Fork → Verified fix',
-      gallery: [
-        {
-          src: 'assets/img/projects/agentscope/case-study.png',
-          alt: 'AgentScope Case Study：Trace、Diagnostics、Compare 与 Eval'
-        }
-      ],
-      links: [
-        {
-          label: 'LIVE DEMO ↗',
-          url: 'https://agentscope-harnesslab.vercel.app'
-        },
-        {
-          label: 'VIEW GITHUB ↗',
-          url: 'https://github.com/ZackZhang-AI/AgentScope'
-        }
-      ]
-    }
-  };
+  var projects = window.PORTFOLIO_PROJECTS || {};
 
   var dialog;
   var content;
   var closeButton;
   var lastTrigger;
+  var activeProjectId;
+  var returnContext;
   var previousOverflow = '';
+  var pageUrl = window.location.pathname + window.location.search + window.location.hash;
+  var pagePosition = { x: window.scrollX, y: window.scrollY };
 
   function externalLink(link) {
     return '<a class="project-dialog-link" href="' + link.url + '" target="_blank" rel="noopener noreferrer">' + link.label + '</a>';
@@ -217,9 +38,10 @@
   }
 
   function renderProject(project) {
-    var links = project.links && project.links.length
-      ? '<div class="project-dialog-links">' + project.links.map(externalLink).join('') + '</div>'
-      : '';
+    var links = '<div class="project-dialog-links">' + (project.links || []).map(externalLink).join('') +
+      '<button class="project-dialog-link project-dialog-share" type="button" id="projectShare">复制案例链接</button></div>' +
+      '<p class="project-dialog-feedback" id="projectShareFeedback" role="status" aria-live="polite"></p>' +
+      '<label class="project-dialog-copy-fallback" id="projectShareFallback" hidden>案例链接<input id="projectShareUrl" type="text" readonly></label>';
     var hero = project.heroImage
       ? imageFigure({ src: project.heroImage, alt: project.heroAlt }, 'project-dialog-hero')
       : '';
@@ -229,67 +51,119 @@
         }).join('') + '</div>'
       : '';
     var items = project.items && project.items.length
-      ? '<div class="project-dialog-subprojects">' + project.items.map(subprojectCard).join('') + '</div>'
+      ? '<h3 class="project-dialog-section-heading">8 个可运行原型</h3><div class="project-dialog-subprojects">' + project.items.map(subprojectCard).join('') + '</div>'
       : '';
     var stack = project.stack
       ? '<p class="project-dialog-stack">' + project.stack + '</p>'
       : '';
+    var metrics = project.metrics && project.metrics.length
+      ? '<dl class="case-metrics">' + project.metrics.map(function (metric) {
+          return '<div><dt>' + metric.label + '</dt><dd>' + metric.value + '</dd></div>';
+        }).join('') + '</dl>'
+      : '';
+    var sections = project.sections && project.sections.length
+      ? '<div class="case-sections">' + project.sections.map(function (section, index) {
+          return '<section class="case-section"><h3><span aria-hidden="true">0' + (index + 1) + '</span>' + section.title + '</h3><p>' + section.text + '</p></section>';
+        }).join('') + '</div>'
+      : '';
+    var evidence = project.evidence
+      ? '<aside class="case-evidence"><h3>证据与口径</h3><p>' + project.evidence + '</p></aside>'
+      : '';
+    var mediaHeading = hero || gallery ? '<h3 class="project-dialog-section-heading">项目界面</h3>' : '';
 
     content.innerHTML =
       '<p class="project-dialog-kicker">' + project.category + '</p>' +
       '<h2 class="project-dialog-title" id="projectDialogTitle">' + project.title + '</h2>' +
-      stack +
       '<p class="project-dialog-intro">' + project.description + '</p>' +
-      links + hero + gallery + items;
+      links + metrics + sections + evidence + stack + mediaHeading + hero + gallery + items;
+    document.getElementById('projectShare').addEventListener('click', copyProjectLink);
   }
 
-  function spawnRipple(trigger, event) {
-    // 键盘触发（Enter/Space）的 click 没有坐标，跳过涟漪直接打开
-    if (!event || (!event.clientX && !event.clientY)) return null;
-    var item = trigger.closest('.menuItem');
-    if (!item) return null;
-    var rect = item.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height) * 2.2;
-    var ripple = document.createElement('span');
-    ripple.setAttribute('aria-hidden', 'true');
-    ripple.style.cssText = 'position:absolute; border-radius:50%; pointer-events:none; z-index:3;' +
-      'width:' + size + 'px; height:' + size + 'px;' +
-      'left:' + (event.clientX - rect.left - size / 2) + 'px;' +
-      'top:' + (event.clientY - rect.top - size / 2) + 'px;' +
-      'background:#F4EFE6; transform:scale(0);';
-    item.appendChild(ripple);
-    return ripple;
-  }
-
-  function showProject(project, trigger) {
-    renderProject(project);
-    dialog.scrollTop = 0;
-    previousOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'hidden';
-    dialog.showModal();
-  }
-
-  function openProject(projectId, trigger, event) {
-    var project = projects[projectId];
-    if (!project || !dialog) return;
-    lastTrigger = trigger;
-    var ripple = spawnRipple(trigger, event);
-    if (ripple && window.gsap) {
-      // 呼应 hero 的 portal wipe：涟漪从点击处漾开，稍后再弹窗
-      gsap.to(ripple, { scale: 1, duration: 0.55, ease: 'power3.out' });
-      gsap.to(ripple, {
-        opacity: 0, duration: 0.4, delay: 0.5,
-        onComplete: function () { ripple.remove(); }
-      });
-      window.setTimeout(function () { showProject(project, trigger); }, 240);
-    } else {
-      showProject(project, trigger);
+  function copyProjectLink() {
+    var url = new URL(window.location.href);
+    url.hash = 'project-' + activeProjectId;
+    var feedback = document.getElementById('projectShareFeedback');
+    function showManualCopy() {
+      var fallback = document.getElementById('projectShareFallback');
+      var input = document.getElementById('projectShareUrl');
+      if (!fallback || !input) return;
+      feedback.textContent = '浏览器未允许自动复制，请复制下方链接。';
+      fallback.hidden = false;
+      input.value = url.href;
+      input.focus({ preventScroll: true });
+      input.select();
     }
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      showManualCopy();
+      return;
+    }
+    navigator.clipboard.writeText(url.href).then(function () {
+      feedback.textContent = '链接已复制，可直接打开本案例。';
+    }, showManualCopy);
+  }
+
+  function projectFromHash() {
+    var id = window.location.hash.slice('#project-'.length);
+    return window.location.hash.indexOf('#project-') === 0 &&
+      Object.prototype.hasOwnProperty.call(projects, id) ? id : null;
+  }
+
+  function showProject(projectId, trigger, context) {
+    if (!dialog.open) {
+      previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+    }
+    returnContext = context;
+    lastTrigger = trigger || document.querySelector('.projectTrigger[data-project-id="' + projectId + '"]');
+    activeProjectId = projectId;
+    renderProject(projects[projectId]);
+    if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
+    closeButton.focus({ preventScroll: true });
+  }
+
+  function openProject(projectId, trigger) {
+    if (!Object.prototype.hasOwnProperty.call(projects, projectId) || dialog.open) return;
+    var context = {
+      url: window.location.pathname + window.location.search + window.location.hash,
+      x: window.scrollX,
+      y: window.scrollY
+    };
+    window.history.pushState({ portfolioProject: context }, '', '#project-' + projectId);
+    showProject(projectId, trigger, context);
+  }
+
+  function syncLocation() {
+    var projectId = projectFromHash();
+    if (projectId) {
+      if (dialog.open && activeProjectId === projectId) return;
+      var context = window.history.state && window.history.state.portfolioProject;
+      if (!context) {
+        context = { url: pageUrl, x: pagePosition.x, y: pagePosition.y };
+        window.history.replaceState({ portfolioProject: context }, '', window.location.href);
+      }
+      showProject(projectId, null, context);
+    } else {
+      pageUrl = window.location.pathname + window.location.search + window.location.hash;
+      if (dialog.open) dialog.close();
+    }
+  }
+
+  function requestClose() {
+    if (dialog.open) window.history.back();
   }
 
   function restorePage() {
     document.documentElement.style.overflow = previousOverflow;
-    if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+    activeProjectId = null;
+    if (lastTrigger && lastTrigger.isConnected) lastTrigger.focus({ preventScroll: true });
+    var position = returnContext;
+    window.requestAnimationFrame(function () {
+      if (!dialog.open && position) {
+        window.scrollTo({ left: position.x, top: position.y, behavior: 'instant' });
+        pagePosition = { x: position.x, y: position.y };
+      }
+    });
   }
 
   function init() {
@@ -300,19 +174,35 @@
 
     document.querySelectorAll('.projectTrigger').forEach(function (trigger) {
       trigger.addEventListener('click', function (event) {
-        openProject(trigger.getAttribute('data-project-id'), trigger, event);
+        event.preventDefault();
+        openProject(trigger.getAttribute('data-project-id'), trigger);
       });
     });
 
-    closeButton.addEventListener('click', function () {
-      dialog.close();
+    closeButton.addEventListener('click', requestClose);
+    dialog.addEventListener('cancel', function (event) {
+      event.preventDefault();
+      requestClose();
     });
-
     dialog.addEventListener('click', function (event) {
-      if (event.target === dialog) dialog.close();
+      if (event.target === dialog) requestClose();
     });
-
     dialog.addEventListener('close', restorePage);
+    window.addEventListener('popstate', syncLocation);
+    window.addEventListener('hashchange', syncLocation);
+    window.addEventListener('scroll', function () {
+      if (!dialog.open) pagePosition = { x: window.scrollX, y: window.scrollY };
+    }, { passive: true });
+
+    // 直达链接也保留一个页面历史项，返回键关闭详情，刷新不重复插入。
+    var initialProject = projectFromHash();
+    if (initialProject && !(window.history.state && window.history.state.portfolioProject)) {
+      pageUrl = window.location.pathname + window.location.search;
+      var context = { url: pageUrl, x: window.scrollX, y: window.scrollY };
+      window.history.replaceState(window.history.state, '', pageUrl);
+      window.history.pushState({ portfolioProject: context }, '', '#project-' + initialProject);
+    }
+    syncLocation();
   }
 
   if (document.readyState === 'loading') {
