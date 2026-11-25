@@ -3,7 +3,6 @@
   if (!window.gsap || !window.ScrollTrigger) return;
   var gsap = window.gsap;
   var media = gsap.matchMedia();
-  var counters = Array.from(document.querySelectorAll('[data-count]'));
   document.documentElement.classList.add('motion-ready');
 
   media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', function () {
@@ -38,7 +37,7 @@
       });
     });
 
-    // 较早经历：2×2 纸张轻落归正，不反复淡出。
+    // 较早经历：2×2 纸张轻落归正。
     gsap.utils.toArray('.proof-note').forEach(function (note, index) {
       var rotation = (Number(note.dataset.noteRotation) || 0) * 0.45;
       revealOnce(note, { rotation: rotation, y: 34, opacity: 0 }, {
@@ -56,7 +55,7 @@
       });
     });
 
-    // 五张经历卡：1 秒内利落展开，不再拖沓也不反向隐身。
+    // 五张经历卡：1 秒内利落展开，顶部轨道配合焦橙引路点依次点亮。
     gsap.timeline({
       scrollTrigger: { trigger: '#pathStage', start: 'top 86%', once: true }
     }).fromTo('#pathLine', { scaleX: 0, transformOrigin: 'left center' }, {
@@ -80,36 +79,9 @@
       scrollTrigger: { trigger: '.tool-ribbon', start: 'top bottom', end: 'bottom top', scrub: 0.6 }
     });
 
-    gsap.utils.toArray('.about-intro > div:last-child, .signal, .proof-archive-heading, .work-feature, .project-index-row, .knowledge-group-heading, .knowledge-list > a, .footer-agent-cta, .footer-grid, .footer-bottom').forEach(function (element) {
+    gsap.utils.toArray('.about-intro > div:last-child, .signal, .proof-archive-heading, .knowledge-group-heading, .knowledge-list > a, .footer-agent-cta, .footer-grid, .footer-bottom').forEach(function (element) {
       revealOnce(element, { y: 22, opacity: 0 }, { duration: 0.68 });
     });
-
-    // 作品展品图内部微幅景深视差，全程清晰可见。
-    gsap.utils.toArray('.work-image img').forEach(function (image) {
-      gsap.fromTo(image, { scale: 1.05, y: 12 }, {
-        scale: 1, y: -12, ease: 'none',
-        scrollTrigger: { trigger: image.closest('.work-feature'), start: 'top bottom', end: 'bottom top', scrub: 0.6 }
-      });
-    });
-
-    // 关键数字只滚动一次并干脆定格，不在微幅回滚时重置归零。
-    counters.forEach(function (element, index) {
-      var target = Number(element.dataset.count);
-      var value = { count: 0 };
-      gsap.to(value, {
-        count: target,
-        duration: 0.95,
-        delay: index * 0.06,
-        ease: 'power3.out',
-        onUpdate: function () { element.textContent = Math.round(value.count); },
-        onComplete: function () { element.textContent = String(target); },
-        scrollTrigger: { trigger: '.signal-grid', start: 'top 88%', once: true }
-      });
-    });
-
-    return function () {
-      counters.forEach(function (element) { element.textContent = element.dataset.count; });
-    };
   });
 
   media.add('(min-width: 768px) and (max-width: 1023px) and (prefers-reduced-motion: no-preference)', function () {

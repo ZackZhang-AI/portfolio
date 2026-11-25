@@ -233,15 +233,16 @@ section[id], footer[id], #assemble, #recognition { scroll-margin-top: 20px; }
   margin: 10px 10px 10px;
   overflow: hidden;
   border-radius: 3px;
-  background: #eae5e0;
+  background: #ffffff;
   box-shadow: 0 0 0 1px rgb(255 255 255 / 6%);
 }
 .work-image img {
   width: 100%;
   height: auto;
   aspect-ratio: 1.6;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  object-position: top center;
+  background: #ffffff;
   transition: transform 520ms cubic-bezier(.22, 1, .36, 1);
 }
 .work-image:hover,
@@ -353,7 +354,7 @@ section[id], footer[id], #assemble, #recognition { scroll-margin-top: 20px; }
   background: rgb(23 20 15 / 22%);
   content: '';
 }
-.pathCard:last-child::before {
+html:not(.ink-guide-ready) .pathCard:last-child::before {
   border-color: var(--accent-bright);
   background: var(--accent-bright);
 }

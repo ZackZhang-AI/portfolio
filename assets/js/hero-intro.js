@@ -8,8 +8,47 @@
     var gsap = window.gsap;
     media = gsap.matchMedia();
 
+    /* 1.05s 精密首屏入场总谱：按词组错峰裁切升起 → 赤陶下划线笔锋拉出 → 副文案与动作柔和落位 */
+    media.add('(prefers-reduced-motion: no-preference)', function () {
+      document.documentElement.classList.add('hero-orchestrated');
+      var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+
+      intro
+        .fromTo('.hero-word', { yPercent: 108, opacity: 0 }, {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.85,
+          stagger: 0.075,
+          clearProps: 'transform,opacity'
+        }, 0.06)
+        .fromTo('.hero-impact-rule', { scaleX: 0 }, {
+          scaleX: 1,
+          duration: 0.62,
+          ease: 'expo.inOut',
+          clearProps: 'transform'
+        }, 0.42)
+        .fromTo(['.hero-description', '.hero-background', '.hero-actions'], { y: 18, opacity: 0 }, {
+          y: 0,
+          opacity: 1,
+          duration: 0.68,
+          stagger: 0.08,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity'
+        }, 0.48)
+        .fromTo(['#sideLabels', '#bottomUI'], { opacity: 0 }, {
+          opacity: 1,
+          duration: 0.6,
+          ease: 'power2.out',
+          clearProps: 'opacity'
+        }, 0.64);
+
+      return function () {
+        intro.kill();
+        document.documentElement.classList.remove('hero-orchestrated');
+      };
+    });
+
     media.add('(min-width: 768px) and (min-height: 601px) and (prefers-reduced-motion: no-preference)', function () {
-      // Animate the wrapper so scrolling cannot interrupt the line entrance.
       var timeline = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {

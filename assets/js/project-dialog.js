@@ -112,6 +112,7 @@
     if (!dialog.open) {
       previousOverflow = document.documentElement.style.overflow;
       document.documentElement.style.overflow = 'hidden';
+      document.body.classList.add('dialog-depth-active');
     }
     returnContext = context;
     lastTrigger = trigger || document.querySelector('.projectTrigger[data-project-id="' + projectId + '"]');
@@ -165,6 +166,7 @@
 
   function restorePage() {
     document.documentElement.style.overflow = previousOverflow;
+    document.body.classList.remove('dialog-depth-active');
     activeProjectId = null;
     if (lastTrigger && lastTrigger.isConnected) lastTrigger.focus({ preventScroll: true });
     var position = returnContext;
@@ -172,6 +174,7 @@
       if (!dialog.open && position) {
         window.scrollTo({ left: position.x, top: position.y, behavior: 'instant' });
         pagePosition = { x: position.x, y: position.y };
+        if (window.portfolioScroll) window.portfolioScroll.sync();
       }
     });
   }

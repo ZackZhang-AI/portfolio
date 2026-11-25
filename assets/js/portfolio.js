@@ -105,13 +105,20 @@
     if (window.innerHeight + y >= document.documentElement.scrollHeight - 24) {
       activeNav = '#footer';
     }
+    var changed = false;
     navLinks.forEach(function (link) {
-      if (activeNav && link.getAttribute('href') === activeNav) {
+      var wasCurrent = link.getAttribute('aria-current') === 'location';
+      var isCurrent = !!(activeNav && link.getAttribute('href') === activeNav);
+      if (isCurrent) {
         link.setAttribute('aria-current', 'location');
       } else {
         link.removeAttribute('aria-current');
       }
+      if (wasCurrent !== isCurrent) changed = true;
     });
+    if (changed) {
+      window.dispatchEvent(new CustomEvent('portfolio:navchange'));
+    }
   }
 
   function scheduleSync() {
