@@ -139,6 +139,8 @@
     var frame = document.getElementById('workStageFrame');
     var labelEl = document.getElementById('workStageLabel');
     var countEl = document.getElementById('workStageCount');
+    var dockBtn = document.getElementById('workDockTrigger');
+    var dockLabel = document.getElementById('workDockLabel');
     if (!stage || !frame) return;
 
     var chapters = Array.from(stage.querySelectorAll('.work-chapter'));
@@ -177,10 +179,15 @@
       frame.setAttribute('data-project-id', projectId);
       frame.setAttribute('aria-label', '查看 ' + titleText + ' 项目详情');
       frame.style.setProperty('--stage-accent', frameAccent);
+      if (dockBtn) {
+        dockBtn.setAttribute('data-project-id', projectId);
+        dockBtn.setAttribute('aria-label', '了解 ' + titleText + ' 项目详情');
+      }
+      if (dockLabel) dockLabel.textContent = '了解 ' + titleText + ' 详情';
       if (labelEl) labelEl.textContent = frameLabel;
       if (countEl) countEl.textContent = '0' + (index + 1) + ' / 0' + chapters.length;
       window.dispatchEvent(new CustomEvent('portfolio:workchange', {
-        detail: { index: index, projectId: projectId }
+        detail: { index: index, projectId: projectId, title: titleText }
       }));
     }
 

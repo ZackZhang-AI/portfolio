@@ -8,8 +8,10 @@
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var desktopMq = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
 
+  var shapePath = document.getElementById('inkGuidePath');
   var faceEl = guide.querySelector('.ink-face');
-  var pupilEls = Array.from(guide.querySelectorAll('.ink-pupil-group'));
+  var popover = document.getElementById('inkPopover');
+  var popoverNote = document.getElementById('inkPopoverNote');
   var dialog = document.getElementById('projectDialog');
   var heroPeriod = document.getElementById('heroPeriod');
   var brandDot = document.getElementById('headerBrandDot');
@@ -19,10 +21,14 @@
   var proofSection = document.getElementById('testimonials');
   var proofShowcase = proofSection ? proofSection.querySelector('.proof-showcase') : null;
   var darkAct = document.getElementById('darkAct');
+  var curtainTab = document.getElementById('darkCurtainTab');
+  var curtainBerth = document.getElementById('curtainBerth');
   var workStage = document.getElementById('workStage');
   var workFrame = document.getElementById('workStageFrame');
+  var workDockTrigger = document.getElementById('workDockTrigger');
+  var workBerth = document.getElementById('workBerth');
   var capabilitiesSection = document.getElementById('capabilities');
-  var capabilitiesList = capabilitiesSection ? capabilitiesSection.querySelector('.capabilities-list') : null;
+  var capabilitiesList = capabilitiesSection ? capabilitiesSection.querySelector('.capability-lines') : null;
   var methodSection = document.getElementById('method');
   var paperSteps = document.getElementById('paperSteps');
   var methodCards = paperSteps ? Array.from(paperSteps.children) : [];
@@ -30,13 +36,26 @@
   var knowledgeList = knowledgeSection ? knowledgeSection.querySelector('.knowledge-list') : null;
   var footer = document.getElementById('footer');
   var talkArrow = document.getElementById('talkArrow');
+  var footerRunway = document.getElementById('footerRunway');
+  var runwayBerth = document.getElementById('runwayBerth');
 
   function clamp(v, min, max) { return v < min ? min : (v > max ? max : v); }
   function lerp(a, b, t) { return a + (b - a) * t; }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
-  /* 核心状态：单一活体墨点（开屏预加载 → 抛物线入场 → 全站 7 幕伴随互动） */
+  /* A1 轮廓形变函数：compact=0 为完整微前倾对话块，compact=0.7 收束尾翼贴合紧凑泊位 */
+  function buildContour(compact) {
+    var tailX = lerp(20.5, 25.4, compact);
+    var tailY = lerp(46.0, 38.4, compact);
+    var shoulder = lerp(11.0, 9.0, compact);
+    var bottom = lerp(36.0, 35.6, compact);
+    return 'M ' + shoulder.toFixed(1) + ' 5 H 47 Q 53 5 52 11 L 49.5 30 Q 48.5 ' +
+      bottom.toFixed(1) + ' 42.5 ' + bottom.toFixed(1) + ' H 31 L ' +
+      tailX.toFixed(1) + ' ' + tailY.toFixed(1) + ' L 22 ' + bottom.toFixed(1) +
+      ' H 11 Q 5 ' + bottom.toFixed(1) + ' 6 30 L 8 11 Q 8.8 5 ' + shoulder.toFixed(1) + ' 5 Z';
+  }
+
   var state = {
     mode: 'idle', /* 'preloader' | 'flight' | 'live' | 'hidden' */
     x: window.innerWidth / 2,
@@ -44,25 +63,26 @@
     vx: 0,
     vy: 0,
     scale: 1,
+    compact: 0,
+    lastCompactKey: -1,
     tilt: 0,
-    /* 独立弹跳与挤压变形物理 */
     hopY: 0,
     hopVy: 0,
     squash: 0,
     squashV: 0,
-    /* 双层眼球追踪（头转 + 瞳孔微视差） */
     gx: 0,
     gy: 0,
     targetGx: 0,
     targetGy: 0,
-    /* 表情计时器 */
     happyUntil: 0,
     winkUntil: 0,
     curious: false,
     selfHovered: false,
     pulsing: false,
     isDark: false,
-    /* 指针与静置观察 */
+    dockedInControl: false,
+    activeAct: 'hero',
+    activeBerth: '', /* '' | 'curtain' | 'work' | 'runway' */
     pointerX: window.innerWidth * 0.5,
     pointerY: window.innerHeight * 0.5,
     pointerActiveAt: 0,
@@ -71,15 +91,14 @@
     nextIdleGlanceAt: performance.now() + 3400,
     idleGx: 0,
     idleGy: 0,
-    /* 悬停交互组件上下文 */
     hoveredEl: null,
     hoveredKind: '',
     lastPathIdx: -1,
-    /* 上一帧时间戳 */
+    popoverOpen: false,
     lastFrame: performance.now()
   };
 
-  /* 1. 表情与物理动作控制 API */
+  /* 1. 表情、眨眼、弹跳与快捷卡片 */
   var blinkTimer = 0;
   var blinkCloseTimer = 0;
 
@@ -95,7 +114,7 @@
           triggerBlink(false);
         }, 120);
       }
-    }, 130);
+    }, 125);
   }
 
   function scheduleNextBlink() {
@@ -110,19 +129,19 @@
 
   function hop(strength) {
     var s = typeof strength === 'number' ? strength : 1;
-    state.hopVy = -260 * s;
-    state.squashV += 4.2 * s;
+    state.hopVy = -255 * s;
+    state.squashV += 4.0 * s;
   }
 
   function triggerHappy(durationMs, withHop) {
     state.happyUntil = Math.max(state.happyUntil, performance.now() + (durationMs || 900));
-    if (withHop) hop(0.85);
+    if (withHop) hop(0.82);
     pulseOnce();
   }
 
   function triggerWink(durationMs, withHop) {
     state.winkUntil = Math.max(state.winkUntil, performance.now() + (durationMs || 340));
-    if (withHop) hop(0.55);
+    if (withHop) hop(0.5);
   }
 
   var pulseTimeout = 0;
@@ -131,35 +150,86 @@
     clearTimeout(pulseTimeout);
     pulseTimeout = window.setTimeout(function () {
       guide.classList.remove('is-burst');
-    }, 680);
+    }, 660);
   }
 
-  function applyGazeDOM(gx, gy) {
-    if (faceEl) {
-      faceEl.setAttribute('transform', 'translate(' + (gx * 2.15).toFixed(2) + ' ' + (gy * 1.75).toFixed(2) + ')');
+  var actNotes = {
+    hero: '你好，我是这段作品集的活体句点。想直接了解张倬玮？',
+    path: '五段经历串成同一条证据链，想直接追问细节？',
+    proof: '滴滴、百度与百川智能实习成果，欢迎向 AI 分身追问。',
+    work: '正在浏览精选作品，也可以直接和 AI 分身聊设计取舍。',
+    capabilities: '从模型评估到业务落地，聊聊具体项目吗？',
+    method: '这套 AI 产品方法论来自真实踩坑，随时可追问。',
+    knowledge: '7 篇一线评测与 Agent 沉淀，也可以先带走简历。',
+    footer: '随时欢迎联系，或者先让 AI 分身回答你的问题。'
+  };
+
+  function positionPopover() {
+    if (!popover || !state.popoverOpen) return;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var pw = 228;
+    var ph = popover.offsetHeight || 104;
+    var left;
+    var top;
+    if (state.x + 28 + pw <= vw - 18) {
+      /* 优先展开在右侧留白区（首屏绝不遮挡 IMPACT 衬线大字） */
+      left = state.x + 28;
+      top = clamp(state.y - ph * 0.5, 84, vh - ph - 16);
+    } else if (state.x - 28 - pw >= 18) {
+      left = state.x - 28 - pw;
+      top = clamp(state.y - ph * 0.5, 84, vh - ph - 16);
+    } else {
+      left = clamp(state.x - pw / 2, 16, vw - pw - 16);
+      var preferAbove = state.y > ph + 96;
+      top = clamp(preferAbove ? state.y - ph - 32 : state.y + 32, 84, vh - ph - 16);
     }
-    var px = (gx * 1.12).toFixed(2);
-    var py = (gy * 1.05).toFixed(2);
-    for (var i = 0; i < pupilEls.length; i++) {
-      pupilEls[i].setAttribute('transform', 'translate(' + px + ' ' + py + ')');
-    }
+    popover.style.left = Math.round(left) + 'px';
+    popover.style.top = Math.round(top) + 'px';
+    popover.classList.toggle('is-dark', state.isDark);
   }
 
-  function renderGuide(now, dt) {
-    /* 弹跳垂直重力与落地软挤压 */
+  function openPopover() {
+    if (!popover || !desktopMq.matches) return;
+    if (popoverNote) popoverNote.textContent = actNotes[state.activeAct] || actNotes.hero;
+    popover.hidden = false;
+    state.popoverOpen = true;
+    positionPopover();
+    window.requestAnimationFrame(function () {
+      if (state.popoverOpen) popover.classList.add('is-open');
+    });
+  }
+
+  function closePopover() {
+    if (!popover || !state.popoverOpen) return;
+    state.popoverOpen = false;
+    popover.classList.remove('is-open');
+    window.setTimeout(function () {
+      if (!state.popoverOpen) popover.hidden = true;
+    }, 220);
+  }
+
+  function syncBerths(activeBerth) {
+    state.activeBerth = activeBerth;
+    if (curtainTab) curtainTab.classList.toggle('is-berth-active', activeBerth === 'curtain');
+    if (workDockTrigger) workDockTrigger.classList.toggle('is-berth-active', activeBerth === 'work');
+    if (footerRunway) footerRunway.classList.toggle('is-berth-active', activeBerth === 'runway');
+  }
+
+  function applyVisuals(now, dt) {
+    /* 垂直弹跳与软着陆挤压 */
     if (state.hopY < 0 || state.hopVy !== 0) {
       state.hopVy += 1550 * dt;
       state.hopY += state.hopVy * dt;
       if (state.hopY >= 0) {
         state.hopY = 0;
         if (Math.abs(state.hopVy) > 90) {
-          state.squashV -= Math.min(7.5, Math.abs(state.hopVy) * 0.018);
+          state.squashV -= Math.min(7.2, Math.abs(state.hopVy) * 0.017);
         }
         state.hopVy = 0;
       }
     }
 
-    /* 阻尼弹性挤压还原（squash > 0 竖向拉长，< 0 横向压扁） */
     var springForce = -115 * state.squash - 14 * state.squashV;
     state.squashV += springForce * dt;
     state.squash += state.squashV * dt;
@@ -168,13 +238,33 @@
       state.squashV = 0;
     }
 
-    /* 平滑眼球插值 */
+    /* 平滑更新 A1 几何尾翼形变 */
+    var compactKey = Math.round(state.compact * 50);
+    if (shapePath && compactKey !== state.lastCompactKey) {
+      state.lastCompactKey = compactKey;
+      shapePath.setAttribute('d', buildContour(state.compact));
+    }
+
+    /* 平滑负空间竖条眼追踪 */
     var gazeFollow = 1 - Math.exp(-15 * dt);
     state.gx += (state.targetGx - state.gx) * gazeFollow;
     state.gy += (state.targetGy - state.gy) * gazeFollow;
-    applyGazeDOM(state.gx, state.gy);
+    if (faceEl) {
+      faceEl.setAttribute('transform', 'translate(' + (state.gx * 4.1).toFixed(2) + ' ' + (state.gy * 3.1).toFixed(2) + ')');
+    }
 
-    /* 表情类名同步 */
+    /* 飞行点阵星轨（速度 > 170px/s 沿反速度矢量展开） */
+    var speed = Math.hypot(state.vx, state.vy);
+    var trailScale = speed > 165 ? clamp((speed - 145) / 720, 0, 1.05) : 0;
+    var trailOpacity = speed > 175 ? clamp((speed - 175) / 340, 0, 0.78) : 0;
+    guide.style.setProperty('--trail-scale', trailScale.toFixed(3));
+    guide.style.setProperty('--trail-opacity', trailOpacity.toFixed(3));
+    if (trailOpacity > 0.02) {
+      var trailDeg = Math.atan2(state.vy, state.vx) * 180 / Math.PI - state.tilt;
+      guide.style.setProperty('--trail-angle', trailDeg.toFixed(1) + 'deg');
+    }
+
+    /* 表情与状态类 */
     var isHappy = state.selfHovered || now < state.happyUntil;
     var isWink = !isHappy && now < state.winkUntil;
     guide.classList.toggle('is-happy', isHappy);
@@ -182,27 +272,30 @@
     guide.classList.toggle('is-curious', !isHappy && !isWink && state.curious);
     guide.classList.toggle('is-pulsing', state.pulsing);
     guide.classList.toggle('is-dark-surface', state.isDark);
+    guide.style.pointerEvents = (state.mode === 'live' && !state.dockedInControl && desktopMq.matches) ? 'auto' : 'none';
 
-    /* 合成方向性体积守恒拉伸 + 弹跳挤压 + 轻柔呼吸浮沉 */
-    var hStretch = clamp(Math.abs(state.vx) / 1100, 0, 0.16);
-    var vStretch = clamp(Math.abs(state.vy) / 1100, 0, 0.18);
-    var hoverBoost = state.selfHovered ? 1.12 : 1;
-    var breatheY = (state.mode === 'live' && hStretch < 0.01 && vStretch < 0.01 && state.hopY === 0)
-      ? Math.sin(now * 0.0028) * 2.1
+    /* 方向性体积守恒拉伸 + 轻柔呼吸浮沉 */
+    var hStretch = clamp(Math.abs(state.vx) / 1150, 0, 0.14);
+    var vStretch = clamp(Math.abs(state.vy) / 1150, 0, 0.16);
+    var hoverBoost = state.selfHovered ? 1.09 : 1;
+    var breatheY = (state.mode === 'live' && !state.dockedInControl && hStretch < 0.01 && vStretch < 0.01 && state.hopY === 0)
+      ? Math.sin(now * 0.0028) * 2.0
       : 0;
 
-    var sx = state.scale * hoverBoost * (1 - state.squash * 0.22 + hStretch - vStretch * 0.45);
-    var sy = state.scale * hoverBoost * (1 + state.squash * 0.22 + vStretch - hStretch * 0.45);
-    var drawX = state.x - 16;
-    var drawY = state.y - 16 + state.hopY + breatheY;
+    var sx = state.scale * hoverBoost * (1 - state.squash * 0.20 + hStretch - vStretch * 0.42);
+    var sy = state.scale * hoverBoost * (1 + state.squash * 0.20 + vStretch - hStretch * 0.42);
+    var drawX = state.x - 22;
+    var drawY = state.y - 20 + state.hopY + breatheY;
 
     guide.style.transform =
       'translate3d(' + drawX.toFixed(2) + 'px,' + drawY.toFixed(2) + 'px,0) ' +
       'rotate(' + state.tilt.toFixed(2) + 'deg) ' +
       'scale(' + sx.toFixed(3) + ',' + sy.toFixed(3) + ')';
+
+    if (state.popoverOpen) positionPopover();
   }
 
-  /* 2. 计算首屏稳定停靠坐标（落在 IMPACT. 句点基线位，让句点本身“活”过来；使用 .hero-word-clip 保证飞入落点零漂移） */
+  /* 2. 首屏稳定落点（化作 TO IMPACT 末尾的活体焦橙对话块） */
   function getHeroPerch() {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -211,9 +304,10 @@
       var r = clip.getBoundingClientRect();
       if (r.width > 0 && r.height > 0) {
         return {
-          x: clamp(r.left + r.width * 0.56 + 4, 60, vw - 44),
-          y: clamp(r.bottom - r.height * 0.245, 92, vh - 100),
-          scale: 0.90
+          x: clamp(r.left + r.width * 0.56 + 10, 60, vw - 48),
+          y: clamp(r.bottom - r.height * 0.265, 92, vh - 100),
+          scale: 0.78,
+          compact: 0
         };
       }
     }
@@ -222,13 +316,14 @@
       return {
         x: br.left + br.width / 2,
         y: br.top + br.height / 2,
-        scale: desktopMq.matches ? 0.72 : 0.34
+        scale: desktopMq.matches ? 0.56 : 0.28,
+        compact: 0.65
       };
     }
-    return { x: vw * 0.76, y: vh * 0.36, scale: 0.9 };
+    return { x: vw * 0.76, y: vh * 0.36, scale: 0.78, compact: 0 };
   }
 
-  /* 3. 全站 7 幕动态落点与组件协同 */
+  /* 3. 全站 8 幕深度组件融合计算 */
   function computeLiveTarget(now) {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -238,23 +333,26 @@
     var tx = hero.x;
     var ty = hero.y;
     var scale = hero.scale;
+    var compact = 0;
     var pulsing = y < 48;
     var isDark = false;
     var tiltTarget = 0;
     var actGazeX = null;
     var actGazeY = null;
     var activeAct = 'hero';
+    var activeBerth = '';
+    var dockedInControl = false;
 
-    /* 若滚出首屏且未落入下方特定幕布，先轻巧停泊在右上安全呼吸位，绝不遮挡文字 */
     if (y >= 110) {
-      tx = clamp(vw - 38, 60, vw - 26);
-      ty = clamp(118, 96, vh - 120);
-      scale = 0.78;
+      tx = clamp(vw - 44, 60, vw - 30);
+      ty = clamp(120, 96, vh - 120);
+      scale = 0.66;
+      compact = 0.25;
       pulsing = false;
       activeAct = 'rail';
     }
 
-    /* Act 2: 经历时间轴 01 -> 05，沿轨道行走并依次点亮卡片节点 */
+    /* Act 2: 经历时间轴 01 -> 05，沿赤陶轨道行走并逐个点亮节点 */
     if (pathStage && pathLine && pathCards.length) {
       var stageRect = pathStage.getBoundingClientRect();
       var enterStart = vh * 0.90;
@@ -267,13 +365,14 @@
         var lineRect = pathLine.getBoundingClientRect();
         var startNodeX = pathCards[0].getBoundingClientRect().left + 24.5;
         var endNodeX = pathCards[pathCards.length - 1].getBoundingClientRect().left + 24.5;
-        var railY = lineRect.top + lineRect.height / 2 - 14;
+        var railY = lineRect.top + lineRect.height / 2 - 17;
 
         if (stageRect.top > sweepStart) {
           var tIn = easeInOut(clamp((enterStart - stageRect.top) / (enterStart - sweepStart), 0, 1));
           tx = lerp(hero.x, startNodeX, tIn);
           ty = lerp(hero.y, railY, tIn) - Math.sin(tIn * Math.PI) * 34;
-          scale = lerp(hero.scale, 0.78, tIn);
+          scale = lerp(hero.scale, 0.66, tIn);
+          compact = lerp(0, 0.42, tIn);
           var lit0 = tIn > 0.85;
           pathCards.forEach(function (c, i) {
             c.classList.toggle('is-passed', i === 0 && lit0);
@@ -281,13 +380,14 @@
           });
           if (lit0 && state.lastPathIdx !== 0) {
             state.lastPathIdx = 0;
-            hop(0.45);
+            hop(0.42);
           }
         } else if (stageRect.top >= sweepEnd) {
           var tSweep = clamp((sweepStart - stageRect.top) / (sweepStart - sweepEnd), 0, 1);
           tx = lerp(startNodeX, endNodeX, tSweep);
           ty = railY;
-          scale = 0.80;
+          scale = 0.68;
+          compact = 0.42;
           pulsing = true;
           var passedIdx = Math.floor(tSweep * (pathCards.length - 1) + 0.15);
           pathCards.forEach(function (c, i) {
@@ -296,17 +396,18 @@
           });
           if (passedIdx !== state.lastPathIdx) {
             state.lastPathIdx = passedIdx;
-            hop(0.5);
+            hop(0.48);
           }
-          actGazeX = 0.15;
-          actGazeY = 0.82;
+          actGazeX = 0.12;
+          actGazeY = 0.85;
         } else {
           var tOut = easeInOut(clamp((sweepEnd - stageRect.top) / (sweepEnd - exitEnd), 0, 1));
-          var nextRailX = clamp(vw - 40, 60, vw - 26);
+          var nextRailX = clamp(vw - 44, 60, vw - 30);
           var nextRailY = clamp(vh * 0.34, 110, vh - 140);
           tx = lerp(endNodeX, nextRailX, tOut);
           ty = lerp(railY, nextRailY, tOut) - Math.sin(tOut * Math.PI) * 26;
-          scale = 0.78;
+          scale = 0.66;
+          compact = lerp(0.42, 0.25, tOut);
           pathCards.forEach(function (c) {
             c.classList.add('is-passed');
             c.classList.remove('is-current');
@@ -326,47 +427,78 @@
       }
     }
 
-    /* Act 3: 实习成果区，停驻在卡片外缘呼应数据与悬停卡片 */
+    /* Act 3: 实习成果区，停驻在卡片外缘呼应悬停卡片 */
     if (proofSection && activeAct !== 'path') {
       var pr = proofSection.getBoundingClientRect();
-      if (pr.top < vh * 0.56 && pr.bottom > vh * 0.24) {
+      if (pr.top < vh * 0.56 && pr.bottom > vh * 0.22) {
         activeAct = 'proof';
         if (state.hoveredEl && state.hoveredKind === 'proof-card') {
           var cr = state.hoveredEl.getBoundingClientRect();
-          tx = clamp(cr.right - 16, 48, vw - 26);
-          ty = clamp(cr.top - 10, 92, vh - 44);
-          scale = 0.80;
-          tiltTarget = -7;
+          tx = clamp(cr.right - 14, 52, vw - 30);
+          ty = clamp(cr.top - 12, 92, vh - 48);
+          scale = 0.68;
+          compact = 0.35;
+          tiltTarget = -6;
         } else if (proofShowcase) {
           var sr = proofShowcase.getBoundingClientRect();
-          tx = clamp(sr.right + 18, 48, vw - 26);
-          ty = clamp(Math.max(116, Math.min(vh * 0.38, sr.top + 36)), 96, vh - 120);
-          scale = 0.78;
+          tx = clamp(sr.right + 22, 52, vw - 30);
+          ty = clamp(Math.max(118, Math.min(vh * 0.38, sr.top + 38)), 96, vh - 120);
+          scale = 0.66;
+          compact = 0.25;
           actGazeX = -0.82;
-          actGazeY = 0.15;
+          actGazeY = 0.14;
         }
       }
     }
 
-    /* Act 4 & 5: 暗色作品展台 + 能力宣言（切换为暖琥珀微光墨点） */
-    if (darkAct) {
+    /* Act 4: 暗幕拉环接力泊位（#curtainBerth，明暗转场过渡停靠） */
+    if (curtainTab && curtainBerth && darkAct) {
+      var ctr = curtainTab.getBoundingClientRect();
+      var wsProbe = workStage ? workStage.getBoundingClientRect().top : 9999;
+      if (ctr.top < vh * 0.84 && ctr.top > 92 && wsProbe > vh * 0.44) {
+        var cbr = curtainBerth.getBoundingClientRect();
+        if (cbr.width > 12) {
+          activeAct = 'work';
+          activeBerth = 'curtain';
+          dockedInControl = true;
+          tx = cbr.left + cbr.width / 2;
+          ty = cbr.top + cbr.height / 2 + 1;
+          scale = 0.56;
+          compact = 0.68;
+          isDark = true;
+          actGazeX = 0.3;
+          actGazeY = state.hoveredKind === 'curtain' ? 0.9 : 0.25;
+        }
+      }
+    }
+
+    /* Act 5 & 6: 暗色作品展台专属泊位（#workBerth）+ 能力宣言逐行跟随 */
+    if (darkAct && activeBerth !== 'curtain') {
       var darkRect = darkAct.getBoundingClientRect();
       if (darkRect.top <= vh * 0.48 && darkRect.bottom > 96) {
         isDark = true;
         if (workStage && workFrame) {
           var wsRect = workStage.getBoundingClientRect();
-          if (wsRect.top < vh * 0.50 && wsRect.bottom > vh * 0.34) {
+          if (wsRect.top < vh * 0.46 && wsRect.bottom > vh * 0.32) {
             activeAct = 'work';
-            var fr = workFrame.getBoundingClientRect();
-            tx = clamp(fr.right - 6, 48, vw - 22);
-            ty = clamp(fr.top - 14, 86, vh - 60);
-            scale = 0.82;
-            pulsing = true;
-            actGazeX = -0.58;
-            actGazeY = 0.56;
-            if (state.hoveredKind === 'work-frame') {
-              ty -= 4;
-              tiltTarget = -9;
+            var wbr = workBerth ? workBerth.getBoundingClientRect() : null;
+            if (wbr && wbr.width > 12 && wbr.top > 70 && wbr.bottom < vh - 12) {
+              activeBerth = 'work';
+              dockedInControl = true;
+              tx = wbr.left + wbr.width / 2;
+              ty = wbr.top + wbr.height / 2 + 1;
+              scale = 0.62;
+              compact = 0.64;
+              pulsing = false;
+              actGazeX = state.hoveredKind === 'work-dock' ? 0.85 : -0.45;
+              actGazeY = state.hoveredKind === 'work-frame' ? -0.82 : -0.25;
+            } else {
+              var fr = workFrame.getBoundingClientRect();
+              tx = clamp(fr.right - 8, 52, vw - 26);
+              ty = clamp(fr.top - 16, 86, vh - 60);
+              scale = 0.68;
+              compact = 0.35;
+              pulsing = true;
             }
           }
         }
@@ -375,18 +507,20 @@
           if (capR.top < vh * 0.62 && capR.bottom > vh * 0.20) {
             activeAct = 'capabilities';
             var clR = capabilitiesList.getBoundingClientRect();
-            tx = clamp(clR.right + 18, 48, vw - 28);
+            tx = clamp(clR.right + 22, 52, vw - 30);
             if (state.hoveredEl && state.hoveredKind === 'capability') {
               var lr = state.hoveredEl.getBoundingClientRect();
               ty = clamp(lr.top + lr.height * 0.5, 100, vh - 60);
-              scale = 0.84;
-              tiltTarget = -8;
+              scale = 0.72;
+              compact = 0.2;
+              tiltTarget = -7;
               actGazeX = -0.95;
               actGazeY = 0;
             } else {
               ty = clamp(vh * 0.44, 110, vh - 120);
-              scale = 0.78;
-              actGazeX = -0.8;
+              scale = 0.66;
+              compact = 0.28;
+              actGazeX = -0.82;
               actGazeY = 0.1;
             }
           }
@@ -394,7 +528,7 @@
       }
     }
 
-    /* Act 6: 方法论档案叠卡 + 知识手册 */
+    /* Act 7: 方法论档案叠卡 + 知识手册 */
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
       if (mr.top < vh * 0.56 && mr.bottom > vh * 0.25) {
@@ -405,11 +539,12 @@
           if (mcr.top <= vh * 0.52) frontCard = methodCards[m];
         }
         var fcr = frontCard.getBoundingClientRect();
-        tx = clamp(fcr.right - 22, 48, vw - 26);
-        ty = clamp(fcr.top - 10, 92, vh - 60);
-        scale = 0.80;
+        tx = clamp(fcr.right - 22, 52, vw - 30);
+        ty = clamp(fcr.top - 14, 92, vh - 60);
+        scale = 0.68;
+        compact = 0.35;
         actGazeX = -0.55;
-        actGazeY = 0.45;
+        actGazeY = 0.48;
       }
     }
 
@@ -418,49 +553,65 @@
       if (kr.top < vh * 0.58 && kr.bottom > vh * 0.24) {
         activeAct = 'knowledge';
         var klr = knowledgeList.getBoundingClientRect();
-        tx = clamp(klr.right + 18, 48, vw - 28);
+        tx = clamp(klr.right + 22, 52, vw - 30);
         if (state.hoveredEl && state.hoveredKind === 'knowledge-item') {
           var kir = state.hoveredEl.getBoundingClientRect();
           ty = clamp(kir.top + kir.height * 0.5, 96, vh - 56);
-          scale = 0.82;
+          scale = 0.70;
+          compact = 0.22;
           tiltTarget = -6;
           actGazeX = -0.92;
           actGazeY = 0;
         } else {
           ty = clamp(vh * 0.42, 110, vh - 120);
-          scale = 0.76;
+          scale = 0.64;
+          compact = 0.28;
           actGazeX = -0.78;
           actGazeY = 0.1;
         }
       }
     }
 
-    /* Act 7: 页尾 Let's talk 邀约停泊 */
+    /* Act 8: 页尾 Let's talk 掠过 → 精准停泊进编辑风 AI 分身追问显示带（#runwayBerth） */
     if (footer && talkArrow) {
       var fRect = footer.getBoundingClientRect();
-      if (fRect.top < vh * 0.74) {
+      if (fRect.top < vh * 0.78) {
         activeAct = 'footer';
-        var tFoot = easeInOut(clamp((vh * 0.74 - fRect.top) / (vh * 0.34), 0, 1));
-        var arrowRect = talkArrow.getBoundingClientRect();
-        var footX = clamp(arrowRect.right + 24, 48, vw - 32);
-        var footY = clamp(arrowRect.top + arrowRect.height * 0.52, 96, vh - 40);
-        tx = lerp(tx, footX, tFoot);
-        ty = lerp(ty, footY, tFoot);
-        scale = lerp(scale, 0.94, tFoot);
-        pulsing = tFoot > 0.62;
         isDark = false;
-        actGazeX = -0.75;
-        actGazeY = 0.08;
+        var rbr = runwayBerth ? runwayBerth.getBoundingClientRect() : null;
+        if (rbr && rbr.width > 16 && rbr.top < vh * 0.88 && rbr.top > 84) {
+          activeBerth = 'runway';
+          dockedInControl = true;
+          tx = rbr.left + rbr.width / 2;
+          ty = rbr.top + rbr.height / 2 + 2;
+          scale = 0.82;
+          compact = 0;
+          pulsing = false;
+          actGazeX = 0.88;
+          actGazeY = 0.04;
+        } else {
+          var tFoot = easeInOut(clamp((vh * 0.78 - fRect.top) / (vh * 0.34), 0, 1));
+          var arrowRect = talkArrow.getBoundingClientRect();
+          var footX = clamp(arrowRect.right + 28, 52, vw - 36);
+          var footY = clamp(arrowRect.top + arrowRect.height * 0.52, 96, vh - 40);
+          tx = lerp(tx, footX, tFoot);
+          ty = lerp(ty, footY, tFoot);
+          scale = lerp(scale, 0.82, tFoot);
+          compact = 0;
+          pulsing = tFoot > 0.62;
+          actGazeX = -0.75;
+          actGazeY = 0.08;
+        }
       }
     }
 
-    /* 首屏停靠时让静态句点隐去，小墨点本体即为活体句点；离开首屏后保留极淡残印 */
+    /* 首屏活体句点无缝交接 */
     if (heroPeriod) {
       heroPeriod.classList.toggle('is-docked', activeAct === 'hero');
       heroPeriod.classList.toggle('is-departed', activeAct !== 'hero');
     }
 
-    /* 首屏悬停 CTA / 导航链接时，轻盈向目标倾身并歪头注视 */
+    /* 首屏悬停 CTA / 导航链接时轻盈倾身注视 */
     if (activeAct === 'hero' && state.hoveredEl && (state.hoveredKind === 'cta' || state.hoveredKind === 'nav')) {
       var hr = state.hoveredEl.getBoundingClientRect();
       var hdx = (hr.left + hr.width / 2) - tx;
@@ -468,36 +619,29 @@
       var hdist = Math.hypot(hdx, hdy) || 1;
       tx += (hdx / hdist) * 8;
       ty += (hdy / hdist) * 6;
-      tiltTarget = clamp((hdx / 450) * 10, -9, 9);
+      tiltTarget = clamp((hdx / 460) * 9, -8, 8);
     }
 
-    /* 视线优先级：1) 悬停组件 2) 近期鼠标 3) 快速滚动方向 4) 当前章节默认注视 / 静置东张西望 */
+    /* 视线优先级 */
     var gx = 0;
     var gy = 0;
     var scrollVel = window.portfolioScroll ? window.portfolioScroll.getVelocity() : 0;
 
-    if (state.hoveredEl && !state.selfHovered) {
+    if (state.hoveredEl && !state.selfHovered && state.hoveredKind !== 'runway') {
       var er = state.hoveredEl.getBoundingClientRect();
       var ecx = er.left + er.width / 2;
       var ecy = er.top + er.height / 2;
       gx = clamp((ecx - state.x) / 170, -1, 1);
       gy = clamp((ecy - state.y) / 150, -1, 1);
-    } else if (now - state.pointerActiveAt < 2600 && !state.selfHovered) {
+    } else if (now - state.pointerActiveAt < 2500 && !state.selfHovered && activeBerth !== 'runway') {
       gx = clamp((state.pointerX - state.x) / 220, -1, 1);
       gy = clamp((state.pointerY - state.y) / 180, -1, 1);
     } else if (Math.abs(scrollVel) > 160) {
       gx = 0;
-      gy = clamp(scrollVel / 900, -0.88, 0.88);
-    } else if (now - state.lastScrollAt > 3000 && now - state.pointerActiveAt > 3000) {
-      /* 静置超过 3 秒：偶尔好奇四处张望 */
+      gy = clamp(scrollVel / 850, -0.88, 0.88);
+    } else if (now - state.lastScrollAt > 3000 && now - state.pointerActiveAt > 3000 && !dockedInControl) {
       if (now >= state.nextIdleGlanceAt) {
-        var presets = [
-          [-0.92, -0.15],
-          [0.88, -0.1],
-          [-0.4, 0.65],
-          [0.5, 0.45],
-          [0, 0]
-        ];
+        var presets = [[-0.95, -0.14], [0.92, -0.1], [-0.45, 0.65], [0.48, 0.45], [0, 0]];
         var pick = presets[Math.floor(Math.random() * presets.length)];
         state.idleGx = pick[0];
         state.idleGy = pick[1];
@@ -514,17 +658,20 @@
       x: tx,
       y: ty,
       scale: scale,
+      compact: compact,
       pulsing: pulsing,
       isDark: isDark,
       tilt: tiltTarget,
       gx: gx,
-      gy: gy
+      gy: gy,
+      activeAct: activeAct,
+      activeBerth: activeBerth,
+      dockedInControl: dockedInControl
     };
   }
 
   /* 4. 实时伴随主循环 */
   var liveLoopRunning = false;
-  var liveRaf = 0;
 
   function stepLive() {
     var now = performance.now();
@@ -536,26 +683,30 @@
     var hiddenByDialog = !!(dialog && dialog.open);
     if (hiddenByDialog || !desktopMq.matches) {
       guide.classList.remove('is-visible');
+      syncBerths('');
+      closePopover();
       return;
     }
 
     var curScrollY = window.scrollY || 0;
-    if (Math.abs(curScrollY - state.lastScrollY) > 0.5) {
+    if (Math.abs(curScrollY - state.lastScrollY) > 3) {
       state.lastScrollY = curScrollY;
       state.lastScrollAt = now;
+      if (state.popoverOpen) closePopover();
     }
 
     var t = computeLiveTarget(now);
     var prevX = state.x;
     var prevY = state.y;
-    var follow = 1 - Math.exp(-11.5 * dt);
+    var follow = 1 - Math.exp(-11.2 * dt);
     state.x += (t.x - state.x) * follow;
     state.y += (t.y - state.y) * follow;
     state.vx = (state.x - prevX) / dt;
     state.vy = (state.y - prevY) / dt;
     state.scale += (t.scale - state.scale) * (1 - Math.exp(-10 * dt));
+    state.compact += (t.compact - state.compact) * (1 - Math.exp(-10 * dt));
 
-    var moveTilt = clamp(state.vx / 48, -11, 11);
+    var moveTilt = t.dockedInControl ? 0 : clamp(state.vx / 52, -10, 10);
     var desiredTilt = t.tilt + moveTilt;
     state.tilt += (desiredTilt - state.tilt) * (1 - Math.exp(-12 * dt));
 
@@ -563,9 +714,15 @@
     state.targetGy = t.gy;
     state.pulsing = t.pulsing;
     state.isDark = t.isDark;
+    state.activeAct = t.activeAct;
+    state.dockedInControl = t.dockedInControl;
+
+    /* 只有真正接近泊位中心（< 42px）时才点亮泊位边框，避免隔空提前亮起 */
+    var closeEnough = Math.hypot(t.x - state.x, t.y - state.y) < 42;
+    syncBerths(closeEnough ? t.activeBerth : '');
 
     guide.classList.add('is-visible');
-    renderGuide(now, dt);
+    applyVisuals(now, dt);
   }
 
   function startLiveLoop() {
@@ -578,7 +735,7 @@
       (function loop() {
         if (!liveLoopRunning) return;
         stepLive();
-        liveRaf = window.requestAnimationFrame(loop);
+        window.requestAnimationFrame(loop);
       })();
     }
   }
@@ -588,6 +745,8 @@
       state.mode = 'hidden';
       guide.classList.remove('is-visible', 'is-preloader-mode');
       document.documentElement.classList.remove('ink-guide-ready');
+      syncBerths('');
+      closePopover();
       return;
     }
     document.documentElement.classList.add('ink-guide-ready');
@@ -598,6 +757,7 @@
       state.x = target.x;
       state.y = target.y;
       state.scale = target.scale;
+      state.compact = target.compact;
     }
     state.vx = 0;
     state.vy = 0;
@@ -605,7 +765,45 @@
     startLiveLoop();
   }
 
-  /* 5. 网页组件微互动监听（按钮、卡片、作品展台、能力宣言、方法论叠卡、邮箱、轻戳本体） */
+  /* 5. 页尾 AI 分身追问显示带自动轮播（悬停/聚焦/离屏暂停，切换时小墨块轻眨呼应） */
+  function initFooterRunway() {
+    if (!footerRunway || reducedMotion) return;
+    var items = Array.from(footerRunway.querySelectorAll('.footer-runway-item'));
+    if (items.length < 2) return;
+    var idx = 0;
+    var paused = false;
+    var inView = false;
+
+    footerRunway.addEventListener('pointerenter', function () { paused = true; });
+    footerRunway.addEventListener('pointerleave', function () { paused = false; });
+    footerRunway.addEventListener('focusin', function () { paused = true; });
+    footerRunway.addEventListener('focusout', function () { paused = false; });
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        inView = entries[0] && entries[0].isIntersecting;
+      }, { threshold: 0.2 });
+      io.observe(footerRunway);
+    } else {
+      inView = true;
+    }
+
+    window.setInterval(function () {
+      if (paused || !inView || document.hidden) return;
+      var prev = items[idx];
+      idx = (idx + 1) % items.length;
+      var next = items[idx];
+      prev.classList.remove('is-active');
+      prev.classList.add('is-leaving');
+      window.setTimeout(function () { prev.classList.remove('is-leaving'); }, 480);
+      next.classList.add('is-active');
+      if (state.mode === 'live' && state.activeBerth === 'runway') {
+        triggerBlink(false);
+      }
+    }, 3200);
+  }
+
+  /* 6. 全站组件微互动与点击快捷卡片 */
   function bindInteractions() {
     window.addEventListener('pointermove', function (e) {
       if (e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
@@ -614,7 +812,6 @@
       state.pointerActiveAt = performance.now();
     }, { passive: true });
 
-    /* 直接悬停与点击小墨点本体：笑眼 + 雀跃轻跳 */
     guide.addEventListener('pointerenter', function () {
       if (state.mode !== 'live') return;
       state.selfHovered = true;
@@ -623,16 +820,29 @@
       state.selfHovered = false;
     });
     guide.addEventListener('click', function (e) {
-      if (state.mode !== 'live') return;
+      if (state.mode !== 'live' || state.dockedInControl) return;
       e.preventDefault();
       e.stopPropagation();
       triggerHappy(950, true);
-      state.tilt += (Math.random() < 0.5 ? -16 : 16);
+      state.tilt += (Math.random() < 0.5 ? -14 : 14);
+      if (state.popoverOpen) closePopover();
+      else openPopover();
     });
 
-    /* 委托监听各类可交互网页组件 */
+    document.addEventListener('click', function (e) {
+      if (!state.popoverOpen) return;
+      if (popover && (popover.contains(e.target) || guide.contains(e.target))) return;
+      closePopover();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && state.popoverOpen) closePopover();
+    });
+
     var hoverRules = [
+      { sel: '#footerRunway', kind: 'runway', happy: true },
       { sel: '#talkLink, .footer-agent-cta', kind: 'footer-cta', happy: true },
+      { sel: '#darkCurtainTab', kind: 'curtain' },
+      { sel: '#workDockTrigger', kind: 'work-dock', happy: true },
       { sel: '.work-stage-frame', kind: 'work-frame' },
       { sel: '.work-stage-pill', kind: 'work-pill' },
       { sel: '.capability-line', kind: 'capability' },
@@ -667,19 +877,16 @@
       state.curious = false;
     }, { passive: true });
 
-    /* 作品切换：俏皮眨眼 + 轻跳 */
     window.addEventListener('portfolio:workchange', function () {
       if (state.mode !== 'live') return;
       triggerWink(360, true);
     });
 
-    /* 方法论叠卡切换：雀跃轻跳 */
     window.addEventListener('portfolio:methodchange', function () {
       if (state.mode !== 'live') return;
       triggerWink(320, true);
     });
 
-    /* 复制邮箱成功：笑眼庆祝 */
     window.addEventListener('portfolio:emailcopied', function () {
       if (state.mode !== 'live') return;
       triggerHappy(1200, true);
@@ -691,12 +898,12 @@
     });
   }
 
-  /* 6. 开屏加载编排：小墨点苏醒 → 踏步进度条 → 东张西望 → 100% 欢呼跳跃 → 幕布丝滑展开 + 抛物线飞往首屏 */
+  /* 7. 开屏加载编排：A1 焦橙对话块苏醒 → 踏步进度条 → 东张西望 → 100% 欢呼跳跃 → 带点阵尾迹弧线飞入首屏 */
   function runPreloader() {
     var shouldPreload = preloader && document.documentElement.classList.contains('is-preloading') && !reducedMotion;
     if (!shouldPreload) {
       if (preloader) preloader.classList.add('is-done');
-      document.documentElement.classList.remove('is-preloading');
+      document.documentElement.classList.remove('is-preloading', 'ink-flight-active');
       enterLiveMode(false);
       return;
     }
@@ -716,15 +923,16 @@
     }
 
     state.mode = 'preloader';
+    state.compact = 0;
     guide.classList.add('is-visible', 'is-preloader-mode');
 
     var startAt = performance.now();
-    var phase = 'load'; /* 'load' -> 'celebrate' -> 'flight' -> 'done' */
+    var phase = 'load';
     var progress = 0;
     var celebrateStart = 0;
     var flightStart = 0;
-    var flightFrom = { x: 0, y: 0, scale: 1.18 };
-    var flightTo = { x: 0, y: 0, scale: 0.90 };
+    var flightFrom = { x: 0, y: 0, scale: 1.05 };
+    var flightTo = { x: 0, y: 0, scale: 0.78 };
     var curtainOpened = false;
     var lastStatusText = '';
     var lookBlinkDone = false;
@@ -742,7 +950,6 @@
       return { left: r.left, width: Math.max(120, r.width), y: r.top };
     }
 
-    /* 初始落在进度条左端 */
     var m0 = getTrackMetrics();
     state.x = m0.left;
     state.y = m0.y - 24;
@@ -762,7 +969,7 @@
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
       if (desktopMq.matches) {
         enterLiveMode(true);
-        state.squashV -= 4.2; /* 落稳时轻微弹性软着陆 */
+        state.squashV -= 4.0;
         window.setTimeout(function () { triggerBlink(false); }, 260);
       } else {
         state.mode = 'hidden';
@@ -770,7 +977,6 @@
       }
     }
 
-    /* 4.6 秒兜底安全阀：任何网络异常都不阻挡访问 */
     var failsafe = window.setTimeout(finishAll, 4600);
 
     function preloaderFrame() {
@@ -782,10 +988,12 @@
       var tm = getTrackMetrics();
 
       if (phase === 'load') {
+        var prevPx = state.x;
+        var prevPy = state.y;
+
         if (elapsed < 0.28) {
-          /* 0.00s - 0.28s：弹跳苏醒 */
           var pWake = easeOutCubic(clamp(elapsed / 0.28, 0, 1));
-          state.scale = lerp(0.15, 1.18, pWake) + Math.sin(pWake * Math.PI) * 0.14;
+          state.scale = lerp(0.15, 1.05, pWake) + Math.sin(pWake * Math.PI) * 0.12;
           state.x = tm.left;
           state.y = tm.y - 24 - Math.sin(pWake * Math.PI) * 14;
           state.targetGx = 0.65;
@@ -797,53 +1005,49 @@
             triggerBlink(false);
           }
         } else if (elapsed < 0.88) {
-          /* 0.28s - 0.88s：踏着进度条轻快前进（0% -> 42%） */
           var tWalk = clamp((elapsed - 0.28) / 0.60, 0, 1);
           progress = lerp(0, 0.42, easeInOut(tWalk));
           var stepBounce = Math.abs(Math.sin(tWalk * Math.PI * 4.5)) * 10;
-          state.scale = 1.18;
+          state.scale = 1.05;
           state.x = tm.left + tm.width * progress;
           state.y = tm.y - 24 - stepBounce;
-          state.tilt = 6 + Math.sin(tWalk * Math.PI * 9) * 3.5;
+          state.tilt = 5 + Math.sin(tWalk * Math.PI * 9) * 3;
           state.targetGx = 0.92;
-          state.targetGy = 0.06;
+          state.targetGy = 0.05;
           setStatus('正在铺开作品集');
         } else if (elapsed < 1.54) {
-          /* 0.88s - 1.54s：短暂停步“东张西望”（42% -> 68%） */
           var tLook = clamp((elapsed - 0.88) / 0.66, 0, 1);
           progress = lerp(0.42, 0.68, tLook * 0.85 + easeInOut(tLook) * 0.15);
-          state.scale = 1.18;
+          state.scale = 1.05;
           state.x = tm.left + tm.width * progress;
           state.y = tm.y - 24;
           setStatus('四处看看…');
           if (tLook < 0.34) {
             state.targetGx = -1.0;
-            state.targetGy = -0.18;
-            state.tilt = -9;
+            state.targetGy = -0.15;
+            state.tilt = -8;
           } else if (tLook < 0.68) {
             state.targetGx = 1.0;
-            state.targetGy = -0.12;
-            state.tilt = 9;
+            state.targetGy = -0.1;
+            state.tilt = 8;
             if (!lookBlinkDone && tLook > 0.42) {
               lookBlinkDone = true;
               triggerBlink(false);
             }
           } else {
-            /* 好奇低头瞟一眼正在上涨的百分比数字 */
             state.targetGx = 0.28;
-            state.targetGy = 0.95;
+            state.targetGy = 0.92;
             state.tilt = 4;
           }
         } else {
-          /* 1.54s -> 1.94s：等待字体就绪（最多多等 0.35s），冲刺至 100% */
           var tSprint = clamp((elapsed - 1.54) / 0.38, 0, 1);
           var cap = (fontsReady || elapsed > 2.25) ? 1 : 0.94;
           progress = Math.min(cap, lerp(0.68, 1, easeOutCubic(tSprint)));
           var sprintBounce = Math.abs(Math.sin(tSprint * Math.PI * 3)) * 11;
-          state.scale = 1.18;
+          state.scale = 1.05;
           state.x = tm.left + tm.width * progress;
           state.y = tm.y - 24 - sprintBounce;
-          state.tilt = 8;
+          state.tilt = 7;
           state.targetGx = 0.9;
           state.targetGy = -0.05;
           setStatus('准备就绪');
@@ -854,26 +1058,32 @@
             celebrateStart = now;
             setStatus('HELLO.');
             state.tilt = 0;
+            state.vx = 0;
+            state.vy = 0;
             state.targetGx = 0;
             state.targetGy = 0;
             triggerHappy(1150, true);
-            hop(1.15);
+            hop(1.1);
           }
         }
+
+        state.vx = (state.x - prevPx) / dt * 0.45;
+        state.vy = (state.y - prevPy) / dt * 0.45;
 
         if (fillEl) fillEl.style.transform = 'scaleX(' + progress.toFixed(4) + ')';
         if (pctEl) pctEl.textContent = String(Math.round(progress * 100)).padStart(2, '0') + '%';
         if (shadowEl) {
           var airHeight = Math.max(0, (tm.y - 24) - state.y - state.hopY);
-          var shadowScale = clamp(1 - airHeight / 44, 0.38, 1) * clamp(state.scale / 1.18, 0, 1);
+          var shadowScale = clamp(1 - airHeight / 44, 0.38, 1) * clamp(state.scale / 1.05, 0, 1);
           shadowEl.style.transform = 'translate3d(' + (tm.width * progress).toFixed(1) + 'px, 0, 0) scale(' + shadowScale.toFixed(3) + ')';
         }
       } else if (phase === 'celebrate') {
-        /* 100% 欢呼跳跃停顿 0.32s，然后掀开纸面幕布并起飞 */
         var cElapsed = (now - celebrateStart) / 1000;
         state.x = tm.left + tm.width;
         state.y = tm.y - 24;
-        state.scale = 1.20;
+        state.vx = 0;
+        state.vy = 0;
+        state.scale = 1.08;
         if (shadowEl) {
           var sAir = Math.max(0, -state.hopY);
           var sScale = clamp(1 - sAir / 48, 0.32, 1);
@@ -888,7 +1098,6 @@
           state.hopY = 0;
           state.hopVy = 0;
 
-          /* 同步淡出进度条文案、丝滑上掀幕布，并触发首屏精密词组编排 */
           if (stageEl) stageEl.classList.add('is-fading');
           preloader.classList.add('is-lifting');
           window.setTimeout(function () {
@@ -900,8 +1109,7 @@
           }, 90);
         }
       } else if (phase === 'flight') {
-        /* 0.72s 丝滑抛物线飞往首屏停靠位（实时读取落点，兼容各种窗口尺寸） */
-        var fProgress = clamp((now - flightStart) / 720, 0, 1);
+        var fProgress = clamp((now - flightStart) / 740, 0, 1);
         var fEase = easeInOut(fProgress);
         flightTo = (window.scrollY || 0) > 80 && desktopMq.matches
           ? computeLiveTarget(now)
@@ -909,8 +1117,7 @@
 
         var prevFx = state.x;
         var prevFy = state.y;
-        /* 二次贝塞尔高抛弧线，起飞轻盈优雅 */
-        var arcLift = Math.min(130, Math.max(64, Math.hypot(flightTo.x - flightFrom.x, flightTo.y - flightFrom.y) * 0.28));
+        var arcLift = Math.min(130, Math.max(68, Math.hypot(flightTo.x - flightFrom.x, flightTo.y - flightFrom.y) * 0.28));
         var ctrlX = (flightFrom.x + flightTo.x) * 0.5;
         var ctrlY = Math.min(flightFrom.y, flightTo.y) - arcLift;
         var inv = 1 - fEase;
@@ -919,7 +1126,7 @@
         state.vx = (state.x - prevFx) / dt;
         state.vy = (state.y - prevFy) / dt;
         state.scale = lerp(flightFrom.scale, flightTo.scale, fEase);
-        state.tilt = clamp(state.vx / 42, -16, 16) * (1 - fEase * 0.65);
+        state.tilt = clamp(state.vx / 44, -15, 15) * (1 - fEase * 0.65);
 
         if (!desktopMq.matches && fProgress > 0.72) {
           guide.style.opacity = String(clamp((1 - fProgress) / 0.28, 0, 1));
@@ -929,12 +1136,14 @@
           clearTimeout(failsafe);
           guide.style.removeProperty('opacity');
           state.tilt = 0;
+          state.vx = 0;
+          state.vy = 0;
           finishAll();
           return;
         }
       }
 
-      renderGuide(now, dt);
+      applyVisuals(now, dt);
       window.requestAnimationFrame(preloaderFrame);
     }
 
@@ -942,6 +1151,7 @@
   }
 
   bindInteractions();
+  initFooterRunway();
   scheduleNextBlink();
   runPreloader();
 

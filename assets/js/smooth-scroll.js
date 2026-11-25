@@ -58,8 +58,8 @@
     targetY = clamp(targetY, 0, max);
 
     var diff = targetY - currentY;
-    /* 滚轮使用干脆阻尼（13.5）保证跟手轻快；锚点跳转使用 10.5 形成轻盈跨幕滑行。 */
-    var lambda = anchorGlide ? 10.5 : 13.5;
+    /* 滚轮采用温润克制的 10.8 阻尼，节奏从容跟手；锚点跳转使用 9.2 形成丝滑跨幕滑行。 */
+    var lambda = anchorGlide ? 9.2 : 10.8;
     var factor = 1 - Math.exp(-lambda * dt);
     var prevY = currentY;
 
@@ -125,8 +125,8 @@
       targetY = currentY;
     }
 
-    /* 鼠标滚轮给足轻快行程（1.25×），触控板微幅滑动保持 1.08× 细腻跟手 */
-    var multiplier = Math.abs(delta) >= 48 ? 1.25 : 1.08;
+    /* 鼠标滚轮保持略微从容的 1.02× 行程，触控板 0.94× 细腻稳健，避免过快掠过细节 */
+    var multiplier = Math.abs(delta) >= 48 ? 1.02 : 0.94;
     targetY = clamp(targetY + delta * multiplier, 0, maxScroll());
     animating = true;
   }
