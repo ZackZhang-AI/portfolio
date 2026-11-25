@@ -36,6 +36,11 @@
   margin-block: -.06em;
 }
 .hero-word { display: inline-block; }
+.hero-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform-origin: center bottom;
+}
 .hero-period {
   color: var(--accent-bright);
   transition: opacity 260ms ease;
@@ -1057,38 +1062,10 @@ html.is-preloading .site-header {
   50% { opacity: .68; transform: scale(1.22); }
 }
 
-/* 8. 纸张微光折射（Pointer Specular Sheen，极克制无 3D 廉价倾角） */
-.company-feature,
-.proof-secondary,
-.proof-note,
-.paper-steps > li {
-  --sheen-x: 50%;
-  --sheen-y: 50%;
-  --sheen-opacity: 0;
-}
-.company-feature::before,
-.proof-secondary::before,
-.proof-note::before,
-.paper-steps > li::before {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: var(--sheen-opacity);
-  background: radial-gradient(380px circle at var(--sheen-x) var(--sheen-y), rgb(255 251 244 / 52%), transparent 68%);
-  transition: opacity 380ms ease;
-  content: '';
-}
-.proof-note--dark::before {
-  background: radial-gradient(360px circle at var(--sheen-x) var(--sheen-y), rgb(255 244 230 / 9%), transparent 68%);
-}
-.proof-note--orange::before {
-  background: radial-gradient(360px circle at var(--sheen-x) var(--sheen-y), rgb(255 245 232 / 14%), transparent 68%);
-}
-.proof-secondary { position: relative; overflow: hidden; }
-.company-feature { overflow: hidden; }
-.proof-note { overflow: hidden; }
+/* 8. 卡片容器基础定位（已移除遮挡文字的白色悬停光晕，确保 100% 锐利阅读对比度） */
+.proof-secondary { position: relative; }
+.company-feature { position: relative; }
+.proof-note { position: relative; }
 
 /* 9. 案例详情弹窗：主页面背后景深退缩（Layered Depth Sheet） */
 #mainContent,

@@ -8,29 +8,33 @@
   box-shadow: var(--highlight-paper), var(--shadow-card);
 }
 .proof-showcase .company-feature { position: relative; padding: 30px 36px 32px; border-top: 3px solid var(--accent-bright); transition: border-color 300ms ease, box-shadow 420ms ease; }
-.proof-showcase .company-feature.is-berth-active { border-color: rgb(212 81 24 / 45%); }
 .proof-showcase .company-heading { margin-bottom: 24px; }
-.proof-showcase .company-heading-right { display: inline-flex; align-items: center; gap: 12px; }
 .proof-showcase .company-period { color: var(--muted); font-size: 12px; letter-spacing: .04em; }
-.didi-berth {
-  display: none;
-  width: 30px;
-  height: 26px;
-  border: 1px dashed rgb(212 81 24 / 28%);
-  border-radius: 5px;
-  background: rgb(212 81 24 / 4%);
-  flex-shrink: 0;
-  transition: border-color 240ms ease, background-color 240ms ease;
-}
-.ink-guide-ready .didi-berth { display: inline-block; }
-.company-feature.is-berth-active .didi-berth { border-color: transparent; background: transparent; }
 
 .proof-showcase .company-heading img { width: 42px; height: 42px; }
 .proof-showcase .company-heading h3 { font-size: 18px; }
 .proof-showcase .company-heading p,
 .proof-showcase .company-heading > span { font-size: 12px; }
-.proof-showcase .didi-projects { gap: 32px; padding-top: 24px; border-top: 1px solid var(--showcase-line); }
+.proof-showcase .didi-projects { gap: 32px; padding-top: 26px; border-top: 1px solid var(--showcase-line); }
+.proof-showcase .proof-project { position: relative; }
+.proof-showcase .proof-project::after {
+  position: absolute;
+  top: -27px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent, #c84b11), var(--accent-bright, #e06122));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+  content: '';
+}
+.proof-showcase .proof-project:is(:hover, :focus-within, .is-companion-focus)::after {
+  transform: scaleX(1);
+}
 .proof-showcase .proof-project + .proof-project { padding-left: 32px; border-color: var(--showcase-line); }
+.proof-showcase .proof-project + .proof-project::after { left: 32px; }
 .proof-showcase h4 {
   font-family: var(--serif);
   font-size: clamp(22px, 1.8vw, 27px);
@@ -41,30 +45,49 @@
 }
 .proof-showcase .proof-project > p:not(.result),
 .proof-showcase .proof-secondary > p:not(.compact-result) { margin-bottom: 16px; font-size: 14px; line-height: 1.85; }
-.proof-showcase .result { margin: 2px 0 10px; }
+.proof-showcase .result { margin: 2px 0 8px; }
 .proof-showcase .result strong {
   font-size: clamp(32px, 3vw, 44px);
   line-height: 1.35;
+  font-variant-numeric: lining-nums tabular-nums;
   font-optical-sizing: none;
   font-variation-settings: "opsz" 8, "wght" 520;
+}
+.proof-showcase .result strong .metric-num,
+.proof-showcase .compact-result strong .metric-num {
+  display: inline-block;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-variant-numeric: lining-nums tabular-nums;
+  transition: color 280ms ease;
+}
+.proof-showcase .result strong .metric-arrow {
+  display: inline-block;
+  color: var(--accent, #c84b11);
+  transition: transform 360ms cubic-bezier(.22, 1, .36, 1);
+}
+.proof-showcase [data-proof-stage]:is(:hover, .is-companion-focus) .metric-arrow {
+  transform: translateX(4px);
 }
 .proof-showcase .result-unit { color: var(--accent); }
 .proof-showcase .result > span { display: block; margin-top: 6px; font-size: 12px; }
 
-/* 编辑风提效刻度条（极简纸墨 × 焦橙进度线） */
+/* 编辑风提效刻度条（留出上方呼吸空位，便于 A1 焦橙对话块轻骑在进度尖端联动推进） */
 .proof-meter {
+  --meter-p: 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 0 16px;
+  margin: 22px 0 18px;
 }
 .proof-meter-bar {
   position: relative;
   flex: 1;
-  height: 3px;
+  height: 4px;
   border-radius: 99px;
   background: rgb(23 20 15 / 10%);
-  overflow: hidden;
 }
 .proof-meter-fill {
   position: absolute;
@@ -72,8 +95,26 @@
   border-radius: inherit;
   background: linear-gradient(90deg, var(--accent, #c84b11), var(--accent-bright, #e06122));
   transform-origin: left center;
-  transform: scaleX(1);
+  transform: scaleX(var(--meter-p, 1));
   will-change: transform;
+}
+.proof-meter-tip {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--meter-p, 1) * 100%);
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--paper, #f6f2ed);
+  border-radius: 50%;
+  background: var(--accent-bright, #e06122);
+  box-shadow: 0 0 0 3px rgb(224 97 34 / 16%);
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1), box-shadow 280ms ease;
+  pointer-events: none;
+}
+.proof-showcase [data-proof-stage]:is(:hover, .is-companion-focus) .proof-meter-tip {
+  transform: translate(-50%, -50%) scale(1.32);
+  box-shadow: 0 0 0 6px rgb(224 97 34 / 22%);
 }
 .proof-meter-tag {
   color: var(--accent, #c84b11);
@@ -81,9 +122,18 @@
   font-weight: 600;
   letter-spacing: .06em;
   white-space: nowrap;
+  transition: color 240ms ease, transform 280ms cubic-bezier(.22, 1, .36, 1);
+}
+.proof-showcase [data-proof-stage]:is(:hover, .is-companion-focus) .proof-meter-tag {
+  transform: translateX(2px);
 }
 .proof-meter--ink .proof-meter-bar { background: rgb(234 229 224 / 14%); }
 .proof-meter--ink .proof-meter-fill { background: linear-gradient(90deg, #d45118, #ef8a4c); }
+.proof-meter--ink .proof-meter-tip {
+  border-color: #191613;
+  background: #ef8a4c;
+  box-shadow: 0 0 0 3px rgb(239 138 76 / 22%);
+}
 .proof-meter--ink .proof-meter-tag { color: var(--accent-dark, #ef8a4c); }
 
 .proof-showcase .text-link { min-height: 40px; font-size: 13px; }
@@ -93,10 +143,11 @@
   translate: 0 var(--proof-parallax, 0px);
 }
 .proof-showcase .proof-secondary .company-heading { padding-bottom: 22px; border-bottom: 1px solid var(--showcase-line); }
-.proof-showcase .compact-result { align-items: center; margin: 2px 0 14px; gap: 6px 18px; }
+.proof-showcase .compact-result { align-items: center; margin: 2px 0 8px; gap: 6px 18px; }
 .proof-showcase .compact-result strong {
   font-size: clamp(28px, 2.6vw, 36px);
   white-space: nowrap;
+  font-variant-numeric: lining-nums tabular-nums;
   font-optical-sizing: none;
   font-variation-settings: "opsz" 8, "wght" 520;
 }
@@ -121,9 +172,6 @@
   background: linear-gradient(162deg, #1d1a16 0%, #14120f 100%);
   box-shadow: 0 18px 42px rgb(23 20 15 / 16%), inset 0 1px 0 rgb(255 245 232 / 7%);
   color: #eae5e0;
-}
-.proof-showcase .proof-secondary--ink::before {
-  background: radial-gradient(360px circle at var(--sheen-x) var(--sheen-y), rgb(255 244 230 / 9%), transparent 68%);
 }
 .proof-showcase .proof-secondary--ink .company-heading {
   border-bottom-color: rgb(234 229 224 / 12%);
@@ -157,3 +205,8 @@
 .proof-archive-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 72px 0 36px; padding-top: 24px; border-top: 1px solid var(--line); }
 .proof-archive-heading p { margin: 0; color: var(--muted); font-size: 12px; }
 .proof-archive-heading .eyebrow { font-size: 10px; }
+
+@media (max-width: 1023px) {
+  .proof-showcase .proof-project::after { display: none; }
+  .proof-meter { margin: 14px 0 16px; }
+}

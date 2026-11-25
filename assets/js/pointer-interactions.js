@@ -65,22 +65,6 @@
       }, function () { driftTo(0); });
     });
 
-    // 纸张微光折射：仅在悬停当前卡片时随指针柔光掠过，不做 3D 廉价倾角。
-    document.querySelectorAll('.company-feature, .proof-secondary, .proof-note, .paper-steps > li').forEach(function (card) {
-      track(card, function (x, y) {
-        card.style.setProperty('--sheen-x', x.toFixed(1) + 'px');
-        card.style.setProperty('--sheen-y', y.toFixed(1) + 'px');
-        card.style.setProperty('--sheen-opacity', '1');
-      }, function () {
-        card.style.setProperty('--sheen-opacity', '0');
-      });
-      disposers.push(function () {
-        card.style.removeProperty('--sheen-x');
-        card.style.removeProperty('--sheen-y');
-        card.style.removeProperty('--sheen-opacity');
-      });
-    });
-
     function resetAll() { resets.forEach(function (reset) { reset(); }); }
     function visibility() { if (document.hidden) resetAll(); }
     window.addEventListener('blur', resetAll);

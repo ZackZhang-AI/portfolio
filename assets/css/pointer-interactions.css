@@ -19,8 +19,10 @@
   .text-link > span::before, .proof-agent-link > span::before { position: absolute; top: 50%; left: 50%; width: 30px; height: 30px; border: 1px solid currentColor; border-radius: 50%; opacity: 0; content: ''; transform: translate(-50%, -50%) scale(.65); }
   .text-link:is(:hover, :focus-visible) > span::before, .proof-agent-link:is(:hover, :focus-visible) > span::before { opacity: .36; transform: translate(-50%, -50%) scale(1); }
 
-  .proof-showcase :is(.proof-project, .proof-secondary):is(:hover, :focus-within) h4 { color: var(--accent); }
-  .proof-showcase .proof-secondary:is(:hover, :focus-within) { border-color: #cca283; background: var(--paper-hover); }
+  .proof-showcase :is(.proof-project, .proof-secondary:not(.proof-secondary--ink)):is(:hover, :focus-within) h4 { color: var(--accent); }
+  .proof-showcase .proof-secondary--ink:is(:hover, :focus-within) h4 { color: var(--accent-dark, #ef8a4c); }
+  .proof-showcase .proof-secondary:not(.proof-secondary--ink):is(:hover, :focus-within) { border-color: #c9926b; background: #fbf8f3; box-shadow: var(--highlight-paper), 0 14px 34px rgb(23 20 15 / 7%); }
+  .proof-showcase .proof-secondary--ink:is(:hover, :focus-within) { border-color: rgb(239 138 76 / 48%); box-shadow: 0 20px 44px rgb(23 20 15 / 22%), inset 0 1px 0 rgb(255 245 232 / 11%); }
   .pathCard:hover { border-color: #c29572; box-shadow: var(--highlight-paper), var(--shadow-card-hover); }
   .paper-steps > li:is(:hover, :focus-within) { border-color: #c29572; }
   .paper-steps > li:is(:hover, :focus-within) .step-tab { background: linear-gradient(180deg, #faf6f0, #f5efe7); }

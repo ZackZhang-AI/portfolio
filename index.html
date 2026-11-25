@@ -23,14 +23,14 @@
     <link rel="stylesheet" href="assets/css/portfolio.css?v=3">
     <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=4">
     <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
-    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=3">
+    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=4">
     <link rel="stylesheet" href="assets/css/footer-talk.css?v=2">
     <link rel="stylesheet" href="assets/css/hero.css?v=4">
     <link rel="stylesheet" href="assets/css/chapter-motion.css?v=3">
-    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=3">
+    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=4">
     <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
     <link rel="stylesheet" href="assets/css/case-details.css?v=2">
-    <link rel="stylesheet" href="assets/css/signature-motion.css?v=5">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=6">
   </head>
   <body>
     <script>
@@ -212,38 +212,35 @@
                 <p>ABC 智能一组 · AI 产品经理实习生</p>
               </div>
             </div>
-            <div class="company-heading-right">
-              <span class="companion-berth didi-berth" id="didiBerth" aria-hidden="true"></span>
-              <span class="company-period">2026.09 — 至今</span>
-            </div>
+            <span class="company-period">2026.09 — 至今</span>
           </header>
           <div class="didi-projects">
-            <article class="proof-project">
-              <h4>DiVA · AI 营销素材工作台</h4>
-              <p>让一次活动需求，持续产出多规格营销素材。主导工作台设计，串联主视觉生成、元素复用、广告位适配与人工审核。</p>
-              <p class="result"><strong>2 小时 <span aria-hidden="true">→</span> 40 分钟</strong><span>单批素材交付耗时</span></p>
-              <div class="proof-meter" aria-hidden="true">
-                <div class="proof-meter-bar"><span class="proof-meter-fill" data-meter="67"></span></div>
+            <article class="proof-project" data-proof-stage="diva">
+              <h4 class="proof-reveal-title">DiVA · AI 营销素材工作台</h4>
+              <p class="proof-reveal-copy">让一次活动需求，持续产出多规格营销素材。主导工作台设计，串联主视觉生成、元素复用、广告位适配与人工审核。</p>
+              <p class="result proof-reveal-metric"><strong>2 小时 <span class="metric-arrow" aria-hidden="true">→</span> <span class="metric-num" data-proof-metric="diva">40</span> 分钟</strong><span>单批素材交付耗时</span></p>
+              <div class="proof-meter" id="meterDiva" data-meter-stage="diva" aria-hidden="true">
+                <div class="proof-meter-bar" id="meterBarDiva"><span class="proof-meter-fill" data-meter="67"></span><span class="proof-meter-tip"></span></div>
                 <span class="proof-meter-tag">-67% 交付耗时</span>
               </div>
-              <p class="result-note">机酒国庆营销 · 11 个已验收广告位<br>60+ 份业务采用素材 · 首次验收通过率 80%</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">看工作过程与结果 <span aria-hidden="true">↗</span></button>
+              <p class="result-note proof-reveal-foot">机酒国庆营销 · 11 个已验收广告位<br>60+ 份业务采用素材 · 首次验收通过率 80%</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiDiva">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
-            <article class="proof-project">
-              <h4>比价 Skill · 机票竞品分析</h4>
-              <p>把跨平台查价和航班匹配封装为可复用 Skill，串联数据清洗、同期采集与报告导出，帮助业务识别供给与价格短板。</p>
-              <p class="result"><strong>75<span class="result-unit">%</span></strong><span>人工耗时降低</span></p>
-              <div class="proof-meter" aria-hidden="true">
-                <div class="proof-meter-bar"><span class="proof-meter-fill" data-meter="75"></span></div>
+            <article class="proof-project" data-proof-stage="pricing">
+              <h4 class="proof-reveal-title">比价 Skill · 机票竞品分析</h4>
+              <p class="proof-reveal-copy">把跨平台查价和航班匹配封装为可复用 Skill，串联数据清洗、同期采集与报告导出，帮助业务识别供给与价格短板。</p>
+              <p class="result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="pricing">75</span><span class="result-unit">%</span></strong><span>人工耗时降低</span></p>
+              <div class="proof-meter" id="meterPricing" data-meter-stage="pricing" aria-hidden="true">
+                <div class="proof-meter-bar" id="meterBarPricing"><span class="proof-meter-fill" data-meter="75"></span><span class="proof-meter-tip"></span></div>
                 <span class="proof-meter-tag">-75% 人工耗时</span>
               </div>
-              <p class="result-note">完成 80 组航线分析<br>输出供给缺口与高价航班清单</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">看工作过程与结果 <span aria-hidden="true">↗</span></button>
+              <p class="result-note proof-reveal-foot">完成 80 组航线分析<br>输出供给缺口与高价航班清单</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiPricing">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
           </div>
         </article>
         <div class="proof-pair">
-          <article class="proof-secondary proof-secondary--lead">
+          <article class="proof-secondary proof-secondary--lead" data-proof-stage="baidu">
             <header class="company-heading">
               <div>
                 <img src="assets/img/logos/baidu.svg" width="34" height="34" alt="百度">
@@ -254,18 +251,18 @@
               </div>
               <span>2026.06 — 09</span>
             </header>
-            <h4>把代码评测延伸到真实产品体验</h4>
-            <p>参与 WebDev E2E Bench 建设，从功能、视觉、交互等 7 个维度评估交付质量；结合多模型测试和 Bad Case 归因推动策略迭代。</p>
-            <p class="compact-result"><strong>71.4%</strong><span>人工操作时间减少 · 离线测算</span></p>
-            <div class="proof-meter" aria-hidden="true">
-              <div class="proof-meter-bar"><span class="proof-meter-fill" data-meter="71.4"></span></div>
+            <h4 class="proof-reveal-title">把代码评测延伸到真实产品体验</h4>
+            <p class="proof-reveal-copy">参与 WebDev E2E Bench 建设，从功能、视觉、交互等 7 个维度评估交付质量；结合多模型测试和 Bad Case 归因推动策略迭代。</p>
+            <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baidu">71.4</span>%</strong><span>人工操作时间减少 · 离线测算</span></p>
+            <div class="proof-meter" id="meterBaidu" data-meter-stage="baidu" aria-hidden="true">
+              <div class="proof-meter-bar" id="meterBarBaidu"><span class="proof-meter-fill" data-meter="71.4"></span><span class="proof-meter-tip"></span></div>
               <span class="proof-meter-tag">7 维自动评测</span>
             </div>
-            <div class="action-row">
+            <div class="action-row proof-reveal-foot">
               <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">端到端评测案例 <span aria-hidden="true">↗</span></button><button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型评测与策略 <span aria-hidden="true">↗</span></button>
             </div>
           </article>
-          <article class="proof-secondary proof-secondary--ink">
+          <article class="proof-secondary proof-secondary--ink" data-proof-stage="baichuan">
             <header class="company-heading">
               <div>
                 <img src="assets/img/logos/baichuan.svg" width="34" height="34" alt="百川智能">
@@ -276,14 +273,14 @@
               </div>
               <span>2026.04 — 06</span>
             </header>
-            <h4>让医疗知识问答有据可查</h4>
-            <p>面向医院、卫健委及药企梳理需求，参与文档解析、知识库、检索问答与引用溯源设计，通过评测定位召回、排序与生成问题。</p>
-            <p class="compact-result"><strong>3 轮 / 30 条</strong><span>内部 QA 评测 · 用于 Rerank 与 Prompt 优化</span></p>
-            <div class="proof-meter proof-meter--ink" aria-hidden="true">
-              <div class="proof-meter-bar"><span class="proof-meter-fill" data-meter="86"></span></div>
+            <h4 class="proof-reveal-title">让医疗知识问答有据可查</h4>
+            <p class="proof-reveal-copy">面向医院、卫健委及药企梳理需求，参与文档解析、知识库、检索问答与引用溯源设计，通过评测定位召回、排序与生成问题。</p>
+            <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baichuan-rounds">3</span> 轮 / <span class="metric-num" data-proof-metric="baichuan-items">30</span> 条</strong><span>内部 QA 评测 · 用于 Rerank 与 Prompt 优化</span></p>
+            <div class="proof-meter proof-meter--ink" id="meterBaichuan" data-meter-stage="baichuan" aria-hidden="true">
+              <div class="proof-meter-bar" id="meterBarBaichuan"><span class="proof-meter-fill" data-meter="86"></span><span class="proof-meter-tip"></span></div>
               <span class="proof-meter-tag">引用溯源闭环</span>
             </div>
-            <button class="text-link projectTrigger" type="button" data-project-id="baichuanRag">看医疗 RAG 实践 <span aria-hidden="true">↗</span></button>
+            <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="baichuanRag">看医疗 RAG 实践 <span aria-hidden="true">↗</span></button>
           </article>
         </div>
         </div>
@@ -715,14 +712,14 @@
     <script src="assets/js/gsap.min.js" defer></script>
     <script src="assets/js/ScrollTrigger.min.js" defer></script>
     <script src="assets/js/smooth-scroll.js?v=4" defer></script>
-    <script src="assets/js/hero-intro.js?v=7" defer></script>
+    <script src="assets/js/hero-intro.js?v=8" defer></script>
     <script src="assets/js/portfolio.js?v=5" defer></script>
-    <script src="assets/js/portfolio-motion.js?v=9" defer></script>
+    <script src="assets/js/portfolio-motion.js?v=10" defer></script>
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
     <script src="assets/js/signature-motion.js?v=3" defer></script>
-    <script src="assets/js/ink-companion.js?v=3" defer></script>
+    <script src="assets/js/ink-companion.js?v=4" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
-    <script src="assets/js/pointer-interactions.js?v=4" defer></script>
+    <script src="assets/js/pointer-interactions.js?v=5" defer></script>
     <script src="assets/js/footer-talk.js?v=2" defer></script>
     <script src="assets/js/project-data.js?v=1" defer></script>
     <script src="assets/js/project-dialog.js?v=14" defer></script>

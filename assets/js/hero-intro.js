@@ -3,47 +3,140 @@
 
   var media;
 
+  function splitHeroChars() {
+    var words = Array.from(document.querySelectorAll('.hero-word:not(.hero-period)'));
+    var originals = [];
+    var line1Chars = [];
+    var line2Chars = [];
+
+    words.forEach(function (wordEl) {
+      var rule = wordEl.querySelector('.hero-impact-rule');
+      var textNode = null;
+      for (var i = 0; i < wordEl.childNodes.length; i++) {
+        if (wordEl.childNodes[i].nodeType === 3 && wordEl.childNodes[i].nodeValue.trim()) {
+          textNode = wordEl.childNodes[i];
+          break;
+        }
+      }
+      if (!textNode) return;
+      var raw = textNode.nodeValue;
+      originals.push({ el: wordEl, raw: raw, rule: rule });
+
+      var frag = document.createDocumentFragment();
+      var isLine2 = !!(wordEl.closest('.hero-title-mask:last-child'));
+      raw.split('').forEach(function (ch) {
+        var span = document.createElement('span');
+        span.className = 'hero-char';
+        span.setAttribute('aria-hidden', 'true');
+        span.textContent = ch;
+        frag.appendChild(span);
+        if (isLine2) line2Chars.push(span);
+        else line1Chars.push(span);
+      });
+
+      wordEl.textContent = '';
+      wordEl.appendChild(frag);
+      if (rule) wordEl.appendChild(rule);
+    });
+
+    return {
+      line1: line1Chars,
+      line2: line2Chars,
+      revert: function () {
+        originals.forEach(function (item) {
+          item.el.textContent = item.raw;
+          if (item.rule) item.el.appendChild(item.rule);
+        });
+      }
+    };
+  }
+
   window.initPortfolioHero = function () {
     if (media) media.revert();
     var gsap = window.gsap;
     media = gsap.matchMedia();
 
-    /* 1.05s 精密首屏入场总谱：按词组错峰裁切升起 → 赤陶下划线笔锋拉出 → 副文案与动作柔和落位 */
+    /* 1.35s 幕布掀开后的精密首屏大标题总谱：逐字从遮罩线优雅翻升 → 赤陶笔锋拉出 → 副文案与战绩条分层落位 */
     media.add('(prefers-reduced-motion: no-preference)', function () {
       document.documentElement.classList.add('hero-orchestrated');
+      var split = splitHeroChars();
       var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
 
-      intro
-        .fromTo('.hero-word', { yPercent: 108, opacity: 0 }, {
+      if (split.line1.length) {
+        intro.fromTo(split.line1, {
+          yPercent: 118,
+          rotateZ: 3.5,
+          opacity: 0
+        }, {
           yPercent: 0,
+          rotateZ: 0,
           opacity: 1,
-          duration: 0.85,
-          stagger: 0.075,
+          duration: 0.96,
+          stagger: 0.032,
           clearProps: 'transform,opacity'
-        }, 0.06)
+        }, 0.04);
+      }
+      if (split.line2.length) {
+        intro.fromTo(split.line2, {
+          yPercent: 122,
+          rotateZ: 3.5,
+          opacity: 0
+        }, {
+          yPercent: 0,
+          rotateZ: 0,
+          opacity: 1,
+          duration: 1.0,
+          stagger: 0.036,
+          clearProps: 'transform,opacity'
+        }, 0.22);
+      }
+
+      intro
         .fromTo('.hero-impact-rule', { scaleX: 0 }, {
           scaleX: 1,
-          duration: 0.62,
+          duration: 0.72,
           ease: 'expo.inOut',
           clearProps: 'transform'
-        }, 0.42)
-        .fromTo(['.hero-description', '.hero-background', '.hero-focus-strip', '.hero-actions'], { y: 18, opacity: 0 }, {
+        }, 0.56)
+        .fromTo('.hero-description', {
+          y: 20,
+          opacity: 0,
+          clipPath: 'inset(0 0 100% 0)'
+        }, {
           y: 0,
           opacity: 1,
-          duration: 0.68,
-          stagger: 0.075,
+          clipPath: 'inset(0 0 0% 0)',
+          duration: 0.78,
+          ease: 'power3.out',
+          clearProps: 'transform,opacity,clipPath'
+        }, 0.52)
+        .fromTo(['.hero-background', '.hero-focus-strip', '.hero-actions'], { y: 18, opacity: 0 }, {
+          y: 0,
+          opacity: 1,
+          duration: 0.72,
+          stagger: 0.09,
           ease: 'power3.out',
           clearProps: 'transform,opacity'
-        }, 0.46)
-        .fromTo(['#sideLabels', '#bottomUI', '.hero-corner'], { opacity: 0 }, {
+        }, 0.64)
+        .fromTo('.hero-corner', { scale: 0.55, opacity: 0 }, {
+          scale: 1,
           opacity: 1,
-          duration: 0.6,
+          duration: 0.62,
+          stagger: 0.05,
           ease: 'power2.out',
-          clearProps: 'opacity'
-        }, 0.62);
+          clearProps: 'transform,opacity'
+        }, 0.72)
+        .fromTo(['#sideLabels', '#bottomUI'], { opacity: 0, y: 10 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.64,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity'
+        }, 0.78);
 
       return function () {
         intro.kill();
+        split.revert();
         document.documentElement.classList.remove('hero-orchestrated');
       };
     });

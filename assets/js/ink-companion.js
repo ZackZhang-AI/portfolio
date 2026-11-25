@@ -21,9 +21,20 @@
   var pathLineFill = document.getElementById('pathLineFill');
   var pathCards = Array.from(document.querySelectorAll('#pathStage .pathCard'));
   var proofSection = document.getElementById('testimonials');
-  var proofShowcase = proofSection ? proofSection.querySelector('.proof-showcase') : null;
   var didiFeature = document.getElementById('didiFeature');
-  var didiBerth = document.getElementById('didiBerth');
+  var proofPair = proofSection ? proofSection.querySelector('.proof-pair') : null;
+  var proofStageEls = {
+    diva: document.querySelector('[data-proof-stage="diva"]'),
+    pricing: document.querySelector('[data-proof-stage="pricing"]'),
+    baidu: document.querySelector('[data-proof-stage="baidu"]'),
+    baichuan: document.querySelector('[data-proof-stage="baichuan"]')
+  };
+  var meterBarEls = {
+    diva: document.getElementById('meterBarDiva'),
+    pricing: document.getElementById('meterBarPricing'),
+    baidu: document.getElementById('meterBarBaidu'),
+    baichuan: document.getElementById('meterBarBaichuan')
+  };
   var proofArchive = proofSection ? proofSection.querySelector('.proof-archive-heading') : null;
   var signalsSection = document.querySelector('.signals-section');
   var darkAct = document.getElementById('darkAct');
@@ -34,7 +45,7 @@
   var workDockTrigger = document.getElementById('workDockTrigger');
   var workBerth = document.getElementById('workBerth');
   var capabilitiesSection = document.getElementById('capabilities');
-  var capabilitiesList = capabilitiesSection ? capabilitiesSection.querySelector('.capability-lines') : null;
+  var capabilityLines = capabilitiesSection ? Array.from(capabilitiesSection.querySelectorAll('.capability-line')) : [];
   var methodSection = document.getElementById('method');
   var paperSteps = document.getElementById('paperSteps');
   var methodCards = paperSteps ? Array.from(paperSteps.children) : [];
@@ -49,6 +60,13 @@
   function lerp(a, b, t) { return a + (b - a) * t; }
   function easeInOut(t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function quadBezier(ax, ay, cx, cy, bx, by, t) {
+    var inv = 1 - t;
+    return {
+      x: inv * inv * ax + 2 * inv * t * cx + t * t * bx,
+      y: inv * inv * ay + 2 * inv * t * cy + t * t * by
+    };
+  }
 
   /* A1 轮廓形变函数：compact=0 为完整微前倾对话块，compact=0.7 收束尾翼贴合紧凑泊位 */
   function buildContour(compact) {
@@ -72,6 +90,9 @@
     compact: 0,
     lastCompactKey: -1,
     tilt: 0,
+    idleTilt: 0,
+    idleTiltUntil: 0,
+    nextIdleBeatAt: performance.now() + 3000,
     hopY: 0,
     hopVy: 0,
     squash: 0,
@@ -88,13 +109,14 @@
     isDark: false,
     dockedInControl: false,
     activeAct: 'hero',
-    activeBerth: '', /* '' | 'curtain' | 'work' | 'runway' */
+    activeBerth: '', /* '' | 'header' | 'curtain' | 'work' | 'runway' */
+    activeProofStage: '', /* '' | 'diva' | 'pricing' | 'baidu' | 'baichuan' */
     pointerX: window.innerWidth * 0.5,
     pointerY: window.innerHeight * 0.5,
     pointerActiveAt: 0,
     lastScrollAt: 0,
     lastScrollY: window.scrollY || 0,
-    nextIdleGlanceAt: performance.now() + 3400,
+    nextIdleGlanceAt: performance.now() + 2600,
     idleGx: 0,
     idleGy: 0,
     hoveredEl: null,
@@ -104,7 +126,7 @@
     lastFrame: performance.now()
   };
 
-  /* 1. 表情、眨眼、弹跳与快捷卡片 */
+  /* 1. 表情、眨眼、静止微动效与快捷卡片 */
   var blinkTimer = 0;
   var blinkCloseTimer = 0;
 
@@ -115,7 +137,7 @@
     clearTimeout(blinkCloseTimer);
     blinkCloseTimer = window.setTimeout(function () {
       guide.classList.remove('is-blinking');
-      if (allowDouble && Math.random() < 0.22) {
+      if (allowDouble && Math.random() < 0.25) {
         blinkCloseTimer = window.setTimeout(function () {
           triggerBlink(false);
         }, 120);
@@ -126,7 +148,7 @@
   function scheduleNextBlink() {
     clearTimeout(blinkTimer);
     if (reducedMotion) return;
-    var delay = 2500 + Math.random() * 2900;
+    var delay = 2400 + Math.random() * 2600;
     blinkTimer = window.setTimeout(function () {
       triggerBlink(true);
       scheduleNextBlink();
@@ -141,13 +163,13 @@
 
   function triggerHappy(durationMs, withHop) {
     state.happyUntil = Math.max(state.happyUntil, performance.now() + (durationMs || 900));
-    if (withHop) hop(0.82);
+    if (withHop) hop(0.75);
     pulseOnce();
   }
 
   function triggerWink(durationMs, withHop) {
-    state.winkUntil = Math.max(state.winkUntil, performance.now() + (durationMs || 340));
-    if (withHop) hop(0.5);
+    state.winkUntil = Math.max(state.winkUntil, performance.now() + (durationMs || 360));
+    if (withHop) hop(0.42);
   }
 
   var pulseTimeout = 0;
@@ -179,7 +201,6 @@
     var left;
     var top;
     if (state.x + 28 + pw <= vw - 18) {
-      /* 优先展开在右侧留白区（首屏绝不遮挡 IMPACT 衬线大字） */
       left = state.x + 28;
       top = clamp(state.y - ph * 0.5, 84, vh - ph - 16);
     } else if (state.x - 28 - pw >= 18) {
@@ -228,7 +249,6 @@
   function startHeaderCameo() {
     stopHeaderCameo();
     headerCameoStep = 0;
-    /* 刚落座 ZACK ZHANG 旁时俏皮眨眼打招呼，随后每隔 2.5s 交替微笑 ^ ^ 与 wink */
     window.setTimeout(function () {
       if (state.activeBerth === 'header') triggerWink(420, true);
     }, 220);
@@ -243,11 +263,22 @@
     }, 2500);
   }
 
+  function syncProofStageFocus(stageKey) {
+    if (state.activeProofStage === stageKey) return;
+    state.activeProofStage = stageKey;
+    Object.keys(proofStageEls).forEach(function (k) {
+      if (proofStageEls[k]) proofStageEls[k].classList.toggle('is-companion-focus', k === stageKey);
+    });
+    if (stageKey) {
+      hop(0.36);
+      triggerWink(320, false);
+    }
+  }
+
   function syncBerths(activeBerth) {
     var prevBerth = state.activeBerth;
     state.activeBerth = activeBerth;
     if (siteBrand) siteBrand.classList.toggle('is-berth-active', activeBerth === 'header');
-    if (didiFeature) didiFeature.classList.toggle('is-berth-active', activeBerth === 'didi');
     if (curtainTab) curtainTab.classList.toggle('is-berth-active', activeBerth === 'curtain');
     if (workDockTrigger) workDockTrigger.classList.toggle('is-berth-active', activeBerth === 'work');
     if (footerRunway) footerRunway.classList.toggle('is-berth-active', activeBerth === 'runway');
@@ -257,9 +288,6 @@
         startHeaderCameo();
       } else {
         stopHeaderCameo();
-      }
-      if (activeBerth === 'didi') {
-        triggerWink(380, true);
       }
     }
   }
@@ -301,15 +329,40 @@
       faceEl.setAttribute('transform', 'translate(' + (state.gx * 4.1).toFixed(2) + ' ' + (state.gy * 3.1).toFixed(2) + ')');
     }
 
-    /* 飞行点阵星轨（速度 > 170px/s 沿反速度矢量展开） */
+    /* 飞行点阵星轨（速度 > 165px/s 沿反速度矢量展开） */
     var speed = Math.hypot(state.vx, state.vy);
-    var trailScale = speed > 165 ? clamp((speed - 145) / 720, 0, 1.05) : 0;
-    var trailOpacity = speed > 175 ? clamp((speed - 175) / 340, 0, 0.78) : 0;
+    var trailScale = speed > 165 ? clamp((speed - 145) / 700, 0, 1.05) : 0;
+    var trailOpacity = speed > 175 ? clamp((speed - 175) / 330, 0, 0.78) : 0;
     guide.style.setProperty('--trail-scale', trailScale.toFixed(3));
     guide.style.setProperty('--trail-opacity', trailOpacity.toFixed(3));
     if (trailOpacity > 0.02) {
       var trailDeg = Math.atan2(state.vy, state.vx) * 180 / Math.PI - state.tilt;
       guide.style.setProperty('--trail-angle', trailDeg.toFixed(1) + 'deg');
+    }
+
+    /* 静止阅读时的生命微节拍（停下来看某一屏时也会轻歪头、轻跳或俏皮眨眼，绝不僵住） */
+    if (state.mode === 'live' && !document.hidden && now - state.lastScrollAt > 1500 && speed < 55) {
+      if (now >= state.nextIdleBeatAt) {
+        var r = Math.random();
+        if (r < 0.36) {
+          state.idleTilt = (Math.random() < 0.5 ? -1 : 1) * (5.5 + Math.random() * 3.2);
+          state.idleTiltUntil = now + 1350;
+          triggerBlink(false);
+        } else if (r < 0.66) {
+          hop(state.dockedInControl ? 0.28 : 0.38);
+          triggerBlink(true);
+        } else if (r < 0.86) {
+          triggerWink(380, false);
+          state.idleTilt = (Math.random() < 0.5 ? -4.5 : 4.5);
+          state.idleTiltUntil = now + 900;
+        } else {
+          triggerHappy(720, false);
+        }
+        state.nextIdleBeatAt = now + 2800 + Math.random() * 1900;
+      }
+    }
+    if (now > state.idleTiltUntil) {
+      state.idleTilt = 0;
     }
 
     /* 表情与状态类 */
@@ -322,16 +375,16 @@
     guide.classList.toggle('is-dark-surface', state.isDark);
     guide.style.pointerEvents = (state.mode === 'live' && !state.dockedInControl && desktopMq.matches) ? 'auto' : 'none';
 
-    /* 方向性体积守恒拉伸 + 轻柔呼吸浮沉 */
+    /* 方向性体积守恒拉伸 + 持续生命呼吸（停泊态也有细腻浮沉与弹性呼吸） */
     var hStretch = clamp(Math.abs(state.vx) / 1150, 0, 0.14);
     var vStretch = clamp(Math.abs(state.vy) / 1150, 0, 0.16);
     var hoverBoost = state.selfHovered ? 1.09 : 1;
-    var breatheY = (state.mode === 'live' && !state.dockedInControl && hStretch < 0.01 && vStretch < 0.01 && state.hopY === 0)
-      ? Math.sin(now * 0.0028) * 2.0
-      : 0;
+    var calm = state.mode === 'live' && speed < 65 && state.hopY === 0;
+    var breatheY = calm ? Math.sin(now * 0.0033) * (state.dockedInControl ? 1.35 : 2.55) : 0;
+    var breatheSquash = calm ? Math.sin(now * 0.0033 - 0.7) * (state.dockedInControl ? 0.02 : 0.03) : 0;
 
-    var sx = state.scale * hoverBoost * (1 - state.squash * 0.20 + hStretch - vStretch * 0.42);
-    var sy = state.scale * hoverBoost * (1 + state.squash * 0.20 + vStretch - hStretch * 0.42);
+    var sx = state.scale * hoverBoost * (1 - state.squash * 0.20 + breatheSquash + hStretch - vStretch * 0.42);
+    var sy = state.scale * hoverBoost * (1 + state.squash * 0.20 - breatheSquash + vStretch - hStretch * 0.42);
     var drawX = state.x - 22;
     var drawY = state.y - 20 + state.hopY + breatheY;
 
@@ -371,7 +424,35 @@
     return { x: vw * 0.76, y: vh * 0.36, scale: 0.78, compact: 0 };
   }
 
-  /* 3. 全站 8 幕深度组件融合计算 */
+  /* 辅助锚点：左上角 ZACK ZHANG 品牌泊位 + 4 组实习提效进度条动态尖端 */
+  function getHeaderAnchor() {
+    if (!brandDot) return { x: 180, y: 38 };
+    var br = brandDot.getBoundingClientRect();
+    return {
+      x: br.left + br.width / 2,
+      y: br.top + br.height / 2 + 1
+    };
+  }
+
+  function getMeterAnchor(stageKey) {
+    var bar = meterBarEls[stageKey];
+    if (!bar) return null;
+    var r = bar.getBoundingClientRect();
+    if (r.width < 10) return null;
+    var ratio = window.portfolioProofMeters
+      ? window.portfolioProofMeters.getRatio(stageKey)
+      : 0.7;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    return {
+      x: clamp(r.left + r.width * ratio, 40, vw - 36),
+      y: clamp(r.top - 15, 84, vh - 36),
+      rawTop: r.top,
+      isDark: stageKey === 'baichuan'
+    };
+  }
+
+  /* 3. 全站 8 幕左右穿行 S 型空间动线 + 连续滚动插值飞升顶栏（零瞬移） */
   function computeLiveTarget(now) {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -389,24 +470,25 @@
     var actGazeY = null;
     var activeAct = 'hero';
     var activeBerth = '';
+    var activeProofStage = '';
     var dockedInControl = false;
 
     if (y >= 110) {
-      tx = clamp(vw - 44, 60, vw - 30);
-      ty = clamp(120, 96, vh - 120);
-      scale = 0.66;
+      tx = clamp(vw * 0.5, 80, vw - 80);
+      ty = clamp(128, 96, vh - 120);
+      scale = 0.64;
       compact = 0.25;
       pulsing = false;
       activeAct = 'rail';
     }
 
-    /* Act 2: 经历时间轴 01 -> 05，沿赤陶轨道涂色前行并逐张唤醒错落悬吊卡片 */
+    /* Act 2: 经历时间轴 01(左) -> 03(中) -> 05(右) 完整横向巡游，并在离开时自然弧线转向左侧 DiVA 进度条 */
     if (pathStage && pathLine && pathCards.length) {
       var stageRect = pathStage.getBoundingClientRect();
       var enterStart = vh * 0.90;
       var sweepStart = vh * 0.68;
       var sweepEnd = vh * 0.24;
-      var exitEnd = vh * 0.03;
+      var exitEnd = vh * 0.02;
 
       if (stageRect.top <= enterStart && stageRect.top >= exitEnd) {
         activeAct = 'path';
@@ -452,13 +534,19 @@
           actGazeX = 0.12;
           actGazeY = 0.88;
         } else {
+          /* 从 05(右) 顺滑弧线落向滴滴左侧 DiVA 进度条入口 */
           var tOut = easeInOut(clamp((sweepEnd - stageRect.top) / (sweepEnd - exitEnd), 0, 1));
-          var nextRailX = clamp(vw - 44, 60, vw - 30);
-          var nextRailY = clamp(vh * 0.34, 110, vh - 140);
-          tx = lerp(endNodeX, nextRailX, tOut);
-          ty = lerp(railY, nextRailY, tOut) - Math.sin(tOut * Math.PI) * 26;
-          scale = 0.66;
-          compact = lerp(0.42, 0.25, tOut);
+          var divaEntry = getMeterAnchor('diva') || { x: vw * 0.34, y: vh * 0.62 };
+          var exitPt = quadBezier(
+            endNodeX, railY,
+            vw * 0.62, Math.max(110, lerp(railY, divaEntry.y, 0.45) - 34),
+            divaEntry.x, clamp(divaEntry.y, 120, vh * 0.72),
+            tOut
+          );
+          tx = exitPt.x;
+          ty = exitPt.y;
+          scale = lerp(0.66, 0.58, tOut);
+          compact = lerp(0.42, 0.52, tOut);
           if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
           pathCards.forEach(function (c) {
             c.classList.add('is-passed');
@@ -481,93 +569,223 @@
       }
     }
 
-    /* 辅助：计算左上角 ZACK ZHANG 品牌泊位坐标 */
-    function dockToHeader(baseGazeX) {
-      if (!brandDot) return false;
-      var br = brandDot.getBoundingClientRect();
+    function applyHeaderDocked(baseGazeX) {
+      var head = getHeaderAnchor();
       activeBerth = 'header';
       dockedInControl = true;
-      tx = br.left + br.width / 2;
-      ty = br.top + br.height / 2 + 1;
+      tx = head.x;
+      ty = head.y;
       scale = 0.56;
       compact = 0.52;
       pulsing = false;
+      isDark = false;
       tiltTarget = 0;
-      var scan = Math.sin(now * 0.0013) * 0.38;
-      actGazeX = clamp((typeof baseGazeX === 'number' ? baseGazeX : 0.28) + scan, -0.35, 0.88);
-      actGazeY = 0.92; /* 从左上角顶栏居高临下往下看页面内容 */
-      return true;
+      var scan = Math.sin(now * 0.0013) * 0.40;
+      actGazeX = clamp((typeof baseGazeX === 'number' ? baseGazeX : 0.30) + scan, -0.35, 0.88);
+      actGazeY = 0.92;
     }
 
-    /* Act 3: 实习成果区（滴滴专属泊位 → 百度/百川错落双卡 → 较早经历与数字区飞回左上角 ZACK ZHANG 旁往下看） */
+    /* Act 3: 实习成果区 — 真实左右穿行：DiVA(中左进度条) → 比价Skill(中右进度条) → 百度(中左进度条) → 百川深墨卡(中右进度条) → 连续贝塞尔弧线丝滑升入左上角 ZACK ZHANG */
     if (proofSection && activeAct !== 'path') {
       var pr = proofSection.getBoundingClientRect();
       var sigRect = signalsSection ? signalsSection.getBoundingClientRect() : null;
       var proofBandBottom = sigRect ? sigRect.bottom : pr.bottom;
-      if (pr.top < vh * 0.62 && proofBandBottom > vh * 0.16) {
+
+      if (pr.top < vh * 0.85 && proofBandBottom > vh * 0.12) {
         activeAct = 'proof';
         var didiRect = didiFeature ? didiFeature.getBoundingClientRect() : null;
-        var dbr = didiBerth ? didiBerth.getBoundingClientRect() : null;
-        var canDockDidi = !!(didiRect && dbr && dbr.width > 12 && dbr.top > 76 && dbr.bottom < vh - 40 && didiRect.top < vh * 0.72 && didiRect.bottom > vh * 0.24);
+        var pairRect = proofPair ? proofPair.getBoundingClientRect() : null;
         var archRect = proofArchive ? proofArchive.getBoundingClientRect() : null;
 
-        if (archRect && archRect.top < vh * 0.72) {
-          /* 客串幕 1：浏览较早经历便签与 4 组大号里程碑数字时，飞回左上角 ZACK ZHANG 旁微笑 / wink 往下看 */
-          dockToHeader(0.32);
-        } else if (state.hoveredEl && state.hoveredKind === 'proof-card' && state.hoveredEl !== didiFeature) {
-          var cr = state.hoveredEl.getBoundingClientRect();
-          tx = clamp(cr.right - 14, 52, vw - 30);
-          ty = clamp(cr.top - 12, 92, vh - 48);
-          scale = 0.68;
-          compact = 0.35;
-          tiltTarget = -6;
-          if (state.hoveredEl.classList.contains('proof-secondary--ink')) {
-            isDark = true;
+        var divaA = getMeterAnchor('diva');
+        var pricingA = getMeterAnchor('pricing');
+        var baiduA = getMeterAnchor('baidu');
+        var baichuanA = getMeterAnchor('baichuan');
+
+        var climbStart = vh * 0.84;
+        var climbEnd = vh * 0.46;
+
+        if (archRect && archRect.top <= climbEnd) {
+          /* 客串幕 1：已平稳落座左上角 ZACK ZHANG 旁，俯看较早经历与里程碑数字 */
+          applyHeaderDocked(0.32);
+        } else if (state.hoveredEl && state.hoveredKind === 'proof-stage') {
+          /* 鼠标悬停任意实习项目卡：立刻轻盈滑到该项目的提效进度条尖端互动！ */
+          var hStage = state.hoveredEl.dataset.proofStage;
+          var hAnchor = getMeterAnchor(hStage);
+          if (hAnchor) {
+            activeProofStage = hStage;
+            tx = hAnchor.x;
+            ty = hAnchor.y;
+            scale = 0.58;
+            compact = 0.46;
+            isDark = hAnchor.isDark;
+            dockedInControl = true;
+            tiltTarget = hStage === 'diva' || hStage === 'baidu' ? 5 : -5;
+            actGazeX = -0.25;
+            actGazeY = -0.85; /* 抬头看上方正在变化的数字！ */
           }
-        } else if (canDockDidi) {
-          activeBerth = 'didi';
-          dockedInControl = false;
-          tx = dbr.left + dbr.width / 2;
-          ty = dbr.top + dbr.height / 2 + 1;
-          scale = 0.62;
-          compact = 0.56;
-          actGazeX = -0.55;
-          actGazeY = 0.65;
-        } else if (proofShowcase) {
-          var sr = proofShowcase.getBoundingClientRect();
-          tx = clamp(sr.right + 22, 52, vw - 30);
-          ty = clamp(Math.max(118, Math.min(vh * 0.44, sr.top + 38)), 96, vh - 120);
-          scale = 0.66;
-          compact = 0.25;
-          actGazeX = -0.82;
-          actGazeY = 0.14;
+        } else if (archRect && archRect.top < climbStart) {
+          /* 连续滚动插值飞升：从百川进度条尖端沿舒展抛物线平滑升入左上角 ZACK ZHANG，零瞬移！ */
+          var tClimb = easeInOut(clamp((climbStart - archRect.top) / (climbStart - climbEnd), 0, 1));
+          var fromPt = baichuanA || { x: vw * 0.74, y: vh * 0.56 };
+          var headPt = getHeaderAnchor();
+          var ctrlX = vw * 0.44;
+          var ctrlY = Math.max(54, lerp(fromPt.y, headPt.y, 0.48) - 48);
+          var climbPos = quadBezier(fromPt.x, fromPt.y, ctrlX, ctrlY, headPt.x, headPt.y, tClimb);
+          tx = climbPos.x;
+          ty = climbPos.y;
+          scale = lerp(0.58, 0.56, tClimb);
+          compact = lerp(0.48, 0.52, tClimb);
+          isDark = tClimb < 0.25;
+          dockedInControl = true;
+          actGazeX = lerp(-0.82, 0.30, tClimb);
+          actGazeY = lerp(-0.68, 0.90, tClimb);
+          if (tClimb > 0.92) activeBerth = 'header';
+        } else if (pairRect && pairRect.top < vh * 0.68 && baiduA && baichuanA) {
+          /* 非对称双卡区：从滴滴右侧丝滑斜跨到左侧百度进度条 → 再跃向右侧深墨百川进度条 */
+          var pairP = clamp((vh * 0.68 - pairRect.top) / Math.max(300, pairRect.height * 1.05), 0, 1);
+          dockedInControl = true;
+          if (pairP < 0.14 && pricingA) {
+            var tToBaidu = easeInOut(pairP / 0.14);
+            var hop1 = quadBezier(
+              pricingA.x, clamp(pricingA.y, 92, vh * 0.5),
+              vw * 0.54, lerp(pricingA.y, baiduA.y, 0.5) - 24,
+              baiduA.x, baiduA.y,
+              tToBaidu
+            );
+            tx = hop1.x;
+            ty = hop1.y;
+            scale = 0.58;
+            compact = 0.48;
+            activeProofStage = tToBaidu > 0.55 ? 'baidu' : 'pricing';
+            actGazeX = -0.5;
+            actGazeY = -0.4;
+          } else if (pairP < 0.54) {
+            activeProofStage = 'baidu';
+            tx = baiduA.x;
+            ty = baiduA.y;
+            scale = 0.58;
+            compact = 0.46;
+            tiltTarget = 4;
+            actGazeX = -0.32;
+            actGazeY = -0.84;
+          } else if (pairP < 0.70) {
+            var tToBai = easeInOut((pairP - 0.54) / 0.16);
+            var hop2 = quadBezier(
+              baiduA.x, baiduA.y,
+              lerp(baiduA.x, baichuanA.x, 0.5), Math.min(baiduA.y, baichuanA.y) - 32,
+              baichuanA.x, baichuanA.y,
+              tToBai
+            );
+            tx = hop2.x;
+            ty = hop2.y;
+            scale = 0.58;
+            compact = 0.46;
+            isDark = tToBai > 0.48;
+            activeProofStage = tToBai > 0.5 ? 'baichuan' : 'baidu';
+            actGazeX = 0.65;
+            actGazeY = -0.25;
+          } else {
+            activeProofStage = 'baichuan';
+            tx = baichuanA.x;
+            ty = baichuanA.y;
+            scale = 0.58;
+            compact = 0.46;
+            isDark = true;
+            tiltTarget = -4;
+            actGazeX = -0.35;
+            actGazeY = -0.84;
+          }
+        } else if (didiRect && divaA && pricingA) {
+          /* 滴滴旗舰卡：先在左栏 DiVA 进度条推杆联动 2 小时 → 40 分钟，再跨越中线去右栏比价 Skill 推杆 75% */
+          var didiP = clamp((vh * 0.64 - didiRect.top) / Math.max(260, didiRect.height * 0.92), 0, 1);
+          dockedInControl = true;
+          if (didiP < 0.46) {
+            activeProofStage = 'diva';
+            tx = divaA.x;
+            ty = divaA.y;
+            scale = 0.58;
+            compact = 0.46;
+            tiltTarget = 4;
+            actGazeX = -0.3;
+            actGazeY = -0.86;
+          } else if (didiP < 0.62) {
+            var tCross = easeInOut((didiP - 0.46) / 0.16);
+            var hopD = quadBezier(
+              divaA.x, divaA.y,
+              lerp(divaA.x, pricingA.x, 0.5), Math.min(divaA.y, pricingA.y) - 34,
+              pricingA.x, pricingA.y,
+              tCross
+            );
+            tx = hopD.x;
+            ty = hopD.y;
+            scale = 0.58;
+            compact = 0.46;
+            activeProofStage = tCross > 0.5 ? 'pricing' : 'diva';
+            actGazeX = 0.72;
+            actGazeY = -0.25;
+          } else {
+            activeProofStage = 'pricing';
+            tx = pricingA.x;
+            ty = pricingA.y;
+            scale = 0.58;
+            compact = 0.46;
+            tiltTarget = -4;
+            actGazeX = -0.28;
+            actGazeY = -0.86;
+          }
         }
       }
     }
 
-    /* Act 4: 暗幕拉环接力泊位（#curtainBerth，从顶栏俯冲而下完成明暗转场） */
+    /* Act 4: 暗幕拉环接力泊位（连续滚动插值俯冲：左上角 ZACK ZHANG → 屏幕正中 #curtainBerth，零瞬移！） */
     if (curtainTab && curtainBerth && darkAct) {
       var ctr = curtainTab.getBoundingClientRect();
       var wsProbe = workStage ? workStage.getBoundingClientRect().top : 9999;
-      if (ctr.top < vh * 0.84 && ctr.top > 92 && wsProbe > vh * 0.44) {
+      var diveStart = vh * 1.04;
+      var diveEnd = vh * 0.74;
+
+      if (ctr.top < diveStart && ctr.top > 92 && wsProbe > vh * 0.44) {
         var cbr = curtainBerth.getBoundingClientRect();
         if (cbr.width > 12) {
           activeAct = 'work';
-          activeBerth = 'curtain';
           dockedInControl = true;
-          tx = cbr.left + cbr.width / 2;
-          ty = cbr.top + cbr.height / 2 + 1;
-          scale = 0.56;
-          compact = 0.68;
-          isDark = true;
-          actGazeX = 0.3;
-          actGazeY = state.hoveredKind === 'curtain' ? 0.9 : 0.25;
+          var targetCx = cbr.left + cbr.width / 2;
+          var targetCy = cbr.top + cbr.height / 2 + 1;
+
+          if (ctr.top > diveEnd) {
+            var tDive = easeInOut(clamp((diveStart - ctr.top) / (diveStart - diveEnd), 0, 1));
+            var fromH = getHeaderAnchor();
+            var divePos = quadBezier(
+              fromH.x, fromH.y,
+              lerp(fromH.x, targetCx, 0.36), lerp(fromH.y, targetCy, 0.62),
+              targetCx, targetCy,
+              tDive
+            );
+            tx = divePos.x;
+            ty = divePos.y;
+            scale = 0.56;
+            compact = lerp(0.52, 0.68, tDive);
+            isDark = tDive > 0.62;
+            activeBerth = tDive < 0.08 ? 'header' : (tDive > 0.92 ? 'curtain' : '');
+            actGazeX = 0.68;
+            actGazeY = 0.76;
+          } else {
+            activeBerth = 'curtain';
+            tx = targetCx;
+            ty = targetCy;
+            scale = 0.56;
+            compact = 0.68;
+            isDark = true;
+            actGazeX = 0.3;
+            actGazeY = state.hoveredKind === 'curtain' ? 0.9 : 0.25;
+          }
         }
       }
     }
 
-    /* Act 5 & 6: 暗色作品展台专属泊位（#workBerth）+ 能力宣言逐行跟随 */
-    if (darkAct && activeBerth !== 'curtain') {
+    /* Act 5 & 6: 暗色作品展台（居中→右侧泊位）+ 能力宣言左右交替穿行 */
+    if (darkAct && activeBerth !== 'curtain' && activeAct !== 'work') {
       var darkRect = darkAct.getBoundingClientRect();
       if (darkRect.top <= vh * 0.48 && darkRect.bottom > 96) {
         isDark = true;
@@ -596,77 +814,141 @@
             }
           }
         }
-        if (activeAct !== 'work' && capabilitiesSection && capabilitiesList) {
+        if (activeAct !== 'work' && capabilitiesSection && capabilityLines.length) {
           var capR = capabilitiesSection.getBoundingClientRect();
-          if (capR.top < vh * 0.62 && capR.bottom > vh * 0.20) {
+          if (capR.top < vh * 0.64 && capR.bottom > vh * 0.18) {
             activeAct = 'capabilities';
-            var clR = capabilitiesList.getBoundingClientRect();
-            tx = clamp(clR.right + 22, 52, vw - 30);
+            var targetLine = null;
+            var targetIdx = 0;
             if (state.hoveredEl && state.hoveredKind === 'capability') {
-              var lr = state.hoveredEl.getBoundingClientRect();
-              ty = clamp(lr.top + lr.height * 0.5, 100, vh - 60);
-              scale = 0.72;
-              compact = 0.2;
-              tiltTarget = -7;
-              actGazeX = -0.95;
-              actGazeY = 0;
+              targetLine = state.hoveredEl;
+              targetIdx = Math.max(0, capabilityLines.indexOf(targetLine));
             } else {
-              ty = clamp(vh * 0.44, 110, vh - 120);
-              scale = 0.66;
-              compact = 0.28;
-              actGazeX = -0.82;
-              actGazeY = 0.1;
+              var bestDist = 99999;
+              var centerY = vh * 0.48;
+              for (var ci = 0; ci < capabilityLines.length; ci++) {
+                var lr0 = capabilityLines[ci].getBoundingClientRect();
+                var d0 = Math.abs((lr0.top + lr0.height * 0.5) - centerY);
+                if (d0 < bestDist) {
+                  bestDist = d0;
+                  targetLine = capabilityLines[ci];
+                  targetIdx = ci;
+                }
+              }
+            }
+            if (targetLine) {
+              var titleSpan = targetLine.querySelector('.capability-title') || targetLine;
+              var tr = titleSpan.getBoundingClientRect();
+              var onLeft = (targetIdx % 2 === 0);
+              tx = onLeft
+                ? clamp(tr.left - 36, 36, vw * 0.45)
+                : clamp(tr.right + 32, vw * 0.55, vw - 36);
+              ty = clamp(tr.top + tr.height * 0.5, 100, vh - 64);
+              scale = 0.68;
+              compact = 0.24;
+              tiltTarget = onLeft ? 6 : -6;
+              actGazeX = onLeft ? 0.92 : -0.92;
+              actGazeY = 0;
             }
           }
         }
       }
     }
 
-    /* Act 7: 方法论档案叠卡 + 知识手册（客串幕 2：回左上角 ZACK ZHANG 旁俯看知识条目） */
+    /* Act 7: 方法论档案叠卡（左右交替停靠卡角） → 连续弧线丝滑飞回左上角 ZACK ZHANG 陪读知识手册 */
+    var methodAnchor = null;
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
-      if (mr.top < vh * 0.56 && mr.bottom > vh * 0.25) {
+      if (mr.top < vh * 0.58 && mr.bottom > vh * 0.18) {
         activeAct = 'method';
-        var frontCard = methodCards[0];
+        var frontIdx = 0;
         for (var m = 0; m < methodCards.length; m++) {
           var mcr = methodCards[m].getBoundingClientRect();
-          if (mcr.top <= vh * 0.52) frontCard = methodCards[m];
+          if (mcr.top <= vh * 0.52) frontIdx = m;
         }
-        var fcr = frontCard.getBoundingClientRect();
-        tx = clamp(fcr.right - 22, 52, vw - 30);
+        var fcr = methodCards[frontIdx].getBoundingClientRect();
+        var methodOnLeft = (frontIdx % 2 === 1);
+        tx = methodOnLeft
+          ? clamp(fcr.left + 26, 44, vw * 0.5)
+          : clamp(fcr.right - 26, vw * 0.5, vw - 36);
         ty = clamp(fcr.top - 14, 92, vh - 60);
-        scale = 0.68;
-        compact = 0.35;
-        actGazeX = -0.55;
+        scale = 0.66;
+        compact = 0.36;
+        actGazeX = methodOnLeft ? 0.55 : -0.55;
         actGazeY = 0.48;
+        methodAnchor = { x: tx, y: ty };
       }
     }
 
-    if (!isDark && activeAct !== 'method' && knowledgeSection && knowledgeList) {
+    if (!isDark && knowledgeSection && knowledgeList) {
       var kr = knowledgeSection.getBoundingClientRect();
-      if (kr.top < vh * 0.58 && kr.bottom > vh * 0.24) {
+      var kClimbStart = vh * 0.92;
+      var kClimbEnd = vh * 0.54;
+      if (kr.top < kClimbStart && kr.bottom > vh * 0.20) {
         activeAct = 'knowledge';
-        dockToHeader(0.35);
+        if (kr.top <= kClimbEnd) {
+          applyHeaderDocked(0.35);
+        } else {
+          var tK = easeInOut(clamp((kClimbStart - kr.top) / (kClimbStart - kClimbEnd), 0, 1));
+          var fromM = methodAnchor || { x: vw * 0.72, y: vh * 0.34 };
+          var headK = getHeaderAnchor();
+          var kPos = quadBezier(
+            fromM.x, fromM.y,
+            vw * 0.42, Math.max(54, lerp(fromM.y, headK.y, 0.45) - 38),
+            headK.x, headK.y,
+            tK
+          );
+          tx = kPos.x;
+          ty = kPos.y;
+          scale = lerp(0.66, 0.56, tK);
+          compact = lerp(0.36, 0.52, tK);
+          dockedInControl = true;
+          actGazeX = lerp(-0.78, 0.35, tK);
+          actGazeY = lerp(-0.55, 0.90, tK);
+          if (tK > 0.92) activeBerth = 'header';
+        }
       }
     }
 
-    /* Act 8: 页尾 Let's talk 掠过 → 精准停泊进编辑风 AI 分身追问显示带（#runwayBerth） */
+    /* Act 8: 页尾 AI 分身追问带（从左上角 ZACK ZHANG 沿左侧丝滑垂落落座 #runwayBerth） */
     if (footer && talkArrow) {
       var fRect = footer.getBoundingClientRect();
-      if (fRect.top < vh * 0.78) {
+      var rDropStart = vh * 0.96;
+      var rDropEnd = vh * 0.66;
+      if (fRect.top < rDropStart) {
         activeAct = 'footer';
         isDark = false;
         var rbr = runwayBerth ? runwayBerth.getBoundingClientRect() : null;
-        if (rbr && rbr.width > 16 && rbr.top < vh * 0.88 && rbr.top > 84) {
-          activeBerth = 'runway';
+        if (rbr && rbr.width > 16 && rbr.top > 80) {
+          var rx = rbr.left + rbr.width / 2;
+          var ry = rbr.top + rbr.height / 2 + 2;
           dockedInControl = true;
-          tx = rbr.left + rbr.width / 2;
-          ty = rbr.top + rbr.height / 2 + 2;
-          scale = 0.82;
-          compact = 0;
-          pulsing = false;
-          actGazeX = 0.88;
-          actGazeY = 0.04;
+          if (fRect.top > rDropEnd) {
+            var tDrop = easeInOut(clamp((rDropStart - fRect.top) / (rDropStart - rDropEnd), 0, 1));
+            var headF = getHeaderAnchor();
+            var dropPos = quadBezier(
+              headF.x, headF.y,
+              lerp(headF.x, rx, 0.4) + 34, lerp(headF.y, ry, 0.5),
+              rx, ry,
+              tDrop
+            );
+            tx = dropPos.x;
+            ty = dropPos.y;
+            scale = lerp(0.56, 0.82, tDrop);
+            compact = lerp(0.52, 0, tDrop);
+            activeBerth = tDrop < 0.08 ? 'header' : (tDrop > 0.92 ? 'runway' : '');
+            actGazeX = 0.55;
+            actGazeY = 0.65;
+          } else {
+            activeBerth = 'runway';
+            tx = rx;
+            ty = ry;
+            scale = 0.82;
+            compact = 0;
+            pulsing = false;
+            actGazeX = 0.88;
+            actGazeY = 0.04;
+          }
         } else {
           var tFoot = easeInOut(clamp((vh * 0.78 - fRect.top) / (vh * 0.34), 0, 1));
           var arrowRect = talkArrow.getBoundingClientRect();
@@ -689,7 +971,7 @@
       heroPeriod.classList.toggle('is-departed', activeAct !== 'hero');
     }
 
-    /* 首屏悬停 CTA / 导航链接时轻盈倾身注视 */
+    /* 首屏悬停 CTA / 战绩条 / 导航链接时轻盈倾身注视 */
     if (activeAct === 'hero' && state.hoveredEl && (state.hoveredKind === 'cta' || state.hoveredKind === 'nav')) {
       var hr = state.hoveredEl.getBoundingClientRect();
       var hdx = (hr.left + hr.width / 2) - tx;
@@ -705,7 +987,11 @@
     var gy = 0;
     var scrollVel = window.portfolioScroll ? window.portfolioScroll.getVelocity() : 0;
 
-    if (state.hoveredEl && !state.selfHovered && state.hoveredKind !== 'runway') {
+    if (activeProofStage && actGazeY !== null) {
+      /* 在实习进度条上推杆时始终抬头看着上方的核心数据变化 */
+      gx = actGazeX;
+      gy = actGazeY;
+    } else if (state.hoveredEl && !state.selfHovered && state.hoveredKind !== 'runway') {
       var er = state.hoveredEl.getBoundingClientRect();
       var ecx = er.left + er.width / 2;
       var ecy = er.top + er.height / 2;
@@ -717,13 +1003,13 @@
     } else if (Math.abs(scrollVel) > 160 && activeBerth !== 'header') {
       gx = 0;
       gy = clamp(scrollVel / 850, -0.88, 0.88);
-    } else if (now - state.lastScrollAt > 3000 && now - state.pointerActiveAt > 3000 && !dockedInControl) {
+    } else if (now - state.lastScrollAt > 2400 && now - state.pointerActiveAt > 2400 && !dockedInControl) {
       if (now >= state.nextIdleGlanceAt) {
-        var presets = [[-0.95, -0.14], [0.92, -0.1], [-0.45, 0.65], [0.48, 0.45], [0, 0]];
+        var presets = [[-0.92, -0.14], [0.92, -0.1], [-0.45, 0.65], [0.48, 0.45], [0, -0.35]];
         var pick = presets[Math.floor(Math.random() * presets.length)];
         state.idleGx = pick[0];
         state.idleGy = pick[1];
-        state.nextIdleGlanceAt = now + 2200 + Math.random() * 2400;
+        state.nextIdleGlanceAt = now + 2000 + Math.random() * 2200;
       }
       gx = state.idleGx;
       gy = state.idleGy;
@@ -748,6 +1034,7 @@
       gy: gy,
       activeAct: activeAct,
       activeBerth: activeBerth,
+      activeProofStage: activeProofStage,
       dockedInControl: dockedInControl
     };
   }
@@ -766,6 +1053,7 @@
     if (hiddenByDialog || !desktopMq.matches) {
       guide.classList.remove('is-visible');
       syncBerths('');
+      syncProofStageFocus('');
       closePopover();
       return;
     }
@@ -774,13 +1062,14 @@
     if (Math.abs(curScrollY - state.lastScrollY) > 3) {
       state.lastScrollY = curScrollY;
       state.lastScrollAt = now;
+      state.idleTilt = 0;
       if (state.popoverOpen) closePopover();
     }
 
     var t = computeLiveTarget(now);
     var prevX = state.x;
     var prevY = state.y;
-    var follow = 1 - Math.exp(-11.2 * dt);
+    var follow = 1 - Math.exp(-11.8 * dt);
     state.x += (t.x - state.x) * follow;
     state.y += (t.y - state.y) * follow;
     state.vx = (state.x - prevX) / dt;
@@ -788,9 +1077,9 @@
     state.scale += (t.scale - state.scale) * (1 - Math.exp(-10 * dt));
     state.compact += (t.compact - state.compact) * (1 - Math.exp(-10 * dt));
 
-    var moveTilt = t.dockedInControl ? 0 : clamp(state.vx / 52, -10, 10);
-    var desiredTilt = t.tilt + moveTilt;
-    state.tilt += (desiredTilt - state.tilt) * (1 - Math.exp(-12 * dt));
+    var moveTilt = t.dockedInControl ? clamp(state.vx / 95, -7, 7) : clamp(state.vx / 52, -10, 10);
+    var desiredTilt = t.tilt + moveTilt + state.idleTilt;
+    state.tilt += (desiredTilt - state.tilt) * (1 - Math.exp(-11 * dt));
 
     state.targetGx = t.gx;
     state.targetGy = t.gy;
@@ -799,9 +1088,9 @@
     state.activeAct = t.activeAct;
     state.dockedInControl = t.dockedInControl;
 
-    /* 只有真正接近泊位中心（< 42px）时才点亮泊位边框，避免隔空提前亮起 */
     var closeEnough = Math.hypot(t.x - state.x, t.y - state.y) < 42;
     syncBerths(closeEnough ? t.activeBerth : '');
+    syncProofStageFocus(t.activeProofStage);
 
     guide.classList.add('is-visible');
     applyVisuals(now, dt);
@@ -828,6 +1117,7 @@
       guide.classList.remove('is-visible', 'is-preloader-mode');
       document.documentElement.classList.remove('ink-guide-ready');
       syncBerths('');
+      syncProofStageFocus('');
       closePopover();
       return;
     }
@@ -847,7 +1137,7 @@
     startLiveLoop();
   }
 
-  /* 5. 页尾 AI 分身追问显示带自动轮播（悬停/聚焦/离屏暂停，切换时小墨块轻眨呼应） */
+  /* 5. 页尾 AI 分身追问显示带自动轮播 */
   function initFooterRunway() {
     if (!footerRunway || reducedMotion) return;
     var items = Array.from(footerRunway.querySelectorAll('.footer-runway-item'));
@@ -929,7 +1219,8 @@
       { sel: '.work-stage-frame', kind: 'work-frame' },
       { sel: '.work-stage-pill', kind: 'work-pill' },
       { sel: '.capability-line', kind: 'capability' },
-      { sel: '.company-feature, .proof-secondary, .proof-note', kind: 'proof-card' },
+      { sel: '[data-proof-stage]', kind: 'proof-stage' },
+      { sel: '.proof-note', kind: 'proof-note' },
       { sel: '.pathCard', kind: 'path-card' },
       { sel: '.knowledge-list > a', kind: 'knowledge-item' },
       { sel: '#heroFocusStrip, .hero-actions a, #bottomUI a', kind: 'cta' },
@@ -950,6 +1241,11 @@
             if (changed && hoverRules[i].kind === 'brand' && state.activeBerth === 'header') {
               hop(0.45);
             }
+          } else if (changed && hoverRules[i].kind === 'proof-stage') {
+            var stKey = match.dataset.proofStage;
+            if (stKey && window.portfolioProofMeters) {
+              window.portfolioProofMeters.replay(stKey);
+            }
           } else if (changed && hoverRules[i].kind === 'knowledge-item' && state.activeBerth === 'header') {
             triggerWink(320, false);
           }
@@ -965,6 +1261,15 @@
       state.hoveredKind = '';
       state.curious = false;
     }, { passive: true });
+
+    window.addEventListener('portfolio:metricdone', function (e) {
+      if (state.mode !== 'live') return;
+      var doneStage = e.detail && e.detail.stage;
+      if (doneStage && state.activeProofStage === doneStage) {
+        hop(0.36);
+        triggerWink(340, false);
+      }
+    });
 
     window.addEventListener('portfolio:workchange', function () {
       if (state.mode !== 'live') return;
@@ -987,7 +1292,7 @@
     });
   }
 
-  /* 7. 开屏加载编排：A1 焦橙对话块苏醒 → 踏步进度条 → 东张西望 → 100% 欢呼跳跃 → 带点阵尾迹弧线飞入首屏 */
+  /* 7. 开屏加载编排：幕布揭开后精准同步触发首屏逐字大标题总谱 + A1 带点阵星轨落位句点 */
   function runPreloader() {
     var shouldPreload = preloader && document.documentElement.classList.contains('is-preloading') && !reducedMotion;
     if (!shouldPreload) {
@@ -1058,15 +1363,15 @@
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
       if (desktopMq.matches) {
         enterLiveMode(true);
-        state.squashV -= 4.0;
-        window.setTimeout(function () { triggerBlink(false); }, 260);
+        state.squashV -= 4.2;
+        window.setTimeout(function () { triggerWink(360, false); }, 220);
       } else {
         state.mode = 'hidden';
         guide.classList.remove('is-visible', 'is-preloader-mode');
       }
     }
 
-    var failsafe = window.setTimeout(finishAll, 4600);
+    var failsafe = window.setTimeout(finishAll, 4900);
 
     function preloaderFrame() {
       if (finished) return;
@@ -1189,16 +1494,17 @@
 
           if (stageEl) stageEl.classList.add('is-fading');
           preloader.classList.add('is-lifting');
+          /* 等幕布升过中屏（380ms）再释放首屏逐字大标题总谱，让观众完整看到大标题优雅升起 */
           window.setTimeout(function () {
             document.documentElement.classList.remove('is-preloading');
             if (!curtainOpened && window.initPortfolioHero) {
               curtainOpened = true;
               window.initPortfolioHero();
             }
-          }, 90);
+          }, 380);
         }
       } else if (phase === 'flight') {
-        var fProgress = clamp((now - flightStart) / 740, 0, 1);
+        var fProgress = clamp((now - flightStart) / 860, 0, 1);
         var fEase = easeInOut(fProgress);
         flightTo = (window.scrollY || 0) > 80 && desktopMq.matches
           ? computeLiveTarget(now)
@@ -1243,11 +1549,4 @@
   initFooterRunway();
   scheduleNextBlink();
   runPreloader();
-
-  window.inkCompanion = {
-    hop: hop,
-    happy: triggerHappy,
-    wink: triggerWink,
-    blink: function () { triggerBlink(false); }
-  };
 })();
