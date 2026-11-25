@@ -30,9 +30,32 @@
     <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=3">
     <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
     <link rel="stylesheet" href="assets/css/case-details.css?v=2">
-    <link rel="stylesheet" href="assets/css/signature-motion.css?v=2">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=3">
   </head>
   <body>
+    <script>
+      (function () {
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var hasProject = window.location.search && window.location.search.indexOf('project=') !== -1;
+        if (!reduced && !hasProject) document.documentElement.classList.add('is-preloading');
+      })();
+    </script>
+    <div id="sitePreloader" class="site-preloader" aria-hidden="true">
+      <div class="preloader-stage">
+        <p class="preloader-kicker">ZACK ZHANG · AI PRODUCT PORTFOLIO</p>
+        <div class="preloader-track-wrap">
+          <span id="preloaderShadow" class="preloader-shadow"></span>
+          <div id="preloaderTrack" class="preloader-track">
+            <span id="preloaderFill" class="preloader-fill"></span>
+          </div>
+          <div class="preloader-ticks"><span>00</span><span>50</span><span>100</span></div>
+        </div>
+        <div class="preloader-meta">
+          <span id="preloaderStatus" class="preloader-status">正在铺开作品集</span>
+          <span id="preloaderPct" class="preloader-pct">00%</span>
+        </div>
+      </div>
+    </div>
     <a class="skip-link" href="#testimonials">跳到实习成果</a>
     <header id="siteHeader" class="site-header">
       <span class="site-progress" aria-hidden="true"></span>
@@ -586,10 +609,40 @@
         <span>© 2026 ZACK ZHANG</span><span class="footer-signoff">FROM MODELS TO IMPACT.</span><a href="#heroWrap">返回顶部 <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
-    <div id="inkGuide" class="ink-guide" aria-hidden="true">
+    <button id="inkGuide" class="ink-guide" type="button" tabindex="-1" aria-hidden="true">
       <span class="ink-guide-ring"></span>
-      <span class="ink-guide-core"></span>
-    </div>
+      <span class="ink-guide-body">
+        <svg class="ink-guide-svg" viewBox="0 0 32 32" focusable="false">
+          <g class="ink-face">
+            <g class="ink-eyes-open">
+              <g transform="translate(11.1, 15.6)">
+                <g class="ink-eye ink-eye-l">
+                  <ellipse class="ink-sclera" cx="0" cy="0" rx="2.75" ry="3.45" fill="#fffcf6"></ellipse>
+                  <g class="ink-pupil-group">
+                    <ellipse class="ink-pupil" cx="0" cy="0" rx="1.5" ry="1.9" fill="#17140f"></ellipse>
+                    <circle class="ink-glint" cx="-0.55" cy="-0.68" r="0.48" fill="#fffcf6" opacity="0.9"></circle>
+                  </g>
+                </g>
+              </g>
+              <g transform="translate(20.9, 15.6)">
+                <g class="ink-eye ink-eye-r">
+                  <ellipse class="ink-sclera" cx="0" cy="0" rx="2.75" ry="3.45" fill="#fffcf6"></ellipse>
+                  <g class="ink-pupil-group">
+                    <ellipse class="ink-pupil" cx="0" cy="0" rx="1.5" ry="1.9" fill="#17140f"></ellipse>
+                    <circle class="ink-glint" cx="-0.55" cy="-0.68" r="0.48" fill="#fffcf6" opacity="0.9"></circle>
+                  </g>
+                </g>
+              </g>
+              <path class="ink-wink-arc" d="M 18.2 16.4 Q 20.9 13.0 23.6 16.4" fill="none" stroke="#fffcf6" stroke-width="2.1" stroke-linecap="round"></path>
+            </g>
+            <g class="ink-eyes-happy">
+              <path d="M 8.4 16.6 Q 11.1 12.7 13.8 16.6" fill="none" stroke="#fffcf6" stroke-width="2.15" stroke-linecap="round"></path>
+              <path d="M 18.2 16.6 Q 20.9 12.7 23.6 16.6" fill="none" stroke="#fffcf6" stroke-width="2.15" stroke-linecap="round"></path>
+            </g>
+          </g>
+        </svg>
+      </span>
+    </button>
     <dialog id="projectDialog" class="project-dialog" aria-labelledby="projectDialogTitle">
       <div class="project-dialog-shell">
         <header class="project-dialog-header">
@@ -601,12 +654,13 @@
     </dialog>
     <script src="assets/js/gsap.min.js" defer></script>
     <script src="assets/js/ScrollTrigger.min.js" defer></script>
-    <script src="assets/js/smooth-scroll.js?v=2" defer></script>
+    <script src="assets/js/smooth-scroll.js?v=3" defer></script>
     <script src="assets/js/hero-intro.js?v=6" defer></script>
-    <script src="assets/js/portfolio.js?v=4" defer></script>
+    <script src="assets/js/portfolio.js?v=5" defer></script>
     <script src="assets/js/portfolio-motion.js?v=8" defer></script>
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
-    <script src="assets/js/signature-motion.js?v=1" defer></script>
+    <script src="assets/js/signature-motion.js?v=2" defer></script>
+    <script src="assets/js/ink-companion.js?v=1" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
     <script src="assets/js/pointer-interactions.js?v=4" defer></script>
     <script src="assets/js/footer-talk.js?v=2" defer></script>

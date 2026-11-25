@@ -22,7 +22,7 @@
   }
 
   function isDialogOpen() {
-    return !!(dialog && dialog.open);
+    return !!(dialog && dialog.open) || document.documentElement.classList.contains('is-preloading');
   }
 
   function hasScrollableParent(node) {

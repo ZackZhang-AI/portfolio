@@ -36,7 +36,17 @@
   margin-block: -.06em;
 }
 .hero-word { display: inline-block; }
-.hero-period { color: var(--accent-bright); }
+.hero-period {
+  color: var(--accent-bright);
+  transition: opacity 260ms ease;
+}
+html.ink-flight-active .hero-period,
+.ink-guide-ready .hero-period.is-docked {
+  opacity: 0 !important;
+}
+.ink-guide-ready .hero-period.is-departed {
+  opacity: .22;
+}
 .hero-orchestrated .hero-title-line,
 .hero-orchestrated .hero-description,
 .hero-orchestrated .hero-background,
@@ -55,62 +65,283 @@
   50% { transform: translateY(4px); }
 }
 
-/* 3. 焦橙墨点全站跨区伴随引导（仅桌面动态模式） */
+/* 3. 开屏纸面加载幕布 + 生命感焦橙墨点伙伴（双眸追踪 / 眨眼 / 笑眼 / 互动弹跳） */
+.site-preloader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 42%, #f6f2ed 0%, #eae5e0 64%, #ded7ce 100%);
+  box-shadow: 0 24px 64px rgb(23 20 15 / 14%);
+  transform: translate3d(0, 0, 0);
+  transition: transform 780ms cubic-bezier(.76, 0, .24, 1);
+  will-change: transform;
+  overflow: hidden;
+}
+.site-preloader::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .35;
+  background-image: radial-gradient(rgb(23 20 15 / 6%) 0.6px, transparent 0.6px);
+  background-size: 18px 18px;
+  content: '';
+}
+html.is-preloading .site-preloader,
+.site-preloader.is-lifting {
+  display: flex;
+}
+.site-preloader.is-lifting {
+  transform: translate3d(0, -104%, 0);
+  pointer-events: none;
+}
+.site-preloader.is-done {
+  display: none !important;
+}
+
+.preloader-stage {
+  position: relative;
+  z-index: 1;
+  width: min(340px, 76vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 28px;
+  transition: opacity 280ms ease, transform 340ms cubic-bezier(.22, 1, .36, 1);
+}
+.preloader-stage.is-fading {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.preloader-kicker {
+  color: var(--muted, #665e55);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+.preloader-track-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 26px;
+}
+.preloader-shadow {
+  position: absolute;
+  top: 19px;
+  left: -13px;
+  width: 26px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(120 46 12 / 26%) 0%, transparent 72%);
+  transform-origin: center center;
+  will-change: transform;
+  pointer-events: none;
+}
+.preloader-track {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  border-radius: 99px;
+  background: rgb(23 20 15 / 12%);
+  overflow: hidden;
+}
+.preloader-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent, #c84b11) 0%, var(--accent-bright, #e06122) 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+.preloader-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  color: rgb(23 20 15 / 26%);
+  font-size: 9px;
+  letter-spacing: .12em;
+  font-variant-numeric: tabular-nums;
+}
+.preloader-meta {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: -6px;
+}
+.preloader-status {
+  color: var(--muted, #665e55);
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+.preloader-pct {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--accent, #c84b11);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 12, "wght" 500;
+}
+
+/* 加载幕布未掀开前，先稳住首屏元素，避免提前跑完进场动画 */
+html.is-preloading {
+  overflow: hidden;
+}
+html.is-preloading .hero-title-line,
+html.is-preloading .hero-word,
+html.is-preloading .hero-impact-rule,
+html.is-preloading .hero-description,
+html.is-preloading .hero-background,
+html.is-preloading .hero-actions,
+html.is-preloading #sideLabels,
+html.is-preloading #bottomUI {
+  opacity: 0 !important;
+  animation: none !important;
+}
+html.is-preloading .site-header {
+  opacity: 0;
+}
+.site-header {
+  transition: background-color 280ms ease, border-color 280ms ease, color 280ms ease, opacity 480ms ease;
+}
+
 .brand-dot {
   display: inline-block;
   transition: opacity 280ms ease, transform 280ms ease;
 }
-.brand-dot.is-handed-off { opacity: .16; }
 
 .ink-guide {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 11px;
-  height: 11px;
-  z-index: 45;
+  width: 32px;
+  height: 32px;
+  z-index: 220;
+  padding: 0;
+  border: 0;
+  background: none;
   pointer-events: none;
   opacity: 0;
   will-change: transform, opacity;
-  transition: opacity 280ms ease;
+  transition: opacity 260ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.ink-guide-core {
-  position: absolute;
-  inset: 0;
+.ink-guide.is-visible {
+  display: block;
+  opacity: 1;
+}
+.ink-guide-ready .ink-guide.is-visible:not(.is-preloader-mode) {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.ink-guide-body {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background: var(--accent-bright);
-  box-shadow: 0 2px 10px rgb(200 75 17 / 32%);
-  transition: background-color 280ms ease, box-shadow 280ms ease;
+  background: radial-gradient(circle at 32% 26%, #f48242 0%, #de5a1d 56%, #b53d0a 100%);
+  box-shadow:
+    0 7px 18px rgb(200 75 17 / 30%),
+    0 2px 5px rgb(23 20 15 / 16%),
+    inset 0 1.5px 2px rgb(255 239 224 / 38%);
+  transition: background 320ms ease, box-shadow 320ms ease;
 }
+.ink-guide-body::before {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 7px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgb(255 248 238 / 28%);
+  transform: rotate(-28deg);
+  pointer-events: none;
+  content: '';
+}
+.ink-guide-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.ink-eye {
+  transform-box: fill-box;
+  transform-origin: center center;
+  transition: transform 95ms cubic-bezier(.4, 0, .2, 1), opacity 120ms ease;
+}
+.ink-guide.is-blinking .ink-eye {
+  transform: scaleY(.08);
+}
+.ink-guide.is-curious .ink-eye {
+  transform: scale(1.08, 1.13);
+}
+.ink-wink-arc,
+.ink-eyes-happy {
+  opacity: 0;
+  transition: opacity 130ms ease;
+}
+.ink-eyes-open {
+  transition: opacity 130ms ease;
+}
+.ink-guide.is-wink .ink-eye-r {
+  opacity: 0;
+}
+.ink-guide.is-wink .ink-wink-arc {
+  opacity: 1;
+}
+.ink-guide.is-happy .ink-eyes-open {
+  opacity: 0;
+}
+.ink-guide.is-happy .ink-eyes-happy {
+  opacity: 1;
+}
+
 .ink-guide-ring {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  border: 1px solid rgb(224 97 34 / 45%);
+  border: 1.5px solid rgb(224 97 34 / 48%);
   opacity: 0;
-  transform: scale(.7);
-  transition: opacity 320ms ease, border-color 280ms ease;
+  transform: scale(.78);
+  pointer-events: none;
+  transition: opacity 280ms ease, border-color 280ms ease;
 }
-.ink-guide.is-visible { opacity: 1; }
 .ink-guide.is-pulsing .ink-guide-ring {
   opacity: 1;
   animation: ink-guide-pulse 2.8s cubic-bezier(.22, 1, .36, 1) infinite;
 }
-.ink-guide.is-dark-surface .ink-guide-core {
-  background: var(--accent-dark);
-  box-shadow: 0 0 18px rgb(239 138 76 / 62%), 0 0 0 1px rgb(255 245 232 / 25%);
+.ink-guide.is-burst .ink-guide-ring {
+  opacity: 1;
+  animation: ink-guide-burst 640ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.ink-guide.is-dark-surface .ink-guide-body {
+  background: radial-gradient(circle at 32% 26%, #ffc18e 0%, #ef8a4c 58%, #c75f22 100%);
+  box-shadow:
+    0 0 24px rgb(239 138 76 / 55%),
+    0 4px 12px rgb(0 0 0 / 45%),
+    inset 0 1.5px 2px rgb(255 247 238 / 46%);
 }
 .ink-guide.is-dark-surface .ink-guide-ring {
-  border-color: rgb(239 138 76 / 58%);
+  border-color: rgb(239 138 76 / 62%);
 }
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .ink-guide-ready .ink-guide { display: block; }
-}
+
 @keyframes ink-guide-pulse {
-  0% { transform: scale(.75); opacity: .75; }
-  70% { transform: scale(1.65); opacity: 0; }
-  100% { transform: scale(1.65); opacity: 0; }
+  0% { transform: scale(.82); opacity: .72; }
+  70% { transform: scale(1.62); opacity: 0; }
+  100% { transform: scale(1.62); opacity: 0; }
+}
+@keyframes ink-guide-burst {
+  0% { transform: scale(.84); opacity: .95; }
+  100% { transform: scale(2.05); opacity: 0; }
 }
 
 /* 经历路径节点随引路点依次点亮 */
@@ -512,7 +743,7 @@ body.dialog-depth-active #footer {
   .method-diagram { max-width: 240px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ink-guide, .nav-indicator { display: none !important; }
+  .site-preloader, .ink-guide, .nav-indicator { display: none !important; }
   .brand-dot.is-handed-off { opacity: 1 !important; }
   .work-stage { grid-template-columns: minmax(0, 1fr); }
   .work-stage-aside { display: none; }

@@ -48,6 +48,7 @@
     if (!navigator.clipboard) return manualCopy();
     navigator.clipboard.writeText(email).then(function () {
       status.textContent = '邮箱已复制。';
+      window.dispatchEvent(new CustomEvent('portfolio:emailcopied'));
     }, manualCopy);
   });
 
@@ -137,7 +138,9 @@
     document.documentElement.style.scrollBehavior = 'auto';
     window.getComputedStyle(document.documentElement).scrollBehavior;
   });
-  if (window.initPortfolioHero) window.initPortfolioHero();
+  if (window.initPortfolioHero && !document.documentElement.classList.contains('is-preloading')) {
+    window.initPortfolioHero();
+  }
   function refreshLayout() {
     window.ScrollTrigger.refresh();
     syncHeaderAndNav();
