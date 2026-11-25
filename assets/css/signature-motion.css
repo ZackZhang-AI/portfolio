@@ -65,6 +65,107 @@ html.ink-flight-active .hero-period,
   50% { transform: translateY(4px); }
 }
 
+/* 首屏建筑感细线框角标 + 动态滚动业务成果词槽（摆脱首屏单薄感） */
+.hero-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: rgb(23 20 15 / 15%);
+  border-style: solid;
+  border-width: 0;
+}
+.hero-corner--tl { top: 96px; left: 3.5vw; border-top-width: 1px; border-left-width: 1px; }
+.hero-corner--tr { top: 96px; right: 3.5vw; border-top-width: 1px; border-right-width: 1px; }
+.hero-corner--bl { bottom: 82px; left: 3.5vw; border-bottom-width: 1px; border-left-width: 1px; }
+.hero-corner--br { bottom: 82px; right: 3.5vw; border-bottom-width: 1px; border-right-width: 1px; }
+
+.hero-focus-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(440px, 90vw);
+  margin-top: 20px;
+  padding: 7px 14px 7px 12px;
+  border: 1px solid rgb(23 20 15 / 12%);
+  border-radius: 2px;
+  background: rgb(249 246 240 / 72%);
+  backdrop-filter: blur(8px);
+  color: var(--ink, #17140f);
+  text-decoration: none;
+  transition: border-color 240ms ease, background-color 240ms ease, transform 280ms cubic-bezier(.22, 1, .36, 1), box-shadow 280ms ease;
+}
+.hero-focus-strip:hover,
+.hero-focus-strip:focus-visible {
+  border-color: rgb(212 81 24 / 52%);
+  background: rgb(252 249 244 / 94%);
+  box-shadow: 0 8px 22px rgb(200 75 17 / 9%);
+  transform: translateY(-1px);
+}
+.hero-focus-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-bright, #e06122);
+  box-shadow: 0 0 0 3px rgb(224 97 34 / 16%);
+  flex-shrink: 0;
+}
+.hero-focus-kicker {
+  color: var(--accent, #c84b11);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hero-focus-viewport {
+  position: relative;
+  display: block;
+  width: 248px;
+  height: 20px;
+  overflow: hidden;
+  text-align: left;
+}
+.hero-focus-item {
+  position: absolute;
+  inset: 0;
+  display: block;
+  font-size: 12.5px;
+  line-height: 20px;
+  color: #363029;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 380ms cubic-bezier(.22, 1, .36, 1), transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+.hero-focus-item.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-focus-item.is-leaving {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.hero-focus-arrow {
+  color: var(--muted, #665e55);
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: transform 240ms ease, color 240ms ease;
+}
+.hero-focus-strip:hover .hero-focus-arrow {
+  color: var(--accent, #c84b11);
+  transform: translateY(2px);
+}
+@media (max-width: 767px) {
+  .hero-corner { display: none; }
+  .hero-focus-strip { padding: 6px 11px; gap: 8px; margin-top: 16px; }
+  .hero-focus-kicker { display: none; }
+  .hero-focus-viewport { width: 220px; }
+  .hero-focus-item { font-size: 12px; }
+}
+
 /* 3. 开屏纸面加载幕布 + 生命感焦橙墨点伙伴（双眸追踪 / 眨眼 / 笑眼 / 互动弹跳） */
 .site-preloader {
   display: none;
@@ -198,7 +299,9 @@ html.is-preloading .hero-word,
 html.is-preloading .hero-impact-rule,
 html.is-preloading .hero-description,
 html.is-preloading .hero-background,
+html.is-preloading .hero-focus-strip,
 html.is-preloading .hero-actions,
+html.is-preloading .hero-corner,
 html.is-preloading #sideLabels,
 html.is-preloading #bottomUI {
   opacity: 0 !important;
@@ -212,8 +315,16 @@ html.is-preloading .site-header {
 }
 
 .brand-dot {
-  display: inline-block;
-  transition: opacity 280ms ease, transform 280ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 12px;
+  height: 20px;
+  transition: opacity 220ms ease, transform 240ms ease, min-width 260ms cubic-bezier(.22, 1, .36, 1);
+}
+.site-brand.is-berth-active .brand-dot {
+  min-width: 24px;
+  opacity: 0;
 }
 
 .ink-guide {
@@ -459,7 +570,88 @@ html.is-preloading .site-header {
   color: #ef8a4c;
 }
 
-/* 经历路径节点随引路点依次点亮 */
+/* 经历路径：桌面端错落悬吊展陈节奏 + 轨道焦橙涂色 + 随小墨点逐张唤醒 */
+.path-line-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent, #c84b11), var(--accent-bright, #e06122));
+  transform-origin: left center;
+  transform: scaleX(var(--path-fill, 0));
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  #pathStage {
+    align-items: start;
+    padding-top: 38px;
+    padding-bottom: 18px;
+  }
+  #pathStage .pathCard {
+    --card-shift: 0px;
+    margin-top: var(--card-drop, 0px);
+    transform: translateY(var(--card-shift));
+    transition:
+      opacity 480ms cubic-bezier(.22, 1, .36, 1),
+      transform 560ms cubic-bezier(.22, 1, .36, 1),
+      border-color 320ms ease,
+      box-shadow 420ms ease;
+  }
+  #pathStage .pathCard:nth-of-type(1) { --card-drop: 44px; }
+  #pathStage .pathCard:nth-of-type(2) { --card-drop: 16px; }
+  #pathStage .pathCard:nth-of-type(3) { --card-drop: 36px; }
+  #pathStage .pathCard:nth-of-type(4) { --card-drop: 10px; }
+  #pathStage .pathCard:nth-of-type(5) { --card-drop: 0px; }
+
+  #pathStage .pathCard::before {
+    top: calc(-37px - var(--card-drop, 0px) - var(--card-shift, 0px));
+    transition:
+      top 560ms cubic-bezier(.22, 1, .36, 1),
+      transform 320ms ease,
+      background-color 320ms ease,
+      border-color 320ms ease,
+      box-shadow 320ms ease;
+  }
+  #pathStage .pathCard::after {
+    top: calc(-28px - var(--card-drop, 0px) - var(--card-shift, 0px));
+    height: calc(28px + var(--card-drop, 0px) + var(--card-shift, 0px));
+    transition:
+      top 560ms cubic-bezier(.22, 1, .36, 1),
+      height 560ms cubic-bezier(.22, 1, .36, 1),
+      background-color 320ms ease;
+  }
+
+  /* 桌面动态模式：未经过的卡片柔和退后，钉子仍牢牢锚定在轨道上，A1 走过哪张立刻收绳唤醒 */
+  .ink-guide-ready #pathStage .pathCard {
+    opacity: .42;
+    --card-shift: 18px;
+  }
+  .ink-guide-ready #pathStage .pathCard .pathCard-visual img {
+    filter: grayscale(.82) opacity(.68);
+    transition: filter 460ms ease, transform 420ms cubic-bezier(.22, 1, .36, 1);
+  }
+  .ink-guide-ready #pathStage .pathCard.is-passed {
+    opacity: 1;
+    --card-shift: 0px;
+  }
+  .ink-guide-ready #pathStage .pathCard:hover {
+    opacity: 1;
+    translate: none;
+    --card-shift: -4px;
+  }
+  .ink-guide-ready #pathStage .pathCard.is-passed .pathCard-visual img,
+  .ink-guide-ready #pathStage .pathCard:hover .pathCard-visual img {
+    filter: grayscale(0) opacity(1);
+  }
+  .ink-guide-ready #pathStage .pathCard.is-current {
+    border-color: rgb(212 81 24 / 52%);
+    box-shadow: var(--highlight-paper), 0 18px 40px rgb(200 75 17 / 12%), 0 2px 6px rgb(23 20 15 / 6%);
+    --card-shift: -5px;
+  }
+  .ink-guide-ready #pathStage .pathCard.is-current .pathCard-num {
+    color: var(--accent, #c84b11);
+  }
+}
+
 .pathCard.is-passed::before {
   border-color: var(--accent-bright);
   background: var(--accent-bright);
@@ -469,7 +661,7 @@ html.is-preloading .site-header {
   transform: scale(1.28);
   box-shadow: 0 0 0 6px rgb(224 97 34 / 24%);
 }
-.pathCard.is-passed::after { background: rgb(200 75 17 / 42%); }
+.pathCard.is-passed::after { background: rgb(200 75 17 / 48%); }
 .pathCard:last-child.is-passed::before {
   animation: node-breathe 3s ease-in-out infinite;
 }

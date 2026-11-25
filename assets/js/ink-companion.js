@@ -14,12 +14,18 @@
   var popoverNote = document.getElementById('inkPopoverNote');
   var dialog = document.getElementById('projectDialog');
   var heroPeriod = document.getElementById('heroPeriod');
+  var siteBrand = document.getElementById('siteBrand');
   var brandDot = document.getElementById('headerBrandDot');
   var pathStage = document.getElementById('pathStage');
   var pathLine = document.getElementById('pathLine');
+  var pathLineFill = document.getElementById('pathLineFill');
   var pathCards = Array.from(document.querySelectorAll('#pathStage .pathCard'));
   var proofSection = document.getElementById('testimonials');
   var proofShowcase = proofSection ? proofSection.querySelector('.proof-showcase') : null;
+  var didiFeature = document.getElementById('didiFeature');
+  var didiBerth = document.getElementById('didiBerth');
+  var proofArchive = proofSection ? proofSection.querySelector('.proof-archive-heading') : null;
+  var signalsSection = document.querySelector('.signals-section');
   var darkAct = document.getElementById('darkAct');
   var curtainTab = document.getElementById('darkCurtainTab');
   var curtainBerth = document.getElementById('curtainBerth');
@@ -209,11 +215,53 @@
     }, 220);
   }
 
+  var headerCameoTimer = 0;
+  var headerCameoStep = 0;
+
+  function stopHeaderCameo() {
+    if (headerCameoTimer) {
+      clearInterval(headerCameoTimer);
+      headerCameoTimer = 0;
+    }
+  }
+
+  function startHeaderCameo() {
+    stopHeaderCameo();
+    headerCameoStep = 0;
+    /* 刚落座 ZACK ZHANG 旁时俏皮眨眼打招呼，随后每隔 2.5s 交替微笑 ^ ^ 与 wink */
+    window.setTimeout(function () {
+      if (state.activeBerth === 'header') triggerWink(420, true);
+    }, 220);
+    headerCameoTimer = window.setInterval(function () {
+      if (state.mode !== 'live' || state.activeBerth !== 'header' || document.hidden) return;
+      headerCameoStep++;
+      if (headerCameoStep % 2 === 1) {
+        triggerHappy(780, false);
+      } else {
+        triggerWink(420, true);
+      }
+    }, 2500);
+  }
+
   function syncBerths(activeBerth) {
+    var prevBerth = state.activeBerth;
     state.activeBerth = activeBerth;
+    if (siteBrand) siteBrand.classList.toggle('is-berth-active', activeBerth === 'header');
+    if (didiFeature) didiFeature.classList.toggle('is-berth-active', activeBerth === 'didi');
     if (curtainTab) curtainTab.classList.toggle('is-berth-active', activeBerth === 'curtain');
     if (workDockTrigger) workDockTrigger.classList.toggle('is-berth-active', activeBerth === 'work');
     if (footerRunway) footerRunway.classList.toggle('is-berth-active', activeBerth === 'runway');
+
+    if (prevBerth !== activeBerth) {
+      if (activeBerth === 'header') {
+        startHeaderCameo();
+      } else {
+        stopHeaderCameo();
+      }
+      if (activeBerth === 'didi') {
+        triggerWink(380, true);
+      }
+    }
   }
 
   function applyVisuals(now, dt) {
@@ -352,7 +400,7 @@
       activeAct = 'rail';
     }
 
-    /* Act 2: 经历时间轴 01 -> 05，沿赤陶轨道行走并逐个点亮节点 */
+    /* Act 2: 经历时间轴 01 -> 05，沿赤陶轨道涂色前行并逐张唤醒错落悬吊卡片 */
     if (pathStage && pathLine && pathCards.length) {
       var stageRect = pathStage.getBoundingClientRect();
       var enterStart = vh * 0.90;
@@ -374,6 +422,7 @@
           scale = lerp(hero.scale, 0.66, tIn);
           compact = lerp(0, 0.42, tIn);
           var lit0 = tIn > 0.85;
+          if (pathLineFill) pathLineFill.style.setProperty('--path-fill', lit0 ? '0.06' : '0');
           pathCards.forEach(function (c, i) {
             c.classList.toggle('is-passed', i === 0 && lit0);
             c.classList.toggle('is-current', i === 0 && lit0);
@@ -389,6 +438,8 @@
           scale = 0.68;
           compact = 0.42;
           pulsing = true;
+          var fillRatio = clamp((tx - lineRect.left) / Math.max(1, lineRect.width), 0.04, 1);
+          if (pathLineFill) pathLineFill.style.setProperty('--path-fill', fillRatio.toFixed(4));
           var passedIdx = Math.floor(tSweep * (pathCards.length - 1) + 0.15);
           pathCards.forEach(function (c, i) {
             c.classList.toggle('is-passed', i <= passedIdx);
@@ -399,7 +450,7 @@
             hop(0.48);
           }
           actGazeX = 0.12;
-          actGazeY = 0.85;
+          actGazeY = 0.88;
         } else {
           var tOut = easeInOut(clamp((sweepEnd - stageRect.top) / (sweepEnd - exitEnd), 0, 1));
           var nextRailX = clamp(vw - 44, 60, vw - 30);
@@ -408,17 +459,20 @@
           ty = lerp(railY, nextRailY, tOut) - Math.sin(tOut * Math.PI) * 26;
           scale = 0.66;
           compact = lerp(0.42, 0.25, tOut);
+          if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
           pathCards.forEach(function (c) {
             c.classList.add('is-passed');
             c.classList.remove('is-current');
           });
         }
       } else if (stageRect.top < exitEnd) {
+        if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
         pathCards.forEach(function (c) {
           c.classList.add('is-passed');
           c.classList.remove('is-current');
         });
       } else {
+        if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '0');
         state.lastPathIdx = -1;
         pathCards.forEach(function (c) {
           c.classList.remove('is-passed');
@@ -427,22 +481,62 @@
       }
     }
 
-    /* Act 3: 实习成果区，停驻在卡片外缘呼应悬停卡片 */
+    /* 辅助：计算左上角 ZACK ZHANG 品牌泊位坐标 */
+    function dockToHeader(baseGazeX) {
+      if (!brandDot) return false;
+      var br = brandDot.getBoundingClientRect();
+      activeBerth = 'header';
+      dockedInControl = true;
+      tx = br.left + br.width / 2;
+      ty = br.top + br.height / 2 + 1;
+      scale = 0.56;
+      compact = 0.52;
+      pulsing = false;
+      tiltTarget = 0;
+      var scan = Math.sin(now * 0.0013) * 0.38;
+      actGazeX = clamp((typeof baseGazeX === 'number' ? baseGazeX : 0.28) + scan, -0.35, 0.88);
+      actGazeY = 0.92; /* 从左上角顶栏居高临下往下看页面内容 */
+      return true;
+    }
+
+    /* Act 3: 实习成果区（滴滴专属泊位 → 百度/百川错落双卡 → 较早经历与数字区飞回左上角 ZACK ZHANG 旁往下看） */
     if (proofSection && activeAct !== 'path') {
       var pr = proofSection.getBoundingClientRect();
-      if (pr.top < vh * 0.56 && pr.bottom > vh * 0.22) {
+      var sigRect = signalsSection ? signalsSection.getBoundingClientRect() : null;
+      var proofBandBottom = sigRect ? sigRect.bottom : pr.bottom;
+      if (pr.top < vh * 0.62 && proofBandBottom > vh * 0.16) {
         activeAct = 'proof';
-        if (state.hoveredEl && state.hoveredKind === 'proof-card') {
+        var didiRect = didiFeature ? didiFeature.getBoundingClientRect() : null;
+        var dbr = didiBerth ? didiBerth.getBoundingClientRect() : null;
+        var canDockDidi = !!(didiRect && dbr && dbr.width > 12 && dbr.top > 76 && dbr.bottom < vh - 40 && didiRect.top < vh * 0.72 && didiRect.bottom > vh * 0.24);
+        var archRect = proofArchive ? proofArchive.getBoundingClientRect() : null;
+
+        if (archRect && archRect.top < vh * 0.72) {
+          /* 客串幕 1：浏览较早经历便签与 4 组大号里程碑数字时，飞回左上角 ZACK ZHANG 旁微笑 / wink 往下看 */
+          dockToHeader(0.32);
+        } else if (state.hoveredEl && state.hoveredKind === 'proof-card' && state.hoveredEl !== didiFeature) {
           var cr = state.hoveredEl.getBoundingClientRect();
           tx = clamp(cr.right - 14, 52, vw - 30);
           ty = clamp(cr.top - 12, 92, vh - 48);
           scale = 0.68;
           compact = 0.35;
           tiltTarget = -6;
+          if (state.hoveredEl.classList.contains('proof-secondary--ink')) {
+            isDark = true;
+          }
+        } else if (canDockDidi) {
+          activeBerth = 'didi';
+          dockedInControl = false;
+          tx = dbr.left + dbr.width / 2;
+          ty = dbr.top + dbr.height / 2 + 1;
+          scale = 0.62;
+          compact = 0.56;
+          actGazeX = -0.55;
+          actGazeY = 0.65;
         } else if (proofShowcase) {
           var sr = proofShowcase.getBoundingClientRect();
           tx = clamp(sr.right + 22, 52, vw - 30);
-          ty = clamp(Math.max(118, Math.min(vh * 0.38, sr.top + 38)), 96, vh - 120);
+          ty = clamp(Math.max(118, Math.min(vh * 0.44, sr.top + 38)), 96, vh - 120);
           scale = 0.66;
           compact = 0.25;
           actGazeX = -0.82;
@@ -451,7 +545,7 @@
       }
     }
 
-    /* Act 4: 暗幕拉环接力泊位（#curtainBerth，明暗转场过渡停靠） */
+    /* Act 4: 暗幕拉环接力泊位（#curtainBerth，从顶栏俯冲而下完成明暗转场） */
     if (curtainTab && curtainBerth && darkAct) {
       var ctr = curtainTab.getBoundingClientRect();
       var wsProbe = workStage ? workStage.getBoundingClientRect().top : 9999;
@@ -528,7 +622,7 @@
       }
     }
 
-    /* Act 7: 方法论档案叠卡 + 知识手册 */
+    /* Act 7: 方法论档案叠卡 + 知识手册（客串幕 2：回左上角 ZACK ZHANG 旁俯看知识条目） */
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
       if (mr.top < vh * 0.56 && mr.bottom > vh * 0.25) {
@@ -552,23 +646,7 @@
       var kr = knowledgeSection.getBoundingClientRect();
       if (kr.top < vh * 0.58 && kr.bottom > vh * 0.24) {
         activeAct = 'knowledge';
-        var klr = knowledgeList.getBoundingClientRect();
-        tx = clamp(klr.right + 22, 52, vw - 30);
-        if (state.hoveredEl && state.hoveredKind === 'knowledge-item') {
-          var kir = state.hoveredEl.getBoundingClientRect();
-          ty = clamp(kir.top + kir.height * 0.5, 96, vh - 56);
-          scale = 0.70;
-          compact = 0.22;
-          tiltTarget = -6;
-          actGazeX = -0.92;
-          actGazeY = 0;
-        } else {
-          ty = clamp(vh * 0.42, 110, vh - 120);
-          scale = 0.64;
-          compact = 0.28;
-          actGazeX = -0.78;
-          actGazeY = 0.1;
-        }
+        dockToHeader(0.35);
       }
     }
 
@@ -636,7 +714,7 @@
     } else if (now - state.pointerActiveAt < 2500 && !state.selfHovered && activeBerth !== 'runway') {
       gx = clamp((state.pointerX - state.x) / 220, -1, 1);
       gy = clamp((state.pointerY - state.y) / 180, -1, 1);
-    } else if (Math.abs(scrollVel) > 160) {
+    } else if (Math.abs(scrollVel) > 160 && activeBerth !== 'header') {
       gx = 0;
       gy = clamp(scrollVel / 850, -0.88, 0.88);
     } else if (now - state.lastScrollAt > 3000 && now - state.pointerActiveAt > 3000 && !dockedInControl) {
@@ -652,6 +730,10 @@
     } else if (actGazeX !== null) {
       gx = actGazeX;
       gy = actGazeY;
+    }
+
+    if (activeBerth === 'header' && state.hoveredKind !== 'brand') {
+      gy = clamp(gy, 0.56, 1);
     }
 
     return {
@@ -839,6 +921,7 @@
     });
 
     var hoverRules = [
+      { sel: '#siteBrand', kind: 'brand', happy: true },
       { sel: '#footerRunway', kind: 'runway', happy: true },
       { sel: '#talkLink, .footer-agent-cta', kind: 'footer-cta', happy: true },
       { sel: '#darkCurtainTab', kind: 'curtain' },
@@ -849,7 +932,7 @@
       { sel: '.company-feature, .proof-secondary, .proof-note', kind: 'proof-card' },
       { sel: '.pathCard', kind: 'path-card' },
       { sel: '.knowledge-list > a', kind: 'knowledge-item' },
-      { sel: '.hero-actions a, #bottomUI a', kind: 'cta' },
+      { sel: '#heroFocusStrip, .hero-actions a, #bottomUI a', kind: 'cta' },
       { sel: '.site-menu a', kind: 'nav' }
     ];
 
@@ -858,11 +941,17 @@
       for (var i = 0; i < hoverRules.length; i++) {
         var match = e.target.closest(hoverRules[i].sel);
         if (match) {
+          var changed = state.hoveredEl !== match;
           state.hoveredEl = match;
           state.hoveredKind = hoverRules[i].kind;
           state.curious = !hoverRules[i].happy;
           if (hoverRules[i].happy) {
-            state.happyUntil = performance.now() + 900;
+            state.happyUntil = performance.now() + (hoverRules[i].kind === 'brand' ? 1100 : 900);
+            if (changed && hoverRules[i].kind === 'brand' && state.activeBerth === 'header') {
+              hop(0.45);
+            }
+          } else if (changed && hoverRules[i].kind === 'knowledge-item' && state.activeBerth === 'header') {
+            triggerWink(320, false);
           }
           return;
         }

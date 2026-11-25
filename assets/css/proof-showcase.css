@@ -7,8 +7,24 @@
   background: var(--paper);
   box-shadow: var(--highlight-paper), var(--shadow-card);
 }
-.proof-showcase .company-feature { position: relative; padding: 30px 36px 32px; border-top: 3px solid var(--accent-bright); }
+.proof-showcase .company-feature { position: relative; padding: 30px 36px 32px; border-top: 3px solid var(--accent-bright); transition: border-color 300ms ease, box-shadow 420ms ease; }
+.proof-showcase .company-feature.is-berth-active { border-color: rgb(212 81 24 / 45%); }
 .proof-showcase .company-heading { margin-bottom: 24px; }
+.proof-showcase .company-heading-right { display: inline-flex; align-items: center; gap: 12px; }
+.proof-showcase .company-period { color: var(--muted); font-size: 12px; letter-spacing: .04em; }
+.didi-berth {
+  display: none;
+  width: 30px;
+  height: 26px;
+  border: 1px dashed rgb(212 81 24 / 28%);
+  border-radius: 5px;
+  background: rgb(212 81 24 / 4%);
+  flex-shrink: 0;
+  transition: border-color 240ms ease, background-color 240ms ease;
+}
+.ink-guide-ready .didi-berth { display: inline-block; }
+.company-feature.is-berth-active .didi-berth { border-color: transparent; background: transparent; }
+
 .proof-showcase .company-heading img { width: 42px; height: 42px; }
 .proof-showcase .company-heading h3 { font-size: 18px; }
 .proof-showcase .company-heading p,
@@ -25,7 +41,7 @@
 }
 .proof-showcase .proof-project > p:not(.result),
 .proof-showcase .proof-secondary > p:not(.compact-result) { margin-bottom: 16px; font-size: 14px; line-height: 1.85; }
-.proof-showcase .result { margin: 2px 0 12px; }
+.proof-showcase .result { margin: 2px 0 10px; }
 .proof-showcase .result strong {
   font-size: clamp(32px, 3vw, 44px);
   line-height: 1.35;
@@ -34,11 +50,50 @@
 }
 .proof-showcase .result-unit { color: var(--accent); }
 .proof-showcase .result > span { display: block; margin-top: 6px; font-size: 12px; }
+
+/* 编辑风提效刻度条（极简纸墨 × 焦橙进度线） */
+.proof-meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+.proof-meter-bar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  border-radius: 99px;
+  background: rgb(23 20 15 / 10%);
+  overflow: hidden;
+}
+.proof-meter-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent, #c84b11), var(--accent-bright, #e06122));
+  transform-origin: left center;
+  transform: scaleX(1);
+  will-change: transform;
+}
+.proof-meter-tag {
+  color: var(--accent, #c84b11);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.proof-meter--ink .proof-meter-bar { background: rgb(234 229 224 / 14%); }
+.proof-meter--ink .proof-meter-fill { background: linear-gradient(90deg, #d45118, #ef8a4c); }
+.proof-meter--ink .proof-meter-tag { color: var(--accent-dark, #ef8a4c); }
+
 .proof-showcase .text-link { min-height: 40px; font-size: 13px; }
-.proof-showcase .proof-pair { gap: 24px; margin-top: 24px; }
-.proof-showcase .proof-secondary { padding: 28px 32px; }
+.proof-showcase .proof-pair { gap: 28px; margin-top: 28px; align-items: start; }
+.proof-showcase .proof-secondary {
+  padding: 28px 32px;
+  translate: 0 var(--proof-parallax, 0px);
+}
 .proof-showcase .proof-secondary .company-heading { padding-bottom: 22px; border-bottom: 1px solid var(--showcase-line); }
-.proof-showcase .compact-result { align-items: center; margin: 2px 0 20px; gap: 6px 18px; }
+.proof-showcase .compact-result { align-items: center; margin: 2px 0 14px; gap: 6px 18px; }
 .proof-showcase .compact-result strong {
   font-size: clamp(28px, 2.6vw, 36px);
   white-space: nowrap;
@@ -46,6 +101,59 @@
   font-variation-settings: "opsz" 8, "wght" 520;
 }
 .proof-showcase .compact-result > span { max-width: 210px; font-size: 12px; }
-.proof-archive-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 64px 0 36px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+/* 非对称编辑节奏：桌面端左宽右窄错落，百川采用深墨对撞卡打破米色单调 */
+@media (min-width: 1024px) {
+  .proof-showcase .proof-pair {
+    grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.86fr);
+    gap: 32px;
+  }
+  .proof-showcase .proof-secondary--lead {
+    border-left: 3px solid var(--accent-bright);
+  }
+  .proof-showcase .proof-secondary--ink {
+    margin-top: 44px;
+  }
+}
+
+.proof-showcase .proof-secondary--ink {
+  border-color: #2f2a24;
+  background: linear-gradient(162deg, #1d1a16 0%, #14120f 100%);
+  box-shadow: 0 18px 42px rgb(23 20 15 / 16%), inset 0 1px 0 rgb(255 245 232 / 7%);
+  color: #eae5e0;
+}
+.proof-showcase .proof-secondary--ink::before {
+  background: radial-gradient(360px circle at var(--sheen-x) var(--sheen-y), rgb(255 244 230 / 9%), transparent 68%);
+}
+.proof-showcase .proof-secondary--ink .company-heading {
+  border-bottom-color: rgb(234 229 224 / 12%);
+}
+.proof-showcase .proof-secondary--ink .company-heading img {
+  padding: 5px;
+  border-radius: 4px;
+  background: rgb(247 243 236 / 94%);
+  mix-blend-mode: normal;
+}
+.proof-showcase .proof-secondary--ink h3,
+.proof-showcase .proof-secondary--ink h4,
+.proof-showcase .proof-secondary--ink .compact-result strong {
+  color: #f6f2ed;
+}
+.proof-showcase .proof-secondary--ink p,
+.proof-showcase .proof-secondary--ink .company-heading > span,
+.proof-showcase .proof-secondary--ink .compact-result > span {
+  color: #b7afa5;
+}
+.proof-showcase .proof-secondary--ink .text-link {
+  color: var(--accent-dark, #ef8a4c);
+  border-bottom-color: rgb(239 138 76 / 45%);
+}
+.proof-showcase .proof-secondary--ink .text-link:hover,
+.proof-showcase .proof-secondary--ink .text-link:focus-visible {
+  color: #ffbe8a;
+  border-bottom-color: #ffbe8a;
+}
+
+.proof-archive-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 72px 0 36px; padding-top: 24px; border-top: 1px solid var(--line); }
 .proof-archive-heading p { margin: 0; color: var(--muted); font-size: 12px; }
 .proof-archive-heading .eyebrow { font-size: 10px; }
