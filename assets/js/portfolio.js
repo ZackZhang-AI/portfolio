@@ -67,21 +67,61 @@
   revealHashTarget();
   window.addEventListener('hashchange', revealHashTarget);
 
-  if ('IntersectionObserver' in window) {
-    var links = Array.from(menu.querySelectorAll('a[href^="#"]'));
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        links.forEach(function (link) {
-          if (link.hash === '#' + entry.target.id) link.setAttribute('aria-current', 'location');
-          else link.removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-15% 0px -55% 0px' });
-    ['heroWrap', 'studio', 'testimonials', 'work', 'knowledge', 'footer'].forEach(function (id) {
-      observer.observe(document.getElementById(id));
+  // 顶栏首屏透明、暗色章节自动切换深墨主题，以及全章节精确导航高亮。
+  var darkAct = document.getElementById('darkAct');
+  var navLinks = Array.from(menu.querySelectorAll('a[href^="#"]'));
+  var trackedSections = [
+    { el: document.getElementById('heroWrap'), nav: '' },
+    { el: document.getElementById('studio'), nav: '#studio' },
+    { el: document.getElementById('testimonials'), nav: '#testimonials' },
+    { el: document.getElementById('work'), nav: '#work' },
+    { el: document.getElementById('capabilities'), nav: '#work' },
+    { el: document.getElementById('method'), nav: '' },
+    { el: document.getElementById('knowledge'), nav: '#knowledge' },
+    { el: document.getElementById('footer'), nav: '#footer' }
+  ].filter(function (item) { return item.el; });
+
+  var scrollFrame = 0;
+  function syncHeaderAndNav() {
+    scrollFrame = 0;
+    var y = window.scrollY || window.pageYOffset || 0;
+    var headerHeight = header.offsetHeight || 76;
+
+    header.classList.toggle('is-top', y < 24);
+
+    if (darkAct) {
+      var darkRect = darkAct.getBoundingClientRect();
+      var probe = headerHeight * 0.6;
+      header.classList.toggle('is-dark', darkRect.top <= probe && darkRect.bottom > probe);
+    }
+
+    var activeNav = '';
+    var triggerY = headerHeight + Math.min(180, window.innerHeight * 0.25);
+    for (var i = 0; i < trackedSections.length; i++) {
+      if (trackedSections[i].el.getBoundingClientRect().top <= triggerY) {
+        activeNav = trackedSections[i].nav;
+      }
+    }
+    if (window.innerHeight + y >= document.documentElement.scrollHeight - 24) {
+      activeNav = '#footer';
+    }
+    navLinks.forEach(function (link) {
+      if (activeNav && link.getAttribute('href') === activeNav) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
+      }
     });
   }
+
+  function scheduleSync() {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(syncHeaderAndNav);
+  }
+
+  syncHeaderAndNav();
+  window.addEventListener('scroll', scheduleSync, { passive: true });
+  window.addEventListener('resize', scheduleSync, { passive: true });
 
   if (!window.gsap || !window.ScrollTrigger) return;
   window.gsap.registerPlugin(window.ScrollTrigger);
@@ -91,7 +131,10 @@
     window.getComputedStyle(document.documentElement).scrollBehavior;
   });
   if (window.initPortfolioHero) window.initPortfolioHero();
-  function refreshLayout() { window.ScrollTrigger.refresh(); }
+  function refreshLayout() {
+    window.ScrollTrigger.refresh();
+    syncHeaderAndNav();
+  }
   document.querySelectorAll('details').forEach(function (details) {
     details.addEventListener('toggle', refreshLayout);
   });

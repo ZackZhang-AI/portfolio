@@ -1,12 +1,20 @@
-/* 保留原版的大字收尾与逐字交互，联系方式使用正常文档布局。 */
-.talk-footer { padding-top: 108px; padding-bottom: 24px; }
+/* 保留大字收尾与细腻磁吸互动，联系方式使用正常文档布局。 */
+.talk-footer { padding-top: 104px; padding-bottom: 24px; }
 .talk-eyebrow { padding-top: 28px; margin-bottom: 0; border-top: 1px solid var(--line); }
-.talk-title { margin: 40px 0 28px; font-size: clamp(64px, 12vw, 180px); font-weight: 500; line-height: 1.25; letter-spacing: .005em; }
+.talk-title {
+  margin: 40px 0 28px;
+  font-size: clamp(64px, 12vw, 180px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: .005em;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 26, "wght" 500;
+}
 #talkLink { display: inline-block; padding: 8px 0; color: var(--ink); text-decoration: none; white-space: nowrap; }
-#talkArrow { display: inline-block; margin-left: .18em; transition: transform 500ms cubic-bezier(.22, 1, .36, 1), color 300ms ease; }
-.talk-letter { display: inline-block; transition: color 300ms ease; }
-.talk-letter.is-near { color: #f97316; }
-#talkLink:focus-visible #talkArrow { color: var(--accent); }
+#talkArrow { display: inline-block; margin-left: .18em; transition: transform 480ms cubic-bezier(.22, 1, .36, 1), color 280ms ease; }
+.talk-letter { display: inline-block; transition: color 280ms ease; }
+.talk-letter.is-near { color: var(--accent-bright); }
+#talkLink:hover #talkArrow, #talkLink:focus-visible #talkArrow { color: var(--accent); }
 .footer-agent-cta { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding: 0 0 52px; border-bottom: 1px solid var(--line); }
 .footer-agent-copy .eyebrow { margin-bottom: 14px; font-size: 10px; }
 .footer-agent-copy > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 16px; line-height: 1.9; }
@@ -35,7 +43,11 @@
 @media (max-width: 767px) {
   .talk-footer { padding-top: 64px; }
   .talk-eyebrow { padding-top: 22px; font-size: 10px; }
-  .talk-title { margin: 28px 0 24px; font-size: clamp(44px, 13.5vw, 96px); }
+  .talk-title {
+    margin: 28px 0 24px;
+    font-size: clamp(44px, 13.5vw, 96px);
+    font-variation-settings: "opsz" 12, "wght" 500;
+  }
   .footer-agent-cta { align-items: flex-start; flex-direction: column; gap: 24px; padding-bottom: 32px; }
   .footer-agent-copy > p:last-child { font-size: 14px; }
   .footer-primary-links .footer-agent-link { font-size: 17px; }

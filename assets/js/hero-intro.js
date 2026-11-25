@@ -16,18 +16,18 @@
           id: 'heroIntro',
           trigger: '#heroWrap',
           start: 'top top',
-          end: 'bottom 30%',
-          scrub: 0.65
+          end: 'bottom 35%',
+          scrub: 0.55
         }
       });
 
-      timeline.to('.hero-copy', { y: -60, autoAlpha: 0, duration: 0.75 }, 0.25);
-      timeline.to('.hero-title-mask:first-child', { xPercent: -24, rotation: -3, scale: 1.08, duration: 1 }, 0);
-      timeline.to('.hero-title-mask:last-child', { xPercent: 24, rotation: 3, scale: 1.08, duration: 1 }, 0);
+      timeline.to('.hero-copy', { y: -36, autoAlpha: 0, duration: 0.65 }, 0.22);
+      timeline.to('.hero-title-mask:first-child', { xPercent: -10, rotation: -0.8, duration: 1 }, 0);
+      timeline.to('.hero-title-mask:last-child', { xPercent: 10, rotation: 0.8, duration: 1 }, 0);
       timeline.to(['#sideLabels', '#bottomUI'], {
         autoAlpha: 0,
-        duration: 0.5
-      }, 0.25);
+        duration: 0.45
+      }, 0.14);
     });
   };
 })();

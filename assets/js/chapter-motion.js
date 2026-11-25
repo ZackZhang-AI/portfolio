@@ -5,23 +5,23 @@
   var media = gsap.matchMedia();
 
   media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', function () {
-    var scenes = gsap.utils.toArray('#studio, #testimonials, .signals-section, #work, #capabilities, #method, #knowledge, #footer');
+    // 仅在有明确明暗/底色切换的幕布（#studio、连续暗色幕 #darkAct）上做边缘展开，避免相邻黑底章节出现米色接缝，也不裁切浅色区阴影。
+    var scenes = gsap.utils.toArray('#studio, #darkAct');
     var restoreText = [];
 
-    // 进出场各用一个变量，避免长章节的动画跨度挤占正文阅读区。
     scenes.forEach(function (section) {
       section.classList.add('motion-scene');
       gsap.fromTo(section, { '--chapter-enter': 1 }, {
         '--chapter-enter': 0, ease: 'power1.inOut',
-        scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 38%', scrub: 0.8 }
+        scrollTrigger: { trigger: section, start: 'top bottom', end: 'top 42%', scrub: 0.7 }
       });
       gsap.fromTo(section, { '--chapter-exit': 0 }, {
         '--chapter-exit': 1, ease: 'power2.in',
-        scrollTrigger: { trigger: section, start: 'bottom 58%', end: 'bottom top', scrub: 0.8 }
+        scrollTrigger: { trigger: section, start: 'bottom 52%', end: 'bottom top', scrub: 0.7 }
       });
     });
 
-    // 只替换文字节点，保留原来的换行、子元素及动画引用；无重复的读屏文本。
+    // 只替换文字节点，保留原来的换行、子元素及读屏标题；采用干净的垂直裁切升起，不与阅读期透明度衰减冲突。
     gsap.utils.toArray('.section-heading h2, .about-intro h2, .signals-heading h2, .capabilities-heading h2, .knowledge-group-heading h3').forEach(function (heading) {
       var label = heading.getAttribute('aria-label');
       var text = heading.textContent.trim();
@@ -52,15 +52,25 @@
         if (label === null) heading.removeAttribute('aria-label');
         else heading.setAttribute('aria-label', label);
       });
-      gsap.fromTo(glyphs, { yPercent: 110, rotationX: -75, opacity: 0 }, {
-        yPercent: 0, rotationX: 0, opacity: 1, duration: 0.85, stagger: { amount: 0.32 }, ease: 'power3.out',
-        scrollTrigger: { trigger: heading, start: 'top 92%', end: 'bottom 6%', toggleActions: 'play reverse play reverse' }
+      gsap.fromTo(glyphs, { yPercent: 108, opacity: 0 }, {
+        yPercent: 0,
+        opacity: 1,
+        duration: 0.72,
+        stagger: { amount: 0.22 },
+        ease: 'expo.out',
+        clearProps: 'transform,opacity',
+        scrollTrigger: { trigger: heading, start: 'top 90%', once: true }
       });
     });
 
-    gsap.fromTo('#talkLink', { scale: 0.8, rotationX: 28, transformPerspective: 1200 }, {
-      scale: 1, rotationX: 0, ease: 'power2.out',
-      scrollTrigger: { trigger: '.talk-title', start: 'top 96%', end: 'top 55%', scrub: 0.9 }
+    gsap.fromTo('#talkLink', { scale: 0.92, y: 20, opacity: 0 }, {
+      scale: 1,
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: 'power3.out',
+      clearProps: 'transform,opacity',
+      scrollTrigger: { trigger: '.talk-title', start: 'top 90%', once: true }
     });
 
     return function () {

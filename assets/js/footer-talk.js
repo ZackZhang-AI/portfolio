@@ -16,8 +16,8 @@
       text.appendChild(element);
       return {
         element: element,
-        x: gsap.quickTo(element, 'x', { duration: 0.6, ease: 'power3.out' }),
-        y: gsap.quickTo(element, 'y', { duration: 0.6, ease: 'power3.out' })
+        x: gsap.quickTo(element, 'x', { duration: 0.55, ease: 'power3.out' }),
+        y: gsap.quickTo(element, 'y', { duration: 0.55, ease: 'power3.out' })
       };
     });
     var centers;
@@ -37,10 +37,12 @@
         letters.forEach(function (letter, index) {
           var dx = point.x - centers[index].x;
           var dy = point.y - centers[index].y;
-          var force = Math.max(0, 1 - Math.hypot(dx, dy) / 260);
-          letter.x(-dx * force * 0.5);
-          letter.y(-dy * force * 0.5);
-          letter.element.classList.toggle('is-near', force > 0);
+          var force = Math.max(0, 1 - Math.hypot(dx, dy) / 210);
+          var smooth = force * force;
+          // 柔和微幅磁吸 + 轻抬，替代把整行字推散的强斥力。
+          letter.x(dx * smooth * 0.16);
+          letter.y(dy * smooth * 0.12 - smooth * 9);
+          letter.element.classList.toggle('is-near', force > 0.28);
         });
       });
     }

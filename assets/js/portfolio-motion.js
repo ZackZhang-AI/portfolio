@@ -7,98 +7,131 @@
   document.documentElement.classList.add('motion-ready');
 
   media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', function () {
-    // 中间留出稳定阅读区；跨过上下边缘时都能顺滑进入或退出。
-    function revealBothWays(element, entering, leaving, trigger, resting) {
-      return gsap.timeline({
-        scrollTrigger: { trigger: trigger || element, start: 'top 94%', end: 'bottom 8%', scrub: 0.7 }
-      }).fromTo(element, entering, Object.assign({
-        x: 0, y: 0, rotation: 0, opacity: 1, duration: 1, ease: 'power2.out'
-      }, resting), 0).to(element, Object.assign({ duration: 1, ease: 'power2.in' }, leaving), 4);
+    // 入场有节奏，落位后保持 100% 清晰稳定，不干扰阅读。
+    function revealOnce(element, fromVars, options) {
+      var opts = options || {};
+      return gsap.fromTo(element, fromVars, Object.assign({
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotation: 0,
+        opacity: 1,
+        duration: opts.duration || 0.72,
+        ease: opts.ease || 'power3.out',
+        clearProps: 'transform,opacity',
+        scrollTrigger: {
+          trigger: opts.trigger || element,
+          start: opts.start || 'top 90%',
+          once: true
+        }
+      }, opts.toVars));
     }
 
     gsap.fromTo('.site-progress', { scaleX: 0 }, {
-      scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.2 }
+      scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.15 }
     });
+
     gsap.utils.toArray('.section-heading').forEach(function (heading) {
       gsap.fromTo(heading, { '--rule-progress': 0 }, {
         '--rule-progress': 1, ease: 'power2.inOut',
-        scrollTrigger: { trigger: heading, start: 'top 92%', end: 'top 48%', scrub: 0.7 }
+        scrollTrigger: { trigger: heading, start: 'top 92%', end: 'top 52%', scrub: 0.6 }
       });
     });
-    gsap.utils.toArray('.section-heading h2, .about-intro h2').forEach(function (heading) {
-      revealBothWays(heading, { y: 28, opacity: 0.35 }, { y: -20, opacity: 0.35 });
-    });
-    // 上滑时反向经过退出段，从屏幕上方淡入并归正。
-    gsap.utils.toArray('.proof-note').forEach(function (note) {
-      var rotation = Number(note.dataset.noteRotation);
-      revealBothWays(note, { rotation: rotation, y: 72, opacity: 0 }, {
-        rotation: -rotation * 0.6, y: -48, opacity: 0
-      }, note.parentElement);
-    });
-    // 近期项目整组展开，正文落稳后再阅读；旧经历仍按纸张逐张出现。
-    gsap.utils.toArray('.proof-showcase .company-feature, .proof-showcase .proof-secondary').forEach(function (card) {
-      revealBothWays(card, { y: 72, scale: 0.95, rotationX: 10, transformPerspective: 1200, opacity: 0.25 }, {
-        y: -32, scale: 0.985, rotationX: -3, opacity: 0.25
-      }, null, { scale: 1, rotationX: 0 });
-    });
-    // 五张经历卡按 01→05 逐步展开，上下重新进入时均可重播。
-    gsap.timeline({
-      scrollTrigger: { trigger: '#pathStage', start: 'top 84%', end: 'bottom 16%', toggleActions: 'play reverse play reverse' }
-    }).fromTo('#pathLine', { scaleX: 0, transformOrigin: 'left center' }, {
-      scaleX: 1, duration: 1.4, ease: 'power2.inOut'
-    }, 0).fromTo('#pathStage .pathCard', {
-      y: 52, rotation: function (index) { return index % 2 ? -3 : 3; }, opacity: 0
-    }, { y: 0, rotation: 0, opacity: 1, duration: 0.9, stagger: 0.28, ease: 'power3.out' }, 0.08);
 
-    gsap.utils.toArray('.capability-line').forEach(function (line, index) {
-      revealBothWays(line, { x: index % 2 ? 140 : -140, opacity: 0.2 }, {
-        x: index % 2 ? -80 : 80, opacity: 0.2
+    // 较早经历：2×2 纸张轻落归正，不反复淡出。
+    gsap.utils.toArray('.proof-note').forEach(function (note, index) {
+      var rotation = (Number(note.dataset.noteRotation) || 0) * 0.45;
+      revealOnce(note, { rotation: rotation, y: 34, opacity: 0 }, {
+        trigger: note.parentElement,
+        duration: 0.78,
+        toVars: { delay: (index % 2) * 0.08 }
       });
     });
+
+    // 近期实习成果卡：干脆上浮落稳。
+    gsap.utils.toArray('.proof-showcase .company-feature, .proof-showcase .proof-secondary').forEach(function (card, index) {
+      revealOnce(card, { y: 32, scale: 0.985, opacity: 0 }, {
+        duration: 0.74,
+        toVars: { delay: index > 0 ? (index - 1) * 0.09 : 0 }
+      });
+    });
+
+    // 五张经历卡：1 秒内利落展开，不再拖沓也不反向隐身。
+    gsap.timeline({
+      scrollTrigger: { trigger: '#pathStage', start: 'top 86%', once: true }
+    }).fromTo('#pathLine', { scaleX: 0, transformOrigin: 'left center' }, {
+      scaleX: 1, duration: 0.72, ease: 'power2.out'
+    }, 0).fromTo('#pathStage .pathCard', {
+      y: 26, opacity: 0
+    }, {
+      y: 0, opacity: 1, duration: 0.54, stagger: 0.08, ease: 'power3.out', clearProps: 'transform,opacity'
+    }, 0.06);
+
+    // 能力大字：轻幅交错落位后释放行内样式，确保悬停聚焦降暗顺畅工作。
+    gsap.utils.toArray('.capability-line').forEach(function (line, index) {
+      revealOnce(line, { x: index % 2 ? 36 : -36, opacity: 0 }, {
+        duration: 0.72,
+        toVars: { delay: index * 0.05 }
+      });
+    });
+
     gsap.fromTo('.tool-ribbon-track', { x: 0, xPercent: -4 }, {
       xPercent: -19, ease: 'none',
       scrollTrigger: { trigger: '.tool-ribbon', start: 'top bottom', end: 'bottom top', scrub: 0.6 }
     });
-    gsap.utils.toArray('.method-statement > span').forEach(function (line, index) {
-      revealBothWays(line, { x: index ? 38 : -24, opacity: 0.35 }, { x: index ? -24 : 24, opacity: 0.35 });
+
+    gsap.utils.toArray('.about-intro > div:last-child, .signal, .proof-archive-heading, .work-feature, .project-index-row, .knowledge-group-heading, .knowledge-list > a, .footer-agent-cta, .footer-grid, .footer-bottom').forEach(function (element) {
+      revealOnce(element, { y: 22, opacity: 0 }, { duration: 0.68 });
     });
-    // 各内容区使用同一套轻量双向反馈，保留悬停预览和文字中段的稳定性。
-    gsap.utils.toArray('.about-intro > div:last-child, .signal, .proof-archive-heading, .work-feature, .project-index-row, .knowledge-group-heading, .knowledge-list > a, .talk-title, .footer-agent-cta, .footer-grid, .footer-bottom').forEach(function (element) {
-      revealBothWays(element, { y: 24, opacity: 0.55 }, { y: -18, opacity: 0.55 });
-    });
-    gsap.utils.toArray('.work-image > img').forEach(function (image) {
-      revealBothWays(image, { scale: 1.1, y: 18 }, { scale: 1.07, y: -16 }, image.closest('.work-feature'), { scale: 1 });
-    });
-    counters.forEach(function (element, index) {
-      var value = { count: 0 };
-      gsap.to(value, {
-        count: Number(element.dataset.count), duration: 1.35, delay: index * 0.08, ease: 'power2.out',
-        onUpdate: function () { element.textContent = Math.round(value.count); },
-        scrollTrigger: { trigger: '.signal-grid', start: 'top 88%', end: 'bottom 15%', toggleActions: 'restart none restart none' }
+
+    // 作品展品图内部微幅景深视差，全程清晰可见。
+    gsap.utils.toArray('.work-image img').forEach(function (image) {
+      gsap.fromTo(image, { scale: 1.05, y: 12 }, {
+        scale: 1, y: -12, ease: 'none',
+        scrollTrigger: { trigger: image.closest('.work-feature'), start: 'top bottom', end: 'bottom top', scrub: 0.6 }
       });
     });
+
+    // 关键数字只滚动一次并干脆定格，不在微幅回滚时重置归零。
+    counters.forEach(function (element, index) {
+      var target = Number(element.dataset.count);
+      var value = { count: 0 };
+      gsap.to(value, {
+        count: target,
+        duration: 0.95,
+        delay: index * 0.06,
+        ease: 'power3.out',
+        onUpdate: function () { element.textContent = Math.round(value.count); },
+        onComplete: function () { element.textContent = String(target); },
+        scrollTrigger: { trigger: '.signal-grid', start: 'top 88%', once: true }
+      });
+    });
+
     return function () {
       counters.forEach(function (element) { element.textContent = element.dataset.count; });
     };
   });
 
   media.add('(min-width: 768px) and (max-width: 1023px) and (prefers-reduced-motion: no-preference)', function () {
-    gsap.utils.toArray('.chapter-panel').forEach(function (section) {
+    gsap.utils.toArray('#studio, #darkAct').forEach(function (section) {
       gsap.timeline({
         scrollTrigger: { trigger: section, start: 'top 98%', end: 'bottom 2%', scrub: 0.6 }
-      }).fromTo(section, { clipPath: 'inset(0 5% 0 5% round 48px)' }, {
+      }).fromTo(section, { clipPath: 'inset(0 4% 0 4% round 32px)' }, {
         clipPath: 'inset(0 0% 0 0% round 0px)', duration: 1, ease: 'power2.out'
-      }, 0).to(section, { clipPath: 'inset(0 5% 0 5% round 48px)', duration: 1, ease: 'power2.in' }, 4);
+      }, 0).to(section, { clipPath: 'inset(0 4% 0 4% round 32px)', duration: 1, ease: 'power2.in' }, 4);
     });
   });
 
   media.add('(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', function () {
-    // 后一张纸进入时，前一张轻微后退；上滑时自然展开。
+    // 档案叠卡：后一张卡上移时，前一张轻微后退并柔和压暗，顶部 58px 索引眉始终完整可见。
     gsap.utils.toArray('.paper-steps > li').forEach(function (card) {
       if (!card.nextElementSibling) return;
       gsap.to(card, {
-        scale: 0.955, rotation: -0.8, transformOrigin: 'center top', ease: 'none',
-        scrollTrigger: { trigger: card.nextElementSibling, start: 'top 65%', end: 'top 28%', scrub: 0.65 }
+        scale: 0.968,
+        '--stack-dim': 1,
+        transformOrigin: 'center top',
+        ease: 'none',
+        scrollTrigger: { trigger: card.nextElementSibling, start: 'top 72%', end: 'top 24%', scrub: 0.55 }
       });
     });
   });

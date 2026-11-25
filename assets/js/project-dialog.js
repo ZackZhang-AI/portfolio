@@ -119,6 +119,16 @@
     renderProject(projects[projectId]);
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
+    if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.gsap.fromTo(content.children, { y: 18, opacity: 0 }, {
+        y: 0,
+        opacity: 1,
+        duration: 0.48,
+        stagger: 0.04,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity'
+      });
+    }
     closeButton.focus({ preventScroll: true });
   }
 

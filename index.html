@@ -19,17 +19,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/fonts.css">
-    <link rel="stylesheet" href="assets/css/portfolio.css?v=1">
-    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=3">
-    <link rel="stylesheet" href="assets/css/proof-notes.css?v=4">
-    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=1">
-    <link rel="stylesheet" href="assets/css/footer-talk.css?v=1">
-    <link rel="stylesheet" href="assets/css/hero.css?v=3">
-    <link rel="stylesheet" href="assets/css/chapter-motion.css?v=2">
-    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=2">
-    <link rel="stylesheet" href="assets/css/project-dialog.css?v=1">
-    <link rel="stylesheet" href="assets/css/case-details.css?v=1">
+    <link rel="stylesheet" href="assets/css/fonts.css?v=2">
+    <link rel="stylesheet" href="assets/css/portfolio.css?v=2">
+    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=4">
+    <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
+    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=2">
+    <link rel="stylesheet" href="assets/css/footer-talk.css?v=2">
+    <link rel="stylesheet" href="assets/css/hero.css?v=4">
+    <link rel="stylesheet" href="assets/css/chapter-motion.css?v=3">
+    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=3">
+    <link rel="stylesheet" href="assets/css/project-dialog.css?v=2">
+    <link rel="stylesheet" href="assets/css/case-details.css?v=2">
   </head>
   <body>
     <a class="skip-link" href="#testimonials">跳到实习成果</a>
@@ -265,14 +265,22 @@
           <button class="signal projectTrigger" type="button" data-project-id="webCoding" aria-label="8 个产品原型，浏览全部原型"><span class="signal-value" aria-hidden="true"><span data-count="8">8</span><sup>个</sup></span><span class="signal-label">可运行产品原型</span><span class="signal-source">个人实践 · 持续构建 <span aria-hidden="true">↗</span></span></button>
         </div>
       </section>
-      <section id="work" class="section work-section chapter-panel" aria-labelledby="workTitle">
+      <div class="dark-act" id="darkAct">
+      <section id="work" class="section work-section" aria-labelledby="workTitle">
         <span id="frames" class="anchor-alias" aria-hidden="true"></span>
         <div class="section-heading">
           <h2 id="workTitle">能体验，也能追问。</h2>
           <p class="section-intro">用可运行的作品，说明我如何定义问题、设计产品与验证效果。</p>
         </div>
         <article class="work-feature">
-          <button class="work-image projectTrigger flowing-row" type="button" data-project-id="askMe" data-preview-title="Ask Me" data-preview-tag="CAREER AI · 2026" data-preview-image="assets/img/projects/ask-me/home.png" aria-label="查看 Ask Me 项目详情"><img src="assets/img/projects/ask-me/home.png" alt="Ask Me 求职数字分身首页" width="1440" height="900" loading="lazy" decoding="async"></button>
+          <button class="work-image projectTrigger" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">
+            <span class="work-frame-chrome" aria-hidden="true">
+              <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <span class="work-frame-label">ask-me-career-agent.vercel.app</span>
+              <span class="work-frame-cta">查看案例 <span>↗</span></span>
+            </span>
+            <span class="work-frame-media"><img src="assets/img/projects/ask-me/home.png" alt="Ask Me 求职数字分身首页" width="1440" height="900" loading="lazy" decoding="async"></span>
+          </button>
           <div class="work-copy">
             <span class="project-type">个人自研 · 求职场景</span><h3>Ask Me</h3>
             <h4>让简历可以被追问</h4>
@@ -284,7 +292,14 @@
           </div>
         </article>
         <article class="work-feature work-feature--secondary">
-          <button class="work-image projectTrigger flowing-row" type="button" data-project-id="rag" data-preview-title="RAG Knowledge Base" data-preview-tag="RETRIEVAL · EVALUATION" data-preview-image="assets/img/projects/rag/evaluation.png" aria-label="查看 RAG Knowledge Base 项目详情"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></button>
+          <button class="work-image projectTrigger" type="button" data-project-id="rag" aria-label="查看 RAG Knowledge Base 项目详情">
+            <span class="work-frame-chrome" aria-hidden="true">
+              <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <span class="work-frame-label">RAG · EVALUATION WORKBENCH</span>
+              <span class="work-frame-cta">查看案例 <span>↗</span></span>
+            </span>
+            <span class="work-frame-media"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></span>
+          </button>
           <div class="work-copy">
             <span class="project-type">实习脱敏复刻 Demo · 2026</span><h3>RAG Knowledge Base</h3>
             <p>将医疗知识助手的产品思路复刻为可展示 Demo，覆盖知识管理、混合检索、引用溯源与自动评测。</p>
@@ -308,7 +323,8 @@
         </div>
         <p class="capability-footnote">PRODUCT THINKING <span aria-hidden="true">×</span> SYSTEM BUILDING <span aria-hidden="true">×</span> EVIDENCE</p>
       </section>
-      <section id="method" class="section method-section chapter-panel" aria-labelledby="methodTitle">
+      </div>
+      <section id="method" class="section method-section" aria-labelledby="methodTitle">
         <div class="tool-ribbon" aria-hidden="true"><div class="tool-ribbon-track"><span>Agent <i>·</i> RAG <i>·</i> Evaluation <i>·</i> Skill <i>·</i> SQL / Python <i>·</i> Product Thinking <i>·</i></span><span>Agent <i>·</i> RAG <i>·</i> Evaluation <i>·</i> Skill <i>·</i> SQL / Python <i>·</i> Product Thinking <i>·</i></span></div></div>
         <div class="legacy-anchors" aria-hidden="true">
           <span id="philosophy"></span><span id="process"></span><span id="reveal"></span><span id="manifesto"></span><span id="voices"></span>
@@ -320,27 +336,51 @@
         </div>
         <ol class="method-steps paper-steps">
           <li style="--step: 0">
-            <span class="step-number">No. 01</span><div class="step-title"><h3>发现</h3><span>找到真实问题</span></div>
-            <div class="step-body"><p>从运营制作流程入手，识别重复制作、尺寸适配和反复修改的成本。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 01</span><h3 class="step-heading">发现</h3></div>
+              <span class="step-sub">找到真实问题</span>
+            </div>
+            <div class="step-content">
+              <span class="step-watermark" aria-hidden="true">01</span>
+              <div class="step-body"><p>从运营制作流程入手，识别重复制作、尺寸适配和反复修改的成本。</p>
+              <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+              </div>
             </div>
           </li>
           <li style="--step: 1">
-            <span class="step-number">No. 02</span><div class="step-title"><h3>定义</h3><span>让目标可衡量</span></div>
-            <div class="step-body"><p>把业务问题拆成可比较的指标，用覆盖率、价差和低价率识别短板。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价实践 <span aria-hidden="true">↗</span></button>
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 02</span><h3 class="step-heading">定义</h3></div>
+              <span class="step-sub">让目标可衡量</span>
+            </div>
+            <div class="step-content">
+              <span class="step-watermark" aria-hidden="true">02</span>
+              <div class="step-body"><p>把业务问题拆成可比较的指标，用覆盖率、价差和低价率识别短板。</p>
+              <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价实践 <span aria-hidden="true">↗</span></button>
+              </div>
             </div>
           </li>
           <li style="--step: 2">
-            <span class="step-number">No. 03</span><div class="step-title"><h3>验证</h3><span>让方案接受检验</span></div>
-            <div class="step-body"><p>把功能、视觉、交互纳入端到端评测，保留失败证据和问题详情。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 03</span><h3 class="step-heading">验证</h3></div>
+              <span class="step-sub">让方案接受检验</span>
+            </div>
+            <div class="step-content">
+              <span class="step-watermark" aria-hidden="true">03</span>
+              <div class="step-body"><p>把功能、视觉、交互纳入端到端评测，保留失败证据和问题详情。</p>
+              <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+              </div>
             </div>
           </li>
           <li style="--step: 3">
-            <span class="step-number">No. 04</span><div class="step-title"><h3>迭代</h3><span>用反馈推动下一步</span></div>
-            <div class="step-body"><p>归因 Bad Case，协同算法和研发复测，跟踪质量、Token 消耗与响应效率。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 04</span><h3 class="step-heading">迭代</h3></div>
+              <span class="step-sub">用反馈推动下一步</span>
+            </div>
+            <div class="step-content">
+              <span class="step-watermark" aria-hidden="true">04</span>
+              <div class="step-body"><p>归因 Bad Case，协同算法和研发复测，跟踪质量、Token 消耗与响应效率。</p>
+              <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+              </div>
             </div>
           </li>
         </ol>
@@ -406,14 +446,14 @@
     </dialog>
     <script src="assets/js/gsap.min.js" defer></script>
     <script src="assets/js/ScrollTrigger.min.js" defer></script>
-    <script src="assets/js/hero-intro.js?v=4" defer></script>
-    <script src="assets/js/portfolio.js?v=2" defer></script>
-    <script src="assets/js/portfolio-motion.js?v=6" defer></script>
-    <script src="assets/js/chapter-motion.js?v=2" defer></script>
-    <script src="assets/js/flowing-preview.js?v=3" defer></script>
-    <script src="assets/js/pointer-interactions.js?v=2" defer></script>
-    <script src="assets/js/footer-talk.js?v=1" defer></script>
+    <script src="assets/js/hero-intro.js?v=5" defer></script>
+    <script src="assets/js/portfolio.js?v=3" defer></script>
+    <script src="assets/js/portfolio-motion.js?v=7" defer></script>
+    <script src="assets/js/chapter-motion.js?v=3" defer></script>
+    <script src="assets/js/flowing-preview.js?v=4" defer></script>
+    <script src="assets/js/pointer-interactions.js?v=3" defer></script>
+    <script src="assets/js/footer-talk.js?v=2" defer></script>
     <script src="assets/js/project-data.js?v=1" defer></script>
-    <script src="assets/js/project-dialog.js?v=12" defer></script>
+    <script src="assets/js/project-dialog.js?v=13" defer></script>
   </body>
 </html>
