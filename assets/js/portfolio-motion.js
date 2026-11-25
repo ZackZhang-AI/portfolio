@@ -6,68 +6,115 @@
   var media = gsap.matchMedia();
   document.documentElement.classList.add('motion-ready');
 
-  /* 共享实习指标动态演算控制器（供滚动揭幕与 A1 小焦橙进度条联动实时读取当前进度） */
-  var meterSpecs = {
+  /* 5 组实习专属视觉演算引擎（风控时间落差轨 / DiVA 进度条 / Skill 3节点 / 百度 7维柱 / 百川 3轮印记） */
+  var riskPathLen = 0;
+  function ensureRiskPath() {
+    var path = document.getElementById('riskDropPath');
+    if (!path || typeof path.getTotalLength !== 'function') return null;
+    if (!riskPathLen) {
+      riskPathLen = Math.ceil(path.getTotalLength());
+      path.style.strokeDasharray = String(riskPathLen);
+    }
+    return path;
+  }
+
+  var stageSpecs = {
+    risk: {
+      duration: 1.55,
+      apply: function (t) {
+        var el = document.querySelector('[data-proof-metric="risk"]');
+        /* 前 24% 为小焦橙环绕 120m 蓄势阶段，24%→100% 沿下降曲线俯冲压缩 120→30 分钟 */
+        var dropT = t <= 0.24 ? 0 : (t - 0.24) / 0.76;
+        if (el) el.textContent = String(Math.round(120 - 90 * dropT));
+        var path = ensureRiskPath();
+        if (path) {
+          path.style.strokeDashoffset = String((riskPathLen * (1 - dropT)).toFixed(2));
+        }
+        var arrow = document.getElementById('riskDropArrow');
+        var endDot = document.getElementById('riskDropEndDot');
+        if (arrow) arrow.style.opacity = dropT > 0.78 ? String(((dropT - 0.78) / 0.22).toFixed(2)) : '0';
+        if (endDot) endDot.style.opacity = dropT > 0.85 ? '1' : '0.25';
+      }
+    },
     diva: {
-      targetRatio: 0.67,
-      meterId: 'meterDiva',
-      barId: 'meterBarDiva',
-      applyValue: function (t) {
+      duration: 1.25,
+      apply: function (t) {
         var el = document.querySelector('[data-proof-metric="diva"]');
         if (el) el.textContent = String(Math.round(120 - 80 * t));
+        var meter = document.getElementById('meterDiva');
+        if (meter) meter.style.setProperty('--meter-p', (0.67 * t).toFixed(4));
       }
     },
     pricing: {
-      targetRatio: 0.75,
-      meterId: 'meterPricing',
-      barId: 'meterBarPricing',
-      applyValue: function (t) {
+      duration: 1.32,
+      apply: function (t) {
         var el = document.querySelector('[data-proof-metric="pricing"]');
-        if (el) el.textContent = String(Math.round(75 * t));
+        var rEl = document.querySelector('[data-proof-metric="pricing-routes"]');
+        if (el) el.textContent = String(Math.round(90 * t));
+        if (rEl) rEl.textContent = Math.round(2500 * t).toLocaleString('en-US');
+        var steps = document.querySelectorAll('#skillPipeline .skill-step');
+        steps.forEach(function (step, idx) {
+          var threshold = idx === 0 ? 0.06 : (idx === 1 ? 0.44 : 0.78);
+          var lit = t >= threshold;
+          var active = (idx === 0 && t < 0.44) || (idx === 1 && t >= 0.44 && t < 0.78) || (idx === 2 && t >= 0.78);
+          step.classList.toggle('is-lit', lit);
+          step.classList.toggle('is-active', t > 0.02 && t < 0.99 && active);
+        });
       }
     },
     baidu: {
-      targetRatio: 0.714,
-      meterId: 'meterBaidu',
-      barId: 'meterBarBaidu',
-      applyValue: function (t) {
+      duration: 1.28,
+      apply: function (t) {
         var el = document.querySelector('[data-proof-metric="baidu"]');
         if (el) el.textContent = (71.4 * t).toFixed(1);
+        var cols = document.querySelectorAll('#baiduDims .eval-dim-col');
+        cols.forEach(function (col, idx) {
+          var start = idx * 0.11;
+          var local = Math.max(0, Math.min(1, (t - start) / 0.34));
+          col.style.setProperty('--dim-scale', (0.14 + 0.86 * local).toFixed(3));
+          col.classList.toggle('is-lit', local > 0.35);
+          col.classList.toggle('is-active', local > 0.2 && local < 0.92);
+        });
       }
     },
     baichuan: {
-      targetRatio: 0.86,
-      meterId: 'meterBaichuan',
-      barId: 'meterBarBaichuan',
-      applyValue: function (t) {
+      duration: 1.25,
+      apply: function (t) {
         var rEl = document.querySelector('[data-proof-metric="baichuan-rounds"]');
         var iEl = document.querySelector('[data-proof-metric="baichuan-items"]');
         if (rEl) rEl.textContent = String(Math.max(1, Math.min(3, Math.round(1 + 2 * t))));
         if (iEl) iEl.textContent = String(Math.round(30 * t));
+        var stamps = document.querySelectorAll('#baichuanStamps .rag-stamp');
+        stamps.forEach(function (st, idx) {
+          var threshold = idx === 0 ? 0.08 : (idx === 1 ? 0.46 : 0.80);
+          var lit = t >= threshold;
+          var active = (idx === 0 && t < 0.46) || (idx === 1 && t >= 0.46 && t < 0.80) || (idx === 2 && t >= 0.80);
+          st.classList.toggle('is-lit', lit);
+          st.classList.toggle('is-active', t > 0.02 && t < 0.99 && active);
+        });
       }
     }
   };
 
-  var meterState = {
-    diva: { ratio: 0.67, played: false, lastReplayAt: 0, tween: null },
-    pricing: { ratio: 0.75, played: false, lastReplayAt: 0, tween: null },
-    baidu: { ratio: 0.714, played: false, lastReplayAt: 0, tween: null },
-    baichuan: { ratio: 0.86, played: false, lastReplayAt: 0, tween: null }
+  var stageState = {
+    risk: { progress: 1, played: false, running: false, lastReplayAt: 0, tween: null },
+    diva: { progress: 1, played: false, running: false, lastReplayAt: 0, tween: null },
+    pricing: { progress: 1, played: false, running: false, lastReplayAt: 0, tween: null },
+    baidu: { progress: 1, played: false, running: false, lastReplayAt: 0, tween: null },
+    baichuan: { progress: 1, played: false, running: false, lastReplayAt: 0, tween: null }
   };
 
-  function setMeterVisual(key, ratio, valueProgress) {
-    var spec = meterSpecs[key];
-    var st = meterState[key];
+  function setStageProgress(key, t) {
+    var spec = stageSpecs[key];
+    var st = stageState[key];
     if (!spec || !st) return;
-    st.ratio = ratio;
-    var meterEl = document.getElementById(spec.meterId);
-    if (meterEl) meterEl.style.setProperty('--meter-p', ratio.toFixed(4));
-    spec.applyValue(valueProgress);
+    st.progress = t;
+    spec.apply(t);
   }
 
-  function playMeter(key, options) {
-    var spec = meterSpecs[key];
-    var st = meterState[key];
+  function playStage(key, options) {
+    var spec = stageSpecs[key];
+    var st = stageState[key];
     if (!spec || !st) return;
     var opts = options || {};
     var isReplay = !!opts.replay;
@@ -79,47 +126,52 @@
       return;
     }
     st.played = true;
+    st.running = true;
     if (st.tween) st.tween.kill();
 
-    var startT = isReplay ? 0.22 : 0;
+    var startT = isReplay && key !== 'risk' ? 0.14 : 0;
     var proxy = { t: startT };
-    setMeterVisual(key, spec.targetRatio * startT, startT);
+    setStageProgress(key, startT);
 
     st.tween = gsap.to(proxy, {
       t: 1,
-      duration: isReplay ? 0.92 : 1.28,
+      duration: isReplay ? spec.duration * 0.85 : spec.duration,
       delay: opts.delay || 0,
-      ease: 'expo.out',
+      ease: key === 'risk' ? 'power2.inOut' : 'expo.out',
       onUpdate: function () {
-        setMeterVisual(key, spec.targetRatio * proxy.t, proxy.t);
+        setStageProgress(key, proxy.t);
       },
       onComplete: function () {
-        setMeterVisual(key, spec.targetRatio, 1);
+        st.running = false;
+        setStageProgress(key, 1);
         window.dispatchEvent(new CustomEvent('portfolio:metricdone', { detail: { stage: key } }));
       }
     });
   }
 
   window.portfolioProofMeters = {
-    getRatio: function (key) {
-      return meterState[key] ? meterState[key].ratio : 0.7;
+    getProgress: function (key) {
+      return stageState[key] ? stageState[key].progress : 1;
     },
-    getTargetRatio: function (key) {
-      return meterSpecs[key] ? meterSpecs[key].targetRatio : 0.7;
+    getRatio: function (key) {
+      if (key === 'diva') return 0.67 * (stageState.diva ? stageState.diva.progress : 1);
+      return stageState[key] ? stageState[key].progress : 1;
+    },
+    isRunning: function (key) {
+      return !!(stageState[key] && stageState[key].running);
     },
     isPlayed: function (key) {
-      return !!(meterState[key] && meterState[key].played);
+      return !!(stageState[key] && stageState[key].played);
     },
     play: function (key, delay) {
-      playMeter(key, { delay: delay || 0, replay: false });
+      playStage(key, { delay: delay || 0, replay: false });
     },
     replay: function (key) {
-      playMeter(key, { delay: 0, replay: true });
+      playStage(key, { delay: 0, replay: true });
     }
   };
 
   media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', function () {
-    // 入场有节奏，落位后保持 100% 清晰稳定，不干扰阅读。
     function revealOnce(element, fromVars, options) {
       var opts = options || {};
       return gsap.fromTo(element, fromVars, Object.assign({
@@ -150,7 +202,6 @@
       });
     });
 
-    // 较早经历：2×2 纸张轻落归正。
     gsap.utils.toArray('.proof-note').forEach(function (note, index) {
       var rotation = (Number(note.dataset.noteRotation) || 0) * 0.45;
       revealOnce(note, { rotation: rotation, y: 36, opacity: 0 }, {
@@ -161,17 +212,16 @@
       });
     });
 
-    // 实习成果区：分层错峰排版揭幕（卡框 → 抬头 → 标题遮罩升起 → 正文 → 数字动态演算 × 进度条同步拉出 → 落款按钮）
+    /* 实习成果区：分层错峰排版揭幕 + 专属数据演出同步触发 */
     function choreographProofStage(stageEl, delayOffset) {
       var key = stageEl.dataset.proofStage;
       var title = stageEl.querySelector('.proof-reveal-title');
       var copy = stageEl.querySelector('.proof-reveal-copy');
       var metric = stageEl.querySelector('.proof-reveal-metric');
-      var meter = stageEl.querySelector('.proof-meter');
       var foots = Array.from(stageEl.querySelectorAll('.proof-reveal-foot'));
       var base = delayOffset || 0;
 
-      if (key) setMeterVisual(key, 0, 0);
+      if (key) setStageProgress(key, 0);
 
       var tl = gsap.timeline({
         scrollTrigger: {
@@ -205,26 +255,18 @@
         }, base + 0.11);
       }
       if (metric) {
-        tl.fromTo(metric, { y: 20, opacity: 0 }, {
+        tl.fromTo(metric, { y: 18, opacity: 0 }, {
           y: 0,
           opacity: 1,
-          duration: 0.68,
+          duration: 0.66,
           ease: 'power3.out',
           clearProps: 'transform,opacity'
-        }, base + 0.19);
-      }
-      if (meter) {
-        tl.fromTo(meter, { opacity: 0 }, {
-          opacity: 1,
-          duration: 0.42,
-          ease: 'power2.out',
-          clearProps: 'opacity'
-        }, base + 0.22);
+        }, base + 0.18);
       }
       if (key) {
         tl.call(function () {
-          playMeter(key, { delay: 0, replay: false });
-        }, null, base + 0.24);
+          playStage(key, { delay: 0, replay: false });
+        }, null, base + 0.22);
       }
       if (foots.length) {
         tl.fromTo(foots, { y: 14, opacity: 0 }, {
@@ -234,7 +276,7 @@
           stagger: 0.06,
           ease: 'power3.out',
           clearProps: 'transform,opacity'
-        }, base + 0.34);
+        }, base + 0.30);
       }
     }
 
@@ -260,10 +302,17 @@
           scrollTrigger: { trigger: didiFeature, start: 'top 84%', once: true }
         });
       }
-      var didiStages = Array.from(didiFeature.querySelectorAll('[data-proof-stage]'));
-      didiStages.forEach(function (stEl, i) {
-        choreographProofStage(stEl, 0.12 + i * 0.24);
+      var riskEl = didiFeature.querySelector('[data-proof-stage="risk"]');
+      if (riskEl) choreographProofStage(riskEl, 0.10);
+      var subStages = Array.from(didiFeature.querySelectorAll('.didi-projects [data-proof-stage]'));
+      subStages.forEach(function (stEl, i) {
+        choreographProofStage(stEl, 0.08 + i * 0.22);
       });
+    }
+
+    var proofBridge = document.getElementById('proofBridge');
+    if (proofBridge) {
+      revealOnce(proofBridge, { y: 16, opacity: 0 }, { duration: 0.62, start: 'top 88%' });
     }
 
     gsap.utils.toArray('.proof-showcase .proof-secondary').forEach(function (card, idx) {
@@ -291,7 +340,6 @@
       choreographProofStage(card, idx * 0.12 + 0.14);
     });
 
-    // 五张经历卡轨道基线绘制；桌面端由小墨点 A1 走过 01→05 逐张唤醒，窄屏保底常规展开。
     gsap.fromTo('#pathLine', { scaleX: 0, transformOrigin: 'left center' }, {
       scaleX: 1,
       duration: 0.78,
@@ -307,7 +355,6 @@
       });
     }
 
-    // 能力大字：轻幅交错落位后释放行内样式，确保悬停聚焦降暗顺畅工作。
     gsap.utils.toArray('.capability-line').forEach(function (line, index) {
       revealOnce(line, { x: index % 2 ? 36 : -36, opacity: 0 }, {
         duration: 0.72,
@@ -325,17 +372,17 @@
     });
 
     return function () {
-      Object.keys(meterSpecs).forEach(function (k) {
-        if (meterState[k].tween) meterState[k].tween.kill();
-        setMeterVisual(k, meterSpecs[k].targetRatio, 1);
+      Object.keys(stageSpecs).forEach(function (k) {
+        if (stageState[k].tween) stageState[k].tween.kill();
+        stageState[k].running = false;
+        setStageProgress(k, 1);
       });
     };
   });
 
-  /* 窄屏与减弱动态时确保全部实习数字与进度条立刻归位到最终态 */
   media.add('(max-width: 767px), (prefers-reduced-motion: reduce)', function () {
-    Object.keys(meterSpecs).forEach(function (k) {
-      setMeterVisual(k, meterSpecs[k].targetRatio, 1);
+    Object.keys(stageSpecs).forEach(function (k) {
+      setStageProgress(k, 1);
     });
   });
 
@@ -350,7 +397,6 @@
   });
 
   media.add('(min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference)', function () {
-    // 非对称双实习卡：轻微纵向视差，打破呆板静态双栏。
     var pair = document.querySelector('.proof-pair');
     var inkCard = document.querySelector('.proof-secondary--ink');
     var leadCard = document.querySelector('.proof-secondary--lead');
@@ -367,7 +413,6 @@
       });
     }
 
-    // 档案叠卡：后一张卡上移时，前一张轻微后退并柔和压暗，顶部 58px 索引眉始终完整可见。
     gsap.utils.toArray('.paper-steps > li').forEach(function (card) {
       if (!card.nextElementSibling) return;
       gsap.to(card, {

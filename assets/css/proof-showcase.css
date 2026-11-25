@@ -7,7 +7,7 @@
   background: var(--paper);
   box-shadow: var(--highlight-paper), var(--shadow-card);
 }
-.proof-showcase .company-feature { position: relative; padding: 30px 36px 32px; border-top: 3px solid var(--accent-bright); transition: border-color 300ms ease, box-shadow 420ms ease; }
+.proof-showcase .company-feature { position: relative; padding: 30px 36px 34px; border-top: 3px solid var(--accent-bright); transition: border-color 300ms ease, box-shadow 420ms ease; }
 .proof-showcase .company-heading { margin-bottom: 24px; }
 .proof-showcase .company-period { color: var(--muted); font-size: 12px; letter-spacing: .04em; }
 
@@ -15,11 +15,160 @@
 .proof-showcase .company-heading h3 { font-size: 18px; }
 .proof-showcase .company-heading p,
 .proof-showcase .company-heading > span { font-size: 12px; }
-.proof-showcase .didi-projects { gap: 32px; padding-top: 26px; border-top: 1px solid var(--showcase-line); }
+
+/* 滴滴重点主讲项目：全宽领衔 + 时间下坠落差图 */
+.proof-badge {
+  display: inline-block;
+  align-self: flex-start;
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 2px 8px;
+  border: 1px solid rgb(200 75 17 / 32%);
+  border-radius: 2px;
+  background: rgb(212 81 24 / 7%);
+  color: var(--accent, #c84b11);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.proof-badge--sub {
+  border-color: rgb(23 20 15 / 12%);
+  background: transparent;
+  color: var(--muted, #665e55);
+}
+.didi-flagship {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  gap: 32px;
+  align-items: center;
+  padding: 24px 0 30px;
+  border-top: 1px solid var(--showcase-line);
+}
+.didi-flagship-copy > p:not(.result-note) {
+  margin: 0 0 14px;
+  color: #554e45;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.didi-flagship-copy .result-note {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.risk-drop-panel {
+  position: relative;
+  padding: 20px 22px 18px;
+  border: 1px solid #dfd6c8;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #fbf8f3 0%, #f1ebe1 100%);
+  transition: border-color 300ms ease, box-shadow 360ms ease;
+}
+.didi-flagship.is-companion-focus .risk-drop-panel,
+.didi-flagship:hover .risk-drop-panel {
+  border-color: rgb(212 81 24 / 45%);
+  box-shadow: 0 10px 26px rgb(200 75 17 / 8%);
+}
+.risk-drop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.risk-drop-label {
+  color: var(--muted, #665e55);
+  font-size: 11px;
+  letter-spacing: .08em;
+}
+.risk-drop-badge {
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: rgb(212 81 24 / 10%);
+  color: var(--accent, #c84b11);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.risk-drop-visual {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 12px;
+}
+.risk-node {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.risk-node--high { align-self: start; }
+.risk-node--low { align-self: end; text-align: right; }
+.risk-node-kicker {
+  color: var(--muted, #665e55);
+  font-size: 10px;
+  letter-spacing: .06em;
+}
+.risk-node-val {
+  font-family: var(--serif);
+  font-size: clamp(28px, 2.5vw, 38px);
+  font-weight: 500;
+  line-height: 1.05;
+  color: #5c544b;
+  white-space: nowrap;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 8, "wght" 520;
+}
+.risk-node-val small {
+  margin-left: 2px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.risk-node-val--accent {
+  color: var(--accent, #c84b11);
+  font-size: clamp(34px, 3vw, 44px);
+}
+.risk-node-val--accent small { color: var(--accent, #c84b11); }
+.risk-drop-svg {
+  display: block;
+  width: 100%;
+  height: 92px;
+  overflow: visible;
+  color: var(--ink, #17140f);
+}
+.risk-drop-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(23 20 15 / 8%);
+}
+.risk-drop-pills > span {
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgb(23 20 15 / 4.5%);
+  color: #5a5248;
+  font-size: 11px;
+  letter-spacing: .03em;
+}
+
+/* 滴滴下半区：DiVA + 中央衔接枢纽 + 比价 Skill */
+.proof-showcase .didi-projects {
+  position: relative;
+  gap: 44px;
+  padding-top: 28px;
+  border-top: 1px solid var(--showcase-line);
+}
 .proof-showcase .proof-project { position: relative; }
 .proof-showcase .proof-project::after {
   position: absolute;
-  top: -27px;
+  top: -29px;
   right: 0;
   left: 0;
   height: 2px;
@@ -33,28 +182,33 @@
 .proof-showcase .proof-project:is(:hover, :focus-within, .is-companion-focus)::after {
   transform: scaleX(1);
 }
-.proof-showcase .proof-project + .proof-project { padding-left: 32px; border-color: var(--showcase-line); }
-.proof-showcase .proof-project + .proof-project::after { left: 32px; }
+.proof-showcase .proof-project + .proof-project,
+.proof-showcase .didi-bridge-node + .proof-project {
+  padding-left: 36px;
+  border-left: 1px solid var(--showcase-line);
+}
+.proof-showcase .didi-bridge-node + .proof-project::after { left: 36px; }
 .proof-showcase h4 {
   font-family: var(--serif);
-  font-size: clamp(22px, 1.8vw, 27px);
+  font-size: clamp(21px, 1.75vw, 26px);
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.48;
   font-optical-sizing: none;
   font-variation-settings: "opsz" 8, "wght" 500;
 }
 .proof-showcase .proof-project > p:not(.result),
-.proof-showcase .proof-secondary > p:not(.compact-result) { margin-bottom: 16px; font-size: 14px; line-height: 1.85; }
+.proof-showcase .proof-secondary > p:not(.compact-result) { margin-bottom: 14px; font-size: 14px; line-height: 1.85; }
 .proof-showcase .result { margin: 2px 0 8px; }
 .proof-showcase .result strong {
-  font-size: clamp(32px, 3vw, 44px);
-  line-height: 1.35;
+  font-size: clamp(30px, 2.8vw, 42px);
+  line-height: 1.32;
   font-variant-numeric: lining-nums tabular-nums;
   font-optical-sizing: none;
   font-variation-settings: "opsz" 8, "wght" 520;
 }
 .proof-showcase .result strong .metric-num,
-.proof-showcase .compact-result strong .metric-num {
+.proof-showcase .compact-result strong .metric-num,
+.risk-node-val .metric-num {
   display: inline-block;
   font-size: inherit;
   line-height: inherit;
@@ -62,6 +216,12 @@
   color: inherit;
   font-variant-numeric: lining-nums tabular-nums;
   transition: color 280ms ease;
+}
+.metric-inline {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink, #17140f);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 .proof-showcase .result strong .metric-arrow {
   display: inline-block;
@@ -74,7 +234,7 @@
 .proof-showcase .result-unit { color: var(--accent); }
 .proof-showcase .result > span { display: block; margin-top: 6px; font-size: 12px; }
 
-/* 编辑风提效刻度条（留出上方呼吸空位，便于 A1 焦橙对话块轻骑在进度尖端联动推进） */
+/* DiVA 专属：编辑风提效刻度条（留出上方呼吸空位，A1 轻骑在尖端推杆） */
 .proof-meter {
   --meter-p: 1;
   display: flex;
@@ -127,17 +287,242 @@
 .proof-showcase [data-proof-stage]:is(:hover, .is-companion-focus) .proof-meter-tag {
   transform: translateX(2px);
 }
-.proof-meter--ink .proof-meter-bar { background: rgb(234 229 224 / 14%); }
-.proof-meter--ink .proof-meter-fill { background: linear-gradient(90deg, #d45118, #ef8a4c); }
-.proof-meter--ink .proof-meter-tip {
-  border-color: #191613;
-  background: #ef8a4c;
-  box-shadow: 0 0 0 3px rgb(239 138 76 / 22%);
+
+/* 比价 Skill 专属：三节点流水线胶囊轨（A1 依次轻跳踩亮 3 步） */
+.skill-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 18px;
 }
-.proof-meter--ink .proof-meter-tag { color: var(--accent-dark, #ef8a4c); }
+.skill-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid rgb(23 20 15 / 12%);
+  border-radius: 99px;
+  background: rgb(23 20 15 / 2.5%);
+  color: var(--muted, #665e55);
+  font-size: 11px;
+  letter-spacing: .03em;
+  white-space: nowrap;
+  transition: border-color 280ms ease, background-color 280ms ease, color 260ms ease, transform 320ms cubic-bezier(.22, 1, .36, 1);
+}
+.skill-step-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(23 20 15 / 26%);
+  transition: background-color 260ms ease, box-shadow 260ms ease, transform 280ms ease;
+}
+.skill-step.is-lit {
+  border-color: rgb(212 81 24 / 45%);
+  background: rgb(212 81 24 / 8%);
+  color: var(--ink, #17140f);
+}
+.skill-step.is-lit .skill-step-dot {
+  background: var(--accent-bright, #e06122);
+  box-shadow: 0 0 0 3px rgb(224 97 34 / 20%);
+}
+.skill-step.is-active {
+  transform: translateY(-2px);
+  border-color: var(--accent, #c84b11);
+}
+.skill-wire {
+  flex: 1;
+  min-width: 10px;
+  height: 1px;
+  background: rgb(23 20 15 / 15%);
+  transition: background-color 280ms ease;
+}
+.skill-step.is-lit + .skill-wire {
+  background: rgb(212 81 24 / 52%);
+}
+
+/* 百度专属：7 维自动评测竖柱矩阵（A1 掠过柱顶依次拨起） */
+.eval-dims {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 22px 0 18px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgb(23 20 15 / 10%);
+}
+.eval-dims-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 32px;
+  flex: 1;
+  max-width: 240px;
+}
+.eval-dim-col {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.eval-dim-col > i {
+  display: block;
+  width: 100%;
+  height: var(--dim-h, 75%);
+  border-radius: 2px 2px 0 0;
+  background: rgb(23 20 15 / 16%);
+  transform-origin: center bottom;
+  transform: scaleY(var(--dim-scale, 1));
+  transition: background-color 260ms ease, transform 380ms cubic-bezier(.22, 1, .36, 1);
+}
+.eval-dim-col.is-lit > i {
+  background: linear-gradient(180deg, var(--accent-bright, #e06122), var(--accent, #c84b11));
+}
+.eval-dim-col.is-active > i {
+  transform: scaleY(1.12);
+}
+.eval-dims-tag {
+  color: var(--accent, #c84b11);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+/* 百川专属：深咖啡黑 3 轮 QA 评测印记 */
+.rag-stamps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 18px;
+}
+.rag-stamp {
+  padding: 5px 11px;
+  border: 1px solid rgb(234 229 224 / 18%);
+  border-radius: 3px;
+  background: rgb(255 250 242 / 3%);
+  color: #a69e94;
+  font-size: 11px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  transition: border-color 260ms ease, background-color 260ms ease, color 260ms ease, transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+.rag-stamp.is-lit {
+  border-color: rgb(239 138 76 / 55%);
+  background: rgb(239 138 76 / 12%);
+  color: #f6f2ed;
+}
+.rag-stamp.is-active {
+  transform: translateY(-2px);
+  border-color: #ef8a4c;
+  color: #ffbe8a;
+}
+.rag-stamp-line {
+  flex: 1;
+  min-width: 8px;
+  height: 1px;
+  background: rgb(234 229 224 / 15%);
+  transition: background-color 260ms ease;
+}
+.rag-stamp.is-lit + .rag-stamp-line {
+  background: rgb(239 138 76 / 48%);
+}
+
+/* 中间衔接组件 1 & 3：极简纸墨中转枢纽点（让小焦橙自然经由中央过渡，告别僵硬左右瞬移） */
+.waypoint-node {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d5c9ba;
+  border-radius: 50%;
+  background: var(--paper, #f6f2ed);
+  color: #8f8579;
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
+  transition: border-color 260ms ease, color 260ms ease, transform 320ms cubic-bezier(.22, 1, .36, 1), box-shadow 300ms ease;
+}
+.waypoint-ring {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgb(212 81 24 / 0%);
+  border-radius: 50%;
+  transform: scale(.75);
+  transition: border-color 280ms ease, transform 340ms cubic-bezier(.22, 1, .36, 1);
+}
+.waypoint-node.is-lit {
+  border-color: var(--accent, #c84b11);
+  color: var(--accent, #c84b11);
+  transform: translate(-50%, -50%) scale(1.16);
+  box-shadow: 0 0 0 5px rgb(212 81 24 / 14%);
+}
+.waypoint-node.is-lit .waypoint-ring {
+  border-color: rgb(212 81 24 / 36%);
+  transform: scale(1.1);
+}
+.didi-bridge-node {
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.pair-pivot-node {
+  top: 46%;
+  left: calc(57% + 0px);
+  transform: translate(-50%, -50%);
+}
+
+/* 中间衔接组件 2：滴滴大卡 → 百度/百川双卡居中过渡标尺 */
+.proof-bridge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 26px 0;
+}
+.proof-bridge-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d6ccbf 35%, #d6ccbf 65%, transparent);
+}
+.proof-bridge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 16px;
+  border: 1px solid #d8cfc3;
+  border-radius: 99px;
+  background: #f8f4ee;
+  color: var(--muted, #665e55);
+  font-size: 11px;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  transition: border-color 280ms ease, color 260ms ease, box-shadow 300ms ease, transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+.proof-bridge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(212 81 24 / 45%);
+  transition: background-color 260ms ease, box-shadow 260ms ease, transform 260ms ease;
+}
+.proof-bridge-sep { opacity: .4; }
+.proof-bridge-pill.is-lit {
+  border-color: rgb(212 81 24 / 52%);
+  color: var(--ink, #17140f);
+  box-shadow: 0 6px 20px rgb(200 75 17 / 10%);
+  transform: translateY(-1px);
+}
+.proof-bridge-pill.is-lit .proof-bridge-dot {
+  background: var(--accent-bright, #e06122);
+  box-shadow: 0 0 0 4px rgb(224 97 34 / 22%);
+  transform: scale(1.2);
+}
 
 .proof-showcase .text-link { min-height: 40px; font-size: 13px; }
-.proof-showcase .proof-pair { gap: 28px; margin-top: 28px; align-items: start; }
+.proof-showcase .proof-pair { position: relative; gap: 28px; margin-top: 0; align-items: start; }
 .proof-showcase .proof-secondary {
   padding: 28px 32px;
   translate: 0 var(--proof-parallax, 0px);
@@ -155,9 +540,10 @@
 
 /* 非对称编辑节奏：桌面端左宽右窄错落，百川采用深墨对撞卡打破米色单调 */
 @media (min-width: 1024px) {
+  .waypoint-node { display: inline-flex; }
   .proof-showcase .proof-pair {
     grid-template-columns: minmax(0, 1.14fr) minmax(0, 0.86fr);
-    gap: 32px;
+    gap: 44px;
   }
   .proof-showcase .proof-secondary--lead {
     border-left: 3px solid var(--accent-bright);
@@ -207,6 +593,20 @@
 .proof-archive-heading .eyebrow { font-size: 10px; }
 
 @media (max-width: 1023px) {
+  .didi-flagship { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .proof-showcase .proof-project::after { display: none; }
-  .proof-meter { margin: 14px 0 16px; }
+  .proof-showcase .didi-bridge-node + .proof-project { padding-left: 0; border-left: 0; }
+  .proof-meter, .skill-pipeline, .eval-dims, .rag-stamps { margin: 14px 0 16px; }
+  .skill-pipeline, .rag-stamps { flex-wrap: wrap; }
+  .skill-wire, .rag-stamp-line { display: none; }
+}
+@media (max-width: 767px) {
+  .proof-showcase .company-feature { padding: 22px 20px 24px; }
+  .risk-drop-panel { padding: 16px 14px 14px; }
+  .risk-drop-visual { grid-template-columns: auto minmax(64px, 1fr) auto; gap: 6px; }
+  .risk-node-kicker { white-space: nowrap; font-size: 10px; }
+  .risk-node-val { font-size: 24px; }
+  .risk-node-val--accent { font-size: 28px; }
+  .risk-drop-svg { height: 64px; }
+  .proof-bridge-pill { padding: 5px 12px; font-size: 10px; gap: 6px; }
 }

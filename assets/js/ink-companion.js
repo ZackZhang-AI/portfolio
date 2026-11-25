@@ -10,6 +10,7 @@
 
   var shapePath = document.getElementById('inkGuidePath');
   var faceEl = guide.querySelector('.ink-face');
+  var sparkLayer = document.getElementById('inkSparkLayer');
   var popover = document.getElementById('inkPopover');
   var popoverNote = document.getElementById('inkPopoverNote');
   var dialog = document.getElementById('projectDialog');
@@ -20,21 +21,29 @@
   var pathLine = document.getElementById('pathLine');
   var pathLineFill = document.getElementById('pathLineFill');
   var pathCards = Array.from(document.querySelectorAll('#pathStage .pathCard'));
+
   var proofSection = document.getElementById('testimonials');
   var didiFeature = document.getElementById('didiFeature');
-  var proofPair = proofSection ? proofSection.querySelector('.proof-pair') : null;
+  var didiSubProjects = document.getElementById('didiSubProjects');
+  var proofBridgeNode = document.getElementById('proofBridgeNode');
+  var didiBridgeNode = document.getElementById('didiBridgeNode');
+  var pairPivotNode = document.getElementById('pairPivotNode');
+  var proofPair = document.getElementById('proofPair');
   var proofStageEls = {
+    risk: document.querySelector('[data-proof-stage="risk"]'),
     diva: document.querySelector('[data-proof-stage="diva"]'),
     pricing: document.querySelector('[data-proof-stage="pricing"]'),
     baidu: document.querySelector('[data-proof-stage="baidu"]'),
     baichuan: document.querySelector('[data-proof-stage="baichuan"]')
   };
-  var meterBarEls = {
-    diva: document.getElementById('meterBarDiva'),
-    pricing: document.getElementById('meterBarPricing'),
-    baidu: document.getElementById('meterBarBaidu'),
-    baichuan: document.getElementById('meterBarBaichuan')
-  };
+  var riskHighAnchor = document.getElementById('riskHighAnchor');
+  var riskLowAnchor = document.getElementById('riskLowAnchor');
+  var riskDropPath = document.getElementById('riskDropPath');
+  var meterBarDiva = document.getElementById('meterBarDiva');
+  var skillSteps = Array.from(document.querySelectorAll('#skillPipeline .skill-step'));
+  var baiduDimCols = Array.from(document.querySelectorAll('#baiduDims .eval-dim-col'));
+  var baichuanStamps = Array.from(document.querySelectorAll('#baichuanStamps .rag-stamp'));
+
   var proofArchive = proofSection ? proofSection.querySelector('.proof-archive-heading') : null;
   var signalsSection = document.querySelector('.signals-section');
   var darkAct = document.getElementById('darkAct');
@@ -52,6 +61,7 @@
   var knowledgeSection = document.getElementById('knowledge');
   var knowledgeList = knowledgeSection ? knowledgeSection.querySelector('.knowledge-list') : null;
   var footer = document.getElementById('footer');
+  var talkText = document.getElementById('talkText');
   var talkArrow = document.getElementById('talkArrow');
   var footerRunway = document.getElementById('footerRunway');
   var runwayBerth = document.getElementById('runwayBerth');
@@ -81,7 +91,7 @@
   }
 
   var state = {
-    mode: 'idle', /* 'preloader' | 'flight' | 'live' | 'hidden' */
+    mode: 'idle',
     x: window.innerWidth / 2,
     y: window.innerHeight / 2,
     vx: 0,
@@ -93,6 +103,7 @@
     idleTilt: 0,
     idleTiltUntil: 0,
     nextIdleBeatAt: performance.now() + 3000,
+    workBonkUntil: 0,
     hopY: 0,
     hopVy: 0,
     squash: 0,
@@ -109,8 +120,10 @@
     isDark: false,
     dockedInControl: false,
     activeAct: 'hero',
-    activeBerth: '', /* '' | 'header' | 'curtain' | 'work' | 'runway' */
-    activeProofStage: '', /* '' | 'diva' | 'pricing' | 'baidu' | 'baichuan' */
+    activeBerth: '',
+    activeProofStage: '',
+    activeWaypoint: '',
+    steppedTalkIdx: -1,
     pointerX: window.innerWidth * 0.5,
     pointerY: window.innerHeight * 0.5,
     pointerActiveAt: 0,
@@ -126,7 +139,7 @@
     lastFrame: performance.now()
   };
 
-  /* 1. 表情、眨眼、静止微动效与快捷卡片 */
+  /* 1. 表情、眨眼、极简编辑风火花与快捷卡片 */
   var blinkTimer = 0;
   var blinkCloseTimer = 0;
 
@@ -181,10 +194,75 @@
     }, 660);
   }
 
+  /* 极简编辑风焦橙/暖金火花微粒（用于作品切屏顶撞展台框 & 风控降耗落位瞬间） */
+  function emitSparks(cx, cy, isDarkSurface, count, upwardBias) {
+    if (!sparkLayer || reducedMotion || !desktopMq.matches) return;
+    var n = count || 9;
+    var palette = isDarkSurface
+      ? ['#ef8a4c', '#ffbe8a', '#f6f2ed', '#d45118']
+      : ['#d45118', '#e06122', '#ef8a4c', '#17140f'];
+    for (var i = 0; i < n; i++) {
+      var angle = upwardBias
+        ? (-Math.PI * 0.92 + (i / Math.max(1, n - 1)) * Math.PI * 0.84) + (Math.random() - 0.5) * 0.2
+        : (Math.PI * 2 * i / n) + (Math.random() - 0.5) * 0.3;
+      var dist = 24 + Math.random() * 34;
+      var dx = Math.cos(angle) * dist;
+      var dy = Math.sin(angle) * dist - (upwardBias ? 8 : 0);
+      var isDash = i % 2 === 0;
+      var el = document.createElement('span');
+      el.className = 'ink-spark';
+      el.style.setProperty('--sp-x', Math.round(cx) + 'px');
+      el.style.setProperty('--sp-y', Math.round(cy) + 'px');
+      el.style.setProperty('--sp-dx', dx.toFixed(1) + 'px');
+      el.style.setProperty('--sp-dy', dy.toFixed(1) + 'px');
+      el.style.setProperty('--sp-w', isDash ? '7px' : '4.5px');
+      el.style.setProperty('--sp-h', isDash ? '2.2px' : '4.5px');
+      el.style.setProperty('--sp-r', isDash ? '2px' : '50%');
+      el.style.setProperty('--sp-rot', (angle * 180 / Math.PI).toFixed(1) + 'deg');
+      el.style.setProperty('--sp-color', palette[i % palette.length]);
+      el.style.setProperty('--sp-dur', (460 + Math.round(Math.random() * 180)) + 'ms');
+      sparkLayer.appendChild(el);
+      (function (node) {
+        window.setTimeout(function () {
+          if (node.parentNode) node.parentNode.removeChild(node);
+        }, 700);
+      })(el);
+    }
+  }
+
+  /* 作品展台切屏时的物理“向上顶撞框 + 焦橙小烟花 + 展台弹性回弹” */
+  var frameBonkTimer = 0;
+  function triggerWorkFrameBonk() {
+    if (state.mode !== 'live' || !desktopMq.matches) return;
+    state.workBonkUntil = performance.now() + 420;
+    hop(0.95);
+    triggerWink(420, false);
+
+    window.setTimeout(function () {
+      if (workFrame) {
+        workFrame.classList.remove('is-bonked');
+        void workFrame.offsetWidth;
+        workFrame.classList.add('is-bonked');
+        clearTimeout(frameBonkTimer);
+        frameBonkTimer = window.setTimeout(function () {
+          workFrame.classList.remove('is-bonked');
+        }, 580);
+      }
+      var sx = state.x;
+      var sy = state.y - 22;
+      if (workFrame) {
+        var fr = workFrame.getBoundingClientRect();
+        sx = clamp(state.x, fr.left + 32, fr.right - 32);
+        sy = fr.bottom - 2;
+      }
+      emitSparks(sx, sy, true, 10, true);
+    }, 85);
+  }
+
   var actNotes = {
     hero: '你好，我是这段作品集的活体句点。想直接了解张倬玮？',
     path: '五段经历串成同一条证据链，想直接追问细节？',
-    proof: '滴滴、百度与百川智能实习成果，欢迎向 AI 分身追问。',
+    proof: '滴滴风控预审、DiVA、比价 Skill 与百度/百川实习成果，欢迎追问。',
     work: '正在浏览精选作品，也可以直接和 AI 分身聊设计取舍。',
     capabilities: '从模型评估到业务落地，聊聊具体项目吗？',
     method: '这套 AI 产品方法论来自真实踩坑，随时可追问。',
@@ -270,8 +348,30 @@
       if (proofStageEls[k]) proofStageEls[k].classList.toggle('is-companion-focus', k === stageKey);
     });
     if (stageKey) {
-      hop(0.36);
-      triggerWink(320, false);
+      hop(0.32);
+      triggerWink(300, false);
+    }
+  }
+
+  function syncWaypoints(wpKey) {
+    if (state.activeWaypoint === wpKey) return;
+    state.activeWaypoint = wpKey;
+    if (didiBridgeNode) didiBridgeNode.classList.toggle('is-lit', wpKey === 'didi');
+    if (proofBridgeNode) proofBridgeNode.classList.toggle('is-lit', wpKey === 'proof');
+    if (pairPivotNode) pairPivotNode.classList.toggle('is-lit', wpKey === 'pair');
+    if (wpKey) hop(0.28);
+  }
+
+  function syncSteppedTalkLetter(stepIdx, letters) {
+    if (state.steppedTalkIdx === stepIdx) return;
+    state.steppedTalkIdx = stepIdx;
+    if (letters && letters.length) {
+      for (var i = 0; i < letters.length; i++) {
+        letters[i].classList.toggle('is-stepped', i === stepIdx);
+      }
+    }
+    if (talkArrow) {
+      talkArrow.classList.toggle('is-stepped', stepIdx === 999);
     }
   }
 
@@ -289,11 +389,14 @@
       } else {
         stopHeaderCameo();
       }
+      if (activeBerth === 'runway') {
+        triggerHappy(950, true);
+        emitSparks(state.x, state.y - 6, false, 8, false);
+      }
     }
   }
 
   function applyVisuals(now, dt) {
-    /* 垂直弹跳与软着陆挤压 */
     if (state.hopY < 0 || state.hopVy !== 0) {
       state.hopVy += 1550 * dt;
       state.hopY += state.hopVy * dt;
@@ -314,14 +417,12 @@
       state.squashV = 0;
     }
 
-    /* 平滑更新 A1 几何尾翼形变 */
     var compactKey = Math.round(state.compact * 50);
     if (shapePath && compactKey !== state.lastCompactKey) {
       state.lastCompactKey = compactKey;
       shapePath.setAttribute('d', buildContour(state.compact));
     }
 
-    /* 平滑负空间竖条眼追踪 */
     var gazeFollow = 1 - Math.exp(-15 * dt);
     state.gx += (state.targetGx - state.gx) * gazeFollow;
     state.gy += (state.targetGy - state.gy) * gazeFollow;
@@ -329,7 +430,6 @@
       faceEl.setAttribute('transform', 'translate(' + (state.gx * 4.1).toFixed(2) + ' ' + (state.gy * 3.1).toFixed(2) + ')');
     }
 
-    /* 飞行点阵星轨（速度 > 165px/s 沿反速度矢量展开） */
     var speed = Math.hypot(state.vx, state.vy);
     var trailScale = speed > 165 ? clamp((speed - 145) / 700, 0, 1.05) : 0;
     var trailOpacity = speed > 175 ? clamp((speed - 175) / 330, 0, 0.78) : 0;
@@ -340,7 +440,7 @@
       guide.style.setProperty('--trail-angle', trailDeg.toFixed(1) + 'deg');
     }
 
-    /* 静止阅读时的生命微节拍（停下来看某一屏时也会轻歪头、轻跳或俏皮眨眼，绝不僵住） */
+    /* 静止阅读时的生命微节拍 */
     if (state.mode === 'live' && !document.hidden && now - state.lastScrollAt > 1500 && speed < 55) {
       if (now >= state.nextIdleBeatAt) {
         var r = Math.random();
@@ -365,7 +465,6 @@
       state.idleTilt = 0;
     }
 
-    /* 表情与状态类 */
     var isHappy = state.selfHovered || now < state.happyUntil;
     var isWink = !isHappy && now < state.winkUntil;
     guide.classList.toggle('is-happy', isHappy);
@@ -375,7 +474,6 @@
     guide.classList.toggle('is-dark-surface', state.isDark);
     guide.style.pointerEvents = (state.mode === 'live' && !state.dockedInControl && desktopMq.matches) ? 'auto' : 'none';
 
-    /* 方向性体积守恒拉伸 + 持续生命呼吸（停泊态也有细腻浮沉与弹性呼吸） */
     var hStretch = clamp(Math.abs(state.vx) / 1150, 0, 0.14);
     var vStretch = clamp(Math.abs(state.vy) / 1150, 0, 0.16);
     var hoverBoost = state.selfHovered ? 1.09 : 1;
@@ -396,7 +494,7 @@
     if (state.popoverOpen) positionPopover();
   }
 
-  /* 2. 首屏稳定落点（化作 TO IMPACT 末尾的活体焦橙对话块） */
+  /* 2. 首屏稳定落点与各幕精确锚点工具 */
   function getHeroPerch() {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -424,35 +522,159 @@
     return { x: vw * 0.76, y: vh * 0.36, scale: 0.78, compact: 0 };
   }
 
-  /* 辅助锚点：左上角 ZACK ZHANG 品牌泊位 + 4 组实习提效进度条动态尖端 */
   function getHeaderAnchor() {
     if (!brandDot) return { x: 180, y: 38 };
     var br = brandDot.getBoundingClientRect();
-    return {
-      x: br.left + br.width / 2,
-      y: br.top + br.height / 2 + 1
-    };
+    return { x: br.left + br.width / 2, y: br.top + br.height / 2 + 1 };
   }
 
-  function getMeterAnchor(stageKey) {
-    var bar = meterBarEls[stageKey];
-    if (!bar) return null;
-    var r = bar.getBoundingClientRect();
-    if (r.width < 10) return null;
-    var ratio = window.portfolioProofMeters
-      ? window.portfolioProofMeters.getRatio(stageKey)
-      : 0.7;
+  function getElCenter(el, offsetY) {
+    if (!el) return null;
+    var r = el.getBoundingClientRect();
+    if (r.width < 2 && r.height < 2) return null;
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 + (offsetY || 0) };
+  }
+
+  /* 5 组实习专属互动锚点计算 */
+  function getProofStageAnchor(stageKey, now) {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
-    return {
-      x: clamp(r.left + r.width * ratio, 40, vw - 36),
-      y: clamp(r.top - 15, 84, vh - 36),
-      rawTop: r.top,
-      isDark: stageKey === 'baichuan'
-    };
+    var pm = window.portfolioProofMeters;
+    var p = pm ? pm.getProgress(stageKey) : 1;
+
+    if (stageKey === 'risk') {
+      if (riskHighAnchor && riskDropPath && riskLowAnchor) {
+        var hiR = riskHighAnchor.getBoundingClientRect();
+        var loR = riskLowAnchor.getBoundingClientRect();
+        if (p < 0.24) {
+          /* 阶段 1：绕着 120 分钟高点优雅转一圈蓄势 */
+          var orbitT = p / 0.24;
+          var ang = -Math.PI * 0.75 + orbitT * Math.PI * 2;
+          return {
+            x: clamp(hiR.left + hiR.width * 0.5 + Math.cos(ang) * 34, 44, vw - 44),
+            y: clamp(hiR.top + hiR.height * 0.45 + Math.sin(ang) * 20, 86, vh - 40),
+            tilt: Math.cos(ang) * 12,
+            gx: -Math.cos(ang) * 0.75,
+            gy: -Math.sin(ang) * 0.75,
+            isDark: false
+          };
+        }
+        if (p < 0.99 && typeof riskDropPath.getTotalLength === 'function') {
+          /* 阶段 2：顺着焦橙下降曲线俯冲坠落 120 -> 30 分钟！ */
+          var dropT = clamp((p - 0.24) / 0.75, 0, 1);
+          var len = riskDropPath.getTotalLength();
+          var pt = riskDropPath.getPointAtLength(dropT * len);
+          var svgEl = riskDropPath.ownerSVGElement;
+          var svgR = svgEl ? svgEl.getBoundingClientRect() : null;
+          if (svgR && svgR.width > 10) {
+            var vx = svgR.left + (pt.x / 260) * svgR.width;
+            var vy = svgR.top + (pt.y / 92) * svgR.height - 14;
+            return {
+              x: clamp(vx, 44, vw - 44),
+              y: clamp(vy, 86, vh - 40),
+              tilt: 14 * Math.sin(dropT * Math.PI),
+              gx: 0.7,
+              gy: 0.65,
+              isDark: false
+            };
+          }
+        }
+        /* 阶段 3：稳稳落在 30 分钟上方微笑注视 */
+        return {
+          x: clamp(loR.left + loR.width * 0.5, 44, vw - 44),
+          y: clamp(loR.top - 16, 86, vh - 40),
+          tilt: -4,
+          gx: 0,
+          gy: 0.85,
+          isDark: false
+        };
+      }
+      return null;
+    }
+
+    if (stageKey === 'diva' && meterBarDiva) {
+      var r = meterBarDiva.getBoundingClientRect();
+      if (r.width < 10) return null;
+      var ratio = pm ? pm.getRatio('diva') : 0.67;
+      return {
+        x: clamp(r.left + r.width * ratio, 40, vw - 36),
+        y: clamp(r.top - 15, 84, vh - 36),
+        tilt: 4,
+        gx: -0.3,
+        gy: -0.85,
+        isDark: false
+      };
+    }
+
+    if (stageKey === 'pricing' && skillSteps.length >= 3) {
+      /* 在 3 个 Skill 节点胶囊头顶弹性跳踩（采集 → 匹配 → 缺口清单） */
+      var seg = p * 2;
+      var idx = Math.min(1, Math.floor(seg));
+      var local = clamp(seg - idx, 0, 1);
+      var aR = skillSteps[idx].getBoundingClientRect();
+      var bR = skillSteps[idx + 1].getBoundingClientRect();
+      var hopArc = (p > 0.02 && p < 0.98) ? Math.sin(local * Math.PI) * 20 : 0;
+      return {
+        x: clamp(lerp(aR.left + aR.width / 2, bR.left + bR.width / 2, easeInOut(local)), 44, vw - 40),
+        y: clamp(lerp(aR.top, bR.top, local) - 16 - hopArc, 84, vh - 36),
+        tilt: (p < 0.98 ? 7 : -3),
+        gx: p < 0.98 ? 0.65 : -0.25,
+        gy: -0.75,
+        isDark: false
+      };
+    }
+
+    if (stageKey === 'baidu' && baiduDimCols.length >= 7) {
+      /* 掠过百度 7 根评测竖柱顶部，像指尖轻拨琴键拉起柱子 */
+      var fIdx = clamp(p * (baiduDimCols.length - 1), 0, baiduDimCols.length - 1);
+      var c0 = Math.floor(fIdx);
+      var c1 = Math.min(baiduDimCols.length - 1, c0 + 1);
+      var ft = fIdx - c0;
+      var r0 = baiduDimCols[c0].getBoundingClientRect();
+      var r1 = baiduDimCols[c1].getBoundingClientRect();
+      var wave = (p > 0.02 && p < 0.98) ? Math.sin(fIdx * Math.PI) * 7 : 0;
+      return {
+        x: clamp(lerp(r0.left + r0.width / 2, r1.left + r1.width / 2, ft), 44, vw - 44),
+        y: clamp(lerp(r0.top, r1.top, ft) - 14 - wave, 84, vh - 36),
+        tilt: (p < 0.98 ? 6 : -3),
+        gx: -0.35,
+        gy: -0.82,
+        isDark: false
+      };
+    }
+
+    if (stageKey === 'baichuan' && baichuanStamps.length >= 3) {
+      /* 深咖啡黑卡片上依次踩亮 R1 召回 → R2 排序 → R3 溯源 印记 */
+      var bSeg = p * 2;
+      var bIdx = Math.min(1, Math.floor(bSeg));
+      var bLoc = clamp(bSeg - bIdx, 0, 1);
+      var sa = baichuanStamps[bIdx].getBoundingClientRect();
+      var sb = baichuanStamps[bIdx + 1].getBoundingClientRect();
+      var bArc = (p > 0.02 && p < 0.98) ? Math.sin(bLoc * Math.PI) * 18 : 0;
+      return {
+        x: clamp(lerp(sa.left + sa.width / 2, sb.left + sb.width / 2, easeInOut(bLoc)), 44, vw - 40),
+        y: clamp(lerp(sa.top, sb.top, bLoc) - 16 - bArc, 84, vh - 36),
+        tilt: -4,
+        gx: -0.35,
+        gy: -0.82,
+        isDark: true
+      };
+    }
+
+    return null;
   }
 
-  /* 3. 全站 8 幕左右穿行 S 型空间动线 + 连续滚动插值飞升顶栏（零瞬移） */
+  /* 经由中间枢纽组件的两段平滑路径工具（告别左右生硬直飞） */
+  function twoStageWaypoint(fromPt, midPt, toPt, t) {
+    if (t < 0.5) {
+      var u = easeInOut(t / 0.5);
+      return quadBezier(fromPt.x, fromPt.y, lerp(fromPt.x, midPt.x, 0.5), Math.min(fromPt.y, midPt.y) - 22, midPt.x, midPt.y, u);
+    }
+    var v = easeInOut((t - 0.5) / 0.5);
+    return quadBezier(midPt.x, midPt.y, lerp(midPt.x, toPt.x, 0.5), Math.min(midPt.y, toPt.y) - 22, toPt.x, toPt.y, v);
+  }
+
+  /* 3. 全站 8 幕自然中转 S 型空间动线 + Let's talk 跳字母滑落终幕 */
   function computeLiveTarget(now) {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
@@ -471,6 +693,9 @@
     var activeAct = 'hero';
     var activeBerth = '';
     var activeProofStage = '';
+    var activeWaypoint = '';
+    var steppedTalkIdx = -1;
+    var talkLettersCache = null;
     var dockedInControl = false;
 
     if (y >= 110) {
@@ -482,7 +707,7 @@
       activeAct = 'rail';
     }
 
-    /* Act 2: 经历时间轴 01(左) -> 03(中) -> 05(右) 完整横向巡游，并在离开时自然弧线转向左侧 DiVA 进度条 */
+    /* Act 2: 经历时间轴 01(左) -> 03(中) -> 05(右)，离开时自然落向滴滴旗舰风控 120m 高点 */
     if (pathStage && pathLine && pathCards.length) {
       var stageRect = pathStage.getBoundingClientRect();
       var enterStart = vh * 0.90;
@@ -534,19 +759,18 @@
           actGazeX = 0.12;
           actGazeY = 0.88;
         } else {
-          /* 从 05(右) 顺滑弧线落向滴滴左侧 DiVA 进度条入口 */
           var tOut = easeInOut(clamp((sweepEnd - stageRect.top) / (sweepEnd - exitEnd), 0, 1));
-          var divaEntry = getMeterAnchor('diva') || { x: vw * 0.34, y: vh * 0.62 };
+          var riskA0 = getProofStageAnchor('risk', now) || { x: vw * 0.66, y: vh * 0.56 };
           var exitPt = quadBezier(
             endNodeX, railY,
-            vw * 0.62, Math.max(110, lerp(railY, divaEntry.y, 0.45) - 34),
-            divaEntry.x, clamp(divaEntry.y, 120, vh * 0.72),
+            vw * 0.72, Math.max(110, lerp(railY, riskA0.y, 0.5) - 26),
+            riskA0.x, clamp(riskA0.y, 120, vh * 0.72),
             tOut
           );
           tx = exitPt.x;
           ty = exitPt.y;
           scale = lerp(0.66, 0.58, tOut);
-          compact = lerp(0.42, 0.52, tOut);
+          compact = lerp(0.42, 0.46, tOut);
           if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
           pathCards.forEach(function (c) {
             c.classList.add('is-passed');
@@ -585,7 +809,7 @@
       actGazeY = 0.92;
     }
 
-    /* Act 3: 实习成果区 — 真实左右穿行：DiVA(中左进度条) → 比价Skill(中右进度条) → 百度(中左进度条) → 百川深墨卡(中右进度条) → 连续贝塞尔弧线丝滑升入左上角 ZACK ZHANG */
+    /* Act 3: 实习成果区 — 5 种不同交互 + 3 处中间枢纽中转（风控降耗弧 → DiVA 进度条 → ✦枢纽 → 比价3节点 → 居中标尺桥 → 百度7维柱 → ◐枢纽 → 百川3轮印记 → 平滑弧线升入顶栏） */
     if (proofSection && activeAct !== 'path') {
       var pr = proofSection.getBoundingClientRect();
       var sigRect = signalsSection ? signalsSection.getBoundingClientRect() : null;
@@ -594,24 +818,28 @@
       if (pr.top < vh * 0.85 && proofBandBottom > vh * 0.12) {
         activeAct = 'proof';
         var didiRect = didiFeature ? didiFeature.getBoundingClientRect() : null;
+        var subRect = didiSubProjects ? didiSubProjects.getBoundingClientRect() : null;
         var pairRect = proofPair ? proofPair.getBoundingClientRect() : null;
         var archRect = proofArchive ? proofArchive.getBoundingClientRect() : null;
 
-        var divaA = getMeterAnchor('diva');
-        var pricingA = getMeterAnchor('pricing');
-        var baiduA = getMeterAnchor('baidu');
-        var baichuanA = getMeterAnchor('baichuan');
+        var riskA = getProofStageAnchor('risk', now);
+        var divaA = getProofStageAnchor('diva', now);
+        var pricingA = getProofStageAnchor('pricing', now);
+        var baiduA = getProofStageAnchor('baidu', now);
+        var baichuanA = getProofStageAnchor('baichuan', now);
+
+        var didiMid = getElCenter(didiBridgeNode, -2) || { x: vw * 0.5, y: vh * 0.5 };
+        var bridgeMid = getElCenter(proofBridgeNode, -16) || { x: vw * 0.5, y: vh * 0.5 };
+        var pairMid = getElCenter(pairPivotNode, -2) || { x: vw * 0.55, y: vh * 0.5 };
 
         var climbStart = vh * 0.84;
         var climbEnd = vh * 0.46;
 
         if (archRect && archRect.top <= climbEnd) {
-          /* 客串幕 1：已平稳落座左上角 ZACK ZHANG 旁，俯看较早经历与里程碑数字 */
           applyHeaderDocked(0.32);
         } else if (state.hoveredEl && state.hoveredKind === 'proof-stage') {
-          /* 鼠标悬停任意实习项目卡：立刻轻盈滑到该项目的提效进度条尖端互动！ */
           var hStage = state.hoveredEl.dataset.proofStage;
-          var hAnchor = getMeterAnchor(hStage);
+          var hAnchor = getProofStageAnchor(hStage, now);
           if (hAnchor) {
             activeProofStage = hStage;
             tx = hAnchor.x;
@@ -620,12 +848,11 @@
             compact = 0.46;
             isDark = hAnchor.isDark;
             dockedInControl = true;
-            tiltTarget = hStage === 'diva' || hStage === 'baidu' ? 5 : -5;
-            actGazeX = -0.25;
-            actGazeY = -0.85; /* 抬头看上方正在变化的数字！ */
+            tiltTarget = hAnchor.tilt || 0;
+            actGazeX = hAnchor.gx;
+            actGazeY = hAnchor.gy;
           }
         } else if (archRect && archRect.top < climbStart) {
-          /* 连续滚动插值飞升：从百川进度条尖端沿舒展抛物线平滑升入左上角 ZACK ZHANG，零瞬移！ */
           var tClimb = easeInOut(clamp((climbStart - archRect.top) / (climbStart - climbEnd), 0, 1));
           var fromPt = baichuanA || { x: vw * 0.74, y: vh * 0.56 };
           var headPt = getHeaderAnchor();
@@ -635,56 +862,53 @@
           tx = climbPos.x;
           ty = climbPos.y;
           scale = lerp(0.58, 0.56, tClimb);
-          compact = lerp(0.48, 0.52, tClimb);
+          compact = lerp(0.46, 0.52, tClimb);
           isDark = tClimb < 0.25;
           dockedInControl = true;
           actGazeX = lerp(-0.82, 0.30, tClimb);
           actGazeY = lerp(-0.68, 0.90, tClimb);
           if (tClimb > 0.92) activeBerth = 'header';
-        } else if (pairRect && pairRect.top < vh * 0.68 && baiduA && baichuanA) {
-          /* 非对称双卡区：从滴滴右侧丝滑斜跨到左侧百度进度条 → 再跃向右侧深墨百川进度条 */
-          var pairP = clamp((vh * 0.68 - pairRect.top) / Math.max(300, pairRect.height * 1.05), 0, 1);
+        } else if (pairRect && pairRect.top < vh * 0.76 && baiduA && baichuanA) {
+          /* 滴滴右侧 → 居中过渡标尺 (#proofBridgeNode) → 百度 7 维柱 → 明暗枢纽 (#pairPivotNode) → 百川深墨 3 轮印记 */
+          var pairP = clamp((vh * 0.76 - pairRect.top) / Math.max(340, pairRect.height * 1.15), 0, 1);
           dockedInControl = true;
-          if (pairP < 0.14 && pricingA) {
-            var tToBaidu = easeInOut(pairP / 0.14);
-            var hop1 = quadBezier(
-              pricingA.x, clamp(pricingA.y, 92, vh * 0.5),
-              vw * 0.54, lerp(pricingA.y, baiduA.y, 0.5) - 24,
-              baiduA.x, baiduA.y,
-              tToBaidu
+          if (pairP < 0.24 && pricingA) {
+            var tBridge = pairP / 0.24;
+            var posB = twoStageWaypoint(
+              { x: pricingA.x, y: clamp(pricingA.y, 92, vh * 0.44) },
+              bridgeMid,
+              baiduA,
+              tBridge
             );
-            tx = hop1.x;
-            ty = hop1.y;
+            tx = posB.x;
+            ty = posB.y;
             scale = 0.58;
             compact = 0.48;
-            activeProofStage = tToBaidu > 0.55 ? 'baidu' : 'pricing';
-            actGazeX = -0.5;
-            actGazeY = -0.4;
-          } else if (pairP < 0.54) {
+            if (tBridge > 0.28 && tBridge < 0.72) activeWaypoint = 'proof';
+            activeProofStage = tBridge > 0.72 ? 'baidu' : (tBridge < 0.28 ? 'pricing' : '');
+            actGazeX = tBridge < 0.5 ? -0.45 : -0.65;
+            actGazeY = 0.45;
+          } else if (pairP < 0.52) {
             activeProofStage = 'baidu';
             tx = baiduA.x;
             ty = baiduA.y;
             scale = 0.58;
             compact = 0.46;
-            tiltTarget = 4;
-            actGazeX = -0.32;
-            actGazeY = -0.84;
-          } else if (pairP < 0.70) {
-            var tToBai = easeInOut((pairP - 0.54) / 0.16);
-            var hop2 = quadBezier(
-              baiduA.x, baiduA.y,
-              lerp(baiduA.x, baichuanA.x, 0.5), Math.min(baiduA.y, baichuanA.y) - 32,
-              baichuanA.x, baichuanA.y,
-              tToBai
-            );
-            tx = hop2.x;
-            ty = hop2.y;
+            tiltTarget = baiduA.tilt;
+            actGazeX = baiduA.gx;
+            actGazeY = baiduA.gy;
+          } else if (pairP < 0.74) {
+            var tPair = (pairP - 0.52) / 0.22;
+            var posP = twoStageWaypoint(baiduA, pairMid, baichuanA, tPair);
+            tx = posP.x;
+            ty = posP.y;
             scale = 0.58;
-            compact = 0.46;
-            isDark = tToBai > 0.48;
-            activeProofStage = tToBai > 0.5 ? 'baichuan' : 'baidu';
-            actGazeX = 0.65;
-            actGazeY = -0.25;
+            compact = 0.48;
+            isDark = tPair > 0.5;
+            if (tPair > 0.28 && tPair < 0.72) activeWaypoint = 'pair';
+            activeProofStage = tPair > 0.72 ? 'baichuan' : (tPair < 0.28 ? 'baidu' : '');
+            actGazeX = 0.7;
+            actGazeY = 0.1;
           } else {
             activeProofStage = 'baichuan';
             tx = baichuanA.x;
@@ -692,53 +916,75 @@
             scale = 0.58;
             compact = 0.46;
             isDark = true;
-            tiltTarget = -4;
-            actGazeX = -0.35;
-            actGazeY = -0.84;
+            tiltTarget = baichuanA.tilt;
+            actGazeX = baichuanA.gx;
+            actGazeY = baichuanA.gy;
           }
-        } else if (didiRect && divaA && pricingA) {
-          /* 滴滴旗舰卡：先在左栏 DiVA 进度条推杆联动 2 小时 → 40 分钟，再跨越中线去右栏比价 Skill 推杆 75% */
-          var didiP = clamp((vh * 0.64 - didiRect.top) / Math.max(260, didiRect.height * 0.92), 0, 1);
+        } else if (subRect && subRect.top < vh * 0.62 && divaA && pricingA) {
+          /* 滴滴下半区：从风控落位顺滑到左栏 DiVA 进度条 → 经过中央 ✦ 枢纽 (#didiBridgeNode) → 跳上右栏比价 Skill 3 节点 */
+          var subP = clamp((vh * 0.62 - subRect.top) / Math.max(240, subRect.height * 0.96), 0, 1);
           dockedInControl = true;
-          if (didiP < 0.46) {
+          if (subP < 0.14 && riskA) {
+            var tR2D = easeInOut(subP / 0.14);
+            var posRD = quadBezier(
+              riskA.x, clamp(riskA.y, 92, vh * 0.48),
+              vw * 0.52, lerp(riskA.y, divaA.y, 0.5) - 22,
+              divaA.x, divaA.y,
+              tR2D
+            );
+            tx = posRD.x;
+            ty = posRD.y;
+            scale = 0.58;
+            compact = 0.46;
+            activeProofStage = tR2D > 0.5 ? 'diva' : 'risk';
+            actGazeX = -0.5;
+            actGazeY = 0.45;
+          } else if (subP < 0.44) {
             activeProofStage = 'diva';
             tx = divaA.x;
             ty = divaA.y;
             scale = 0.58;
             compact = 0.46;
-            tiltTarget = 4;
-            actGazeX = -0.3;
-            actGazeY = -0.86;
-          } else if (didiP < 0.62) {
-            var tCross = easeInOut((didiP - 0.46) / 0.16);
-            var hopD = quadBezier(
-              divaA.x, divaA.y,
-              lerp(divaA.x, pricingA.x, 0.5), Math.min(divaA.y, pricingA.y) - 34,
-              pricingA.x, pricingA.y,
-              tCross
-            );
-            tx = hopD.x;
-            ty = hopD.y;
+            tiltTarget = divaA.tilt;
+            actGazeX = divaA.gx;
+            actGazeY = divaA.gy;
+          } else if (subP < 0.68) {
+            var tCross = (subP - 0.44) / 0.24;
+            var posC = twoStageWaypoint(divaA, didiMid, pricingA, tCross);
+            tx = posC.x;
+            ty = posC.y;
             scale = 0.58;
-            compact = 0.46;
-            activeProofStage = tCross > 0.5 ? 'pricing' : 'diva';
+            compact = 0.48;
+            if (tCross > 0.28 && tCross < 0.72) activeWaypoint = 'didi';
+            activeProofStage = tCross > 0.72 ? 'pricing' : (tCross < 0.28 ? 'diva' : '');
             actGazeX = 0.72;
-            actGazeY = -0.25;
+            actGazeY = -0.15;
           } else {
             activeProofStage = 'pricing';
             tx = pricingA.x;
             ty = pricingA.y;
             scale = 0.58;
             compact = 0.46;
-            tiltTarget = -4;
-            actGazeX = -0.28;
-            actGazeY = -0.86;
+            tiltTarget = pricingA.tilt;
+            actGazeX = pricingA.gx;
+            actGazeY = pricingA.gy;
           }
+        } else if (didiRect && riskA) {
+          /* 滴滴旗舰主讲项目：租车风控工作台（120 分钟转圈 → 俯冲坠落至 30 分钟！） */
+          activeProofStage = 'risk';
+          dockedInControl = true;
+          tx = riskA.x;
+          ty = riskA.y;
+          scale = 0.60;
+          compact = 0.42;
+          tiltTarget = riskA.tilt;
+          actGazeX = riskA.gx;
+          actGazeY = riskA.gy;
         }
       }
     }
 
-    /* Act 4: 暗幕拉环接力泊位（连续滚动插值俯冲：左上角 ZACK ZHANG → 屏幕正中 #curtainBerth，零瞬移！） */
+    /* Act 4: 暗幕拉环接力泊位（连续滚动插值俯冲：左上角 ZACK ZHANG → 屏幕正中 #curtainBerth） */
     if (curtainTab && curtainBerth && darkAct) {
       var ctr = curtainTab.getBoundingClientRect();
       var wsProbe = workStage ? workStage.getBoundingClientRect().top : 9999;
@@ -784,7 +1030,7 @@
       }
     }
 
-    /* Act 5 & 6: 暗色作品展台（居中→右侧泊位）+ 能力宣言左右交替穿行 */
+    /* Act 5 & 6: 暗色作品展台（切屏向上顶撞展台框 + 火花）+ 能力宣言连续平滑 S 型穿行 */
     if (darkAct && activeBerth !== 'curtain' && activeAct !== 'work') {
       var darkRect = darkAct.getBoundingClientRect();
       if (darkRect.top <= vh * 0.48 && darkRect.bottom > 96) {
@@ -794,16 +1040,18 @@
           if (wsRect.top < vh * 0.46 && wsRect.bottom > vh * 0.32) {
             activeAct = 'work';
             var wbr = workBerth ? workBerth.getBoundingClientRect() : null;
+            var bonking = now < state.workBonkUntil;
             if (wbr && wbr.width > 12 && wbr.top > 70 && wbr.bottom < vh - 12) {
-              activeBerth = 'work';
+              activeBerth = bonking ? '' : 'work';
               dockedInControl = true;
+              var frB = workFrame.getBoundingClientRect();
               tx = wbr.left + wbr.width / 2;
-              ty = wbr.top + wbr.height / 2 + 1;
-              scale = 0.62;
-              compact = 0.64;
+              ty = bonking ? (frB.bottom + 8) : (wbr.top + wbr.height / 2 + 1);
+              scale = bonking ? 0.70 : 0.62;
+              compact = bonking ? 0.22 : 0.64;
               pulsing = false;
-              actGazeX = state.hoveredKind === 'work-dock' ? 0.85 : -0.45;
-              actGazeY = state.hoveredKind === 'work-frame' ? -0.82 : -0.25;
+              actGazeX = bonking ? 0 : (state.hoveredKind === 'work-dock' ? 0.85 : -0.45);
+              actGazeY = bonking ? -1.0 : (state.hoveredKind === 'work-frame' ? -0.82 : -0.25);
             } else {
               var fr = workFrame.getBoundingClientRect();
               tx = clamp(fr.right - 8, 52, vw - 26);
@@ -818,44 +1066,46 @@
           var capR = capabilitiesSection.getBoundingClientRect();
           if (capR.top < vh * 0.64 && capR.bottom > vh * 0.18) {
             activeAct = 'capabilities';
-            var targetLine = null;
-            var targetIdx = 0;
             if (state.hoveredEl && state.hoveredKind === 'capability') {
-              targetLine = state.hoveredEl;
-              targetIdx = Math.max(0, capabilityLines.indexOf(targetLine));
-            } else {
-              var bestDist = 99999;
-              var centerY = vh * 0.48;
-              for (var ci = 0; ci < capabilityLines.length; ci++) {
-                var lr0 = capabilityLines[ci].getBoundingClientRect();
-                var d0 = Math.abs((lr0.top + lr0.height * 0.5) - centerY);
-                if (d0 < bestDist) {
-                  bestDist = d0;
-                  targetLine = capabilityLines[ci];
-                  targetIdx = ci;
-                }
-              }
-            }
-            if (targetLine) {
-              var titleSpan = targetLine.querySelector('.capability-title') || targetLine;
-              var tr = titleSpan.getBoundingClientRect();
-              var onLeft = (targetIdx % 2 === 0);
-              tx = onLeft
-                ? clamp(tr.left - 36, 36, vw * 0.45)
-                : clamp(tr.right + 32, vw * 0.55, vw - 36);
-              ty = clamp(tr.top + tr.height * 0.5, 100, vh - 64);
+              var hIdx = Math.max(0, capabilityLines.indexOf(state.hoveredEl));
+              var hSpan = state.hoveredEl.querySelector('.capability-title') || state.hoveredEl;
+              var htr = hSpan.getBoundingClientRect();
+              var hLeft = (hIdx % 2 === 0);
+              tx = hLeft ? clamp(htr.left - 34, 36, vw * 0.45) : clamp(htr.right + 30, vw * 0.55, vw - 36);
+              ty = clamp(htr.top + htr.height * 0.5, 100, vh - 64);
               scale = 0.68;
               compact = 0.24;
-              tiltTarget = onLeft ? 6 : -6;
-              actGazeX = onLeft ? 0.92 : -0.92;
+              tiltTarget = hLeft ? 6 : -6;
+              actGazeX = hLeft ? 0.92 : -0.92;
               actGazeY = 0;
+            } else {
+              /* 连续平滑插值：随滚轮从左 → 穿过中央 → 到右，绝不生硬闪现 */
+              var capFirst = capabilityLines[0].getBoundingClientRect();
+              var capLast = capabilityLines[capabilityLines.length - 1].getBoundingClientRect();
+              var spanH = Math.max(120, (capLast.top + capLast.height * 0.5) - (capFirst.top + capFirst.height * 0.5));
+              var capP = clamp((vh * 0.48 - (capFirst.top + capFirst.height * 0.5)) / spanH, 0, 1);
+              var fLine = capP * (capabilityLines.length - 1);
+              var i0 = Math.min(capabilityLines.length - 2, Math.floor(fLine));
+              var lf = easeInOut(clamp(fLine - i0, 0, 1));
+              var s0 = (capabilityLines[i0].querySelector('.capability-title') || capabilityLines[i0]).getBoundingClientRect();
+              var s1 = (capabilityLines[i0 + 1].querySelector('.capability-title') || capabilityLines[i0 + 1]).getBoundingClientRect();
+              var x0 = (i0 % 2 === 0) ? clamp(s0.left - 34, 42, vw * 0.45) : clamp(s0.right + 30, vw * 0.55, vw - 42);
+              var x1 = ((i0 + 1) % 2 === 0) ? clamp(s1.left - 34, 42, vw * 0.45) : clamp(s1.right + 30, vw * 0.55, vw - 42);
+              var y0 = clamp(s0.top + s0.height * 0.5, 100, vh - 64);
+              var y1 = clamp(s1.top + s1.height * 0.5, 100, vh - 64);
+              tx = lerp(x0, x1, lf);
+              ty = lerp(y0, y1, lf) - Math.sin(lf * Math.PI) * 18;
+              scale = 0.66;
+              compact = 0.26;
+              actGazeX = x1 > x0 ? 0.65 : -0.65;
+              actGazeY = 0.12;
             }
           }
         }
       }
     }
 
-    /* Act 7: 方法论档案叠卡（左右交替停靠卡角） → 连续弧线丝滑飞回左上角 ZACK ZHANG 陪读知识手册 */
+    /* Act 7: 方法论档案叠卡 → 平滑弧线飞回左上角 ZACK ZHANG 陪读知识手册 */
     var methodAnchor = null;
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
@@ -910,57 +1160,126 @@
       }
     }
 
-    /* Act 8: 页尾 AI 分身追问带（从左上角 ZACK ZHANG 沿左侧丝滑垂落落座 #runwayBerth） */
+    /* Act 8: 页尾 Let's talk 终幕演出 — 从顶栏轻跃落上 L → 在字母头顶一路蹦跳踩踏 → 踩在 k/→ 边缘俏皮一滑 → 自然掉进下方 AI 分身追问带！ */
     if (footer && talkArrow) {
       var fRect = footer.getBoundingClientRect();
-      var rDropStart = vh * 0.96;
-      var rDropEnd = vh * 0.66;
-      if (fRect.top < rDropStart) {
+      var footStart = vh * 0.95;
+      var maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+      var fDocTop = fRect.top + y;
+      var enterScrollY = Math.max(0, fDocTop - footStart);
+      var endScrollY = Math.max(enterScrollY + 180, maxScroll - 18);
+
+      if (fRect.top < footStart) {
         activeAct = 'footer';
         isDark = false;
+        dockedInControl = true;
+        var tFoot = clamp((y - enterScrollY) / Math.max(160, endScrollY - enterScrollY), 0, 1);
+
+        var letters = talkText ? Array.from(talkText.querySelectorAll('.talk-letter')) : [];
+        talkLettersCache = letters;
+        /* 筛选实际可视字母（跳过空格），形成清晰的跳格子落脚点：L, e, t, s, t, a, l, k */
+        var hopLetters = [];
+        for (var li = 0; li < letters.length; li++) {
+          var ch = (letters[li].textContent || '').trim();
+          if (ch && ch !== "'") hopLetters.push({ el: letters[li], rawIdx: li });
+        }
+
+        var headF = getHeaderAnchor();
         var rbr = runwayBerth ? runwayBerth.getBoundingClientRect() : null;
-        if (rbr && rbr.width > 16 && rbr.top > 80) {
-          var rx = rbr.left + rbr.width / 2;
-          var ry = rbr.top + rbr.height / 2 + 2;
-          dockedInControl = true;
-          if (fRect.top > rDropEnd) {
-            var tDrop = easeInOut(clamp((rDropStart - fRect.top) / (rDropStart - rDropEnd), 0, 1));
-            var headF = getHeaderAnchor();
-            var dropPos = quadBezier(
+        var berthPt = (rbr && rbr.width > 12)
+          ? { x: rbr.left + rbr.width / 2, y: rbr.top + rbr.height / 2 + 2 }
+          : { x: vw * 0.14, y: vh * 0.72 };
+        var arrowR = talkArrow.getBoundingClientRect();
+        var arrowTop = { x: arrowR.left + arrowR.width * 0.45, y: arrowR.top + arrowR.height * 0.22 };
+
+        function letterTop(entry) {
+          var lr = entry.el.getBoundingClientRect();
+          return { x: lr.left + lr.width * 0.5, y: lr.top + lr.height * 0.16 };
+        }
+
+        if (hopLetters.length >= 4 && tFoot < 0.96) {
+          var firstPt = letterTop(hopLetters[0]);
+          var lastPt = letterTop(hopLetters[hopLetters.length - 1]);
+
+          if (tFoot < 0.16) {
+            /* 1) 从左上角 ZACK ZHANG 轻跃落上第一个字母 L 的头顶 */
+            var u0 = easeInOut(tFoot / 0.16);
+            var dropL = quadBezier(
               headF.x, headF.y,
-              lerp(headF.x, rx, 0.4) + 34, lerp(headF.y, ry, 0.5),
-              rx, ry,
-              tDrop
+              lerp(headF.x, firstPt.x, 0.45) - 14, Math.max(40, Math.min(headF.y, firstPt.y) - 24),
+              firstPt.x, firstPt.y - 12,
+              u0
             );
-            tx = dropPos.x;
-            ty = dropPos.y;
-            scale = lerp(0.56, 0.82, tDrop);
-            compact = lerp(0.52, 0, tDrop);
-            activeBerth = tDrop < 0.08 ? 'header' : (tDrop > 0.92 ? 'runway' : '');
-            actGazeX = 0.55;
-            actGazeY = 0.65;
+            tx = dropL.x;
+            ty = dropL.y;
+            scale = lerp(0.56, 0.72, u0);
+            compact = lerp(0.52, 0.12, u0);
+            tiltTarget = lerp(0, 8, u0);
+            actGazeX = 0.35;
+            actGazeY = 0.85;
+            if (u0 < 0.08) activeBerth = 'header';
+            if (u0 > 0.84) steppedTalkIdx = hopLetters[0].rawIdx;
+          } else if (tFoot < 0.64) {
+            /* 2) 在 L → e → t → s → t → a → l → k 头顶弹性蹦跳，踩哪颗哪颗下压变焦橙！ */
+            var hopU = (tFoot - 0.16) / 0.48;
+            var segF = hopU * (hopLetters.length - 1);
+            var hIdx = Math.min(hopLetters.length - 2, Math.floor(segF));
+            var hLoc = clamp(segF - hIdx, 0, 1);
+            var pA = letterTop(hopLetters[hIdx]);
+            var pB = letterTop(hopLetters[hIdx + 1]);
+            var arcH = 26 + (hIdx === 3 ? 16 : 0); /* 跨越 Let's 与 talk 之间空格跳得更高！ */
+            tx = lerp(pA.x, pB.x, hLoc);
+            ty = lerp(pA.y, pB.y, hLoc) - 12 - Math.sin(hLoc * Math.PI) * arcH;
+            scale = 0.72;
+            compact = 0.10;
+            tiltTarget = Math.cos(hLoc * Math.PI) * 11;
+            actGazeX = 0.78;
+            actGazeY = hLoc < 0.5 ? -0.25 : 0.72;
+            if (hLoc < 0.24) steppedTalkIdx = hopLetters[hIdx].rawIdx;
+            else if (hLoc > 0.76) steppedTalkIdx = hopLetters[hIdx + 1].rawIdx;
+          } else if (tFoot < 0.78) {
+            /* 3) 跳上 k 末尾与箭头 → 边缘突然打滑歪身！ */
+            var slipU = easeInOut((tFoot - 0.64) / 0.14);
+            var slipPt = quadBezier(
+              lastPt.x, lastPt.y - 12,
+              lerp(lastPt.x, arrowTop.x, 0.5), Math.min(lastPt.y, arrowTop.y) - 24,
+              arrowTop.x + 10, arrowTop.y + 18,
+              slipU
+            );
+            tx = slipPt.x;
+            ty = slipPt.y;
+            scale = 0.74;
+            compact = 0.08;
+            tiltTarget = lerp(6, 26, slipU); /* 俏皮失衡侧倾打滑！ */
+            actGazeX = 0.3;
+            actGazeY = 0.95;
+            if (slipU > 0.45) steppedTalkIdx = 999; /* 踩弯 → 箭头 */
           } else {
-            activeBerth = 'runway';
-            tx = rx;
-            ty = ry;
-            scale = 0.82;
-            compact = 0;
-            pulsing = false;
-            actGazeX = 0.88;
-            actGazeY = 0.04;
+            /* 4) 顺着失衡惯性从右侧优雅滑坠，稳稳掉进下方左侧 #runwayBerth！ */
+            var fallU = easeInOut((tFoot - 0.78) / 0.18);
+            var fallStart = { x: arrowTop.x + 10, y: arrowTop.y + 18 };
+            var fallCtrl = { x: lerp(fallStart.x, berthPt.x, 0.35), y: Math.max(fallStart.y + 60, lerp(fallStart.y, berthPt.y, 0.78)) };
+            var fallPos = quadBezier(fallStart.x, fallStart.y, fallCtrl.x, fallCtrl.y, berthPt.x, berthPt.y, fallU);
+            tx = fallPos.x;
+            ty = fallPos.y;
+            scale = lerp(0.74, 0.82, fallU);
+            compact = lerp(0.08, 0, fallU);
+            tiltTarget = lerp(26, 0, fallU);
+            actGazeX = lerp(-0.75, 0.85, fallU);
+            actGazeY = lerp(0.85, 0.04, fallU);
+            if (fallU > 0.88) activeBerth = 'runway';
           }
         } else {
-          var tFoot = easeInOut(clamp((vh * 0.78 - fRect.top) / (vh * 0.34), 0, 1));
-          var arrowRect = talkArrow.getBoundingClientRect();
-          var footX = clamp(arrowRect.right + 28, 52, vw - 36);
-          var footY = clamp(arrowRect.top + arrowRect.height * 0.52, 96, vh - 40);
-          tx = lerp(tx, footX, tFoot);
-          ty = lerp(ty, footY, tFoot);
-          scale = lerp(scale, 0.82, tFoot);
+          /* 已稳稳落座页尾 AI 分身追问带 */
+          activeBerth = 'runway';
+          tx = berthPt.x;
+          ty = berthPt.y;
+          scale = 0.82;
           compact = 0;
-          pulsing = tFoot > 0.62;
-          actGazeX = -0.75;
-          actGazeY = 0.08;
+          pulsing = false;
+          tiltTarget = 0;
+          actGazeX = 0.88;
+          actGazeY = 0.04;
         }
       }
     }
@@ -971,7 +1290,6 @@
       heroPeriod.classList.toggle('is-departed', activeAct !== 'hero');
     }
 
-    /* 首屏悬停 CTA / 战绩条 / 导航链接时轻盈倾身注视 */
     if (activeAct === 'hero' && state.hoveredEl && (state.hoveredKind === 'cta' || state.hoveredKind === 'nav')) {
       var hr = state.hoveredEl.getBoundingClientRect();
       var hdx = (hr.left + hr.width / 2) - tx;
@@ -987,8 +1305,7 @@
     var gy = 0;
     var scrollVel = window.portfolioScroll ? window.portfolioScroll.getVelocity() : 0;
 
-    if (activeProofStage && actGazeY !== null) {
-      /* 在实习进度条上推杆时始终抬头看着上方的核心数据变化 */
+    if ((activeProofStage || activeAct === 'footer') && actGazeY !== null) {
       gx = actGazeX;
       gy = actGazeY;
     } else if (state.hoveredEl && !state.selfHovered && state.hoveredKind !== 'runway') {
@@ -1035,6 +1352,9 @@
       activeAct: activeAct,
       activeBerth: activeBerth,
       activeProofStage: activeProofStage,
+      activeWaypoint: activeWaypoint,
+      steppedTalkIdx: steppedTalkIdx,
+      talkLetters: talkLettersCache,
       dockedInControl: dockedInControl
     };
   }
@@ -1054,6 +1374,8 @@
       guide.classList.remove('is-visible');
       syncBerths('');
       syncProofStageFocus('');
+      syncWaypoints('');
+      syncSteppedTalkLetter(-1, null);
       closePopover();
       return;
     }
@@ -1069,7 +1391,7 @@
     var t = computeLiveTarget(now);
     var prevX = state.x;
     var prevY = state.y;
-    var follow = 1 - Math.exp(-11.8 * dt);
+    var follow = 1 - Math.exp(-12.2 * dt);
     state.x += (t.x - state.x) * follow;
     state.y += (t.y - state.y) * follow;
     state.vx = (state.x - prevX) / dt;
@@ -1077,7 +1399,7 @@
     state.scale += (t.scale - state.scale) * (1 - Math.exp(-10 * dt));
     state.compact += (t.compact - state.compact) * (1 - Math.exp(-10 * dt));
 
-    var moveTilt = t.dockedInControl ? clamp(state.vx / 95, -7, 7) : clamp(state.vx / 52, -10, 10);
+    var moveTilt = t.dockedInControl ? clamp(state.vx / 110, -7, 7) : clamp(state.vx / 52, -10, 10);
     var desiredTilt = t.tilt + moveTilt + state.idleTilt;
     state.tilt += (desiredTilt - state.tilt) * (1 - Math.exp(-11 * dt));
 
@@ -1091,6 +1413,8 @@
     var closeEnough = Math.hypot(t.x - state.x, t.y - state.y) < 42;
     syncBerths(closeEnough ? t.activeBerth : '');
     syncProofStageFocus(t.activeProofStage);
+    syncWaypoints(t.activeWaypoint);
+    syncSteppedTalkLetter(t.steppedTalkIdx, t.talkLetters);
 
     guide.classList.add('is-visible');
     applyVisuals(now, dt);
@@ -1118,6 +1442,8 @@
       document.documentElement.classList.remove('ink-guide-ready');
       syncBerths('');
       syncProofStageFocus('');
+      syncWaypoints('');
+      syncSteppedTalkLetter(-1, null);
       closePopover();
       return;
     }
@@ -1266,14 +1592,16 @@
       if (state.mode !== 'live') return;
       var doneStage = e.detail && e.detail.stage;
       if (doneStage && state.activeProofStage === doneStage) {
-        hop(0.36);
-        triggerWink(340, false);
+        hop(0.42);
+        triggerWink(360, false);
+        if (doneStage === 'risk') {
+          emitSparks(state.x, state.y, false, 8, false);
+        }
       }
     });
 
     window.addEventListener('portfolio:workchange', function () {
-      if (state.mode !== 'live') return;
-      triggerWink(360, true);
+      triggerWorkFrameBonk();
     });
 
     window.addEventListener('portfolio:methodchange', function () {
@@ -1292,7 +1620,7 @@
     });
   }
 
-  /* 7. 开屏加载编排：幕布揭开后精准同步触发首屏逐字大标题总谱 + A1 带点阵星轨落位句点 */
+  /* 7. 开屏加载编排：幕布揭开后精准同步触发首屏逐字大标题总谱 + A1 落位句点 */
   function runPreloader() {
     var shouldPreload = preloader && document.documentElement.classList.contains('is-preloading') && !reducedMotion;
     if (!shouldPreload) {
@@ -1494,7 +1822,6 @@
 
           if (stageEl) stageEl.classList.add('is-fading');
           preloader.classList.add('is-lifting');
-          /* 等幕布升过中屏（380ms）再释放首屏逐字大标题总谱，让观众完整看到大标题优雅升起 */
           window.setTimeout(function () {
             document.documentElement.classList.remove('is-preloading');
             if (!curtainOpened && window.initPortfolioHero) {

@@ -23,14 +23,14 @@
     <link rel="stylesheet" href="assets/css/portfolio.css?v=3">
     <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=4">
     <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
-    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=4">
-    <link rel="stylesheet" href="assets/css/footer-talk.css?v=2">
+    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=5">
+    <link rel="stylesheet" href="assets/css/footer-talk.css?v=3">
     <link rel="stylesheet" href="assets/css/hero.css?v=4">
     <link rel="stylesheet" href="assets/css/chapter-motion.css?v=3">
     <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=4">
     <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
     <link rel="stylesheet" href="assets/css/case-details.css?v=2">
-    <link rel="stylesheet" href="assets/css/signature-motion.css?v=6">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=7">
   </head>
   <body>
     <script>
@@ -87,10 +87,10 @@
               <span class="hero-focus-dot" aria-hidden="true"></span>
               <span class="hero-focus-kicker">TRACK RECORD</span>
               <span class="hero-focus-viewport" aria-live="off">
-                <span class="hero-focus-item is-active" data-focus-href="#testimonials">滴滴 DiVA · 单批素材交付 2h → 40m</span>
-                <span class="hero-focus-item" data-focus-href="#testimonials">滴滴比价 Skill · 人工耗时降低 75%</span>
+                <span class="hero-focus-item is-active" data-focus-href="#testimonials">滴滴风控预审 · 单户 120m → 30m (-75%)</span>
+                <span class="hero-focus-item" data-focus-href="#testimonials">滴滴 DiVA · 单批素材交付 2h → 40m</span>
+                <span class="hero-focus-item" data-focus-href="#testimonials">滴滴比价 Skill · 2,500 条航线 · 省时 90%+</span>
                 <span class="hero-focus-item" data-focus-href="#testimonials">百度 · WebDev E2E 评测耗时 -71.4%</span>
-                <span class="hero-focus-item" data-focus-href="#work">Ask Me · 106 项测试求职数字分身</span>
               </span>
               <span class="hero-focus-arrow" aria-hidden="true">↓</span>
             </a>
@@ -115,7 +115,7 @@
             <h2 id="aboutTitle">每一段经历，<br>都算数。</h2>
           </div>
           <div>
-            <p>东北大学应用统计学在读，现于滴滴担任 AI 产品经理实习生。从审计现场的数据核验，到医疗 RAG、模型评测，再到 AI 营销与机票比价，我关注技术如何回应真实业务需求。</p>
+            <p>东北大学应用统计学在读，现于滴滴担任 AI 产品经理实习生。从审计现场的数据核验，到医疗 RAG、模型评测，再到风控预审、AI 营销与机票比价，我关注技术如何回应真实业务需求。</p>
             <p class="about-belief">好产品，是验证出来的。</p>
             <dl class="about-meta">
               <div>
@@ -173,7 +173,7 @@
                 <img src="assets/img/logos/didi.svg" alt="滴滴" width="48" height="48" loading="lazy">
               </div>
               <h3>AI 业务落地</h3>
-              <p>滴滴<br>营销素材生产与机票比价</p>
+              <p>滴滴<br>风控预审、AI 营销与比价</p>
             </article>
           </div>
         </div>
@@ -199,7 +199,7 @@
         <div class="section-heading">
           <p class="eyebrow">PROOF OF WORK</p>
           <h2 id="proofTitle">用事实说话。</h2>
-          <p class="section-intro">从素材生产、竞品分析到模型评测，让产品进入真实业务。</p>
+          <p class="section-intro">从风控预审、素材生产、竞品比价到模型评测，让 AI 进入真实业务。</p>
           <a class="proof-agent-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">与我的 AI 分身聊聊实习经历 <span aria-hidden="true">↗</span></a>
         </div>
         <div class="proof-showcase">
@@ -209,15 +209,55 @@
               <img src="assets/img/logos/didi.svg" width="38" height="38" alt="滴滴">
               <div>
                 <h3>滴滴</h3>
-                <p>ABC 智能一组 · AI 产品经理实习生</p>
+                <p>ABC 智能一组 · AI 产品经理实习生 · 风控 / 营销 / 机票三线落地</p>
               </div>
             </div>
             <span class="company-period">2026.09 — 至今</span>
           </header>
-          <div class="didi-projects">
+
+          <!-- 滴滴重点主讲项目：租车商家准入 AI 预审工作台（全宽领衔 + 时间下坠落差轨） -->
+          <div class="didi-flagship" data-proof-stage="risk">
+            <div class="didi-flagship-copy">
+              <span class="proof-badge">CORE PROJECT · 01</span>
+              <h4 class="proof-reveal-title">租车商家准入 AI 预审工作台</h4>
+              <p class="proof-reveal-copy">梳理业务、财务、法务三方审核 SOP 及十类材料，搭建「材料建档—AI 解析—规则核验—三方审核」分层协同工作流；经多模型对照与四家线上 OCR 盲测，让复杂原件解析既准又可溯源。</p>
+              <p class="result-note proof-reveal-foot">完成 100+ 笔商家申请试点预审 · 累计节省 150+ 小时<br>118 份重度难例重跑 100% 通过、0 截断、提速 3–11 倍</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiRisk">看完整方案与挑战 <span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="risk-drop-panel proof-reveal-metric" id="riskDropStage">
+              <div class="risk-drop-header">
+                <span class="risk-drop-label">单户人工预审耗时</span>
+                <span class="risk-drop-badge">-75% · 省 150h+</span>
+              </div>
+              <div class="risk-drop-visual">
+                <div class="risk-node risk-node--high" id="riskHighAnchor">
+                  <span class="risk-node-kicker">原人工核对</span>
+                  <strong class="risk-node-val">120<small>分钟</small></strong>
+                </div>
+                <svg class="risk-drop-svg" viewBox="0 0 260 92" fill="none" aria-hidden="true">
+                  <line x1="20" y1="22" x2="240" y2="22" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.22"/>
+                  <path class="risk-drop-ghost" d="M 24 22 C 110 22, 136 74, 224 74" stroke="currentColor" stroke-width="1.5" opacity="0.16"/>
+                  <path id="riskDropPath" class="risk-drop-curve" d="M 24 22 C 110 22, 136 74, 224 74" stroke="var(--accent-bright, #e06122)" stroke-width="2.6" stroke-linecap="round"/>
+                  <path id="riskDropArrow" class="risk-drop-arrow" d="M 216 68 L 226 74 L 216 80" stroke="var(--accent-bright, #e06122)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="24" cy="22" r="4" fill="var(--ink, #17140f)" opacity="0.45"/>
+                  <circle id="riskDropEndDot" cx="226" cy="74" r="5" fill="var(--accent-bright, #e06122)"/>
+                </svg>
+                <div class="risk-node risk-node--low" id="riskLowAnchor">
+                  <span class="risk-node-kicker">AI 预审工作台</span>
+                  <strong class="risk-node-val risk-node-val--accent"><span class="metric-num" data-proof-metric="risk">30</span><small>分钟</small></strong>
+                </div>
+              </div>
+              <div class="risk-drop-pills" aria-hidden="true">
+                <span>OCR + 模型提取</span><span>程序规则算账</span><span>原件坐标溯源</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="didi-projects" id="didiSubProjects">
             <article class="proof-project" data-proof-stage="diva">
+              <span class="proof-badge proof-badge--sub">02 · CONTENT AI</span>
               <h4 class="proof-reveal-title">DiVA · AI 营销素材工作台</h4>
-              <p class="proof-reveal-copy">让一次活动需求，持续产出多规格营销素材。主导工作台设计，串联主视觉生成、元素复用、广告位适配与人工审核。</p>
+              <p class="proof-reveal-copy">以“模板约束 + AI 局部生成 + 人工审核”串联主视觉生成、元素复用、多广告位适配与校样导出，让一次活动需求持续产出合规多规格素材。</p>
               <p class="result proof-reveal-metric"><strong>2 小时 <span class="metric-arrow" aria-hidden="true">→</span> <span class="metric-num" data-proof-metric="diva">40</span> 分钟</strong><span>单批素材交付耗时</span></p>
               <div class="proof-meter" id="meterDiva" data-meter-stage="diva" aria-hidden="true">
                 <div class="proof-meter-bar" id="meterBarDiva"><span class="proof-meter-fill" data-meter="67"></span><span class="proof-meter-tip"></span></div>
@@ -226,20 +266,46 @@
               <p class="result-note proof-reveal-foot">机酒国庆营销 · 11 个已验收广告位<br>60+ 份业务采用素材 · 首次验收通过率 80%</p>
               <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiDiva">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
+
+            <!-- 中间衔接组件 1：滴滴双栏分割线中央中转枢纽（消除左右突兀跳跃） -->
+            <span class="waypoint-node didi-bridge-node" id="didiBridgeNode" aria-hidden="true">
+              <span class="waypoint-ring"></span>
+              <span class="waypoint-core">✦</span>
+            </span>
+
             <article class="proof-project" data-proof-stage="pricing">
-              <h4 class="proof-reveal-title">比价 Skill · 机票竞品分析</h4>
-              <p class="proof-reveal-copy">把跨平台查价和航班匹配封装为可复用 Skill，串联数据清洗、同期采集与报告导出，帮助业务识别供给与价格短板。</p>
-              <p class="result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="pricing">75</span><span class="result-unit">%</span></strong><span>人工耗时降低</span></p>
-              <div class="proof-meter" id="meterPricing" data-meter-stage="pricing" aria-hidden="true">
-                <div class="proof-meter-bar" id="meterBarPricing"><span class="proof-meter-fill" data-meter="75"></span><span class="proof-meter-tip"></span></div>
-                <span class="proof-meter-tag">-75% 人工耗时</span>
+              <span class="proof-badge proof-badge--sub">03 · AGENT SKILL</span>
+              <h4 class="proof-reveal-title">机票竞品比价 Skill</h4>
+              <p class="proof-reveal-copy">把跨平台查价、同航班匹配、检查点异常恢复与报告导出封装为可复用 Skill，定义覆盖率与价差口径，直接输出供给缺口与高价排查清单。</p>
+              <p class="result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="pricing">90</span><span class="result-unit">%+</span></strong><span>人工耗时降低 · 累计约 <em class="metric-inline" data-proof-metric="pricing-routes">2,500</em> 条航线</span></p>
+              <div class="skill-pipeline" id="skillPipeline" aria-hidden="true">
+                <div class="skill-step" data-skill-step="0"><span class="skill-step-dot"></span><span>跨平台采集</span></div>
+                <span class="skill-wire"></span>
+                <div class="skill-step" data-skill-step="1"><span class="skill-step-dot"></span><span>同航班匹配</span></div>
+                <span class="skill-wire"></span>
+                <div class="skill-step" data-skill-step="2"><span class="skill-step-dot"></span><span>缺口清单</span></div>
               </div>
-              <p class="result-note proof-reveal-foot">完成 80 组航线分析<br>输出供给缺口与高价航班清单</p>
+              <p class="result-note proof-reveal-foot">累计抓取超 10 万条原始报价记录<br>支持断点补采与人工接管恢复</p>
               <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiPricing">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
           </div>
         </article>
-        <div class="proof-pair">
+
+        <!-- 中间衔接组件 2：滴滴大卡 → 百度/百川双卡居中过渡标尺（让小焦橙自然从右经过中间去左边） -->
+        <div class="proof-bridge" id="proofBridge" aria-hidden="true">
+          <span class="proof-bridge-line"></span>
+          <span class="proof-bridge-pill" id="proofBridgeNode">
+            <span class="proof-bridge-dot"></span>
+            <span>业务落地</span>
+            <span class="proof-bridge-sep">·</span>
+            <span>模型评测</span>
+            <span class="proof-bridge-sep">·</span>
+            <span>知识溯源</span>
+          </span>
+          <span class="proof-bridge-line"></span>
+        </div>
+
+        <div class="proof-pair" id="proofPair">
           <article class="proof-secondary proof-secondary--lead" data-proof-stage="baidu">
             <header class="company-heading">
               <div>
@@ -254,14 +320,30 @@
             <h4 class="proof-reveal-title">把代码评测延伸到真实产品体验</h4>
             <p class="proof-reveal-copy">参与 WebDev E2E Bench 建设，从功能、视觉、交互等 7 个维度评估交付质量；结合多模型测试和 Bad Case 归因推动策略迭代。</p>
             <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baidu">71.4</span>%</strong><span>人工操作时间减少 · 离线测算</span></p>
-            <div class="proof-meter" id="meterBaidu" data-meter-stage="baidu" aria-hidden="true">
-              <div class="proof-meter-bar" id="meterBarBaidu"><span class="proof-meter-fill" data-meter="71.4"></span><span class="proof-meter-tip"></span></div>
-              <span class="proof-meter-tag">7 维自动评测</span>
+            <!-- 百度专属视觉互动：7 维评测竖柱矩阵（小焦橙掠过柱顶像拨动琴键依次拉起） -->
+            <div class="eval-dims" id="baiduDims" aria-hidden="true">
+              <div class="eval-dims-bars">
+                <span class="eval-dim-col" style="--dim-h: 72%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 88%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 64%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 94%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 78%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 85%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 98%"><i></i></span>
+              </div>
+              <span class="eval-dims-tag">7 维自动评测</span>
             </div>
             <div class="action-row proof-reveal-foot">
               <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">端到端评测案例 <span aria-hidden="true">↗</span></button><button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型评测与策略 <span aria-hidden="true">↗</span></button>
             </div>
           </article>
+
+          <!-- 中间衔接组件 3：百度（暖象牙）与百川（深咖啡黑）之间的明暗切换中转点 -->
+          <span class="waypoint-node pair-pivot-node" id="pairPivotNode" aria-hidden="true">
+            <span class="waypoint-ring"></span>
+            <span class="waypoint-core">◐</span>
+          </span>
+
           <article class="proof-secondary proof-secondary--ink" data-proof-stage="baichuan">
             <header class="company-heading">
               <div>
@@ -276,9 +358,13 @@
             <h4 class="proof-reveal-title">让医疗知识问答有据可查</h4>
             <p class="proof-reveal-copy">面向医院、卫健委及药企梳理需求，参与文档解析、知识库、检索问答与引用溯源设计，通过评测定位召回、排序与生成问题。</p>
             <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baichuan-rounds">3</span> 轮 / <span class="metric-num" data-proof-metric="baichuan-items">30</span> 条</strong><span>内部 QA 评测 · 用于 Rerank 与 Prompt 优化</span></p>
-            <div class="proof-meter proof-meter--ink" id="meterBaichuan" data-meter-stage="baichuan" aria-hidden="true">
-              <div class="proof-meter-bar" id="meterBarBaichuan"><span class="proof-meter-fill" data-meter="86"></span><span class="proof-meter-tip"></span></div>
-              <span class="proof-meter-tag">引用溯源闭环</span>
+            <!-- 百川专属视觉互动：3 轮评测印记 + 溯源暗金闭环 -->
+            <div class="rag-stamps" id="baichuanStamps" aria-hidden="true">
+              <span class="rag-stamp" data-rag-round="0">R1 召回</span>
+              <span class="rag-stamp-line"></span>
+              <span class="rag-stamp" data-rag-round="1">R2 排序</span>
+              <span class="rag-stamp-line"></span>
+              <span class="rag-stamp" data-rag-round="2">R3 溯源</span>
             </div>
             <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="baichuanRag">看医疗 RAG 实践 <span aria-hidden="true">↗</span></button>
           </article>
@@ -311,15 +397,15 @@
             </article>
           </div>
         </div>
-        <p class="source-note">实习与校园经历依据个人简历及经历记录整理，项目统计口径见对应案例详情。</p>
+        <p class="source-note">实习与校园经历依据个人简历及最新项目记录整理，统计口径与验证范围见对应案例详情。</p>
       </section>
       <section class="section signals-section" aria-labelledby="signalsTitle">
         <div class="signals-heading"><h2 id="signalsTitle">一些已经发生的改变。</h2><span>SELECTED SIGNALS · 2026</span></div>
         <div class="signal-grid">
-          <button class="signal projectTrigger" type="button" data-project-id="didiDiva" aria-label="60 多份业务采用素材，查看滴滴 DiVA 案例"><span class="signal-value" aria-hidden="true"><span data-count="60">60</span><sup>+</sup></span><span class="signal-label">业务采用素材</span><span class="signal-source">滴滴 · DiVA <span aria-hidden="true">↗</span></span></button>
-          <button class="signal projectTrigger" type="button" data-project-id="didiPricing" aria-label="80 组航线分析，查看滴滴比价 Skill 案例"><span class="signal-value" aria-hidden="true"><span data-count="80">80</span><sup>组</sup></span><span class="signal-label">已完成航线分析</span><span class="signal-source">滴滴 · 比价 Skill <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiRisk" aria-label="100 多笔商家试点预审，查看滴滴风控工作台案例"><span class="signal-value" aria-hidden="true"><span data-count="100">100</span><sup>+笔</sup></span><span class="signal-label">试点商家预审</span><span class="signal-source">滴滴 · 风控工作台 <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiDiva" aria-label="60 多份业务采用素材，查看滴滴 DiVA 案例"><span class="signal-value" aria-hidden="true"><span data-count="60">60</span><sup>+份</sup></span><span class="signal-label">业务采用素材</span><span class="signal-source">滴滴 · DiVA <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiPricing" aria-label="约 2500 条航线比价任务，查看滴滴比价 Skill 案例"><span class="signal-value" aria-hidden="true"><span data-count="2500">2500</span><sup>条</sup></span><span class="signal-label">累计航线比价</span><span class="signal-source">滴滴 · 比价 Skill <span aria-hidden="true">↗</span></span></button>
           <button class="signal projectTrigger" type="button" data-project-id="askMe" aria-label="106 项自动化测试，查看 Ask Me 案例"><span class="signal-value" aria-hidden="true"><span data-count="106">106</span><sup>项</sup></span><span class="signal-label">自动化测试</span><span class="signal-source">Ask Me · 求职数字分身 <span aria-hidden="true">↗</span></span></button>
-          <button class="signal projectTrigger" type="button" data-project-id="webCoding" aria-label="8 个产品原型，浏览全部原型"><span class="signal-value" aria-hidden="true"><span data-count="8">8</span><sup>个</sup></span><span class="signal-label">可运行产品原型</span><span class="signal-source">个人实践 · 持续构建 <span aria-hidden="true">↗</span></span></button>
         </div>
       </section>
       <div class="dark-act" id="darkAct">
@@ -479,7 +565,7 @@
       <section id="capabilities" class="section capabilities-section" aria-labelledby="capabilitiesTitle">
         <div class="capabilities-heading"><h2 id="capabilitiesTitle">把能力，连接成产品。</h2><p>从定义问题，到构建系统，再到验证效果。</p></div>
         <div class="capability-lines">
-          <button class="capability-line projectTrigger" type="button" data-project-id="didiDiva"><span class="capability-title">AI 产品策略</span><span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span></button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="didiRisk"><span class="capability-title">AI 产品策略</span><span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span></button>
           <button class="capability-line projectTrigger" type="button" data-project-id="baichuanRag"><span class="capability-title">RAG 检索增强</span><span class="capability-caption">02 / 让回答有据可查 <span aria-hidden="true">↗</span></span></button>
           <button class="capability-line projectTrigger" type="button" data-project-id="didiPricing"><span class="capability-title">Agent 工作流</span><span class="capability-caption">03 / 让过程可以复用 <span aria-hidden="true">↗</span></span></button>
           <button class="capability-line projectTrigger" type="button" data-project-id="webdevBench"><span class="capability-title">数据驱动评测</span><span class="capability-caption">04 / 让结果能够验证 <span aria-hidden="true">↗</span></span></button>
@@ -651,10 +737,10 @@
           <span class="footer-runway-kicker">ASK ME · LIVE PROMPTS</span>
           <span class="footer-runway-viewport" aria-live="off">
             <span class="footer-runway-track" id="footerRunwayTrack">
-              <span class="footer-runway-item is-active">「滴滴 DiVA 如何用 60+ 业务采用素材跑通 AI 生产工作流？」</span>
-              <span class="footer-runway-item">「在百度和百川做大模型评测与医疗 RAG 时，踩过哪些坑？」</span>
-              <span class="footer-runway-item">「为什么应用统计学与审计背景，反而是 AI PM 的独特优势？」</span>
-              <span class="footer-runway-item">「Ask Me 求职数字分身如何用证据模型约束大模型幻觉？」</span>
+              <span class="footer-runway-item is-active">「滴滴风控工作台如何把单户预审从 120 分钟压到 30 分钟？」</span>
+              <span class="footer-runway-item">「面对 DiVA 37 条运营反馈，如何区分业务目标与用户做法？」</span>
+              <span class="footer-runway-item">「机票比价 Skill 如何稳定跑通 2,500 条航线并支持断点恢复？」</span>
+              <span class="footer-runway-item">「在百度和百川做多维评测与医疗 RAG 时，踩过哪些坑？」</span>
             </span>
           </span>
         </span>
@@ -669,6 +755,7 @@
         <span>© 2026 ZACK ZHANG</span><span class="footer-signoff">FROM MODELS TO IMPACT.</span><a href="#heroWrap">返回顶部 <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
+    <div id="inkSparkLayer" class="ink-spark-layer" aria-hidden="true"></div>
     <button id="inkGuide" class="ink-guide" type="button" tabindex="-1" aria-hidden="true">
       <span class="ink-guide-trail" aria-hidden="true"></span>
       <span class="ink-guide-ring" aria-hidden="true"></span>
@@ -714,14 +801,14 @@
     <script src="assets/js/smooth-scroll.js?v=4" defer></script>
     <script src="assets/js/hero-intro.js?v=8" defer></script>
     <script src="assets/js/portfolio.js?v=5" defer></script>
-    <script src="assets/js/portfolio-motion.js?v=10" defer></script>
+    <script src="assets/js/portfolio-motion.js?v=11" defer></script>
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
-    <script src="assets/js/signature-motion.js?v=3" defer></script>
-    <script src="assets/js/ink-companion.js?v=4" defer></script>
+    <script src="assets/js/signature-motion.js?v=4" defer></script>
+    <script src="assets/js/ink-companion.js?v=5" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
     <script src="assets/js/pointer-interactions.js?v=5" defer></script>
-    <script src="assets/js/footer-talk.js?v=2" defer></script>
-    <script src="assets/js/project-data.js?v=1" defer></script>
+    <script src="assets/js/footer-talk.js?v=3" defer></script>
+    <script src="assets/js/project-data.js?v=2" defer></script>
     <script src="assets/js/project-dialog.js?v=14" defer></script>
   </body>
 </html>

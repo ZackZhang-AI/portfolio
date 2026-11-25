@@ -7,7 +7,7 @@
   var raw = text.textContent;
   var media = gsap.matchMedia();
 
-  media.add('(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', function () {
+  media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', function () {
     text.textContent = '';
     var letters = Array.from(raw, function (character) {
       var element = document.createElement('span');
