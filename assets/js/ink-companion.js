@@ -23,6 +23,7 @@
   var pathCards = Array.from(document.querySelectorAll('#pathStage .pathCard'));
 
   var proofSection = document.getElementById('testimonials');
+  var proofTitle = document.getElementById('proofTitle');
   var didiFeature = document.getElementById('didiFeature');
   var didiSubProjects = document.getElementById('didiSubProjects');
   var proofBridgeNode = document.getElementById('proofBridgeNode');
@@ -57,6 +58,8 @@
   var capabilityLinesWrap = document.getElementById('capabilityLines');
   var capabilityLines = capabilitiesSection ? Array.from(capabilitiesSection.querySelectorAll('.capability-line')) : [];
   var methodSection = document.getElementById('method');
+  var methodTitle = document.getElementById('methodTitle');
+  var toolRibbon = methodSection ? methodSection.querySelector('.tool-ribbon') : null;
   var paperSteps = document.getElementById('paperSteps');
   var methodCards = paperSteps ? Array.from(paperSteps.children) : [];
   var knowledgeSection = document.getElementById('knowledge');
@@ -137,7 +140,11 @@
     hoveredEl: null,
     hoveredKind: '',
     lastPathIdx: -1,
+    lastHoverPathIdx: -1,
     lastMethodIdx: -1,
+    activeMethodIdx: -1,
+    proofTitleSparked: false,
+    methodTitleSparked: false,
     popoverOpen: false,
     lastFrame: performance.now()
   };
@@ -231,6 +238,82 @@
         }, 700);
       })(el);
     }
+  }
+
+  /* 节点小烟花：同心焦橙波纹环 + 360° 暖金焦橙火花束（用于经历时间轴节点与大标题落脚） */
+  function emitPinFirework(cx, cy, isGrand, isDarkSurface) {
+    if (!sparkLayer || reducedMotion || !desktopMq.matches) return;
+    if (cy < 42 || cy > window.innerHeight - 20) return;
+
+    var rip = document.createElement('span');
+    rip.className = 'ink-pin-ripple';
+    rip.style.setProperty('--rip-x', Math.round(cx) + 'px');
+    rip.style.setProperty('--rip-y', Math.round(cy) + 'px');
+    rip.style.setProperty('--rip-color', isDarkSurface ? '#ef8a4c' : '#d45118');
+    sparkLayer.appendChild(rip);
+    window.setTimeout(function () {
+      if (rip.parentNode) rip.parentNode.removeChild(rip);
+    }, 660);
+
+    var n = isGrand ? 13 : 9;
+    var palette = isDarkSurface
+      ? ['#ef8a4c', '#ffbe8a', '#f6f2ed', '#d45118']
+      : ['#d45118', '#ef8a4c', '#e5a44d', '#17140f'];
+    for (var i = 0; i < n; i++) {
+      var angle = (Math.PI * 2 * i / n) + (Math.random() - 0.5) * 0.28;
+      var dist = (isGrand ? 30 : 22) + Math.random() * (isGrand ? 34 : 24);
+      var dx = Math.cos(angle) * dist;
+      var dy = Math.sin(angle) * dist - 6;
+      var isDash = i % 2 === 0;
+      var el = document.createElement('span');
+      el.className = 'ink-spark';
+      el.style.setProperty('--sp-x', Math.round(cx) + 'px');
+      el.style.setProperty('--sp-y', Math.round(cy) + 'px');
+      el.style.setProperty('--sp-dx', dx.toFixed(1) + 'px');
+      el.style.setProperty('--sp-dy', dy.toFixed(1) + 'px');
+      el.style.setProperty('--sp-w', isDash ? '8px' : '4.8px');
+      el.style.setProperty('--sp-h', isDash ? '2.2px' : '4.8px');
+      el.style.setProperty('--sp-r', isDash ? '2px' : '50%');
+      el.style.setProperty('--sp-rot', (angle * 180 / Math.PI).toFixed(1) + 'deg');
+      el.style.setProperty('--sp-color', palette[i % palette.length]);
+      el.style.setProperty('--sp-dur', (480 + Math.round(Math.random() * 190)) + 'ms');
+      sparkLayer.appendChild(el);
+      (function (node) {
+        window.setTimeout(function () {
+          if (node.parentNode) node.parentNode.removeChild(node);
+        }, 720);
+      })(el);
+    }
+  }
+
+  var pathPopTimers = [];
+  function getPathPinAnchor(idx) {
+    if (!pathLine || !pathCards[idx]) return null;
+    var lr = pathLine.getBoundingClientRect();
+    var cr = pathCards[idx].getBoundingClientRect();
+    return {
+      x: cr.left + 24.5,
+      y: lr.top + lr.height / 2
+    };
+  }
+
+  function triggerPathPinPop(idx) {
+    var card = pathCards[idx];
+    if (!card) return;
+    card.classList.remove('is-pin-pop');
+    void card.offsetWidth;
+    card.classList.add('is-pin-pop');
+    clearTimeout(pathPopTimers[idx]);
+    pathPopTimers[idx] = window.setTimeout(function () {
+      card.classList.remove('is-pin-pop');
+    }, 560);
+
+    var pin = getPathPinAnchor(idx);
+    var isGrand = idx === pathCards.length - 1;
+    if (pin) emitPinFirework(pin.x, pin.y, isGrand, false);
+    hop(isGrand ? 0.64 : 0.50);
+    if (isGrand) triggerHappy(780, false);
+    else triggerWink(320, false);
   }
 
   /* 作品展台切屏时的物理“向上顶撞框 + 焦橙小烟花 + 展台弹性回弹” */
@@ -395,6 +478,14 @@
       if (tr.top > 40 && tr.bottom < window.innerHeight - 20) {
         emitSparks(tr.right + 16, tr.top + tr.height * 0.52, true, 5, false);
       }
+    }
+  }
+
+  function syncMethodCardFocus(methodIdx) {
+    if (state.activeMethodIdx === methodIdx) return;
+    state.activeMethodIdx = methodIdx;
+    for (var i = 0; i < methodCards.length; i++) {
+      methodCards[i].classList.toggle('is-companion-active', i === methodIdx);
     }
   }
 
@@ -571,6 +662,28 @@
     return { x: r.left + r.width / 2, y: r.top + r.height / 2 + (offsetY || 0) };
   }
 
+  /* 精确测量大标题最后一个字符（如“。”）右侧的停靠坐标，供跨板块过渡空中落脚 */
+  function getTextEndAnchor(el, offsetX, offsetY) {
+    if (!el) return null;
+    var r = null;
+    try {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      var rects = range.getClientRects();
+      if (rects && rects.length) r = rects[rects.length - 1];
+      else r = range.getBoundingClientRect();
+    } catch (e) {
+      r = el.getBoundingClientRect();
+    }
+    if (!r || (r.width < 2 && r.height < 2)) r = el.getBoundingClientRect();
+    return {
+      x: r.right + (offsetX || 26),
+      y: r.top + r.height * 0.46 + (offsetY || 0),
+      rawTop: r.top,
+      rawBottom: r.bottom
+    };
+  }
+
   /* 5 组实习专属互动锚点计算 */
   function getProofStageAnchor(stageKey, now) {
     var vw = window.innerWidth;
@@ -588,7 +701,8 @@
           var ang = -Math.PI * 0.75 + orbitT * Math.PI * 2;
           return {
             x: clamp(hiR.left + hiR.width * 0.5 + Math.cos(ang) * 34, 44, vw - 44),
-            y: clamp(hiR.top + hiR.height * 0.45 + Math.sin(ang) * 20, 86, vh - 40),
+            y: clamp(hiR.top + hiR.height * 0.45 + Math.sin(ang) * 20, 86, vh - 68),
+            rawTop: hiR.top,
             tilt: Math.cos(ang) * 12,
             gx: -Math.cos(ang) * 0.75,
             gy: -Math.sin(ang) * 0.75,
@@ -607,7 +721,8 @@
             var vy = svgR.top + (pt.y / 92) * svgR.height - 14;
             return {
               x: clamp(vx, 44, vw - 44),
-              y: clamp(vy, 86, vh - 40),
+              y: clamp(vy, 86, vh - 68),
+              rawTop: hiR.top,
               tilt: 14 * Math.sin(dropT * Math.PI),
               gx: 0.7,
               gy: 0.65,
@@ -618,7 +733,8 @@
         /* 阶段 3：稳稳落在 30 分钟上方微笑注视 */
         return {
           x: clamp(loR.left + loR.width * 0.5, 44, vw - 44),
-          y: clamp(loR.top - 16, 86, vh - 40),
+          y: clamp(loR.top - 16, 86, vh - 68),
+          rawTop: hiR.top,
           tilt: -4,
           gx: 0,
           gy: 0.85,
@@ -731,6 +847,7 @@
     var activeProofStage = '';
     var activeWaypoint = '';
     var activeCapIdx = -1;
+    var activeMethodIdx = -1;
     var followLambda = 12.2;
     var steppedTalkIdx = -1;
     var talkLettersCache = null;
@@ -745,15 +862,45 @@
       activeAct = 'rail';
     }
 
-    /* Act 2: 经历时间轴 01(左) -> 03(中) -> 05(右)，离开时自然落向滴滴旗舰风控 120m 高点 */
+    /* Act 2: 经历时间轴 01(左) -> 05(右)，每过节点绽放焦橙小烟花 + 波纹环，悬停卡片精准落钉，离场高抛跃向「用事实说话。」 */
     if (pathStage && pathLine && pathCards.length) {
       var stageRect = pathStage.getBoundingClientRect();
       var enterStart = vh * 0.90;
       var sweepStart = vh * 0.68;
       var sweepEnd = vh * 0.24;
-      var exitEnd = vh * 0.02;
+      var exitEnd = vh * -0.02;
 
-      if (stageRect.top <= enterStart && stageRect.top >= exitEnd) {
+      var hoverPathIdx = (state.hoveredEl && state.hoveredKind === 'path-card')
+        ? pathCards.indexOf(state.hoveredEl)
+        : -1;
+
+      if (hoverPathIdx >= 0 && stageRect.top <= enterStart && stageRect.bottom > 110) {
+        activeAct = 'path';
+        var hPin = getPathPinAnchor(hoverPathIdx);
+        var lrH = pathLine.getBoundingClientRect();
+        if (hPin) {
+          tx = hPin.x;
+          ty = clamp(hPin.y - 17, 94, vh - 110);
+          scale = 0.70;
+          compact = 0.36;
+          pulsing = true;
+          tiltTarget = 0;
+          actGazeX = 0;
+          actGazeY = 0.92;
+          var hFill = clamp((hPin.x - lrH.left) / Math.max(1, lrH.width), 0.06, 1);
+          if (pathLineFill) pathLineFill.style.setProperty('--path-fill', hFill.toFixed(4));
+          pathCards.forEach(function (c, i) {
+            c.classList.toggle('is-passed', i <= hoverPathIdx);
+            c.classList.toggle('is-current', i === hoverPathIdx);
+          });
+          if (hoverPathIdx !== state.lastHoverPathIdx) {
+            state.lastHoverPathIdx = hoverPathIdx;
+            state.lastPathIdx = hoverPathIdx;
+            triggerPathPinPop(hoverPathIdx);
+          }
+        }
+      } else if (stageRect.top <= enterStart && stageRect.top >= exitEnd) {
+        state.lastHoverPathIdx = -1;
         activeAct = 'path';
         var lineRect = pathLine.getBoundingClientRect();
         var startNodeX = pathCards[0].getBoundingClientRect().left + 24.5;
@@ -763,9 +910,10 @@
         if (stageRect.top > sweepStart) {
           var tIn = easeInOut(clamp((enterStart - stageRect.top) / (enterStart - sweepStart), 0, 1));
           tx = lerp(hero.x, startNodeX, tIn);
-          ty = lerp(hero.y, railY, tIn) - Math.sin(tIn * Math.PI) * 34;
-          scale = lerp(hero.scale, 0.66, tIn);
+          ty = lerp(hero.y, railY, tIn) - Math.sin(tIn * Math.PI) * 44;
+          scale = lerp(hero.scale, 0.66, tIn) + Math.sin(tIn * Math.PI) * 0.06;
           compact = lerp(0, 0.42, tIn);
+          tiltTarget = Math.sin(tIn * Math.PI) * -10;
           var lit0 = tIn > 0.85;
           if (pathLineFill) pathLineFill.style.setProperty('--path-fill', lit0 ? '0.06' : '0');
           pathCards.forEach(function (c, i) {
@@ -774,7 +922,7 @@
           });
           if (lit0 && state.lastPathIdx !== 0) {
             state.lastPathIdx = 0;
-            hop(0.42);
+            triggerPathPinPop(0);
           }
         } else if (stageRect.top >= sweepEnd) {
           var tSweep = clamp((sweepStart - stageRect.top) / (sweepStart - sweepEnd), 0, 1);
@@ -785,30 +933,36 @@
           pulsing = true;
           var fillRatio = clamp((tx - lineRect.left) / Math.max(1, lineRect.width), 0.04, 1);
           if (pathLineFill) pathLineFill.style.setProperty('--path-fill', fillRatio.toFixed(4));
-          var passedIdx = Math.floor(tSweep * (pathCards.length - 1) + 0.15);
+          var passedIdx = clamp(Math.floor(tSweep * (pathCards.length - 1) + 0.16), 0, pathCards.length - 1);
           pathCards.forEach(function (c, i) {
             c.classList.toggle('is-passed', i <= passedIdx);
             c.classList.toggle('is-current', i === passedIdx);
           });
           if (passedIdx !== state.lastPathIdx) {
             state.lastPathIdx = passedIdx;
-            hop(0.48);
+            triggerPathPinPop(passedIdx);
           }
-          actGazeX = 0.12;
+          actGazeX = 0.14;
           actGazeY = 0.88;
         } else {
+          /* 高抛弧线跃向「用事实说话。」大标题旁，告别贴底干等 */
           var tOut = easeInOut(clamp((sweepEnd - stageRect.top) / (sweepEnd - exitEnd), 0, 1));
-          var riskA0 = getProofStageAnchor('risk', now) || { x: vw * 0.66, y: vh * 0.56 };
+          var ptTarget = getTextEndAnchor(proofTitle, 32, -2);
+          var destX = ptTarget ? clamp(ptTarget.x, 120, vw - 80) : vw * 0.36;
+          var destY = ptTarget ? clamp(ptTarget.y, 112, vh * 0.56) : vh * 0.44;
           var exitPt = quadBezier(
-            endNodeX, railY,
-            vw * 0.72, Math.max(110, lerp(railY, riskA0.y, 0.5) - 26),
-            riskA0.x, clamp(riskA0.y, 120, vh * 0.72),
+            endNodeX, clamp(railY, 94, vh * 0.50),
+            lerp(endNodeX, destX, 0.5), Math.max(92, Math.min(railY, destY) - 64),
+            destX, destY,
             tOut
           );
           tx = exitPt.x;
           ty = exitPt.y;
-          scale = lerp(0.66, 0.58, tOut);
-          compact = lerp(0.42, 0.46, tOut);
+          scale = lerp(0.68, 0.66, tOut) + Math.sin(tOut * Math.PI) * 0.08;
+          compact = lerp(0.42, 0.24, tOut);
+          tiltTarget = Math.sin(tOut * Math.PI) * -15;
+          actGazeX = lerp(-0.35, -0.82, tOut);
+          actGazeY = Math.sin(tOut * Math.PI) > 0.4 ? -0.35 : 0.22;
           if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
           pathCards.forEach(function (c) {
             c.classList.add('is-passed');
@@ -816,12 +970,15 @@
           });
         }
       } else if (stageRect.top < exitEnd) {
+        state.lastHoverPathIdx = -1;
         if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '1');
         pathCards.forEach(function (c) {
           c.classList.add('is-passed');
           c.classList.remove('is-current');
         });
       } else {
+        state.lastHoverPathIdx = -1;
+        state.proofTitleSparked = false;
         if (pathLineFill) pathLineFill.style.setProperty('--path-fill', '0');
         state.lastPathIdx = -1;
         pathCards.forEach(function (c) {
@@ -1008,28 +1165,66 @@
             actGazeY = pricingA.gy;
           }
         } else if (didiRect && riskA) {
-          /* 滴滴旗舰主讲项目：租车风控工作台（120 分钟转圈 → 俯冲坠落至 30 分钟！） */
-          activeProofStage = 'risk';
-          dockedInControl = true;
-          tx = riskA.x;
-          ty = riskA.y;
-          scale = 0.60;
-          compact = 0.42;
-          tiltTarget = riskA.tilt;
-          actGazeX = riskA.gx;
-          actGazeY = riskA.gy;
+          /* 滴滴旗舰主讲项目入场：先停靠「用事实说话。」大标题旁呼吸眨眼，待 120m 曲线升入舒适视区后再高抛俯冲落位，彻底告别贴底干等 */
+          var hiTop = (typeof riskA.rawTop === 'number') ? riskA.rawTop : didiRect.top;
+          var ptAnchor = getTextEndAnchor(proofTitle, 32, -2);
+          var perchX = ptAnchor ? clamp(ptAnchor.x, 120, vw - 80) : vw * 0.36;
+          var perchY = ptAnchor ? clamp(ptAnchor.y, 112, vh * 0.56) : vh * 0.44;
+
+          if (hiTop > vh * 0.80) {
+            tx = perchX;
+            ty = perchY + Math.sin(now * 0.0032) * 3.5;
+            scale = 0.66;
+            compact = 0.22;
+            tiltTarget = -5;
+            actGazeX = -0.84;
+            actGazeY = 0.14;
+            followLambda = 7.6;
+            if (!state.proofTitleSparked && ptAnchor && ptAnchor.rawTop > 70 && ptAnchor.rawTop < vh * 0.82) {
+              state.proofTitleSparked = true;
+              emitSparks(perchX - 8, perchY, false, 6, false);
+              triggerWink(320, false);
+            }
+          } else if (hiTop > vh * 0.56) {
+            var tDiveRisk = easeInOut(clamp((vh * 0.80 - hiTop) / (vh * 0.24), 0, 1));
+            var diveArc = quadBezier(
+              perchX, perchY,
+              lerp(perchX, riskA.x, 0.52), Math.max(96, Math.min(perchY, riskA.y) - 54),
+              riskA.x, riskA.y,
+              tDiveRisk
+            );
+            activeProofStage = tDiveRisk > 0.62 ? 'risk' : '';
+            dockedInControl = tDiveRisk > 0.65;
+            tx = diveArc.x;
+            ty = diveArc.y;
+            scale = lerp(0.66, 0.60, tDiveRisk) + Math.sin(tDiveRisk * Math.PI) * 0.08;
+            compact = lerp(0.22, 0.42, tDiveRisk);
+            tiltTarget = Math.sin(tDiveRisk * Math.PI) * 16;
+            actGazeX = lerp(0.55, riskA.gx, tDiveRisk);
+            actGazeY = lerp(0.45, riskA.gy, tDiveRisk);
+          } else {
+            activeProofStage = 'risk';
+            dockedInControl = true;
+            tx = riskA.x;
+            ty = riskA.y;
+            scale = 0.60;
+            compact = 0.42;
+            tiltTarget = riskA.tilt;
+            actGazeX = riskA.gx;
+            actGazeY = riskA.gy;
+          }
         }
       }
     }
 
-    /* Act 4: 暗幕拉环接力泊位（连续滚动插值俯冲：左上角 ZACK ZHANG → 屏幕正中 #curtainBerth） */
+    /* Act 4: 暗幕拉环接力泊位（连续滚动插值俯冲：左上角 ZACK ZHANG → 屏幕正中 #curtainBerth → 优雅轻跃进 #workBerth） */
     if (curtainTab && curtainBerth && darkAct) {
       var ctr = curtainTab.getBoundingClientRect();
       var wsProbe = workStage ? workStage.getBoundingClientRect().top : 9999;
       var diveStart = vh * 1.04;
-      var diveEnd = vh * 0.74;
+      var diveEnd = vh * 0.72;
 
-      if (ctr.top < diveStart && ctr.top > 92 && wsProbe > vh * 0.44) {
+      if (ctr.top < diveStart && wsProbe > vh * 0.44) {
         var cbr = curtainBerth.getBoundingClientRect();
         if (cbr.width > 12) {
           activeAct = 'work';
@@ -1042,19 +1237,20 @@
             var fromH = getHeaderAnchor();
             var divePos = quadBezier(
               fromH.x, fromH.y,
-              lerp(fromH.x, targetCx, 0.36), lerp(fromH.y, targetCy, 0.62),
-              targetCx, targetCy,
+              lerp(fromH.x, targetCx, 0.36), lerp(fromH.y, targetCy, 0.56),
+              targetCx, clamp(targetCy, 108, vh * 0.66),
               tDive
             );
             tx = divePos.x;
             ty = divePos.y;
-            scale = 0.56;
+            scale = 0.56 + Math.sin(tDive * Math.PI) * 0.08;
             compact = lerp(0.52, 0.68, tDive);
-            isDark = tDive > 0.62;
+            tiltTarget = Math.sin(tDive * Math.PI) * 14;
+            isDark = tDive > 0.58;
             activeBerth = tDive < 0.08 ? 'header' : (tDive > 0.92 ? 'curtain' : '');
             actGazeX = 0.68;
             actGazeY = 0.76;
-          } else {
+          } else if (ctr.top > 112) {
             activeBerth = 'curtain';
             tx = targetCx;
             ty = targetCy;
@@ -1063,6 +1259,21 @@
             isDark = true;
             actGazeX = 0.3;
             actGazeY = state.hoveredKind === 'curtain' ? 0.9 : 0.25;
+          } else {
+            /* 从拉环优雅高抛滑入下方作品泊位，避免落入通用 fallback 轨道 */
+            var wbrPreview = workBerth ? workBerth.getBoundingClientRect() : null;
+            var tC2W = easeInOut(clamp((112 - ctr.top) / 140, 0, 1));
+            var wx = (wbrPreview && wbrPreview.width > 12) ? (wbrPreview.left + wbrPreview.width / 2) : vw * 0.60;
+            var wy = (wbrPreview && wbrPreview.width > 12) ? clamp(wbrPreview.top + wbrPreview.height / 2, 130, vh * 0.68) : vh * 0.56;
+            var arcCW = quadBezier(targetCx, Math.max(96, targetCy), lerp(targetCx, wx, 0.52) + 28, Math.max(100, lerp(targetCy, wy, 0.45) - 36), wx, wy, tC2W);
+            tx = arcCW.x;
+            ty = arcCW.y;
+            scale = lerp(0.56, 0.62, tC2W) + Math.sin(tC2W * Math.PI) * 0.06;
+            compact = lerp(0.68, 0.64, tC2W);
+            tiltTarget = Math.sin(tC2W * Math.PI) * 12;
+            isDark = true;
+            actGazeX = 0.45;
+            actGazeY = 0.65;
           }
         }
       }
@@ -1071,7 +1282,7 @@
     /* Act 5 & 6: 暗色作品展台（切屏向上顶撞展台框 + 火花）+ 能力宣言连续平滑 S 型穿行 */
     if (darkAct && activeBerth !== 'curtain' && activeAct !== 'work') {
       var darkRect = darkAct.getBoundingClientRect();
-      if (darkRect.top <= vh * 0.48 && darkRect.bottom > 96) {
+      if (darkRect.top <= vh * 0.48 && darkRect.bottom > vh * 0.26) {
         isDark = true;
         if (workStage && workFrame) {
           var wsRect = workStage.getBoundingClientRect();
@@ -1102,7 +1313,7 @@
         }
         if (activeAct !== 'work' && capabilitiesSection && capabilityLines.length) {
           var capR = capabilitiesSection.getBoundingClientRect();
-          if (capR.top < vh * 0.74 && capR.bottom > vh * 0.14) {
+          if (capR.top < vh * 0.74 && capR.bottom > vh * 0.24) {
             activeAct = 'capabilities';
             /* 能力区采用明显更舒缓的阻尼速度（5.4 vs 默认 12.2），杜绝匆忙乱窜 */
             followLambda = 5.4;
@@ -1151,44 +1362,91 @@
       }
     }
 
-    /* Act 7: 方法论档案叠卡（沿卡片顶部索引眉连续平滑漫步 24% → 50% → 74% → 44%，绝不左右突兀瞬移） → 平滑弧线回左上角陪读知识手册 */
+    /* Act 7: 方法论档案叠卡 — 跨暗幕轻跃至「把清晰交给用户。」大标题落脚 → 轻弧落上 No. 01 索引眉 → 沿 4 张卡片连续漫步与微火花点亮 */
     var methodAnchor = null;
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
-      if (mr.top < vh * 0.58 && mr.bottom > vh * 0.18) {
+      if (mr.top < vh * 0.96 && mr.bottom > vh * 0.18) {
         activeAct = 'method';
-        var frontIdx = 0;
-        for (var m = 0; m < methodCards.length; m++) {
-          var mcr = methodCards[m].getBoundingClientRect();
-          if (mcr.top <= vh * 0.56) frontIdx = m;
-        }
-        if (frontIdx !== state.lastMethodIdx) {
-          if (state.lastMethodIdx !== -1) {
-            hop(0.32);
-            triggerWink(280, false);
+        var card0R = methodCards[0].getBoundingClientRect();
+        var mtSpan = methodTitle ? (methodTitle.querySelector('span:last-child') || methodTitle) : null;
+        var mtAnchor = getTextEndAnchor(mtSpan, 34, -2);
+        var mPerchX = mtAnchor ? clamp(mtAnchor.x, 160, vw - 80) : vw * 0.54;
+        var mPerchY = mtAnchor ? clamp(mtAnchor.y, 110, vh * 0.54) : vh * 0.38;
+
+        if (card0R.top > vh * 0.72) {
+          /* 刚越过暗幕与工具横幅：在「把清晰交给用户。」旁优雅悬停眨眼，绝不贴底 */
+          tx = mPerchX;
+          ty = mPerchY + Math.sin(now * 0.0034) * 4;
+          scale = 0.68;
+          compact = 0.20;
+          tiltTarget = -6;
+          actGazeX = -0.84;
+          actGazeY = 0.12;
+          followLambda = 7.4;
+          methodAnchor = { x: tx, y: ty };
+          if (!state.methodTitleSparked && mtAnchor && mtAnchor.rawTop > 70 && mtAnchor.rawTop < vh * 0.82) {
+            state.methodTitleSparked = true;
+            emitPinFirework(mPerchX - 10, mPerchY + 4, false, false);
+            triggerWink(320, false);
           }
-          state.lastMethodIdx = frontIdx;
-        }
-        var fcr = methodCards[frontIdx].getBoundingClientRect();
-        var methodP = clamp((vh * 0.56 - mr.top) / Math.max(260, mr.height - vh * 0.42), 0, 1);
-        /* 连续三段平缓移动：0→0.36 (24%→50%)，0.36→0.72 (50%→74%)，0.72→1 (74%→44%)，避开左侧标题与右侧标语 */
-        var xFrac;
-        if (methodP < 0.36) {
-          xFrac = lerp(0.24, 0.50, easeInOut(methodP / 0.36));
-        } else if (methodP < 0.72) {
-          xFrac = lerp(0.50, 0.74, easeInOut((methodP - 0.36) / 0.36));
+        } else if (card0R.top > vh * 0.52) {
+          /* 从大标题优雅轻弧跃落到 No. 01 发现 卡片顶部索引眉 */
+          var tMIn = easeInOut(clamp((vh * 0.72 - card0R.top) / (vh * 0.20), 0, 1));
+          var tab0X = clamp(card0R.left + card0R.width * 0.24, 60, vw - 60);
+          var tab0Y = clamp(card0R.top - 14, 96, vh * 0.72);
+          var arcM = quadBezier(
+            mPerchX, mPerchY,
+            lerp(mPerchX, tab0X, 0.5), Math.max(92, Math.min(mPerchY, tab0Y) - 44),
+            tab0X, tab0Y,
+            tMIn
+          );
+          tx = arcM.x;
+          ty = arcM.y;
+          scale = lerp(0.68, 0.64, tMIn) + Math.sin(tMIn * Math.PI) * 0.07;
+          compact = lerp(0.20, 0.36, tMIn);
+          tiltTarget = Math.sin(tMIn * Math.PI) * -14;
+          actGazeX = lerp(-0.5, 0.35, tMIn);
+          actGazeY = lerp(0.2, 0.78, tMIn);
+          activeMethodIdx = tMIn > 0.65 ? 0 : -1;
+          methodAnchor = { x: tx, y: ty };
         } else {
-          xFrac = lerp(0.74, 0.44, easeInOut((methodP - 0.72) / 0.28));
+          var frontIdx = 0;
+          for (var m = 0; m < methodCards.length; m++) {
+            var mcr = methodCards[m].getBoundingClientRect();
+            if (mcr.top <= vh * 0.56) frontIdx = m;
+          }
+          activeMethodIdx = frontIdx;
+          var fcr = methodCards[frontIdx].getBoundingClientRect();
+          var methodP = clamp((vh * 0.56 - mr.top) / Math.max(260, mr.height - vh * 0.42), 0, 1);
+          /* 连续三段平缓移动：0→0.36 (24%→50%)，0.36→0.72 (50%→74%)，0.72→1 (74%→44%)，避开左侧标题与右侧标语 */
+          var xFrac;
+          if (methodP < 0.36) {
+            xFrac = lerp(0.24, 0.50, easeInOut(methodP / 0.36));
+          } else if (methodP < 0.72) {
+            xFrac = lerp(0.50, 0.74, easeInOut((methodP - 0.36) / 0.36));
+          } else {
+            xFrac = lerp(0.74, 0.44, easeInOut((methodP - 0.72) / 0.28));
+          }
+          tx = clamp(fcr.left + fcr.width * xFrac, 60, vw - 60);
+          ty = clamp(fcr.top - 14, 92, vh - 80);
+          if (frontIdx !== state.lastMethodIdx) {
+            if (state.lastMethodIdx !== -1) {
+              hop(0.42);
+              triggerWink(300, false);
+              emitSparks(tx, ty + 6, false, 6, true);
+            }
+            state.lastMethodIdx = frontIdx;
+          }
+          scale = 0.64;
+          compact = 0.36;
+          actGazeX = methodP < 0.72 ? 0.38 : -0.35;
+          actGazeY = 0.76;
+          methodAnchor = { x: tx, y: ty };
         }
-        tx = clamp(fcr.left + fcr.width * xFrac, 60, vw - 60);
-        ty = clamp(fcr.top - 14, 92, vh - 60);
-        scale = 0.64;
-        compact = 0.36;
-        actGazeX = methodP < 0.72 ? 0.38 : -0.35;
-        actGazeY = 0.76;
-        methodAnchor = { x: tx, y: ty };
       } else {
         state.lastMethodIdx = -1;
+        state.methodTitleSparked = false;
       }
     }
 
@@ -1421,6 +1679,7 @@
       activeProofStage: activeProofStage,
       activeWaypoint: activeWaypoint,
       activeCapIdx: activeCapIdx,
+      activeMethodIdx: activeMethodIdx,
       followLambda: followLambda,
       steppedTalkIdx: steppedTalkIdx,
       talkLetters: talkLettersCache,
@@ -1445,6 +1704,7 @@
       syncProofStageFocus('');
       syncWaypoints('');
       syncCapabilitiesFocus(-1);
+      syncMethodCardFocus(-1);
       syncSteppedTalkLetter(-1, null);
       closePopover();
       return;
@@ -1459,6 +1719,7 @@
     }
 
     var t = computeLiveTarget(now);
+    var prevAct = state.activeAct;
     var prevX = state.x;
     var prevY = state.y;
     var follow = 1 - Math.exp(-(t.followLambda || 12.2) * dt);
@@ -1480,11 +1741,16 @@
     state.activeAct = t.activeAct;
     state.dockedInControl = t.dockedInControl;
 
+    if (prevAct && prevAct !== t.activeAct && t.activeAct !== 'hero' && t.activeAct !== 'rail' && !t.dockedInControl) {
+      hop(0.32);
+    }
+
     var closeEnough = Math.hypot(t.x - state.x, t.y - state.y) < 42;
     syncBerths(closeEnough ? t.activeBerth : '');
     syncProofStageFocus(t.activeProofStage);
     syncWaypoints(t.activeWaypoint);
     syncCapabilitiesFocus(t.activeCapIdx);
+    syncMethodCardFocus(t.activeMethodIdx);
     syncSteppedTalkLetter(t.steppedTalkIdx, t.talkLetters);
 
     guide.classList.add('is-visible');
@@ -1515,6 +1781,7 @@
       syncProofStageFocus('');
       syncWaypoints('');
       syncCapabilitiesFocus(-1);
+      syncMethodCardFocus(-1);
       syncSteppedTalkLetter(-1, null);
       closePopover();
       return;

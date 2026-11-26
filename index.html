@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/fonts.css?v=2">
     <link rel="stylesheet" href="assets/css/portfolio.css?v=4">
-    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=5">
+    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=6">
     <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
     <link rel="stylesheet" href="assets/css/proof-showcase.css?v=5">
     <link rel="stylesheet" href="assets/css/footer-talk.css?v=3">
@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=4">
     <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
     <link rel="stylesheet" href="assets/css/case-details.css?v=2">
-    <link rel="stylesheet" href="assets/css/signature-motion.css?v=8">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=9">
     <link rel="stylesheet" href="assets/css/work-boards.css?v=1">
   </head>
   <body>
@@ -616,7 +616,7 @@
           <li style="--step: 0" data-step-index="0">
             <div class="step-tab">
               <div class="step-tab-main"><span class="step-number">No. 01</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="0">发现</button></h3></div>
-              <span class="step-sub">找到真实问题</span>
+              <span class="step-sub">找到真实问题 · 划清系统边界</span>
             </div>
             <div class="step-content">
               <div class="step-visual" aria-hidden="true">
@@ -632,17 +632,26 @@
                   <rect class="md-node" x="116" y="74" width="32" height="16" rx="2" stroke="currentColor" stroke-width="1.15" fill="var(--paper)"/>
                   <circle class="md-node md-pulse" cx="182" cy="52" r="5" fill="var(--accent-bright)"/>
                 </svg>
-                <span class="step-visual-caption">1 主视觉 → 多规格适配 → 审核</span>
+                <span class="step-visual-caption">AI 提取 · 规则校验 · 人工终审分层</span>
               </div>
-              <div class="step-body"><p>从运营制作流程入手，识别重复制作、尺寸适配和反复修改的成本。</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+              <div class="step-body">
+                <h4 class="step-lead">拒绝“为用 AI 而用 AI”，先把真实业务流程与出错成本拆透。</h4>
+                <p>深入一线梳理业务、财务、法务与运营的真实 SOP，让大模型承接非结构化解析与创意发散，把确定性核验与最终担责留给规则和人工。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>关键取舍</dt><dd>不做黑盒自动放行或自动出终稿，改用人机分层协同</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>滴滴风控 120m → 30m · DiVA 单批 2h → 40m</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiRisk">租车风控工作台 <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+                </div>
               </div>
             </div>
           </li>
           <li style="--step: 1" data-step-index="1">
             <div class="step-tab">
               <div class="step-tab-main"><span class="step-number">No. 02</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="1">定义</button></h3></div>
-              <span class="step-sub">让目标可衡量</span>
+              <span class="step-sub">让目标可衡量 · 锁定契约口径</span>
             </div>
             <div class="step-content">
               <div class="step-visual" aria-hidden="true">
@@ -657,15 +666,23 @@
                 </svg>
                 <span class="step-visual-caption">覆盖率 · 价差 · 低价率基准线</span>
               </div>
-              <div class="step-body"><p>把业务问题拆成可比较的指标，用覆盖率、价差和低价率识别短板。</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价实践 <span aria-hidden="true">↗</span></button>
+              <div class="step-body">
+                <h4 class="step-lead">把模糊的“好用”翻译成可对齐、可复算的指标口径与输入契约。</h4>
+                <p>在搭工作流与写 Prompt 前，先固定同航班匹配规则、字段映射和三层 Skill 契约，避免因时点、舱位或口径混用导致业务结论失真。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>结构封装</dt><dd>入口触发 · 六步状态机主体 · 回归样本引用层</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>约 2,500 条航线比价 · 人工耗时降 90%+</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价 Skill 实践 <span aria-hidden="true">↗</span></button>
+                </div>
               </div>
             </div>
           </li>
           <li style="--step: 2" data-step-index="2">
             <div class="step-tab">
               <div class="step-tab-main"><span class="step-number">No. 03</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="2">验证</button></h3></div>
-              <span class="step-sub">让方案接受检验</span>
+              <span class="step-sub">让方案接受检验 · 用真难例说话</span>
             </div>
             <div class="step-content">
               <div class="step-visual" aria-hidden="true">
@@ -678,17 +695,26 @@
                   <circle class="md-node" cx="132" cy="39" r="3" fill="var(--ink)"/>
                   <circle class="md-node" cx="70" cy="68" r="3" fill="var(--ink)"/>
                 </svg>
-                <span class="step-visual-caption">功能 · 视觉 · 交互端到端门禁</span>
+                <span class="step-visual-caption">功能 · 视觉 · 交互 7 维端到端门禁</span>
               </div>
-              <div class="step-body"><p>把功能、视觉、交互纳入端到端评测，保留失败证据和问题详情。</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+              <div class="step-body">
+                <h4 class="step-lead">不凭体感拍板，把脏材料、攻击边界与端到端体验放进评测集。</h4>
+                <p>将单一代码通过率扩展为 7 维网页产品交付评测，同步构建脱敏难例盲测、安全攻击与多轮追问检验，让每次判断都有可回溯的失败证据。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>评测覆盖</dt><dd>6 类 Web 任务 × 7 维门禁 · 38×3 模型对照盲测</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>评测操作省时 71.4% · Ask Me 106 项测试 0 违规</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="askMe">Ask Me 评测体系 <span aria-hidden="true">↗</span></button>
+                </div>
               </div>
             </div>
           </li>
           <li style="--step: 3" data-step-index="3">
             <div class="step-tab">
               <div class="step-tab-main"><span class="step-number">No. 04</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="3">迭代</button></h3></div>
-              <span class="step-sub">用反馈推动下一步</span>
+              <span class="step-sub">用反馈推动下一步 · 闭环沉淀</span>
             </div>
             <div class="step-content">
               <div class="step-visual" aria-hidden="true">
@@ -706,8 +732,17 @@
                 </svg>
                 <span class="step-visual-caption">评测 → 归因 → 策略 → 复测闭环</span>
               </div>
-              <div class="step-body"><p>归因 Bad Case，协同算法和研发复测，跟踪质量、Token 消耗与响应效率。</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+              <div class="step-body">
+                <h4 class="step-lead">把一线反馈与 Bad Case 按模型、策略、工程归因，持续复测闭环。</h4>
+                <p>面对高频运营反馈先区分“业务目标”和“用户建议做法”；协同算法与研发优化召回排序、文件写入协议与断点恢复，同步跟踪质量与 Token 效率。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>归因方法</dt><dd>按认知引导、交互体验、技术约束分层排期破局</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>复杂样本 16.04 → 69.07 · 输入 Token 降 70.8%</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="baichuanRag">医疗 RAG 归因 <span aria-hidden="true">↗</span></button>
+                </div>
               </div>
             </div>
           </li>
@@ -834,7 +869,7 @@
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
     <script src="assets/js/work-boards.js?v=1" defer></script>
     <script src="assets/js/signature-motion.js?v=5" defer></script>
-    <script src="assets/js/ink-companion.js?v=7" defer></script>
+    <script src="assets/js/ink-companion.js?v=8" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
     <script src="assets/js/pointer-interactions.js?v=5" defer></script>
     <script src="assets/js/footer-talk.js?v=3" defer></script>
