@@ -135,6 +135,7 @@
     hoveredEl: null,
     hoveredKind: '',
     lastPathIdx: -1,
+    lastMethodIdx: -1,
     popoverOpen: false,
     lastFrame: performance.now()
   };
@@ -1105,7 +1106,7 @@
       }
     }
 
-    /* Act 7: 方法论档案叠卡 → 平滑弧线飞回左上角 ZACK ZHANG 陪读知识手册 */
+    /* Act 7: 方法论档案叠卡（沿卡片顶部索引眉连续平滑漫步 24% → 50% → 74% → 44%，绝不左右突兀瞬移） → 平滑弧线回左上角陪读知识手册 */
     var methodAnchor = null;
     if (!isDark && methodSection && methodCards.length) {
       var mr = methodSection.getBoundingClientRect();
@@ -1114,19 +1115,35 @@
         var frontIdx = 0;
         for (var m = 0; m < methodCards.length; m++) {
           var mcr = methodCards[m].getBoundingClientRect();
-          if (mcr.top <= vh * 0.52) frontIdx = m;
+          if (mcr.top <= vh * 0.56) frontIdx = m;
+        }
+        if (frontIdx !== state.lastMethodIdx) {
+          if (state.lastMethodIdx !== -1) {
+            hop(0.32);
+            triggerWink(280, false);
+          }
+          state.lastMethodIdx = frontIdx;
         }
         var fcr = methodCards[frontIdx].getBoundingClientRect();
-        var methodOnLeft = (frontIdx % 2 === 1);
-        tx = methodOnLeft
-          ? clamp(fcr.left + 26, 44, vw * 0.5)
-          : clamp(fcr.right - 26, vw * 0.5, vw - 36);
+        var methodP = clamp((vh * 0.56 - mr.top) / Math.max(260, mr.height - vh * 0.42), 0, 1);
+        /* 连续三段平缓移动：0→0.36 (24%→50%)，0.36→0.72 (50%→74%)，0.72→1 (74%→44%)，避开左侧标题与右侧标语 */
+        var xFrac;
+        if (methodP < 0.36) {
+          xFrac = lerp(0.24, 0.50, easeInOut(methodP / 0.36));
+        } else if (methodP < 0.72) {
+          xFrac = lerp(0.50, 0.74, easeInOut((methodP - 0.36) / 0.36));
+        } else {
+          xFrac = lerp(0.74, 0.44, easeInOut((methodP - 0.72) / 0.28));
+        }
+        tx = clamp(fcr.left + fcr.width * xFrac, 60, vw - 60);
         ty = clamp(fcr.top - 14, 92, vh - 60);
-        scale = 0.66;
+        scale = 0.64;
         compact = 0.36;
-        actGazeX = methodOnLeft ? 0.55 : -0.55;
-        actGazeY = 0.48;
+        actGazeX = methodP < 0.72 ? 0.38 : -0.35;
+        actGazeY = 0.76;
         methodAnchor = { x: tx, y: ty };
+      } else {
+        state.lastMethodIdx = -1;
       }
     }
 
@@ -1140,17 +1157,17 @@
           applyHeaderDocked(0.35);
         } else {
           var tK = easeInOut(clamp((kClimbStart - kr.top) / (kClimbStart - kClimbEnd), 0, 1));
-          var fromM = methodAnchor || { x: vw * 0.72, y: vh * 0.34 };
+          var fromM = methodAnchor || { x: vw * 0.48, y: vh * 0.34 };
           var headK = getHeaderAnchor();
           var kPos = quadBezier(
             fromM.x, fromM.y,
-            vw * 0.42, Math.max(54, lerp(fromM.y, headK.y, 0.45) - 38),
+            vw * 0.34, Math.max(54, lerp(fromM.y, headK.y, 0.45) - 34),
             headK.x, headK.y,
             tK
           );
           tx = kPos.x;
           ty = kPos.y;
-          scale = lerp(0.66, 0.56, tK);
+          scale = lerp(0.64, 0.56, tK);
           compact = lerp(0.36, 0.52, tK);
           dockedInControl = true;
           actGazeX = lerp(-0.78, 0.35, tK);
@@ -1160,29 +1177,35 @@
       }
     }
 
-    /* Act 8: 页尾 Let's talk 终幕演出 — 从顶栏轻跃落上 L → 在字母头顶一路蹦跳踩踏 → 踩在 k/→ 边缘俏皮一滑 → 自然掉进下方 AI 分身追问带！ */
+    /* Act 8: 页尾 Let's talk 精炼终幕 — 轻跃 L → t → k 三拍，踩弯 → 打滑，并在追问带进入视口中下区时提前稳稳落座 #runwayBerth！ */
     if (footer && talkArrow) {
       var fRect = footer.getBoundingClientRect();
-      var footStart = vh * 0.95;
+      var footStart = vh * 0.94;
       var maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
       var fDocTop = fRect.top + y;
+      var runwayRect = footerRunway ? footerRunway.getBoundingClientRect() : null;
+      var runwayDocTop = runwayRect ? (runwayRect.top + y) : (fDocTop + 420);
       var enterScrollY = Math.max(0, fDocTop - footStart);
-      var endScrollY = Math.max(enterScrollY + 180, maxScroll - 18);
+      /* 提前收尾：当 #footerRunway 来到视口 ~66% 处（无需滚到最底），动画已 100% 落座框内！ */
+      var endScrollY = Math.min(maxScroll - 150, Math.max(enterScrollY + 230, runwayDocTop - vh * 0.66));
 
       if (fRect.top < footStart) {
         activeAct = 'footer';
         isDark = false;
         dockedInControl = true;
-        var tFoot = clamp((y - enterScrollY) / Math.max(160, endScrollY - enterScrollY), 0, 1);
+        var tFoot = clamp((y - enterScrollY) / Math.max(180, endScrollY - enterScrollY), 0, 1);
 
         var letters = talkText ? Array.from(talkText.querySelectorAll('.talk-letter')) : [];
         talkLettersCache = letters;
-        /* 筛选实际可视字母（跳过空格），形成清晰的跳格子落脚点：L, e, t, s, t, a, l, k */
-        var hopLetters = [];
+        /* 只取 3 个关键落脚字母（L / talk 的 t / k），节奏干净利落不拖沓 */
+        var visLetters = [];
         for (var li = 0; li < letters.length; li++) {
           var ch = (letters[li].textContent || '').trim();
-          if (ch && ch !== "'") hopLetters.push({ el: letters[li], rawIdx: li });
+          if (ch && ch !== "'") visLetters.push({ el: letters[li], rawIdx: li });
         }
+        var hopPeaks = visLetters.length >= 6
+          ? [visLetters[0], visLetters[4], visLetters[visLetters.length - 1]]
+          : visLetters;
 
         var headF = getHeaderAnchor();
         var rbr = runwayBerth ? runwayBerth.getBoundingClientRect() : null;
@@ -1197,12 +1220,12 @@
           return { x: lr.left + lr.width * 0.5, y: lr.top + lr.height * 0.16 };
         }
 
-        if (hopLetters.length >= 4 && tFoot < 0.96) {
-          var firstPt = letterTop(hopLetters[0]);
-          var lastPt = letterTop(hopLetters[hopLetters.length - 1]);
+        if (hopPeaks.length >= 3 && tFoot < 0.90) {
+          var firstPt = letterTop(hopPeaks[0]);
+          var lastPt = letterTop(hopPeaks[hopPeaks.length - 1]);
 
           if (tFoot < 0.16) {
-            /* 1) 从左上角 ZACK ZHANG 轻跃落上第一个字母 L 的头顶 */
+            /* 1) 从左上角 ZACK ZHANG 轻跃落上 L */
             var u0 = easeInOut(tFoot / 0.16);
             var dropL = quadBezier(
               headF.x, headF.y,
@@ -1218,28 +1241,27 @@
             actGazeX = 0.35;
             actGazeY = 0.85;
             if (u0 < 0.08) activeBerth = 'header';
-            if (u0 > 0.84) steppedTalkIdx = hopLetters[0].rawIdx;
-          } else if (tFoot < 0.64) {
-            /* 2) 在 L → e → t → s → t → a → l → k 头顶弹性蹦跳，踩哪颗哪颗下压变焦橙！ */
-            var hopU = (tFoot - 0.16) / 0.48;
-            var segF = hopU * (hopLetters.length - 1);
-            var hIdx = Math.min(hopLetters.length - 2, Math.floor(segF));
+            if (u0 > 0.82) steppedTalkIdx = hopPeaks[0].rawIdx;
+          } else if (tFoot < 0.44) {
+            /* 2) 精简两记大跨步弹跳：L → t → k */
+            var hopU = (tFoot - 0.16) / 0.28;
+            var segF = hopU * (hopPeaks.length - 1);
+            var hIdx = Math.min(hopPeaks.length - 2, Math.floor(segF));
             var hLoc = clamp(segF - hIdx, 0, 1);
-            var pA = letterTop(hopLetters[hIdx]);
-            var pB = letterTop(hopLetters[hIdx + 1]);
-            var arcH = 26 + (hIdx === 3 ? 16 : 0); /* 跨越 Let's 与 talk 之间空格跳得更高！ */
+            var pA = letterTop(hopPeaks[hIdx]);
+            var pB = letterTop(hopPeaks[hIdx + 1]);
             tx = lerp(pA.x, pB.x, hLoc);
-            ty = lerp(pA.y, pB.y, hLoc) - 12 - Math.sin(hLoc * Math.PI) * arcH;
+            ty = lerp(pA.y, pB.y, hLoc) - 12 - Math.sin(hLoc * Math.PI) * 42;
             scale = 0.72;
             compact = 0.10;
             tiltTarget = Math.cos(hLoc * Math.PI) * 11;
             actGazeX = 0.78;
             actGazeY = hLoc < 0.5 ? -0.25 : 0.72;
-            if (hLoc < 0.24) steppedTalkIdx = hopLetters[hIdx].rawIdx;
-            else if (hLoc > 0.76) steppedTalkIdx = hopLetters[hIdx + 1].rawIdx;
-          } else if (tFoot < 0.78) {
-            /* 3) 跳上 k 末尾与箭头 → 边缘突然打滑歪身！ */
-            var slipU = easeInOut((tFoot - 0.64) / 0.14);
+            if (hLoc < 0.22) steppedTalkIdx = hopPeaks[hIdx].rawIdx;
+            else if (hLoc > 0.78) steppedTalkIdx = hopPeaks[hIdx + 1].rawIdx;
+          } else if (tFoot < 0.62) {
+            /* 3) 踩上 → 箭头并失衡打滑 */
+            var slipU = easeInOut((tFoot - 0.44) / 0.18);
             var slipPt = quadBezier(
               lastPt.x, lastPt.y - 12,
               lerp(lastPt.x, arrowTop.x, 0.5), Math.min(lastPt.y, arrowTop.y) - 24,
@@ -1250,27 +1272,27 @@
             ty = slipPt.y;
             scale = 0.74;
             compact = 0.08;
-            tiltTarget = lerp(6, 26, slipU); /* 俏皮失衡侧倾打滑！ */
+            tiltTarget = lerp(6, 24, slipU);
             actGazeX = 0.3;
             actGazeY = 0.95;
-            if (slipU > 0.45) steppedTalkIdx = 999; /* 踩弯 → 箭头 */
+            if (slipU > 0.40) steppedTalkIdx = 999;
           } else {
-            /* 4) 顺着失衡惯性从右侧优雅滑坠，稳稳掉进下方左侧 #runwayBerth！ */
-            var fallU = easeInOut((tFoot - 0.78) / 0.18);
+            /* 4) 提前优雅滑坠落座下方左侧 #runwayBerth！ */
+            var fallU = easeInOut((tFoot - 0.62) / 0.28);
             var fallStart = { x: arrowTop.x + 10, y: arrowTop.y + 18 };
-            var fallCtrl = { x: lerp(fallStart.x, berthPt.x, 0.35), y: Math.max(fallStart.y + 60, lerp(fallStart.y, berthPt.y, 0.78)) };
+            var fallCtrl = { x: lerp(fallStart.x, berthPt.x, 0.36), y: Math.max(fallStart.y + 52, lerp(fallStart.y, berthPt.y, 0.76)) };
             var fallPos = quadBezier(fallStart.x, fallStart.y, fallCtrl.x, fallCtrl.y, berthPt.x, berthPt.y, fallU);
             tx = fallPos.x;
             ty = fallPos.y;
             scale = lerp(0.74, 0.82, fallU);
             compact = lerp(0.08, 0, fallU);
-            tiltTarget = lerp(26, 0, fallU);
+            tiltTarget = lerp(24, 0, fallU);
             actGazeX = lerp(-0.75, 0.85, fallU);
             actGazeY = lerp(0.85, 0.04, fallU);
-            if (fallU > 0.88) activeBerth = 'runway';
+            if (fallU > 0.86) activeBerth = 'runway';
           }
         } else {
-          /* 已稳稳落座页尾 AI 分身追问带 */
+          /* 已提前稳稳落座页尾 AI 分身追问带 */
           activeBerth = 'runway';
           tx = berthPt.x;
           ty = berthPt.y;
