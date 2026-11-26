@@ -137,6 +137,7 @@
   media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', function () {
     var stage = document.getElementById('workStage');
     var frame = document.getElementById('workStageFrame');
+    var frameCta = document.getElementById('workFrameCta');
     var labelEl = document.getElementById('workStageLabel');
     var countEl = document.getElementById('workStageCount');
     var dockBtn = document.getElementById('workDockTrigger');
@@ -177,8 +178,11 @@
       }
 
       frame.setAttribute('data-project-id', projectId);
-      frame.setAttribute('aria-label', '查看 ' + titleText + ' 项目详情');
       frame.style.setProperty('--stage-accent', frameAccent);
+      if (frameCta) {
+        frameCta.setAttribute('data-project-id', projectId);
+        frameCta.setAttribute('aria-label', '查看 ' + titleText + ' 项目详情');
+      }
       if (dockBtn) {
         dockBtn.setAttribute('data-project-id', projectId);
         dockBtn.setAttribute('aria-label', '了解 ' + titleText + ' 项目详情');

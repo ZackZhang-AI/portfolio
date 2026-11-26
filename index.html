@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/fonts.css?v=2">
-    <link rel="stylesheet" href="assets/css/portfolio.css?v=3">
+    <link rel="stylesheet" href="assets/css/portfolio.css?v=4">
     <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=4">
     <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
     <link rel="stylesheet" href="assets/css/proof-showcase.css?v=5">
@@ -30,7 +30,8 @@
     <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=4">
     <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
     <link rel="stylesheet" href="assets/css/case-details.css?v=2">
-    <link rel="stylesheet" href="assets/css/signature-motion.css?v=7">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=8">
+    <link rel="stylesheet" href="assets/css/work-boards.css?v=1">
   </head>
   <body>
     <script>
@@ -425,14 +426,14 @@
         <div class="work-stage" id="workStage">
           <div class="work-chapters">
             <article class="work-chapter is-active" id="workChapter0" data-work-index="0" data-project-id="askMe" data-frame-label="ask-me-career-agent.vercel.app" data-frame-accent="rgba(239, 138, 76, 0.14)">
-              <button class="work-image work-chapter-media projectTrigger" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label">ask-me-career-agent.vercel.app</span>
-                  <span class="work-frame-cta">查看案例 <span>↗</span></span>
-                </span>
-                <span class="work-frame-media"><img src="assets/img/projects/ask-me/home.png" alt="Ask Me 求职数字分身首页" width="1440" height="900" loading="lazy" decoding="async"></span>
-              </button>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/ask-me/chat.png" alt="Ask Me 求职数字分身问答与引用界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
               <div class="work-copy">
                 <div class="work-chapter-meta"><span class="work-chapter-num">01</span><span class="project-type">个人自研 · 求职场景</span></div>
                 <h3>Ask Me</h3>
@@ -446,14 +447,14 @@
               </div>
             </article>
             <article class="work-chapter" id="workChapter1" data-work-index="1" data-project-id="rag" data-frame-label="RAG · EVALUATION WORKBENCH" data-frame-accent="rgba(164, 198, 232, 0.12)">
-              <button class="work-image work-chapter-media projectTrigger" type="button" data-project-id="rag" aria-label="查看 RAG Knowledge Base 项目详情">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label">RAG · EVALUATION WORKBENCH</span>
-                  <span class="work-frame-cta">查看案例 <span>↗</span></span>
-                </span>
-                <span class="work-frame-media"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></span>
-              </button>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="rag" aria-label="查看 RAG Knowledge Base 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
               <div class="work-copy">
                 <div class="work-chapter-meta"><span class="work-chapter-num">02</span><span class="project-type">实习脱敏复刻 Demo · 2026</span></div>
                 <h3>RAG Knowledge Base</h3>
@@ -466,14 +467,14 @@
               </div>
             </article>
             <article class="work-chapter" id="workChapter2" data-work-index="2" data-project-id="agentScope" data-frame-label="agentscope-harnesslab.vercel.app" data-frame-accent="rgba(218, 174, 126, 0.14)">
-              <button class="work-image work-chapter-media projectTrigger" type="button" data-project-id="agentScope" aria-label="查看 AgentScope 项目详情">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label">agentscope-harnesslab.vercel.app</span>
-                  <span class="work-frame-cta">查看案例 <span>↗</span></span>
-                </span>
-                <span class="work-frame-media"><img src="assets/img/projects/agentscope/home.png" alt="AgentScope 黑匣子回放器首页" width="1440" height="900" loading="lazy" decoding="async"></span>
-              </button>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="agentScope" aria-label="查看 AgentScope 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/agentscope/case-study.png" alt="AgentScope 黑匣子回放与 Trace 界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
               <div class="work-copy">
                 <div class="work-chapter-meta"><span class="work-chapter-num">03</span><span class="project-type">Agent 可观测性 · 2026</span></div>
                 <h3>AgentScope</h3>
@@ -487,14 +488,14 @@
               </div>
             </article>
             <article class="work-chapter" id="workChapter3" data-work-index="3" data-project-id="deepflow" data-frame-label="DEEPFLOW · MULTI-AGENT RESEARCH" data-frame-accent="rgba(196, 176, 148, 0.13)">
-              <button class="work-image work-chapter-media projectTrigger" type="button" data-project-id="deepflow" aria-label="查看 DeepFlow 项目详情">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label">DEEPFLOW · MULTI-AGENT RESEARCH</span>
-                  <span class="work-frame-cta">查看案例 <span>↗</span></span>
-                </span>
-                <span class="work-frame-media"><img src="assets/img/projects/deepflow/research-home-2026.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></span>
-              </button>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="deepflow" aria-label="查看 DeepFlow 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
               <div class="work-copy">
                 <div class="work-chapter-meta"><span class="work-chapter-num">04</span><span class="project-type">多 Agent 研究 · 2026</span></div>
                 <h3>DeepFlow</h3>
@@ -507,14 +508,14 @@
               </div>
             </article>
             <article class="work-chapter" id="workChapter4" data-work-index="4" data-project-id="webCoding" data-frame-label="VIBE CODING · 8 WORKING PROTOTYPES" data-frame-accent="rgba(239, 138, 76, 0.13)">
-              <button class="work-image work-chapter-media projectTrigger" type="button" data-project-id="webCoding" aria-label="查看 Vibe Coding 全部 8 个原型">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label">VIBE CODING · 8 WORKING PROTOTYPES</span>
-                  <span class="work-frame-cta">查看全部原型 <span>↗</span></span>
-                </span>
-                <span class="work-frame-media"><img src="assets/img/projects/web-coding/read-later-regret.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></span>
-              </button>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="webCoding" aria-label="查看 Vibe Coding 全部 8 个原型">查看全部原型 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/web-coding/thirty-minute-brain-context.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
               <div class="work-copy">
                 <div class="work-chapter-meta"><span class="work-chapter-num">05</span><span class="project-type">个人产品实验 · 持续构建</span></div>
                 <h3>Vibe Coding</h3>
@@ -529,21 +530,25 @@
           </div>
           <aside class="work-stage-aside" aria-label="项目界面展台">
             <div class="work-stage-sticky">
-              <button class="work-image work-stage-frame projectTrigger" id="workStageFrame" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">
-                <span class="work-frame-chrome" aria-hidden="true">
-                  <span class="work-frame-dots"><i></i><i></i><i></i></span>
+              <div class="work-image work-stage-frame" id="workStageFrame" data-project-id="askMe" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                   <span class="work-frame-label" id="workStageLabel">ask-me-career-agent.vercel.app</span>
                   <span class="work-frame-count" id="workStageCount">01 / 05</span>
-                  <span class="work-frame-cta">查看案例 <span>↗</span></span>
-                </span>
-                <span class="work-stage-viewport">
-                  <span class="work-stage-slide is-active" data-slide-index="0"><img src="assets/img/projects/ask-me/home.png" alt="Ask Me 求职数字分身首页" width="1440" height="900" decoding="async"></span>
-                  <span class="work-stage-slide" data-slide-index="1"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></span>
-                  <span class="work-stage-slide" data-slide-index="2"><img src="assets/img/projects/agentscope/home.png" alt="AgentScope 黑匣子回放器首页" width="1440" height="900" loading="lazy" decoding="async"></span>
-                  <span class="work-stage-slide" data-slide-index="3"><img src="assets/img/projects/deepflow/research-home-2026.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></span>
-                  <span class="work-stage-slide" data-slide-index="4"><img src="assets/img/projects/web-coding/read-later-regret.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></span>
-                </span>
-              </button>
+                  <span class="work-mode-toggle" id="workModeToggle" role="group" aria-label="切换展示模式">
+                    <button class="work-mode-btn is-active" type="button" data-work-mode="board" aria-pressed="true">画板</button>
+                    <button class="work-mode-btn" type="button" data-work-mode="raw" aria-pressed="false">实机</button>
+                  </span>
+                  <button class="work-frame-cta projectTrigger" id="workFrameCta" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-stage-viewport">
+                  <div class="work-stage-slide is-active" data-slide-index="0" data-board-id="askMe"><img src="assets/img/projects/ask-me/chat.png" alt="Ask Me 求职数字分身问答与引用界面" width="1440" height="900" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="1" data-board-id="rag"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="2" data-board-id="agentScope"><img src="assets/img/projects/agentscope/case-study.png" alt="AgentScope 黑匣子回放与 Trace 界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="3" data-board-id="deepflow"><img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="4" data-board-id="webCoding"><img src="assets/img/projects/web-coding/thirty-minute-brain-context.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></div>
+                </div>
+              </div>
               <div class="work-stage-footer">
                 <div class="work-stage-nav" role="tablist" aria-label="切换预览作品">
                   <button class="work-stage-pill is-active" type="button" data-stage-goto="0"><span>01</span> Ask Me</button>
@@ -803,7 +808,8 @@
     <script src="assets/js/portfolio.js?v=5" defer></script>
     <script src="assets/js/portfolio-motion.js?v=11" defer></script>
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
-    <script src="assets/js/signature-motion.js?v=4" defer></script>
+    <script src="assets/js/work-boards.js?v=1" defer></script>
+    <script src="assets/js/signature-motion.js?v=5" defer></script>
     <script src="assets/js/ink-companion.js?v=6" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
     <script src="assets/js/pointer-interactions.js?v=5" defer></script>

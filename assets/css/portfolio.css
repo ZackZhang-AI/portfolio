@@ -233,16 +233,16 @@ section[id], footer[id], #assemble, #recognition { scroll-margin-top: 20px; }
   margin: 10px 10px 10px;
   overflow: hidden;
   border-radius: 3px;
-  background: #ffffff;
+  background: #14110e;
   box-shadow: 0 0 0 1px rgb(255 255 255 / 6%);
 }
 .work-image img {
   width: 100%;
   height: auto;
   aspect-ratio: 1.6;
-  object-fit: contain;
+  object-fit: cover;
   object-position: top center;
-  background: #ffffff;
+  background: #14110e;
   transition: transform 520ms cubic-bezier(.22, 1, .36, 1);
 }
 .work-image:hover,

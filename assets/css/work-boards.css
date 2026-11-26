@@ -1,0 +1,802 @@
+/* ==========================================================================
+   方案 A：暗色活体产品展板 + 顶栏「画板 / 实机」一键切换
+   与 #darkAct 黑曜石 (#110f0d) × 暖米白 (#f4efe8) × 焦橙 (#ef8a4c / #d45118) 100% 融合
+   ========================================================================== */
+
+/* 1. 顶栏交互升级（无嵌套 button，清晰可点击的画板/实机胶囊 + 案例入口） */
+.work-stage-frame,
+.work-chapter-media {
+  position: relative;
+}
+.work-frame-chrome {
+  min-height: 44px;
+}
+.work-frame-cta {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+.work-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border: 1px solid rgb(234 229 224 / 15%);
+  border-radius: 3px;
+  background: rgb(0 0 0 / 34%);
+  flex-shrink: 0;
+}
+.work-mode-btn {
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #9e958a;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.work-mode-btn:hover {
+  color: #f4efe8;
+}
+.work-mode-btn.is-active {
+  background: rgb(239 138 76 / 22%);
+  color: #ffd0ad;
+  box-shadow: inset 0 0 0 1px rgb(239 138 76 / 34%);
+}
+
+/* 2. 双层视口结构：活体暗色画板（默认） + 暗底暖调装裱实机图（可一键切换） */
+.work-stage-viewport,
+.work-frame-media {
+  position: relative;
+  background: #14110e;
+  cursor: pointer;
+}
+.work-frame-media {
+  aspect-ratio: 16 / 10;
+}
+.work-stage-slide,
+.work-frame-media {
+  color: #f4efe8;
+}
+.work-slide-board,
+.work-slide-raw {
+  position: absolute;
+  inset: 0;
+  transition: opacity 340ms cubic-bezier(.22, 1, .36, 1), transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+.work-slide-board {
+  z-index: 2;
+  opacity: 1;
+  transform: scale(1);
+}
+.work-slide-raw {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background:
+    radial-gradient(80% 70% at 50% 18%, rgb(239 138 76 / 9%), transparent 72%),
+    linear-gradient(180deg, #1c1814 0%, #12100d 100%);
+}
+[data-view-mode="raw"] .work-slide-board {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(.985);
+}
+[data-view-mode="raw"] .work-slide-raw {
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+.work-slide-raw-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(255 245 234 / 13%);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #181512;
+  box-shadow: 0 16px 36px rgb(0 0 0 / 54%);
+}
+.work-slide-raw-shell img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: top center;
+  background: #181512;
+  filter: brightness(.89) contrast(.97) sepia(.09) saturate(.80);
+  transition: filter 280ms ease, transform 520ms cubic-bezier(.22, 1, .36, 1);
+}
+.work-slide-raw-shell[data-raw-tone="dark"] img {
+  filter: brightness(.97) contrast(1.03) saturate(.92);
+}
+.work-stage-frame[data-view-mode="raw"]:hover .work-slide-raw-shell img,
+.work-chapter-media[data-view-mode="raw"]:hover .work-slide-raw-shell img {
+  filter: brightness(1) contrast(1) sepia(0) saturate(1);
+  transform: scale(1.018);
+}
+.work-raw-badge {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border: 1px solid rgb(239 138 76 / 36%);
+  border-radius: 2px;
+  background: rgb(17 15 13 / 86%);
+  backdrop-filter: blur(8px);
+  color: #f3d7be;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  pointer-events: none;
+}
+
+/* 3. 暗色活体画板通用骨架 */
+.wb-canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 20px 22px 18px;
+  background:
+    radial-gradient(75% 75% at 88% 8%, rgb(239 138 76 / 13%), transparent 64%),
+    radial-gradient(60% 60% at 8% 95%, rgb(212 81 24 / 9%), transparent 68%),
+    linear-gradient(168deg, #191612 0%, #12100d 100%);
+  color: #f4efe8;
+  overflow: hidden;
+  user-select: none;
+}
+.wb-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(255 245 234 / 4.5%) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: .55;
+  pointer-events: none;
+}
+.wb-canvas > * {
+  position: relative;
+  z-index: 1;
+}
+.wb-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.wb-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wb-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #ef8a4c;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef8a4c;
+  box-shadow: 0 0 10px rgb(239 138 76 / 75%);
+  flex-shrink: 0;
+  animation: wb-dot-pulse 2.4s ease-in-out infinite;
+}
+@keyframes wb-dot-pulse {
+  0%, 100% { opacity: .55; transform: scale(.9); }
+  50% { opacity: 1; transform: scale(1.18); }
+}
+.wb-tag {
+  padding: 3px 9px;
+  border: 1px solid rgb(239 138 76 / 28%);
+  border-radius: 2px;
+  background: rgb(239 138 76 / 11%);
+  color: #f6c298;
+  font-size: 10px;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.wb-tag--sage {
+  border-color: rgb(118 196 140 / 34%);
+  background: rgb(118 196 140 / 12%);
+  color: #a3dfb2;
+}
+.wb-tag--muted {
+  border-color: rgb(255 245 234 / 12%);
+  background: rgb(255 245 234 / 4%);
+  color: #aca398;
+}
+.wb-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 11px;
+  border-top: 1px solid rgb(255 245 234 / 9%);
+  font-size: 11px;
+  color: #a79e92;
+}
+.wb-foot-accent {
+  color: #ef8a4c;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.wb-foot-sage {
+  color: #9ad3a6;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 4. 01 Ask Me：对话流 + Claim-Source 证据溯源 */
+.wb-ask-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-block: auto;
+  padding-block: 6px;
+}
+.wb-ask-q-row {
+  display: flex;
+  justify-content: flex-end;
+}
+.wb-ask-q {
+  max-width: 88%;
+  padding: 9px 14px;
+  border: 1px solid rgb(255 245 234 / 12%);
+  border-radius: 6px 6px 2px 6px;
+  background: rgb(255 248 240 / 7%);
+  color: #f4efe8;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.wb-ask-a {
+  padding: 13px 15px;
+  border: 1px solid rgb(255 245 234 / 10%);
+  border-left: 2px solid #ef8a4c;
+  border-radius: 2px 6px 6px 6px;
+  background: rgb(255 248 240 / 3.5%);
+  color: #e9e1d7;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.wb-cite {
+  display: inline-block;
+  padding: 1px 6px;
+  margin-left: 3px;
+  border: 1px solid rgb(239 138 76 / 40%);
+  border-radius: 2px;
+  background: rgb(239 138 76 / 18%);
+  color: #ffcaa1;
+  font-size: 10px;
+  line-height: 1.4;
+  vertical-align: 1px;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.wb-cite:hover,
+.wb-cite.is-lit {
+  background: rgb(239 138 76 / 34%);
+  border-color: #ef8a4c;
+  transform: translateY(-1px);
+}
+.wb-ask-sources {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+.wb-source-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 11px;
+  border: 1px solid rgb(255 245 234 / 9%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3%);
+  transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+}
+.wb-source-card.is-lit {
+  border-color: rgb(239 138 76 / 68%);
+  background: rgb(239 138 76 / 11%);
+  transform: translateY(-1px);
+}
+.wb-source-id {
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgb(239 138 76 / 16%);
+  color: #ef8a4c;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.wb-source-copy {
+  min-width: 0;
+}
+.wb-source-title {
+  display: block;
+  color: #f4efe8;
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-source-meta {
+  display: block;
+  color: #9e958a;
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 5. 02 RAG Knowledge Base：混合检索链路 × RAGAS 三维闭环 */
+.wb-rag-body {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-block: auto;
+  padding-block: 4px;
+}
+.wb-rag-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.wb-rag-step {
+  position: relative;
+  padding: 10px 9px;
+  border: 1px solid rgb(255 245 234 / 10%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3.5%);
+  text-align: center;
+}
+.wb-rag-step--hot {
+  border-color: rgb(239 138 76 / 52%);
+  background: rgb(239 138 76 / 13%);
+}
+.wb-rag-step-num {
+  display: block;
+  color: #8f867b;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.wb-rag-step--hot .wb-rag-step-num {
+  color: #ef8a4c;
+}
+.wb-rag-step-name {
+  display: block;
+  color: #f4efe8;
+  font-size: 12px;
+  font-weight: 500;
+}
+.wb-rag-step-sub {
+  display: block;
+  margin-top: 2px;
+  color: #999084;
+  font-size: 10px;
+}
+.wb-rag-split {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 10px;
+}
+.wb-rag-eval,
+.wb-rag-trace {
+  padding: 11px 13px;
+  border: 1px solid rgb(255 245 234 / 9%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3%);
+}
+.wb-rag-eval {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.wb-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wb-bar-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #d9d0c5;
+}
+.wb-bar-meta em {
+  font-style: normal;
+  color: #ef8a4c;
+  font-size: 10px;
+}
+.wb-bar-track {
+  height: 5px;
+  border-radius: 999px;
+  background: rgb(255 245 234 / 9%);
+  overflow: hidden;
+}
+.wb-bar-fill {
+  height: 100%;
+  width: var(--wb-pct, 82%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c84b11, #ef8a4c);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 780ms cubic-bezier(.22, 1, .36, 1) var(--wb-delay, 120ms);
+}
+.work-stage-slide.is-active .wb-bar-fill,
+.work-chapter-media .wb-bar-fill {
+  transform: scaleX(1);
+}
+.wb-rag-trace {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
+.wb-trace-kicker {
+  color: #ef8a4c;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+.wb-trace-quote {
+  color: #d7cec2;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+.wb-trace-chip {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 7px;
+  border: 1px solid rgb(239 138 76 / 32%);
+  border-radius: 2px;
+  background: rgb(239 138 76 / 12%);
+  color: #f6c298;
+  font-size: 10px;
+}
+
+/* 6. 03 AgentScope：黑匣子 Trace 时间轴 + Checkpoint Fork 修复对比 */
+.wb-as-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-block: auto;
+  padding-block: 4px;
+}
+.wb-as-phases {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.wb-as-phase {
+  padding: 6px 8px;
+  border: 1px solid rgb(255 245 234 / 9%);
+  border-radius: 3px;
+  background: rgb(255 248 240 / 3%);
+  font-size: 10.5px;
+  color: #b7aea2;
+  text-align: center;
+  white-space: nowrap;
+}
+.wb-as-phase--err {
+  border-color: rgb(239 102 76 / 38%);
+  color: #f8a996;
+}
+.wb-as-phase--fork {
+  border-color: rgb(239 138 76 / 45%);
+  background: rgb(239 138 76 / 11%);
+  color: #ffd0ad;
+}
+.wb-as-phase--ok {
+  border-color: rgb(118 196 140 / 40%);
+  background: rgb(118 196 140 / 10%);
+  color: #a3dfb2;
+}
+.wb-as-waterfall {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px 14px;
+  border: 1px solid rgb(255 245 234 / 9%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 2.5%);
+}
+.wb-span-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 54px;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+.wb-span-name {
+  color: #bbb1a5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-span-track {
+  position: relative;
+  height: 9px;
+  border-radius: 2px;
+  background: rgb(255 245 234 / 6%);
+  overflow: hidden;
+}
+.wb-span-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--wb-left, 0%);
+  width: var(--wb-width, 30%);
+  border-radius: 2px;
+  background: #8f8578;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 680ms cubic-bezier(.22, 1, .36, 1) var(--wb-delay, 100ms);
+}
+.work-stage-slide.is-active .wb-span-bar,
+.work-chapter-media .wb-span-bar {
+  transform: scaleX(1);
+}
+.wb-span-bar--loop {
+  background: linear-gradient(90deg, #d45118, #e85545);
+  box-shadow: 0 0 12px rgb(232 85 69 / 34%);
+}
+.wb-span-bar--pass {
+  background: linear-gradient(90deg, #4b9c64, #6ec488);
+  box-shadow: 0 0 12px rgb(110 196 136 / 28%);
+}
+.wb-span-stat {
+  text-align: right;
+  color: #8f867b;
+  font-size: 10px;
+}
+.wb-span-stat--err { color: #f69d8b; }
+.wb-span-stat--ok { color: #9ad3a6; }
+.wb-fork-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 20px;
+  color: #ef8a4c;
+  font-size: 11px;
+}
+.wb-fork-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, rgb(239 138 76 / 45%) 0 4px, transparent 4px 8px);
+}
+
+/* 7. 04 DeepFlow：5-Agent 协同状态机拓扑 */
+.wb-df-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-block: auto;
+  padding-block: 4px;
+}
+.wb-df-graph {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1fr) 18px minmax(0, 1.18fr) 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 4px;
+}
+.wb-df-node {
+  padding: 11px 8px;
+  border: 1px solid rgb(255 245 234 / 12%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3.5%);
+  text-align: center;
+  transition: border-color 220ms ease, background-color 220ms ease;
+}
+.wb-df-node--hot {
+  border-color: rgb(239 138 76 / 54%);
+  background: rgb(239 138 76 / 13%);
+}
+.wb-df-node-id {
+  display: block;
+  color: #ef8a4c;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.wb-df-node-title {
+  display: block;
+  color: #f4efe8;
+  font-size: 12px;
+  font-weight: 500;
+}
+.wb-df-node-sub {
+  display: block;
+  margin-top: 2px;
+  color: #9e958a;
+  font-size: 10px;
+}
+.wb-df-branch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wb-df-arrow {
+  text-align: center;
+  color: rgb(239 138 76 / 70%);
+  font-size: 13px;
+}
+.wb-df-outputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.wb-df-out {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 11px;
+  border: 1px solid rgb(255 245 234 / 9%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3%);
+  font-size: 11.5px;
+  color: #e6ddd2;
+}
+.wb-df-out span:last-child {
+  color: #ef8a4c;
+  font-size: 10px;
+}
+
+/* 8. 05 Vibe Coding：8 原型暗色交互 Bento 矩阵 */
+.wb-vc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-block: auto;
+  padding-block: 6px;
+}
+.wb-vc-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid rgb(255 245 234 / 10%);
+  border-radius: 4px;
+  background: rgb(255 248 240 / 3.5%);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 200ms ease, background-color 200ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), opacity 380ms ease;
+}
+.wb-vc-tile:hover,
+.wb-vc-tile.is-lit {
+  border-color: rgb(239 138 76 / 72%);
+  background: rgb(239 138 76 / 12%);
+  transform: translateY(-2px);
+}
+.wb-vc-tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.wb-vc-stack {
+  color: #ef8a4c;
+  font-size: 9.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-vc-num {
+  color: rgb(244 239 232 / 34%);
+  font-size: 9.5px;
+  flex-shrink: 0;
+}
+.wb-vc-name {
+  color: #f4efe8;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: .015em;
+  word-spacing: .12em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-vc-mini {
+  color: #9e958a;
+  font-size: 10px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-vc-readout {
+  min-width: 0;
+  color: #e6ddd2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wb-vc-readout strong {
+  color: #ef8a4c;
+  font-weight: 600;
+}
+
+/* 9. 移动端与窄屏适配（保持每张活体画板清晰不裁切） */
+@media (max-width: 767px) {
+  .work-frame-chrome {
+    gap: 8px;
+    padding: 8px 10px;
+    min-height: 38px;
+  }
+  .work-mode-btn {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+  .work-chapter-media .work-frame-media {
+    aspect-ratio: auto;
+    min-height: 244px;
+  }
+  .work-chapter-media .work-slide-board {
+    position: relative;
+    display: block;
+    inset: auto;
+  }
+  .wb-canvas {
+    padding: 13px 12px 11px;
+    gap: 10px;
+  }
+  .wb-kicker { font-size: 9.5px; letter-spacing: .07em; }
+  .wb-tag { font-size: 9px; padding: 2px 6px; }
+  .wb-foot { font-size: 10px; padding-top: 8px; }
+  .wb-ask-body { gap: 8px; padding-block: 2px; }
+  .wb-ask-q, .wb-ask-a { font-size: 11px; padding: 8px 10px; }
+  .wb-source-card { padding: 6px 8px; }
+  .wb-source-title { font-size: 10.5px; }
+  .wb-source-meta { display: none; }
+  .wb-rag-step { padding: 6px 4px; }
+  .wb-rag-step-name { font-size: 10.5px; }
+  .wb-rag-step-sub { display: none; }
+  .wb-rag-split { grid-template-columns: 1fr; }
+  .wb-rag-trace { display: none; }
+  .wb-as-phase { font-size: 9.5px; padding: 4px; }
+  .wb-span-row { grid-template-columns: 66px minmax(0, 1fr) 42px; gap: 6px; font-size: 10px; }
+  .wb-df-graph { grid-template-columns: minmax(0, 1fr) 10px minmax(0, 1fr) 10px minmax(0, 1.15fr) 10px minmax(0, 1fr); }
+  .wb-df-node { padding: 6px 4px; }
+  .wb-df-node-title { font-size: 10px; }
+  .wb-df-node-sub { display: none; }
+  .wb-df-out { padding: 5px 7px; font-size: 10px; }
+  .wb-vc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; padding-block: 2px; }
+  .wb-vc-tile { padding: 6px 8px; gap: 2px; }
+  .wb-vc-mini { display: none; }
+  .wb-vc-name { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-pulse { animation: none !important; }
+  .wb-bar-fill, .wb-span-bar { transform: scaleX(1) !important; transition: none !important; }
+  .work-slide-board, .work-slide-raw { transition: none !important; }
+}
