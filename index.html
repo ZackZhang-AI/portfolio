@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/fonts.css?v=2">
     <link rel="stylesheet" href="assets/css/portfolio.css?v=4">
-    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=4">
+    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=5">
     <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
     <link rel="stylesheet" href="assets/css/proof-showcase.css?v=5">
     <link rel="stylesheet" href="assets/css/footer-talk.css?v=3">
@@ -569,11 +569,35 @@
       </section>
       <section id="capabilities" class="section capabilities-section" aria-labelledby="capabilitiesTitle">
         <div class="capabilities-heading"><h2 id="capabilitiesTitle">把能力，连接成产品。</h2><p>从定义问题，到构建系统，再到验证效果。</p></div>
-        <div class="capability-lines">
-          <button class="capability-line projectTrigger" type="button" data-project-id="didiRisk"><span class="capability-title">AI 产品策略</span><span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="baichuanRag"><span class="capability-title">RAG 检索增强</span><span class="capability-caption">02 / 让回答有据可查 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="didiPricing"><span class="capability-title">Agent 工作流</span><span class="capability-caption">03 / 让过程可以复用 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="webdevBench"><span class="capability-title">数据驱动评测</span><span class="capability-caption">04 / 让结果能够验证 <span aria-hidden="true">↗</span></span></button>
+        <div class="capability-lines" id="capabilityLines">
+          <button class="capability-line projectTrigger" type="button" data-project-id="didiRisk" data-cap-index="0">
+            <span class="capability-title">AI 产品策略</span>
+            <span class="capability-meta">
+              <span class="capability-proof">滴滴风控预审 · 单户 120m → 30m</span>
+              <span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="baichuanRag" data-cap-index="1">
+            <span class="capability-title">RAG 检索增强</span>
+            <span class="capability-meta">
+              <span class="capability-proof">百川医疗 RAG · 混合召回与段落溯源</span>
+              <span class="capability-caption">02 / 让回答有据可查 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="didiPricing" data-cap-index="2">
+            <span class="capability-title">Agent 工作流</span>
+            <span class="capability-meta">
+              <span class="capability-proof">滴滴比价 Skill · 2,500 条航线 · 省时 90%+</span>
+              <span class="capability-caption">03 / 让过程可以复用 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="webdevBench" data-cap-index="3">
+            <span class="capability-title">数据驱动评测</span>
+            <span class="capability-meta">
+              <span class="capability-proof">百度 WebDev Bench · 评测省时 71.4%</span>
+              <span class="capability-caption">04 / 让结果能够验证 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
         </div>
         <p class="capability-footnote">PRODUCT THINKING <span aria-hidden="true">×</span> SYSTEM BUILDING <span aria-hidden="true">×</span> EVIDENCE</p>
       </section>
@@ -810,7 +834,7 @@
     <script src="assets/js/chapter-motion.js?v=3" defer></script>
     <script src="assets/js/work-boards.js?v=1" defer></script>
     <script src="assets/js/signature-motion.js?v=5" defer></script>
-    <script src="assets/js/ink-companion.js?v=6" defer></script>
+    <script src="assets/js/ink-companion.js?v=7" defer></script>
     <script src="assets/js/flowing-preview.js?v=4" defer></script>
     <script src="assets/js/pointer-interactions.js?v=5" defer></script>
     <script src="assets/js/footer-talk.js?v=3" defer></script>

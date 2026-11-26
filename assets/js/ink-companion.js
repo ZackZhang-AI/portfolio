@@ -54,6 +54,7 @@
   var workDockTrigger = document.getElementById('workDockTrigger');
   var workBerth = document.getElementById('workBerth');
   var capabilitiesSection = document.getElementById('capabilities');
+  var capabilityLinesWrap = document.getElementById('capabilityLines');
   var capabilityLines = capabilitiesSection ? Array.from(capabilitiesSection.querySelectorAll('.capability-line')) : [];
   var methodSection = document.getElementById('method');
   var paperSteps = document.getElementById('paperSteps');
@@ -123,6 +124,7 @@
     activeBerth: '',
     activeProofStage: '',
     activeWaypoint: '',
+    activeCapIdx: -1,
     steppedTalkIdx: -1,
     pointerX: window.innerWidth * 0.5,
     pointerY: window.innerHeight * 0.5,
@@ -361,6 +363,39 @@
     if (proofBridgeNode) proofBridgeNode.classList.toggle('is-lit', wpKey === 'proof');
     if (pairPivotNode) pairPivotNode.classList.toggle('is-lit', wpKey === 'pair');
     if (wpKey) hop(0.28);
+  }
+
+  var capTapTimers = [];
+  function syncCapabilitiesFocus(capIdx) {
+    if (state.activeCapIdx === capIdx) return;
+    state.activeCapIdx = capIdx;
+    if (capabilityLinesWrap) {
+      capabilityLinesWrap.classList.toggle('has-companion-focus', capIdx >= 0);
+    }
+    for (var i = 0; i < capabilityLines.length; i++) {
+      var isCur = i === capIdx;
+      capabilityLines[i].classList.toggle('is-companion-active', isCur);
+      if (isCur) {
+        capabilityLines[i].classList.remove('is-tapped');
+        void capabilityLines[i].offsetWidth;
+        capabilityLines[i].classList.add('is-tapped');
+        clearTimeout(capTapTimers[i]);
+        (function (idx, el) {
+          capTapTimers[idx] = window.setTimeout(function () {
+            el.classList.remove('is-tapped');
+          }, 600);
+        })(i, capabilityLines[i]);
+      }
+    }
+    if (capIdx >= 0 && capabilityLines[capIdx] && state.mode === 'live') {
+      hop(0.40);
+      triggerWink(340, false);
+      var titleSpan = capabilityLines[capIdx].querySelector('.capability-title') || capabilityLines[capIdx];
+      var tr = titleSpan.getBoundingClientRect();
+      if (tr.top > 40 && tr.bottom < window.innerHeight - 20) {
+        emitSparks(tr.right + 16, tr.top + tr.height * 0.52, true, 5, false);
+      }
+    }
   }
 
   function syncSteppedTalkLetter(stepIdx, letters) {
@@ -695,6 +730,8 @@
     var activeBerth = '';
     var activeProofStage = '';
     var activeWaypoint = '';
+    var activeCapIdx = -1;
+    var followLambda = 12.2;
     var steppedTalkIdx = -1;
     var talkLettersCache = null;
     var dockedInControl = false;
@@ -1038,7 +1075,7 @@
         isDark = true;
         if (workStage && workFrame) {
           var wsRect = workStage.getBoundingClientRect();
-          if (wsRect.top < vh * 0.46 && wsRect.bottom > vh * 0.32) {
+          if (wsRect.top < vh * 0.46 && wsRect.bottom > vh * 0.40) {
             activeAct = 'work';
             var wbr = workBerth ? workBerth.getBoundingClientRect() : null;
             var bonking = now < state.workBonkUntil;
@@ -1065,41 +1102,49 @@
         }
         if (activeAct !== 'work' && capabilitiesSection && capabilityLines.length) {
           var capR = capabilitiesSection.getBoundingClientRect();
-          if (capR.top < vh * 0.64 && capR.bottom > vh * 0.18) {
+          if (capR.top < vh * 0.74 && capR.bottom > vh * 0.14) {
             activeAct = 'capabilities';
+            /* 能力区采用明显更舒缓的阻尼速度（5.4 vs 默认 12.2），杜绝匆忙乱窜 */
+            followLambda = 5.4;
             if (state.hoveredEl && state.hoveredKind === 'capability') {
               var hIdx = Math.max(0, capabilityLines.indexOf(state.hoveredEl));
               var hSpan = state.hoveredEl.querySelector('.capability-title') || state.hoveredEl;
               var htr = hSpan.getBoundingClientRect();
-              var hLeft = (hIdx % 2 === 0);
-              tx = hLeft ? clamp(htr.left - 34, 36, vw * 0.45) : clamp(htr.right + 30, vw * 0.55, vw - 36);
-              ty = clamp(htr.top + htr.height * 0.5, 100, vh - 64);
-              scale = 0.68;
-              compact = 0.24;
-              tiltTarget = hLeft ? 6 : -6;
-              actGazeX = hLeft ? 0.92 : -0.92;
+              activeCapIdx = hIdx;
+              tx = clamp(htr.right + 44, vw * 0.30, vw - 240);
+              ty = clamp(htr.top + htr.height * 0.52, 108, vh - 72);
+              scale = 0.70;
+              compact = 0.22;
+              tiltTarget = -5;
+              actGazeX = -0.88;
               actGazeY = 0;
             } else {
-              /* 连续平滑插值：随滚轮从左 → 穿过中央 → 到右，绝不生硬闪现 */
+              /* 沿 4 行大标题右侧尾端舒缓 S 形漫步 + 每行驻留平台，逐一点亮标题与战绩标签 */
               var capFirst = capabilityLines[0].getBoundingClientRect();
               var capLast = capabilityLines[capabilityLines.length - 1].getBoundingClientRect();
-              var spanH = Math.max(120, (capLast.top + capLast.height * 0.5) - (capFirst.top + capFirst.height * 0.5));
-              var capP = clamp((vh * 0.48 - (capFirst.top + capFirst.height * 0.5)) / spanH, 0, 1);
+              var startY = capFirst.top + capFirst.height * 0.5;
+              var endY = capLast.top + capLast.height * 0.5;
+              var scrollSpan = Math.max(280, (endY - startY) + vh * 0.22);
+              var capP = clamp((vh * 0.64 - startY) / scrollSpan, 0, 1);
               var fLine = capP * (capabilityLines.length - 1);
               var i0 = Math.min(capabilityLines.length - 2, Math.floor(fLine));
-              var lf = easeInOut(clamp(fLine - i0, 0, 1));
+              var rawSeg = clamp(fLine - i0, 0, 1);
+              /* 前 30% 与后 22% 停驻在当前标题旁细读，中间 48% 优雅轻弧过渡到下一行 */
+              var segT = easeInOut(clamp((rawSeg - 0.30) / 0.48, 0, 1));
               var s0 = (capabilityLines[i0].querySelector('.capability-title') || capabilityLines[i0]).getBoundingClientRect();
               var s1 = (capabilityLines[i0 + 1].querySelector('.capability-title') || capabilityLines[i0 + 1]).getBoundingClientRect();
-              var x0 = (i0 % 2 === 0) ? clamp(s0.left - 34, 42, vw * 0.45) : clamp(s0.right + 30, vw * 0.55, vw - 42);
-              var x1 = ((i0 + 1) % 2 === 0) ? clamp(s1.left - 34, 42, vw * 0.45) : clamp(s1.right + 30, vw * 0.55, vw - 42);
-              var y0 = clamp(s0.top + s0.height * 0.5, 100, vh - 64);
-              var y1 = clamp(s1.top + s1.height * 0.5, 100, vh - 64);
-              tx = lerp(x0, x1, lf);
-              ty = lerp(y0, y1, lf) - Math.sin(lf * Math.PI) * 18;
-              scale = 0.66;
-              compact = 0.26;
-              actGazeX = x1 > x0 ? 0.65 : -0.65;
-              actGazeY = 0.12;
+              var x0 = clamp(s0.right + 44, vw * 0.30, vw - 240);
+              var x1 = clamp(s1.right + 44, vw * 0.30, vw - 240);
+              var y0 = clamp(s0.top + s0.height * 0.52, 108, vh - 72);
+              var y1 = clamp(s1.top + s1.height * 0.52, 108, vh - 72);
+              activeCapIdx = clamp(Math.round(fLine), 0, capabilityLines.length - 1);
+              tx = lerp(x0, x1, segT) + Math.sin(segT * Math.PI) * 14;
+              ty = lerp(y0, y1, segT) - Math.sin(segT * Math.PI) * 10;
+              scale = 0.68;
+              compact = 0.24;
+              tiltTarget = segT > 0.08 && segT < 0.92 ? (x1 >= x0 ? 4 : -4) : -5;
+              actGazeX = -0.86;
+              actGazeY = segT > 0.15 && segT < 0.85 ? 0.32 : 0;
             }
           }
         }
@@ -1375,6 +1420,8 @@
       activeBerth: activeBerth,
       activeProofStage: activeProofStage,
       activeWaypoint: activeWaypoint,
+      activeCapIdx: activeCapIdx,
+      followLambda: followLambda,
       steppedTalkIdx: steppedTalkIdx,
       talkLetters: talkLettersCache,
       dockedInControl: dockedInControl
@@ -1397,6 +1444,7 @@
       syncBerths('');
       syncProofStageFocus('');
       syncWaypoints('');
+      syncCapabilitiesFocus(-1);
       syncSteppedTalkLetter(-1, null);
       closePopover();
       return;
@@ -1413,7 +1461,7 @@
     var t = computeLiveTarget(now);
     var prevX = state.x;
     var prevY = state.y;
-    var follow = 1 - Math.exp(-12.2 * dt);
+    var follow = 1 - Math.exp(-(t.followLambda || 12.2) * dt);
     state.x += (t.x - state.x) * follow;
     state.y += (t.y - state.y) * follow;
     state.vx = (state.x - prevX) / dt;
@@ -1436,6 +1484,7 @@
     syncBerths(closeEnough ? t.activeBerth : '');
     syncProofStageFocus(t.activeProofStage);
     syncWaypoints(t.activeWaypoint);
+    syncCapabilitiesFocus(t.activeCapIdx);
     syncSteppedTalkLetter(t.steppedTalkIdx, t.talkLetters);
 
     guide.classList.add('is-visible');
@@ -1465,6 +1514,7 @@
       syncBerths('');
       syncProofStageFocus('');
       syncWaypoints('');
+      syncCapabilitiesFocus(-1);
       syncSteppedTalkLetter(-1, null);
       closePopover();
       return;
