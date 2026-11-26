@@ -19,25 +19,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/fonts.css">
-    <link rel="stylesheet" href="assets/css/portfolio.css?v=1">
-    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=3">
-    <link rel="stylesheet" href="assets/css/proof-notes.css?v=4">
-    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=1">
-    <link rel="stylesheet" href="assets/css/footer-talk.css?v=1">
-    <link rel="stylesheet" href="assets/css/hero.css?v=3">
-    <link rel="stylesheet" href="assets/css/chapter-motion.css?v=2">
-    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=2">
-    <link rel="stylesheet" href="assets/css/project-dialog.css?v=1">
-    <link rel="stylesheet" href="assets/css/case-details.css?v=1">
+    <link rel="stylesheet" href="assets/css/fonts.css?v=2">
+    <link rel="stylesheet" href="assets/css/portfolio.css?v=4">
+    <link rel="stylesheet" href="assets/css/portfolio-editorial.css?v=6">
+    <link rel="stylesheet" href="assets/css/proof-notes.css?v=5">
+    <link rel="stylesheet" href="assets/css/proof-showcase.css?v=5">
+    <link rel="stylesheet" href="assets/css/footer-talk.css?v=3">
+    <link rel="stylesheet" href="assets/css/hero.css?v=4">
+    <link rel="stylesheet" href="assets/css/chapter-motion.css?v=3">
+    <link rel="stylesheet" href="assets/css/pointer-interactions.css?v=4">
+    <link rel="stylesheet" href="assets/css/project-dialog.css?v=3">
+    <link rel="stylesheet" href="assets/css/case-details.css?v=2">
+    <link rel="stylesheet" href="assets/css/signature-motion.css?v=9">
+    <link rel="stylesheet" href="assets/css/work-boards.css?v=1">
   </head>
   <body>
+    <script>
+      (function () {
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var hasProject = window.location.search && window.location.search.indexOf('project=') !== -1;
+        if (!reduced && !hasProject) document.documentElement.classList.add('is-preloading');
+      })();
+    </script>
+    <div id="sitePreloader" class="site-preloader" aria-hidden="true">
+      <div class="preloader-stage">
+        <p class="preloader-kicker">ZACK ZHANG · AI PRODUCT PORTFOLIO</p>
+        <div class="preloader-track-wrap">
+          <span id="preloaderShadow" class="preloader-shadow"></span>
+          <div id="preloaderTrack" class="preloader-track">
+            <span id="preloaderFill" class="preloader-fill"></span>
+          </div>
+          <div class="preloader-ticks"><span>00</span><span>50</span><span>100</span></div>
+        </div>
+        <div class="preloader-meta">
+          <span id="preloaderStatus" class="preloader-status">正在铺开作品集</span>
+          <span id="preloaderPct" class="preloader-pct">00%</span>
+        </div>
+      </div>
+    </div>
     <a class="skip-link" href="#testimonials">跳到实习成果</a>
     <header id="siteHeader" class="site-header">
       <span class="site-progress" aria-hidden="true"></span>
-      <a class="site-brand" href="#heroWrap" aria-label="张倬玮，返回首页">ZACK ZHANG <span aria-hidden="true">●</span></a>
+      <a class="site-brand" id="siteBrand" href="#heroWrap" aria-label="张倬玮，返回首页">ZACK ZHANG <span class="brand-dot" id="headerBrandDot" aria-hidden="true">●</span></a>
       <button class="menu-toggle" type="button" aria-controls="siteMenu" aria-expanded="false" hidden>菜单 <span aria-hidden="true">＋</span></button>
       <nav id="siteMenu" class="site-menu" aria-label="主导航">
+        <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
         <a href="#studio">关于</a><a href="#testimonials">实习</a><a href="#work">作品</a><a href="#knowledge">知识</a><a href="#footer">联系</a>
         <a class="nav-resume" href="assets/docs/zack-zhang-resume-aipm.pdf?v=20261124" download="张倬玮_AI产品经理_简历.pdf">下载简历 <span aria-hidden="true">↓</span></a>
       </nav>
@@ -46,14 +72,29 @@
       <section id="heroWrap" aria-labelledby="heroTitle">
         <div id="heroStick">
           <div class="hero-paper" aria-hidden="true">
+            <span class="hero-corner hero-corner--tl"></span>
+            <span class="hero-corner hero-corner--tr"></span>
+            <span class="hero-corner hero-corner--bl"></span>
+            <span class="hero-corner hero-corner--br"></span>
           </div>
           <div class="hero-copy">
             <h1 id="heroTitle" class="hero-title" aria-label="From models to impact.">
-              <span class="hero-title-mask"><span class="hero-title-line">FROM MODELS</span></span>
-              <span class="hero-title-mask"><span class="hero-title-line">TO <span class="hero-impact">IMPACT<span class="hero-impact-rule" aria-hidden="true"></span></span>.</span></span>
+              <span class="hero-title-mask"><span class="hero-title-line"><span class="hero-word-clip"><span class="hero-word">FROM</span></span> <span class="hero-word-clip"><span class="hero-word">MODELS</span></span></span></span>
+              <span class="hero-title-mask"><span class="hero-title-line"><span class="hero-word-clip"><span class="hero-word">TO</span></span> <span class="hero-word-clip"><span class="hero-word hero-impact">IMPACT<span class="hero-impact-rule" aria-hidden="true"></span></span></span><span class="hero-word-clip"><span class="hero-word hero-period" id="heroPeriod">.</span></span></span></span>
             </h1>
             <p class="hero-description">把 AI 能力，做成业务结果。</p>
             <p class="hero-background"><span>张倬玮 · AI 产品经理 · 2027 届</span><span>滴滴 / 百度 / 百川智能</span></p>
+            <a class="hero-focus-strip" id="heroFocusStrip" href="#testimonials" aria-label="查看近期代表业务成果">
+              <span class="hero-focus-dot" aria-hidden="true"></span>
+              <span class="hero-focus-kicker">TRACK RECORD</span>
+              <span class="hero-focus-viewport" aria-live="off">
+                <span class="hero-focus-item is-active" data-focus-href="#testimonials">滴滴风控预审 · 单户 120m → 30m (-75%)</span>
+                <span class="hero-focus-item" data-focus-href="#testimonials">滴滴 DiVA · 单批素材交付 2h → 40m</span>
+                <span class="hero-focus-item" data-focus-href="#testimonials">滴滴比价 Skill · 2,500 条航线 · 省时 90%+</span>
+                <span class="hero-focus-item" data-focus-href="#testimonials">百度 · WebDev E2E 评测耗时 -71.4%</span>
+              </span>
+              <span class="hero-focus-arrow" aria-hidden="true">↓</span>
+            </a>
             <div class="hero-actions">
               <a class="button button--ink" href="#testimonials">看实习成果 <span aria-hidden="true">↓</span></a><a class="text-link" href="assets/docs/zack-zhang-resume-aipm.pdf?v=20261124" target="_blank" rel="noopener noreferrer">查看简历 <span aria-hidden="true">↗</span></a>
             </div>
@@ -75,7 +116,7 @@
             <h2 id="aboutTitle">每一段经历，<br>都算数。</h2>
           </div>
           <div>
-            <p>东北大学应用统计学在读，现于滴滴担任 AI 产品经理实习生。从审计现场的数据核验，到医疗 RAG、模型评测，再到 AI 营销与机票比价，我关注技术如何回应真实业务需求。</p>
+            <p>东北大学应用统计学在读，现于滴滴担任 AI 产品经理实习生。从审计现场的数据核验，到医疗 RAG、模型评测，再到风控预审、AI 营销与机票比价，我关注技术如何回应真实业务需求。</p>
             <p class="about-belief">好产品，是验证出来的。</p>
             <dl class="about-meta">
               <div>
@@ -93,6 +134,7 @@
         <div id="assemble" aria-label="学习与实习经历路径">
           <div id="pathStage">
             <div id="pathLine" aria-hidden="true">
+              <span id="pathLineFill" class="path-line-fill"></span>
             </div>
             <article class="pathCard">
               <span class="pathCard-num">01</span>
@@ -132,7 +174,7 @@
                 <img src="assets/img/logos/didi.svg" alt="滴滴" width="48" height="48" loading="lazy">
               </div>
               <h3>AI 业务落地</h3>
-              <p>滴滴<br>营销素材生产与机票比价</p>
+              <p>滴滴<br>风控预审、AI 营销与比价</p>
             </article>
           </div>
         </div>
@@ -158,40 +200,114 @@
         <div class="section-heading">
           <p class="eyebrow">PROOF OF WORK</p>
           <h2 id="proofTitle">用事实说话。</h2>
-          <p class="section-intro">从素材生产、竞品分析到模型评测，让产品进入真实业务。</p>
+          <p class="section-intro">从风控预审、素材生产、竞品比价到模型评测，让 AI 进入真实业务。</p>
           <a class="proof-agent-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">与我的 AI 分身聊聊实习经历 <span aria-hidden="true">↗</span></a>
         </div>
         <div class="proof-showcase">
-        <article class="company-feature">
+        <article class="company-feature" id="didiFeature">
           <header class="company-heading">
             <div>
               <img src="assets/img/logos/didi.svg" width="38" height="38" alt="滴滴">
               <div>
                 <h3>滴滴</h3>
-                <p>ABC 智能一组 · AI 产品经理实习生</p>
+                <p>ABC 智能一组 · AI 产品经理实习生 · 风控 / 营销 / 机票三线落地</p>
               </div>
             </div>
-            <span>2026.09 — 至今</span>
+            <span class="company-period">2026.09 — 至今</span>
           </header>
-          <div class="didi-projects">
-            <article class="proof-project">
-              <h4>DiVA · AI 营销素材工作台</h4>
-              <p>让一次活动需求，持续产出多规格营销素材。主导工作台设计，串联主视觉生成、元素复用、广告位适配与人工审核。</p>
-              <p class="result"><strong>2 小时 <span aria-hidden="true">→</span> 40 分钟</strong><span>单批素材交付耗时</span></p>
-              <p class="result-note">机酒国庆营销 · 11 个已验收广告位<br>60+ 份业务采用素材 · 首次验收通过率 80%</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">看工作过程与结果 <span aria-hidden="true">↗</span></button>
+
+          <!-- 滴滴重点主讲项目：租车商家准入 AI 预审工作台（全宽领衔 + 时间下坠落差轨） -->
+          <div class="didi-flagship" data-proof-stage="risk">
+            <div class="didi-flagship-copy">
+              <span class="proof-badge">CORE PROJECT · 01</span>
+              <h4 class="proof-reveal-title">租车商家准入 AI 预审工作台</h4>
+              <p class="proof-reveal-copy">梳理业务、财务、法务三方审核 SOP 及十类材料，搭建「材料建档—AI 解析—规则核验—三方审核」分层协同工作流；经多模型对照与四家线上 OCR 盲测，让复杂原件解析既准又可溯源。</p>
+              <p class="result-note proof-reveal-foot">完成 100+ 笔商家申请试点预审 · 累计节省 150+ 小时<br>118 份重度难例重跑 100% 通过、0 截断、提速 3–11 倍</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiRisk">看完整方案与挑战 <span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="risk-drop-panel proof-reveal-metric" id="riskDropStage">
+              <div class="risk-drop-header">
+                <span class="risk-drop-label">单户人工预审耗时</span>
+                <span class="risk-drop-badge">-75% · 省 150h+</span>
+              </div>
+              <div class="risk-drop-visual">
+                <div class="risk-node risk-node--high" id="riskHighAnchor">
+                  <span class="risk-node-kicker">原人工核对</span>
+                  <strong class="risk-node-val">120<small>分钟</small></strong>
+                </div>
+                <svg class="risk-drop-svg" viewBox="0 0 260 92" fill="none" aria-hidden="true">
+                  <line x1="20" y1="22" x2="240" y2="22" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity="0.22"/>
+                  <path class="risk-drop-ghost" d="M 24 22 C 110 22, 136 74, 224 74" stroke="currentColor" stroke-width="1.5" opacity="0.16"/>
+                  <path id="riskDropPath" class="risk-drop-curve" d="M 24 22 C 110 22, 136 74, 224 74" stroke="var(--accent-bright, #e06122)" stroke-width="2.6" stroke-linecap="round"/>
+                  <path id="riskDropArrow" class="risk-drop-arrow" d="M 216 68 L 226 74 L 216 80" stroke="var(--accent-bright, #e06122)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="24" cy="22" r="4" fill="var(--ink, #17140f)" opacity="0.45"/>
+                  <circle id="riskDropEndDot" cx="226" cy="74" r="5" fill="var(--accent-bright, #e06122)"/>
+                </svg>
+                <div class="risk-node risk-node--low" id="riskLowAnchor">
+                  <span class="risk-node-kicker">AI 预审工作台</span>
+                  <strong class="risk-node-val risk-node-val--accent"><span class="metric-num" data-proof-metric="risk">30</span><small>分钟</small></strong>
+                </div>
+              </div>
+              <div class="risk-drop-pills" aria-hidden="true">
+                <span>OCR + 模型提取</span><span>程序规则算账</span><span>原件坐标溯源</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="didi-projects" id="didiSubProjects">
+            <article class="proof-project" data-proof-stage="diva">
+              <span class="proof-badge proof-badge--sub">02 · CONTENT AI</span>
+              <h4 class="proof-reveal-title">DiVA · AI 营销素材工作台</h4>
+              <p class="proof-reveal-copy">以“模板约束 + AI 局部生成 + 人工审核”串联主视觉生成、元素复用、多广告位适配与校样导出，让一次活动需求持续产出合规多规格素材。</p>
+              <p class="result proof-reveal-metric"><strong>2 小时 <span class="metric-arrow" aria-hidden="true">→</span> <span class="metric-num" data-proof-metric="diva">40</span> 分钟</strong><span>单批素材交付耗时</span></p>
+              <div class="proof-meter" id="meterDiva" data-meter-stage="diva" aria-hidden="true">
+                <div class="proof-meter-bar" id="meterBarDiva"><span class="proof-meter-fill" data-meter="67"></span><span class="proof-meter-tip"></span></div>
+                <span class="proof-meter-tag">-67% 交付耗时</span>
+              </div>
+              <p class="result-note proof-reveal-foot">机酒国庆营销 · 11 个已验收广告位<br>60+ 份业务采用素材 · 首次验收通过率 80%</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiDiva">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
-            <article class="proof-project">
-              <h4>比价 Skill · 机票竞品分析</h4>
-              <p>把跨平台查价和航班匹配封装为可复用 Skill，串联数据清洗、同期采集与报告导出，帮助业务识别供给与价格短板。</p>
-              <p class="result"><strong>75<span class="result-unit">%</span></strong><span>人工耗时降低</span></p>
-              <p class="result-note">完成 80 组航线分析<br>输出供给缺口与高价航班清单</p>
-              <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">看工作过程与结果 <span aria-hidden="true">↗</span></button>
+
+            <!-- 中间衔接组件 1：滴滴双栏分割线中央中转枢纽（消除左右突兀跳跃） -->
+            <span class="waypoint-node didi-bridge-node" id="didiBridgeNode" aria-hidden="true">
+              <span class="waypoint-ring"></span>
+              <span class="waypoint-core">✦</span>
+            </span>
+
+            <article class="proof-project" data-proof-stage="pricing">
+              <span class="proof-badge proof-badge--sub">03 · AGENT SKILL</span>
+              <h4 class="proof-reveal-title">机票竞品比价 Skill</h4>
+              <p class="proof-reveal-copy">把跨平台查价、同航班匹配、检查点异常恢复与报告导出封装为可复用 Skill，定义覆盖率与价差口径，直接输出供给缺口与高价排查清单。</p>
+              <p class="result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="pricing">90</span><span class="result-unit">%+</span></strong><span>人工耗时降低 · 累计约 <em class="metric-inline" data-proof-metric="pricing-routes">2,500</em> 条航线</span></p>
+              <div class="skill-pipeline" id="skillPipeline" aria-hidden="true">
+                <div class="skill-step" data-skill-step="0"><span class="skill-step-dot"></span><span>跨平台采集</span></div>
+                <span class="skill-wire"></span>
+                <div class="skill-step" data-skill-step="1"><span class="skill-step-dot"></span><span>同航班匹配</span></div>
+                <span class="skill-wire"></span>
+                <div class="skill-step" data-skill-step="2"><span class="skill-step-dot"></span><span>缺口清单</span></div>
+              </div>
+              <p class="result-note proof-reveal-foot">累计抓取超 10 万条原始报价记录<br>支持断点补采与人工接管恢复</p>
+              <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="didiPricing">看工作过程与结果 <span aria-hidden="true">↗</span></button>
             </article>
           </div>
         </article>
-        <div class="proof-pair">
-          <article class="proof-secondary">
+
+        <!-- 中间衔接组件 2：滴滴大卡 → 百度/百川双卡居中过渡标尺（让小焦橙自然从右经过中间去左边） -->
+        <div class="proof-bridge" id="proofBridge" aria-hidden="true">
+          <span class="proof-bridge-line"></span>
+          <span class="proof-bridge-pill" id="proofBridgeNode">
+            <span class="proof-bridge-dot"></span>
+            <span>业务落地</span>
+            <span class="proof-bridge-sep">·</span>
+            <span>模型评测</span>
+            <span class="proof-bridge-sep">·</span>
+            <span>知识溯源</span>
+          </span>
+          <span class="proof-bridge-line"></span>
+        </div>
+
+        <div class="proof-pair" id="proofPair">
+          <article class="proof-secondary proof-secondary--lead" data-proof-stage="baidu">
             <header class="company-heading">
               <div>
                 <img src="assets/img/logos/baidu.svg" width="34" height="34" alt="百度">
@@ -202,14 +318,34 @@
               </div>
               <span>2026.06 — 09</span>
             </header>
-            <h4>把代码评测延伸到真实产品体验</h4>
-            <p>参与 WebDev E2E Bench 建设，从功能、视觉、交互等 7 个维度评估交付质量；结合多模型测试和 Bad Case 归因推动策略迭代。</p>
-            <p class="compact-result"><strong>71.4%</strong><span>人工操作时间减少 · 离线测算</span></p>
-            <div class="action-row">
+            <h4 class="proof-reveal-title">把代码评测延伸到真实产品体验</h4>
+            <p class="proof-reveal-copy">参与 WebDev E2E Bench 建设，从功能、视觉、交互等 7 个维度评估交付质量；结合多模型测试和 Bad Case 归因推动策略迭代。</p>
+            <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baidu">71.4</span>%</strong><span>人工操作时间减少 · 离线测算</span></p>
+            <!-- 百度专属视觉互动：7 维评测竖柱矩阵（小焦橙掠过柱顶像拨动琴键依次拉起） -->
+            <div class="eval-dims" id="baiduDims" aria-hidden="true">
+              <div class="eval-dims-bars">
+                <span class="eval-dim-col" style="--dim-h: 72%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 88%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 64%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 94%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 78%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 85%"><i></i></span>
+                <span class="eval-dim-col" style="--dim-h: 98%"><i></i></span>
+              </div>
+              <span class="eval-dims-tag">7 维自动评测</span>
+            </div>
+            <div class="action-row proof-reveal-foot">
               <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">端到端评测案例 <span aria-hidden="true">↗</span></button><button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型评测与策略 <span aria-hidden="true">↗</span></button>
             </div>
           </article>
-          <article class="proof-secondary">
+
+          <!-- 中间衔接组件 3：百度（暖象牙）与百川（深咖啡黑）之间的明暗切换中转点 -->
+          <span class="waypoint-node pair-pivot-node" id="pairPivotNode" aria-hidden="true">
+            <span class="waypoint-ring"></span>
+            <span class="waypoint-core">◐</span>
+          </span>
+
+          <article class="proof-secondary proof-secondary--ink" data-proof-stage="baichuan">
             <header class="company-heading">
               <div>
                 <img src="assets/img/logos/baichuan.svg" width="34" height="34" alt="百川智能">
@@ -220,10 +356,18 @@
               </div>
               <span>2026.04 — 06</span>
             </header>
-            <h4>让医疗知识问答有据可查</h4>
-            <p>面向医院、卫健委及药企梳理需求，参与文档解析、知识库、检索问答与引用溯源设计，通过评测定位召回、排序与生成问题。</p>
-            <p class="compact-result"><strong>3 轮 / 30 条</strong><span>内部 QA 评测 · 用于 Rerank 与 Prompt 优化</span></p>
-            <button class="text-link projectTrigger" type="button" data-project-id="baichuanRag">看医疗 RAG 实践 <span aria-hidden="true">↗</span></button>
+            <h4 class="proof-reveal-title">让医疗知识问答有据可查</h4>
+            <p class="proof-reveal-copy">面向医院、卫健委及药企梳理需求，参与文档解析、知识库、检索问答与引用溯源设计，通过评测定位召回、排序与生成问题。</p>
+            <p class="compact-result proof-reveal-metric"><strong><span class="metric-num" data-proof-metric="baichuan-rounds">3</span> 轮 / <span class="metric-num" data-proof-metric="baichuan-items">30</span> 条</strong><span>内部 QA 评测 · 用于 Rerank 与 Prompt 优化</span></p>
+            <!-- 百川专属视觉互动：3 轮评测印记 + 溯源暗金闭环 -->
+            <div class="rag-stamps" id="baichuanStamps" aria-hidden="true">
+              <span class="rag-stamp" data-rag-round="0">R1 召回</span>
+              <span class="rag-stamp-line"></span>
+              <span class="rag-stamp" data-rag-round="1">R2 排序</span>
+              <span class="rag-stamp-line"></span>
+              <span class="rag-stamp" data-rag-round="2">R3 溯源</span>
+            </div>
+            <button class="text-link projectTrigger proof-reveal-foot" type="button" data-project-id="baichuanRag">看医疗 RAG 实践 <span aria-hidden="true">↗</span></button>
           </article>
         </div>
         </div>
@@ -254,61 +398,211 @@
             </article>
           </div>
         </div>
-        <p class="source-note">实习与校园经历依据个人简历及经历记录整理，项目统计口径见对应案例详情。</p>
+        <p class="source-note">实习与校园经历依据个人简历及最新项目记录整理，统计口径与验证范围见对应案例详情。</p>
       </section>
       <section class="section signals-section" aria-labelledby="signalsTitle">
         <div class="signals-heading"><h2 id="signalsTitle">一些已经发生的改变。</h2><span>SELECTED SIGNALS · 2026</span></div>
         <div class="signal-grid">
-          <button class="signal projectTrigger" type="button" data-project-id="didiDiva" aria-label="60 多份业务采用素材，查看滴滴 DiVA 案例"><span class="signal-value" aria-hidden="true"><span data-count="60">60</span><sup>+</sup></span><span class="signal-label">业务采用素材</span><span class="signal-source">滴滴 · DiVA <span aria-hidden="true">↗</span></span></button>
-          <button class="signal projectTrigger" type="button" data-project-id="didiPricing" aria-label="80 组航线分析，查看滴滴比价 Skill 案例"><span class="signal-value" aria-hidden="true"><span data-count="80">80</span><sup>组</sup></span><span class="signal-label">已完成航线分析</span><span class="signal-source">滴滴 · 比价 Skill <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiRisk" aria-label="100 多笔商家试点预审，查看滴滴风控工作台案例"><span class="signal-value" aria-hidden="true"><span data-count="100">100</span><sup>+笔</sup></span><span class="signal-label">试点商家预审</span><span class="signal-source">滴滴 · 风控工作台 <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiDiva" aria-label="60 多份业务采用素材，查看滴滴 DiVA 案例"><span class="signal-value" aria-hidden="true"><span data-count="60">60</span><sup>+份</sup></span><span class="signal-label">业务采用素材</span><span class="signal-source">滴滴 · DiVA <span aria-hidden="true">↗</span></span></button>
+          <button class="signal projectTrigger" type="button" data-project-id="didiPricing" aria-label="约 2500 条航线比价任务，查看滴滴比价 Skill 案例"><span class="signal-value" aria-hidden="true"><span data-count="2500">2500</span><sup>条</sup></span><span class="signal-label">累计航线比价</span><span class="signal-source">滴滴 · 比价 Skill <span aria-hidden="true">↗</span></span></button>
           <button class="signal projectTrigger" type="button" data-project-id="askMe" aria-label="106 项自动化测试，查看 Ask Me 案例"><span class="signal-value" aria-hidden="true"><span data-count="106">106</span><sup>项</sup></span><span class="signal-label">自动化测试</span><span class="signal-source">Ask Me · 求职数字分身 <span aria-hidden="true">↗</span></span></button>
-          <button class="signal projectTrigger" type="button" data-project-id="webCoding" aria-label="8 个产品原型，浏览全部原型"><span class="signal-value" aria-hidden="true"><span data-count="8">8</span><sup>个</sup></span><span class="signal-label">可运行产品原型</span><span class="signal-source">个人实践 · 持续构建 <span aria-hidden="true">↗</span></span></button>
         </div>
       </section>
-      <section id="work" class="section work-section chapter-panel" aria-labelledby="workTitle">
+      <div class="dark-act" id="darkAct">
+      <div class="dark-curtain-bar">
+        <button class="dark-curtain-tab" id="darkCurtainTab" type="button" data-scroll-target="#work" aria-label="进入精选项目作品">
+          <span class="companion-berth curtain-berth" id="curtainBerth" aria-hidden="true"><span class="curtain-tab-dot"></span></span>
+          <span>SELECTED WORK · 01 — 05</span>
+          <span class="curtain-tab-arrow" aria-hidden="true">↓</span>
+        </button>
+      </div>
+      <section id="work" class="section work-section" aria-labelledby="workTitle">
         <span id="frames" class="anchor-alias" aria-hidden="true"></span>
         <div class="section-heading">
           <h2 id="workTitle">能体验，也能追问。</h2>
           <p class="section-intro">用可运行的作品，说明我如何定义问题、设计产品与验证效果。</p>
         </div>
-        <article class="work-feature">
-          <button class="work-image projectTrigger flowing-row" type="button" data-project-id="askMe" data-preview-title="Ask Me" data-preview-tag="CAREER AI · 2026" data-preview-image="assets/img/projects/ask-me/home.png" aria-label="查看 Ask Me 项目详情"><img src="assets/img/projects/ask-me/home.png" alt="Ask Me 求职数字分身首页" width="1440" height="900" loading="lazy" decoding="async"></button>
-          <div class="work-copy">
-            <span class="project-type">个人自研 · 求职场景</span><h3>Ask Me</h3>
-            <h4>让简历可以被追问</h4>
-            <p>设计并上线面向招聘场景的 AI Career Agent，通过证据模型约束回答，让经历、个人贡献和信息来源可以被进一步核验。</p>
-            <p class="work-proof">106 项自动化测试 · 48 个面试模拟检验</p>
-            <div class="action-row">
-              <button class="text-link projectTrigger" type="button" data-project-id="askMe">看产品设计 <span aria-hidden="true">↗</span></button><a class="text-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">直接体验 <span aria-hidden="true">↗</span></a>
+        <div class="work-stage" id="workStage">
+          <div class="work-chapters">
+            <article class="work-chapter is-active" id="workChapter0" data-work-index="0" data-project-id="askMe" data-frame-label="ask-me-career-agent.vercel.app" data-frame-accent="rgba(239, 138, 76, 0.14)">
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label">ask-me-career-agent.vercel.app</span>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/ask-me/chat.png" alt="Ask Me 求职数字分身问答与引用界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
+              <div class="work-copy">
+                <div class="work-chapter-meta"><span class="work-chapter-num">01</span><span class="project-type">个人自研 · 求职场景</span></div>
+                <h3>Ask Me</h3>
+                <h4>让简历可以被追问</h4>
+                <p>设计并上线面向招聘场景的 AI Career Agent，通过证据模型约束回答，让经历、个人贡献和信息来源可以被进一步核验。</p>
+                <p class="work-proof">106 项自动化测试 · 48 个面试模拟检验</p>
+                <div class="action-row">
+                  <button class="text-link projectTrigger" type="button" data-project-id="askMe">看产品设计 <span aria-hidden="true">↗</span></button>
+                  <a class="text-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">直接体验 <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            </article>
+            <article class="work-chapter" id="workChapter1" data-work-index="1" data-project-id="rag" data-frame-label="RAG · EVALUATION WORKBENCH" data-frame-accent="rgba(164, 198, 232, 0.12)">
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label">RAG · EVALUATION WORKBENCH</span>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="rag" aria-label="查看 RAG Knowledge Base 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
+              <div class="work-copy">
+                <div class="work-chapter-meta"><span class="work-chapter-num">02</span><span class="project-type">实习脱敏复刻 Demo · 2026</span></div>
+                <h3>RAG Knowledge Base</h3>
+                <h4>让检索、引用与评测形成闭环</h4>
+                <p>将医疗知识助手的产品思路复刻为可展示 Demo，覆盖多格式文档解析、混合检索、段落级引用溯源与自动化评测。</p>
+                <p class="work-proof">BM25 + 向量混合检索 · RAGAS 自动评测闭环</p>
+                <div class="action-row">
+                  <button class="text-link projectTrigger" type="button" data-project-id="rag">看设计与实现 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="work-chapter" id="workChapter2" data-work-index="2" data-project-id="agentScope" data-frame-label="agentscope-harnesslab.vercel.app" data-frame-accent="rgba(218, 174, 126, 0.14)">
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label">agentscope-harnesslab.vercel.app</span>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="agentScope" aria-label="查看 AgentScope 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/agentscope/case-study.png" alt="AgentScope 黑匣子回放与 Trace 界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
+              <div class="work-copy">
+                <div class="work-chapter-meta"><span class="work-chapter-num">03</span><span class="project-type">Agent 可观测性 · 2026</span></div>
+                <h3>AgentScope</h3>
+                <h4>90 秒走完失败、定位、分叉与验证</h4>
+                <p>追踪 Agent 运行中的计划、工具调用、延迟与错误，定位无进展循环，从不可变 Checkpoint 分叉重跑并用 Span 证据验证修复。</p>
+                <p class="work-proof">Trace · Diagnostics · Fork · Compare · Eval</p>
+                <div class="action-row">
+                  <button class="text-link projectTrigger" type="button" data-project-id="agentScope">看产品设计 <span aria-hidden="true">↗</span></button>
+                  <a class="text-link" href="https://agentscope-harnesslab.vercel.app" target="_blank" rel="noopener noreferrer">在线体验 <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            </article>
+            <article class="work-chapter" id="workChapter3" data-work-index="3" data-project-id="deepflow" data-frame-label="DEEPFLOW · MULTI-AGENT RESEARCH" data-frame-accent="rgba(196, 176, 148, 0.13)">
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label">DEEPFLOW · MULTI-AGENT RESEARCH</span>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="deepflow" aria-label="查看 DeepFlow 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
+              <div class="work-copy">
+                <div class="work-chapter-meta"><span class="work-chapter-num">04</span><span class="project-type">多 Agent 研究 · 2026</span></div>
+                <h3>DeepFlow</h3>
+                <h4>从研究计划到带引用结构化报告</h4>
+                <p>Coordinator、Planner、Researcher、Coder 与 Reporter 分工协作，打通资料检索、分析与多形态研究产物交付。</p>
+                <p class="work-proof">自研 asyncio 状态机 · 支持报告 / 播客 / PPT 衍生</p>
+                <div class="action-row">
+                  <button class="text-link projectTrigger" type="button" data-project-id="deepflow">看架构与界面 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </article>
+            <article class="work-chapter" id="workChapter4" data-work-index="4" data-project-id="webCoding" data-frame-label="VIBE CODING · 8 WORKING PROTOTYPES" data-frame-accent="rgba(239, 138, 76, 0.13)">
+              <div class="work-image work-chapter-media" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label">VIBE CODING · 8 WORKING PROTOTYPES</span>
+                  <button class="work-frame-cta projectTrigger" type="button" data-project-id="webCoding" aria-label="查看 Vibe Coding 全部 8 个原型">查看全部原型 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-frame-media"><img src="assets/img/projects/web-coding/thirty-minute-brain-context.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></div>
+              </div>
+              <div class="work-copy">
+                <div class="work-chapter-meta"><span class="work-chapter-num">05</span><span class="project-type">个人产品实验 · 持续构建</span></div>
+                <h3>Vibe Coding</h3>
+                <h4>用可运行原型验证具体想法</h4>
+                <p>围绕求职、审计底稿、信息债治理与本地工作记忆，用 Tauri、Chrome Extension 与 Python 做出 8 个真实可用工具。</p>
+                <p class="work-proof">8 个完整可运行产品原型 · 覆盖桌面端与浏览器扩展</p>
+                <div class="action-row">
+                  <button class="text-link projectTrigger" type="button" data-project-id="webCoding">浏览 8 个原型 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </article>
+          </div>
+          <aside class="work-stage-aside" aria-label="项目界面展台">
+            <div class="work-stage-sticky">
+              <div class="work-image work-stage-frame" id="workStageFrame" data-project-id="askMe" data-view-mode="board">
+                <div class="work-frame-chrome">
+                  <span class="work-frame-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="work-frame-label" id="workStageLabel">ask-me-career-agent.vercel.app</span>
+                  <span class="work-frame-count" id="workStageCount">01 / 05</span>
+                  <span class="work-mode-toggle" id="workModeToggle" role="group" aria-label="切换展示模式">
+                    <button class="work-mode-btn is-active" type="button" data-work-mode="board" aria-pressed="true">画板</button>
+                    <button class="work-mode-btn" type="button" data-work-mode="raw" aria-pressed="false">实机</button>
+                  </span>
+                  <button class="work-frame-cta projectTrigger" id="workFrameCta" type="button" data-project-id="askMe" aria-label="查看 Ask Me 项目详情">查看案例 <span aria-hidden="true">↗</span></button>
+                </div>
+                <div class="work-stage-viewport">
+                  <div class="work-stage-slide is-active" data-slide-index="0" data-board-id="askMe"><img src="assets/img/projects/ask-me/chat.png" alt="Ask Me 求职数字分身问答与引用界面" width="1440" height="900" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="1" data-board-id="rag"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="2" data-board-id="agentScope"><img src="assets/img/projects/agentscope/case-study.png" alt="AgentScope 黑匣子回放与 Trace 界面" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="3" data-board-id="deepflow"><img src="assets/img/projects/deepflow/home.png" alt="DeepFlow 多 Agent 深度研究平台" width="1440" height="900" loading="lazy" decoding="async"></div>
+                  <div class="work-stage-slide" data-slide-index="4" data-board-id="webCoding"><img src="assets/img/projects/web-coding/thirty-minute-brain-context.png" alt="Vibe Coding 个人产品原型展示" width="1440" height="900" loading="lazy" decoding="async"></div>
+                </div>
+              </div>
+              <div class="work-stage-footer">
+                <div class="work-stage-nav" role="tablist" aria-label="切换预览作品">
+                  <button class="work-stage-pill is-active" type="button" data-stage-goto="0"><span>01</span> Ask Me</button>
+                  <button class="work-stage-pill" type="button" data-stage-goto="1"><span>02</span> RAG</button>
+                  <button class="work-stage-pill" type="button" data-stage-goto="2"><span>03</span> AgentScope</button>
+                  <button class="work-stage-pill" type="button" data-stage-goto="3"><span>04</span> DeepFlow</button>
+                  <button class="work-stage-pill" type="button" data-stage-goto="4"><span>05</span> Vibe Coding</button>
+                </div>
+                <button class="work-stage-dock-cta projectTrigger" id="workDockTrigger" type="button" data-project-id="askMe" aria-label="了解 Ask Me 项目详情">
+                  <span class="companion-berth work-berth" id="workBerth" aria-hidden="true"></span>
+                  <span class="work-dock-label" id="workDockLabel">了解 Ask Me 详情</span>
+                  <span class="work-dock-arrow" aria-hidden="true">↗</span>
+                </button>
+              </div>
             </div>
-          </div>
-        </article>
-        <article class="work-feature work-feature--secondary">
-          <button class="work-image projectTrigger flowing-row" type="button" data-project-id="rag" data-preview-title="RAG Knowledge Base" data-preview-tag="RETRIEVAL · EVALUATION" data-preview-image="assets/img/projects/rag/evaluation.png" aria-label="查看 RAG Knowledge Base 项目详情"><img src="assets/img/projects/rag/evaluation.png" alt="RAG Knowledge Base 自动化评测页面" width="1440" height="900" loading="lazy" decoding="async"></button>
-          <div class="work-copy">
-            <span class="project-type">实习脱敏复刻 Demo · 2026</span><h3>RAG Knowledge Base</h3>
-            <p>将医疗知识助手的产品思路复刻为可展示 Demo，覆盖知识管理、混合检索、引用溯源与自动评测。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="rag">看设计与实现 <span aria-hidden="true">↗</span></button>
-          </div>
-        </article>
-        <div class="work-index">
-          <p class="eyebrow">MORE TO EXPLORE</p>
-          <button class="project-index-row projectTrigger flowing-row" type="button" data-project-id="agentScope" data-preview-title="AgentScope" data-preview-tag="TRACE · FORK · EVAL" data-preview-image="assets/img/projects/agentscope/home.png"><span class="index-number">03</span><span class="index-copy"><span class="index-title">AgentScope</span><span class="index-description">追踪 Agent 运行，从失败证据出发定位问题、验证修复。</span></span><span class="index-category">Agent 可观测性</span><span aria-hidden="true">↗</span></button>
-          <button class="project-index-row projectTrigger flowing-row" type="button" data-project-id="deepflow" data-preview-title="DeepFlow" data-preview-tag="MULTI-AGENT RESEARCH · 2026" data-preview-image="assets/img/projects/deepflow/research-home-2026.png"><span class="index-number">04</span><span class="index-copy"><span class="index-title">DeepFlow</span><span class="index-description">从研究计划、资料检索，到分析与报告生成。</span></span><span class="index-category">多 Agent 研究</span><span aria-hidden="true">↗</span></button>
-          <button class="project-index-row projectTrigger flowing-row" type="button" data-project-id="webCoding" data-preview-title="Vibe Coding" data-preview-tag="8 WORKING PROTOTYPES" data-preview-image="assets/img/projects/web-coding/read-later-regret.png"><span class="index-number">05</span><span class="index-copy"><span class="index-title">Vibe Coding</span><span class="index-description">求职、审计与个人工作流中的 8 个可运行原型。</span></span><span class="index-category">个人产品实验</span><span aria-hidden="true">↗</span></button>
+          </aside>
         </div>
       </section>
       <section id="capabilities" class="section capabilities-section" aria-labelledby="capabilitiesTitle">
         <div class="capabilities-heading"><h2 id="capabilitiesTitle">把能力，连接成产品。</h2><p>从定义问题，到构建系统，再到验证效果。</p></div>
-        <div class="capability-lines">
-          <button class="capability-line projectTrigger" type="button" data-project-id="didiDiva"><span class="capability-title">AI 产品策略</span><span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="baichuanRag"><span class="capability-title">RAG 检索增强</span><span class="capability-caption">02 / 让回答有据可查 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="didiPricing"><span class="capability-title">Agent 工作流</span><span class="capability-caption">03 / 让过程可以复用 <span aria-hidden="true">↗</span></span></button>
-          <button class="capability-line projectTrigger" type="button" data-project-id="webdevBench"><span class="capability-title">数据驱动评测</span><span class="capability-caption">04 / 让结果能够验证 <span aria-hidden="true">↗</span></span></button>
+        <div class="capability-lines" id="capabilityLines">
+          <button class="capability-line projectTrigger" type="button" data-project-id="didiRisk" data-cap-index="0">
+            <span class="capability-title">AI 产品策略</span>
+            <span class="capability-meta">
+              <span class="capability-proof">滴滴风控预审 · 单户 120m → 30m</span>
+              <span class="capability-caption">01 / 从业务问题出发 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="baichuanRag" data-cap-index="1">
+            <span class="capability-title">RAG 检索增强</span>
+            <span class="capability-meta">
+              <span class="capability-proof">百川医疗 RAG · 混合召回与段落溯源</span>
+              <span class="capability-caption">02 / 让回答有据可查 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="didiPricing" data-cap-index="2">
+            <span class="capability-title">Agent 工作流</span>
+            <span class="capability-meta">
+              <span class="capability-proof">滴滴比价 Skill · 2,500 条航线 · 省时 90%+</span>
+              <span class="capability-caption">03 / 让过程可以复用 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
+          <button class="capability-line projectTrigger" type="button" data-project-id="webdevBench" data-cap-index="3">
+            <span class="capability-title">数据驱动评测</span>
+            <span class="capability-meta">
+              <span class="capability-proof">百度 WebDev Bench · 评测省时 71.4%</span>
+              <span class="capability-caption">04 / 让结果能够验证 <span aria-hidden="true">↗</span></span>
+            </span>
+          </button>
         </div>
         <p class="capability-footnote">PRODUCT THINKING <span aria-hidden="true">×</span> SYSTEM BUILDING <span aria-hidden="true">×</span> EVIDENCE</p>
       </section>
-      <section id="method" class="section method-section chapter-panel" aria-labelledby="methodTitle">
+      </div>
+      <section id="method" class="section method-section" aria-labelledby="methodTitle">
         <div class="tool-ribbon" aria-hidden="true"><div class="tool-ribbon-track"><span>Agent <i>·</i> RAG <i>·</i> Evaluation <i>·</i> Skill <i>·</i> SQL / Python <i>·</i> Product Thinking <i>·</i></span><span>Agent <i>·</i> RAG <i>·</i> Evaluation <i>·</i> Skill <i>·</i> SQL / Python <i>·</i> Product Thinking <i>·</i></span></div></div>
         <div class="legacy-anchors" aria-hidden="true">
           <span id="philosophy"></span><span id="process"></span><span id="reveal"></span><span id="manifesto"></span><span id="voices"></span>
@@ -318,29 +612,138 @@
           <h2 id="methodTitle" class="method-statement"><span>把复杂留给系统，</span><span>把清晰交给用户。</span></h2>
           <p class="section-intro">从问题到结果，我用这四步推进。方法只有回到具体工作里，才有意义。</p>
         </div>
-        <ol class="method-steps paper-steps">
-          <li style="--step: 0">
-            <span class="step-number">No. 01</span><div class="step-title"><h3>发现</h3><span>找到真实问题</span></div>
-            <div class="step-body"><p>从运营制作流程入手，识别重复制作、尺寸适配和反复修改的成本。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+        <ol class="method-steps paper-steps" id="paperSteps">
+          <li style="--step: 0" data-step-index="0">
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 01</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="0">发现</button></h3></div>
+              <span class="step-sub">找到真实问题 · 划清系统边界</span>
+            </div>
+            <div class="step-content">
+              <div class="step-visual" aria-hidden="true">
+                <span class="step-watermark">01</span>
+                <svg class="method-diagram" viewBox="0 0 200 104" fill="none">
+                  <path class="md-draw" d="M18 52 H64 C84 52 84 22 108 22 H152" stroke="currentColor" stroke-width="1.25"/>
+                  <path class="md-draw" d="M64 52 H152" stroke="currentColor" stroke-width="1.25"/>
+                  <path class="md-draw" d="M64 52 C84 52 84 82 108 82 H152" stroke="currentColor" stroke-width="1.25"/>
+                  <path class="md-draw md-accent" d="M152 22 C168 22 168 52 182 52 M152 52 H182 M152 82 C168 82 168 52 182 52" stroke="var(--accent)" stroke-width="1.35"/>
+                  <circle class="md-node" cx="18" cy="52" r="4.5" fill="var(--ink)"/>
+                  <rect class="md-node" x="116" y="14" width="32" height="16" rx="2" stroke="currentColor" stroke-width="1.15" fill="var(--paper)"/>
+                  <rect class="md-node" x="116" y="44" width="32" height="16" rx="2" stroke="currentColor" stroke-width="1.15" fill="var(--paper)"/>
+                  <rect class="md-node" x="116" y="74" width="32" height="16" rx="2" stroke="currentColor" stroke-width="1.15" fill="var(--paper)"/>
+                  <circle class="md-node md-pulse" cx="182" cy="52" r="5" fill="var(--accent-bright)"/>
+                </svg>
+                <span class="step-visual-caption">AI 提取 · 规则校验 · 人工终审分层</span>
+              </div>
+              <div class="step-body">
+                <h4 class="step-lead">拒绝“为用 AI 而用 AI”，先把真实业务流程与出错成本拆透。</h4>
+                <p>深入一线梳理业务、财务、法务与运营的真实 SOP，让大模型承接非结构化解析与创意发散，把确定性核验与最终担责留给规则和人工。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>关键取舍</dt><dd>不做黑盒自动放行或自动出终稿，改用人机分层协同</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>滴滴风控 120m → 30m · DiVA 单批 2h → 40m</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiRisk">租车风控工作台 <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiDiva">DiVA 需求分析 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
             </div>
           </li>
-          <li style="--step: 1">
-            <span class="step-number">No. 02</span><div class="step-title"><h3>定义</h3><span>让目标可衡量</span></div>
-            <div class="step-body"><p>把业务问题拆成可比较的指标，用覆盖率、价差和低价率识别短板。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价实践 <span aria-hidden="true">↗</span></button>
+          <li style="--step: 1" data-step-index="1">
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 02</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="1">定义</button></h3></div>
+              <span class="step-sub">让目标可衡量 · 锁定契约口径</span>
+            </div>
+            <div class="step-content">
+              <div class="step-visual" aria-hidden="true">
+                <span class="step-watermark">02</span>
+                <svg class="method-diagram" viewBox="0 0 200 104" fill="none">
+                  <path class="md-draw" d="M18 88 H184" stroke="currentColor" stroke-width="1.2"/>
+                  <path class="md-draw md-bar" d="M48 88 V44" stroke="currentColor" stroke-width="14"/>
+                  <path class="md-draw md-bar" d="M98 88 V30" stroke="currentColor" stroke-width="14"/>
+                  <path class="md-draw md-bar md-accent" d="M148 88 V18" stroke="var(--accent)" stroke-width="14"/>
+                  <path class="md-draw md-dash" d="M18 36 H184" stroke="var(--accent-bright)" stroke-width="1.2" stroke-dasharray="4 4"/>
+                  <circle class="md-node md-pulse" cx="148" cy="18" r="4" fill="var(--accent-bright)"/>
+                </svg>
+                <span class="step-visual-caption">覆盖率 · 价差 · 低价率基准线</span>
+              </div>
+              <div class="step-body">
+                <h4 class="step-lead">把模糊的“好用”翻译成可对齐、可复算的指标口径与输入契约。</h4>
+                <p>在搭工作流与写 Prompt 前，先固定同航班匹配规则、字段映射和三层 Skill 契约，避免因时点、舱位或口径混用导致业务结论失真。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>结构封装</dt><dd>入口触发 · 六步状态机主体 · 回归样本引用层</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>约 2,500 条航线比价 · 人工耗时降 90%+</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="didiPricing">机票比价 Skill 实践 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
             </div>
           </li>
-          <li style="--step: 2">
-            <span class="step-number">No. 03</span><div class="step-title"><h3>验证</h3><span>让方案接受检验</span></div>
-            <div class="step-body"><p>把功能、视觉、交互纳入端到端评测，保留失败证据和问题详情。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+          <li style="--step: 2" data-step-index="2">
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 03</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="2">验证</button></h3></div>
+              <span class="step-sub">让方案接受检验 · 用真难例说话</span>
+            </div>
+            <div class="step-content">
+              <div class="step-visual" aria-hidden="true">
+                <span class="step-watermark">03</span>
+                <svg class="method-diagram" viewBox="0 0 200 104" fill="none">
+                  <polygon class="md-draw" points="100,12 140,34 140,74 100,94 60,74 60,34" stroke="currentColor" stroke-width="1.15" opacity="0.35"/>
+                  <polygon class="md-draw md-accent" points="100,22 132,39 128,70 100,84 70,68 74,38" stroke="var(--accent)" stroke-width="1.4" fill="rgba(200,75,17,0.08)"/>
+                  <path class="md-draw" d="M100 12 V94 M60 34 L140 74 M140 34 L60 74" stroke="currentColor" stroke-width="0.9" opacity="0.25"/>
+                  <circle class="md-node md-pulse" cx="100" cy="22" r="3.5" fill="var(--accent-bright)"/>
+                  <circle class="md-node" cx="132" cy="39" r="3" fill="var(--ink)"/>
+                  <circle class="md-node" cx="70" cy="68" r="3" fill="var(--ink)"/>
+                </svg>
+                <span class="step-visual-caption">功能 · 视觉 · 交互 7 维端到端门禁</span>
+              </div>
+              <div class="step-body">
+                <h4 class="step-lead">不凭体感拍板，把脏材料、攻击边界与端到端体验放进评测集。</h4>
+                <p>将单一代码通过率扩展为 7 维网页产品交付评测，同步构建脱敏难例盲测、安全攻击与多轮追问检验，让每次判断都有可回溯的失败证据。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>评测覆盖</dt><dd>6 类 Web 任务 × 7 维门禁 · 38×3 模型对照盲测</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>评测操作省时 71.4% · Ask Me 106 项测试 0 违规</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="webdevBench">WebDev E2E Bench <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="askMe">Ask Me 评测体系 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
             </div>
           </li>
-          <li style="--step: 3">
-            <span class="step-number">No. 04</span><div class="step-title"><h3>迭代</h3><span>用反馈推动下一步</span></div>
-            <div class="step-body"><p>归因 Bad Case，协同算法和研发复测，跟踪质量、Token 消耗与响应效率。</p>
-            <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+          <li style="--step: 3" data-step-index="3">
+            <div class="step-tab">
+              <div class="step-tab-main"><span class="step-number">No. 04</span><h3 class="step-heading"><button class="step-tab-trigger" type="button" data-step-goto="3">迭代</button></h3></div>
+              <span class="step-sub">用反馈推动下一步 · 闭环沉淀</span>
+            </div>
+            <div class="step-content">
+              <div class="step-visual" aria-hidden="true">
+                <span class="step-watermark">04</span>
+                <svg class="method-diagram method-diagram--loop" viewBox="0 0 200 104" fill="none">
+                  <path id="methodLoopPath" class="md-draw" d="M56 26 H144 C162 26 174 38 174 52 C174 66 162 78 144 78 H56 C38 78 26 66 26 52 C26 38 38 26 56 26 Z" stroke="currentColor" stroke-width="1.25" opacity="0.45"/>
+                  <path class="md-draw md-accent" d="M144 26 C162 26 174 38 174 52 C174 66 162 78 144 78" stroke="var(--accent)" stroke-width="1.6"/>
+                  <circle class="md-node" cx="56" cy="26" r="3.5" fill="var(--ink)"/>
+                  <circle class="md-node" cx="144" cy="26" r="3.5" fill="var(--ink)"/>
+                  <circle class="md-node" cx="144" cy="78" r="3.5" fill="var(--ink)"/>
+                  <circle class="md-node" cx="56" cy="78" r="3.5" fill="var(--ink)"/>
+                  <circle class="md-orbit-dot" r="4.5" fill="var(--accent-bright)">
+                    <animateMotion dur="5.5s" repeatCount="indefinite" path="M56 26 H144 C162 26 174 38 174 52 C174 66 162 78 144 78 H56 C38 78 26 66 26 52 C26 38 38 26 56 26 Z"/>
+                  </circle>
+                </svg>
+                <span class="step-visual-caption">评测 → 归因 → 策略 → 复测闭环</span>
+              </div>
+              <div class="step-body">
+                <h4 class="step-lead">把一线反馈与 Bad Case 按模型、策略、工程归因，持续复测闭环。</h4>
+                <p>面对高频运营反馈先区分“业务目标”和“用户建议做法”；协同算法与研发优化召回排序、文件写入协议与断点恢复，同步跟踪质量与 Token 效率。</p>
+                <dl class="step-highlights">
+                  <div class="step-highlight-cell"><dt>归因方法</dt><dd>按认知引导、交互体验、技术约束分层排期破局</dd></div>
+                  <div class="step-highlight-cell step-highlight-cell--accent"><dt>实证锚点</dt><dd>复杂样本 16.04 → 69.07 · 输入 Token 降 70.8%</dd></div>
+                </dl>
+                <div class="step-actions">
+                  <button class="text-link projectTrigger" type="button" data-project-id="baiduEval">模型策略迭代 <span aria-hidden="true">↗</span></button>
+                  <button class="text-link projectTrigger" type="button" data-project-id="baichuanRag">医疗 RAG 归因 <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
             </div>
           </li>
         </ol>
@@ -386,6 +789,27 @@
         <div class="footer-agent-copy"><p class="eyebrow">GO BEYOND THE PORTFOLIO</p><p>项目展示的是结果。<br>和我的 AI 分身聊聊，了解经历背后的思考。</p></div>
         <div class="footer-primary-links"><a class="text-link footer-agent-link" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">与我的 AI 分身对话 <span aria-hidden="true">↗</span></a><a class="text-link" href="assets/docs/zack-zhang-resume-aipm.pdf?v=20261124" download="张倬玮_AI产品经理_简历.pdf">下载最新简历 <span aria-hidden="true">↓</span></a></div>
       </div>
+      <a class="footer-runway" id="footerRunway" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="向我的 AI 分身追问项目细节">
+        <span class="companion-berth runway-berth" id="runwayBerth" aria-hidden="true">
+          <svg class="runway-static-mark" viewBox="0 0 56 52" fill="none" aria-hidden="true">
+            <path d="M 11 5 H 47 Q 53 5 52 11 L 49.5 30 Q 48.5 36 42.5 36 H 31 L 20.5 46 L 22 36 H 11 Q 5 36 6 30 L 8 11 Q 8.8 5 11 5 Z" fill="#d45118"/>
+            <rect x="23.8" y="14.5" width="3.8" height="11.5" rx="1.2" transform="skewX(-7)" fill="#faf6f0"/>
+            <rect x="33.8" y="14.5" width="3.8" height="11.5" rx="1.2" transform="skewX(-7)" fill="#faf6f0"/>
+          </svg>
+        </span>
+        <span class="footer-runway-meta">
+          <span class="footer-runway-kicker">ASK ME · LIVE PROMPTS</span>
+          <span class="footer-runway-viewport" aria-live="off">
+            <span class="footer-runway-track" id="footerRunwayTrack">
+              <span class="footer-runway-item is-active">「滴滴风控工作台如何把单户预审从 120 分钟压到 30 分钟？」</span>
+              <span class="footer-runway-item">「面对 DiVA 37 条运营反馈，如何区分业务目标与用户做法？」</span>
+              <span class="footer-runway-item">「机票比价 Skill 如何稳定跑通 2,500 条航线并支持断点恢复？」</span>
+              <span class="footer-runway-item">「在百度和百川做多维评测与医疗 RAG 时，踩过哪些坑？」</span>
+            </span>
+          </span>
+        </span>
+        <span class="footer-runway-cta">去追问 <span aria-hidden="true">↗</span></span>
+      </a>
       <div class="footer-grid">
         <div class="footer-identity"><a class="site-brand" href="#heroWrap">ZACK ZHANG <span aria-hidden="true">●</span></a><p>东北大学 · 应用统计学<br>2027 届 · AI 产品经理方向</p></div>
         <nav class="footer-explore" aria-label="页尾导航"><h3>EXPLORE</h3><a href="#testimonials">实习经历 <span aria-hidden="true">↗</span></a><a href="#work">项目作品 <span aria-hidden="true">↗</span></a><a href="#knowledge">知识沉淀 <span aria-hidden="true">↗</span></a><a href="https://github.com/ZackZhang-AI" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
@@ -395,6 +819,38 @@
         <span>© 2026 ZACK ZHANG</span><span class="footer-signoff">FROM MODELS TO IMPACT.</span><a href="#heroWrap">返回顶部 <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
+    <div id="inkSparkLayer" class="ink-spark-layer" aria-hidden="true"></div>
+    <button id="inkGuide" class="ink-guide" type="button" tabindex="-1" aria-hidden="true">
+      <span class="ink-guide-trail" aria-hidden="true"></span>
+      <span class="ink-guide-ring" aria-hidden="true"></span>
+      <span class="ink-guide-body">
+        <svg class="ink-guide-svg" viewBox="0 0 56 52" fill="none" focusable="false">
+          <path id="inkGuidePath" class="ink-bubble-shape" d="M 11 5 H 47 Q 53 5 52 11 L 49.5 30 Q 48.5 36 42.5 36 H 31 L 20.5 46 L 22 36 H 11 Q 5 36 6 30 L 8 11 Q 8.8 5 11 5 Z" stroke-linejoin="round"></path>
+          <g class="ink-face">
+            <g class="ink-eyes-open">
+              <g class="ink-eye ink-eye-l">
+                <rect class="ink-slit" x="23.8" y="14.5" width="3.8" height="11.5" rx="1.2" transform="skewX(-7)"></rect>
+              </g>
+              <g class="ink-eye ink-eye-r">
+                <rect class="ink-slit" x="33.8" y="14.5" width="3.8" height="11.5" rx="1.2" transform="skewX(-7)"></rect>
+              </g>
+              <path class="ink-wink-arc" d="M 30.2 21.6 L 33.4 17.8 L 36.6 21.6" fill="none" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+            <g class="ink-eyes-happy">
+              <path d="M 19.8 22.0 L 23.0 17.4 L 26.2 22.0" fill="none" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M 30.2 22.0 L 33.4 17.4 L 36.6 22.0" fill="none" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </g>
+        </svg>
+      </span>
+    </button>
+    <aside id="inkPopover" class="ink-popover" role="dialog" aria-label="快捷入口" hidden>
+      <p class="ink-popover-note" id="inkPopoverNote">想进一步了解我的经历？</p>
+      <div class="ink-popover-actions">
+        <a class="ink-popover-primary" href="https://ask-me-career-agent.vercel.app" target="_blank" rel="noopener noreferrer">问问 AI 分身 <span aria-hidden="true">↗</span></a>
+        <a class="ink-popover-secondary" href="assets/docs/zack-zhang-resume-aipm.pdf?v=20261124" download="张倬玮_AI产品经理_简历.pdf">下载简历 <span aria-hidden="true">↓</span></a>
+      </div>
+    </aside>
     <dialog id="projectDialog" class="project-dialog" aria-labelledby="projectDialogTitle">
       <div class="project-dialog-shell">
         <header class="project-dialog-header">
@@ -406,14 +862,18 @@
     </dialog>
     <script src="assets/js/gsap.min.js" defer></script>
     <script src="assets/js/ScrollTrigger.min.js" defer></script>
-    <script src="assets/js/hero-intro.js?v=4" defer></script>
-    <script src="assets/js/portfolio.js?v=2" defer></script>
-    <script src="assets/js/portfolio-motion.js?v=6" defer></script>
-    <script src="assets/js/chapter-motion.js?v=2" defer></script>
-    <script src="assets/js/flowing-preview.js?v=3" defer></script>
-    <script src="assets/js/pointer-interactions.js?v=2" defer></script>
-    <script src="assets/js/footer-talk.js?v=1" defer></script>
-    <script src="assets/js/project-data.js?v=1" defer></script>
-    <script src="assets/js/project-dialog.js?v=12" defer></script>
+    <script src="assets/js/smooth-scroll.js?v=4" defer></script>
+    <script src="assets/js/hero-intro.js?v=8" defer></script>
+    <script src="assets/js/portfolio.js?v=5" defer></script>
+    <script src="assets/js/portfolio-motion.js?v=11" defer></script>
+    <script src="assets/js/chapter-motion.js?v=3" defer></script>
+    <script src="assets/js/work-boards.js?v=1" defer></script>
+    <script src="assets/js/signature-motion.js?v=5" defer></script>
+    <script src="assets/js/ink-companion.js?v=8" defer></script>
+    <script src="assets/js/flowing-preview.js?v=4" defer></script>
+    <script src="assets/js/pointer-interactions.js?v=5" defer></script>
+    <script src="assets/js/footer-talk.js?v=3" defer></script>
+    <script src="assets/js/project-data.js?v=2" defer></script>
+    <script src="assets/js/project-dialog.js?v=14" defer></script>
   </body>
 </html>

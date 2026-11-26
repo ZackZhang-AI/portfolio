@@ -9,16 +9,42 @@
   background: var(--portfolio-dark);
   color: var(--portfolio-light);
   overflow-y: auto;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 280ms cubic-bezier(.22, 1, .36, 1), transform 340ms cubic-bezier(.22, 1, .36, 1), overlay 280ms allow-discrete, display 280ms allow-discrete;
+}
+
+.project-dialog[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@starting-style {
+  .project-dialog[open] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
 }
 
 .project-dialog::backdrop {
-  background: rgba(11, 10, 8, 0.84);
+  background: rgba(11, 10, 8, 0);
+  transition: background-color 280ms ease, overlay 280ms allow-discrete, display 280ms allow-discrete;
+}
+
+.project-dialog[open]::backdrop {
+  background: rgba(11, 10, 8, 0.86);
+}
+
+@starting-style {
+  .project-dialog[open]::backdrop {
+    background: rgba(11, 10, 8, 0);
+  }
 }
 
 .project-dialog-shell {
   min-height: 100dvh;
   background:
-    radial-gradient(90% 55% at 50% 0%, rgba(237, 231, 220, 0.07), transparent 70%),
+    radial-gradient(90% 55% at 50% 0%, rgba(237, 231, 220, 0.065), transparent 70%),
     var(--portfolio-dark);
 }
 
@@ -29,10 +55,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 4vw;
+  padding: 20px 4vw;
   border-bottom: 1px solid rgba(237, 231, 220, 0.14);
-  background: rgba(11, 10, 8, 0.92);
+  background: rgba(11, 10, 8, 0.88);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .project-dialog-brand {
@@ -44,20 +71,21 @@
 .project-dialog-close {
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(237, 231, 220, 0.38);
-  border-radius: 50%;
+  border: 1px solid rgba(237, 231, 220, 0.32);
+  border-radius: 2px;
   background: transparent;
   color: var(--portfolio-light);
   font: inherit;
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
 }
 
 .project-dialog-close:hover,
 .project-dialog-close:focus-visible {
-  background: var(--portfolio-light);
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
   color: var(--portfolio-dark);
 }
 
@@ -83,6 +111,8 @@
   font-weight: 500;
   line-height: 0.92;
   letter-spacing: -0.015em;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 8, "wght" 520;
 }
 
 .project-dialog-intro {
@@ -96,31 +126,38 @@
 .project-dialog-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   margin-bottom: 10vh;
 }
 
+/* 与主站一致的方角编辑式按钮语言 */
 .project-dialog-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
+  min-height: 46px;
   padding: 0 22px;
-  border: 1px solid rgba(237, 231, 220, 0.34);
-  border-radius: 999px;
+  border: 1px solid rgba(237, 231, 220, 0.32);
+  border-radius: 2px;
   color: var(--portfolio-light);
   text-decoration: none;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.22em;
   white-space: nowrap;
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
 }
 
-.project-dialog-link:first-child,
+.project-dialog-link:first-child {
+  border-color: var(--portfolio-light);
+  background: var(--portfolio-light);
+  color: var(--portfolio-dark);
+}
+
 .project-dialog-link:hover,
 .project-dialog-link:focus-visible {
-  background: var(--portfolio-light);
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
   color: var(--portfolio-dark);
 }
 
@@ -138,7 +175,8 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border: 1px solid rgba(237, 231, 220, 0.14);
+  border-radius: 4px;
   background: #17140f;
 }
 
@@ -169,6 +207,8 @@
   font-size: clamp(28px, 3vw, 44px);
   font-weight: 500;
   line-height: 1;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 8, "wght" 520;
 }
 
 .project-dialog-subproject p {

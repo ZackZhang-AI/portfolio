@@ -112,6 +112,7 @@
     if (!dialog.open) {
       previousOverflow = document.documentElement.style.overflow;
       document.documentElement.style.overflow = 'hidden';
+      document.body.classList.add('dialog-depth-active');
     }
     returnContext = context;
     lastTrigger = trigger || document.querySelector('.projectTrigger[data-project-id="' + projectId + '"]');
@@ -119,6 +120,16 @@
     renderProject(projects[projectId]);
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
+    if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.gsap.fromTo(content.children, { y: 18, opacity: 0 }, {
+        y: 0,
+        opacity: 1,
+        duration: 0.48,
+        stagger: 0.04,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity'
+      });
+    }
     closeButton.focus({ preventScroll: true });
   }
 
@@ -155,6 +166,7 @@
 
   function restorePage() {
     document.documentElement.style.overflow = previousOverflow;
+    document.body.classList.remove('dialog-depth-active');
     activeProjectId = null;
     if (lastTrigger && lastTrigger.isConnected) lastTrigger.focus({ preventScroll: true });
     var position = returnContext;
@@ -162,6 +174,7 @@
       if (!dialog.open && position) {
         window.scrollTo({ left: position.x, top: position.y, behavior: 'instant' });
         pagePosition = { x: position.x, y: position.y };
+        if (window.portfolioScroll) window.portfolioScroll.sync();
       }
     });
   }
